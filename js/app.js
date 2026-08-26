@@ -102,7 +102,7 @@ const govData = {
     features: [
       "Regroupe des administrateurs élus représentant équitablement les 14 régions du Sénégal.",
       "Validation du plan de travail annuel et du budget prévisionnel.",
-      "Nomme le Secrétaire Général et élit le Bureau Exécutif avec pouvoir permanent de contrôle et d'évaluation."
+      "Nomme le Secrétaire Technique (ST) et élit le Bureau Exécutif avec pouvoir permanent de contrôle et d'évaluation."
     ],
     diagram: `
       <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
@@ -115,7 +115,7 @@ const govData = {
         </div>
         <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
         <div style="background: rgba(255, 255, 255, 0.08); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF;">
-          <i class="fas fa-user-check"></i> Nomination & Contrôle du SG
+          <i class="fas fa-user-check"></i> Nomination & Contrôle du ST
         </div>
       </div>
     `
@@ -146,7 +146,7 @@ const govData = {
     `
   },
   sg: {
-    title: "D. Le Secrétariat Général (SG) – Ancre d'Exécution Administrative",
+    title: "D. Le Secrétariat Technique (ST) – Ancre d'Exécution Administrative",
     badge: "Modèle Confédéral CNP",
     desc: "Structure permanente non élue dirigée par un cadre de haut niveau recruté par le CA sur le modèle horizontal fort du CNP.",
     features: [
@@ -157,7 +157,7 @@ const govData = {
     diagram: `
       <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
         <div style="background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #FFFFFF;">
-          <i class="fas fa-user-shield"></i> Secrétaire Général (SG)
+          <i class="fas fa-user-shield"></i> Secrétaire Technique (ST)
         </div>
         <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
         <div style="background: rgba(0, 104, 55, 0.25); padding: 0.75rem 1rem; border-radius: 8px; color: #E9C46A;">
@@ -434,7 +434,7 @@ function initModalsAndForms() {
       modalForm.reset();
       if (modalOtherGroup) modalOtherGroup.style.display = 'none';
       const randRef = 'CONESESS-2026-' + Math.floor(1000 + Math.random() * 9000);
-      showToast("Votre demande d'adhésion (" + randRef + ") a été transmise au Secrétariat Général avec succès !");
+      showToast("Votre demande d'adhésion (" + randRef + ") a été transmise au Secrétariat Technique avec succès !");
     });
   }
 
@@ -444,7 +444,7 @@ function initModalsAndForms() {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       contactForm.reset();
-      showToast("Votre message a été transmis avec succès au Secrétariat Général du CONESESS !");
+      showToast("Votre message a été transmis avec succès au Secrétariat Technique du CONESESS !");
     });
   }
 }
