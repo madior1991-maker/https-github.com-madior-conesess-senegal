@@ -1384,8 +1384,13 @@ img {
   .context-grid {
     grid-template-columns: 1fr;
   }
+  .gov-nav-tabs {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+  }
   .gov-display-card {
     grid-template-columns: 1fr;
+    padding: 1.5rem;
   }
   .incubator-detail-grid {
     grid-template-columns: 1fr;
@@ -1418,10 +1423,10 @@ img {
     letter-spacing: 0.02em;
   }
   .hero {
-    padding: 3rem 0;
+    padding: 2.5rem 0;
   }
   .hero-content h1 {
-    font-size: 1.9rem;
+    font-size: 1.85rem;
     line-height: 1.3;
   }
   .hero-subtitle {
@@ -1439,6 +1444,9 @@ img {
   .hero-card {
     padding: 1.25rem;
   }
+  .hero-themed-card {
+    padding: 1.5rem 1.25rem;
+  }
   .banner-flex {
     flex-direction: column;
     align-items: flex-start;
@@ -1448,23 +1456,40 @@ img {
     width: 100%;
   }
   .section {
-    padding: 3rem 0;
+    padding: 2.25rem 0;
   }
   .section-title {
-    font-size: 1.65rem;
+    font-size: 1.55rem;
   }
   .section-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  .gov-nav-tabs {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  .gov-tab-btn {
+    padding: 0.6rem 0.75rem;
+  }
+  .gov-tab-btn strong {
+    font-size: 0.8rem;
   }
   .incubator-tabs {
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
   }
+  .sector-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
   #adhesion-card-container {
-    padding: 1.5rem !important;
+    padding: 1.25rem !important;
   }
   .advocacy-banner {
-    padding: 2rem 1.5rem;
+    padding: 1.75rem 1.25rem;
   }
   .toast-container {
     left: 1rem;
@@ -1474,6 +1499,22 @@ img {
   .toast {
     width: 100%;
     font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .findings-list {
+    grid-template-columns: 1fr !important;
+  }
+  .sector-grid {
+    grid-template-columns: 1fr;
+  }
+  .floating-whatsapp {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    width: 52px;
+    height: 52px;
+    font-size: 1.8rem;
   }
 }
 
@@ -1497,6 +1538,9 @@ img {
   }
   .stat-label {
     font-size: 0.7rem;
+  }
+  .gov-nav-tabs {
+    grid-template-columns: 1fr;
   }
   .incubator-tabs {
     grid-template-columns: 1fr;
