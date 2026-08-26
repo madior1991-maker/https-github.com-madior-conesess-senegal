@@ -409,7 +409,7 @@ img {
   position: relative;
   background: linear-gradient(135deg, rgba(10, 37, 64, 0.94) 0%, rgba(0, 104, 55, 0.89) 100%), url('../assets/images/hero.jpg') center/cover no-repeat;
   color: #FFFFFF;
-  padding: 5.5rem 0 6.5rem 0;
+  padding: 3.25rem 0 3.75rem 0;
   overflow: hidden;
 }
 
@@ -427,7 +427,7 @@ img {
 .hero-grid {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  gap: 3rem;
+  gap: 2.5rem;
   align-items: center;
   position: relative;
   z-index: 2;
@@ -435,10 +435,10 @@ img {
 
 .hero-content h1 {
   color: #FFFFFF;
-  font-size: 2.9rem;
+  font-size: 2.4rem;
   font-weight: 800;
-  line-height: 1.15;
-  margin: 1.2rem 0;
+  line-height: 1.2;
+  margin: 0.75rem 0;
 }
 
 .hero-content h1 span {
@@ -449,11 +449,12 @@ img {
 }
 
 .hero-subtitle {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.88);
-  margin-bottom: 2rem;
-  max-width: 620px;
+  margin-bottom: 1.35rem;
+  max-width: 600px;
   font-weight: 400;
+  line-height: 1.55;
 }
 
 .hero-badges {
@@ -536,7 +537,7 @@ img {
 .banner-vision {
   background: var(--bg-surface);
   border-bottom: 1px solid var(--border-light);
-  padding: 1.8rem 0;
+  padding: 1.25rem 0;
   box-shadow: var(--shadow-sm);
 }
 
@@ -544,28 +545,28 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
+  gap: 1.5rem;
   flex-wrap: wrap;
 }
 
 .banner-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.85rem;
   flex: 1;
-  min-width: 250px;
+  min-width: 240px;
 }
 
 .banner-icon {
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-md);
   background: var(--accent-soft-green);
   color: var(--primary-green);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.4rem;
+  font-size: 1.25rem;
 }
 
 [data-theme="dark"] .banner-icon {
@@ -573,38 +574,40 @@ img {
 }
 
 .banner-text h4 {
-  font-size: 1.05rem;
-  margin-bottom: 0.2rem;
+  font-size: 1rem;
+  margin-bottom: 0.15rem;
 }
 
 .banner-text p {
-  font-size: 0.85rem;
+  font-size: 0.825rem;
   color: var(--text-muted);
 }
 
 /* Section Common Styling */
 .section {
-  padding: 5rem 0;
+  padding: 3rem 0;
 }
 
 .section-header {
   text-align: center;
-  max-width: 780px;
-  margin: 0 auto 3.5rem auto;
+  max-width: 760px;
+  margin: 0 auto 1.75rem auto;
 }
 
 .section-header .badge {
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .section-title {
-  font-size: 2.25rem;
-  margin-bottom: 1rem;
+  font-size: 1.85rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
 }
 
 .section-description {
-  font-size: 1.05rem;
+  font-size: 0.975rem;
   color: var(--text-muted);
+  line-height: 1.5;
 }
 
 /* Context & Key Findings */
@@ -1145,7 +1148,7 @@ img {
   background: linear-gradient(135deg, #0A2540 0%, #0F3866 100%);
   color: #FFFFFF;
   border-radius: var(--radius-lg);
-  padding: 3.5rem;
+  padding: 2.25rem 2rem;
   box-shadow: var(--shadow-lg);
   position: relative;
   overflow: hidden;
@@ -1153,38 +1156,41 @@ img {
 
 .advocacy-banner h2 {
   color: #FFFFFF;
+  font-size: 1.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .advocacy-banner h3 {
   color: var(--accent-gold);
+  font-size: 1.15rem;
 }
 
 .advocacy-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2.5rem;
+  gap: 2rem;
   align-items: center;
 }
 
 .advocacy-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.85rem;
 }
 
 .advocacy-item {
   background: rgba(255, 255, 255, 0.08);
-  padding: 1.2rem 1.5rem;
+  padding: 1rem 1.25rem;
   border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
-  gap: 1rem;
+  gap: 0.85rem;
   align-items: flex-start;
 }
 
 .advocacy-item i {
   color: var(--accent-gold);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-top: 0.2rem;
 }
 
@@ -1219,21 +1225,21 @@ img {
 .footer {
   background: #061526;
   color: rgba(255, 255, 255, 0.8);
-  padding: 5rem 0 2rem 0;
+  padding: 3.25rem 0 1.5rem 0;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .footer h4 {
   color: #FFFFFF;
-  margin-bottom: 1.25rem;
-  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
 }
 
 .footer-grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
-  gap: 3rem;
-  margin-bottom: 4rem;
+  gap: 2rem;
+  margin-bottom: 2.25rem;
 }
 
 .footer-brand p {
