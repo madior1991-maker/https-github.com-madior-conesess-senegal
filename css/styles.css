@@ -1464,6 +1464,9 @@ img {
 
 /* Responsive Breakpoints & Mobile Optimization */
 @media (max-width: 992px) {
+  #adhesion {
+    display: none !important;
+  }
   .nav-menu {
     display: none !important;
   }
