@@ -59,7 +59,6 @@
         <ul class="nav-menu">
           <li><a href="#accueil" class="nav-link active">Accueil</a></li>
           <li><a href="#contexte" class="nav-link">Contexte</a></li>
-          <li><a href="#regions" class="nav-link">14 Régions</a></li>
           <li><a href="#gouvernance" class="nav-link">Gouvernance</a></li>
           <li><a href="#incubateur" class="nav-link">Incubateur IAN-ESS</a></li>
           <li><a href="#observatoire" class="nav-link">Observatoire ON-ESS</a></li>
@@ -229,48 +228,6 @@
     </div>
   </section>
 
-  <!-- SECTION INTERACTIVE : ANCRAGE DANS LES 14 RÉGIONS DU SÉNÉGAL -->
-  <section id="regions" class="section" style="background: var(--bg-alt);">
-    <div class="container">
-      <div class="section-header">
-        <span class="badge badge-gold">Maillage Territorial</span>
-        <h2 class="section-title">Ancrage dans les 14 Régions du Sénégal</h2>
-        <p class="section-description">
-          Le CONESESS garantit une écoute ascendante et une présence dans chaque bassin d'emploi. Cliquez sur une région ci-dessous pour consulter son hub et ses acteurs recensés.
-        </p>
-      </div>
-
-      <div class="region-selector-container">
-        <div class="region-buttons-grid">
-          <button class="region-btn active" data-region="Dakar">Dakar</button>
-          <button class="region-btn" data-region="Thiès">Thiès</button>
-          <button class="region-btn" data-region="Saint-Louis">Saint-Louis</button>
-          <button class="region-btn" data-region="Fatick">Fatick</button>
-          <button class="region-btn" data-region="Kaolack">Kaolack</button>
-          <button class="region-btn" data-region="Ziguinchor">Ziguinchor</button>
-          <button class="region-btn" data-region="Kolda">Kolda</button>
-          <button class="region-btn" data-region="Tambacounda">Tambacounda</button>
-          <button class="region-btn" data-region="Matam">Matam</button>
-          <button class="region-btn" data-region="Kaffrine">Kaffrine</button>
-          <button class="region-btn" data-region="Kédougou">Kédougou</button>
-          <button class="region-btn" data-region="Sédhiou">Sédhiou</button>
-          <button class="region-btn" data-region="Louga">Louga</button>
-          <button class="region-btn" data-region="Diourbel">Diourbel</button>
-        </div>
-
-        <div id="region-detail-display" class="region-detail-box">
-          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;" class="mb-2">
-            <h3 style="color: var(--primary-green); font-size: 1.4rem;"><i class="fas fa-map-marker-alt" style="color: var(--accent-gold);"></i> Région de Dakar</h3>
-            <span class="badge badge-navy">1 240 Entreprises & Mutuelles Recensées</span>
-          </div>
-          <p class="mb-2"><strong>Hub Active :</strong> Hub National & Incubateur Communal Pikine / Guédiawaye</p>
-          <p class="mb-2"><strong>Spécialisations Filières :</strong> Services, Numérique Social, Mutuelles de Santé, Artisanat Urbain</p>
-          <p style="font-size: 0.85rem; color: var(--text-muted);"><strong>Contact Régional :</strong> dakar@conesess.sn | Guichet Unique Municipal</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- SECTION 2: GOUVERNANCE SOUVERAINE -->
   <section id="gouvernance" class="section gov-section">
     <div class="container">
@@ -390,19 +347,24 @@
       </div>
 
       <div style="background: var(--bg-surface); padding: 2.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
-        <h3 style="color: var(--primary-green);" class="mb-3">Architecture Territoriale de la Donnée à 3 Échelons</h3>
+        <span class="badge badge-gold mb-3"><i class="fas fa-map-marked-alt"></i> Maillage Territorial</span>
+        <h3 style="color: var(--primary-green);" class="mb-2">Ancrage dans les 14 Régions du Sénégal : Architecture de la Donnée à 3 Échelons</h3>
+        <p style="color: var(--text-muted);" class="mb-4">
+          Le CONESESS garantit une écoute ascendante et une présence constante dans chaque bassin d'emploi à travers les 14 régions du Sénégal (*Dakar, Thiès, Saint-Louis, Fatick, Kaolack, Ziguinchor, Kolda, Tambacounda, Matam, Kaffrine, Kédougou, Sédhiou, Louga, Diourbel*).
+        </p>
+
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
           <div style="background: var(--bg-alt); padding: 1.25rem; border-radius: var(--radius-md);">
-            <h4 style="color: var(--primary-green);" class="mb-2">1. Relais Communaux</h4>
-            <p style="font-size: 0.875rem;">Sourcing & veille de proximité au sein des guichets uniques municipaux. Recensement des acteurs.</p>
+            <h4 style="color: var(--primary-green);" class="mb-2">1. Relais Communaux (14 Régions)</h4>
+            <p style="font-size: 0.875rem;">Sourcing & veille de proximité au sein des guichets uniques municipaux. Recensement continu des acteurs locaux.</p>
           </div>
           <div style="background: var(--bg-alt); padding: 1.25rem; border-radius: var(--radius-md);">
             <h4 style="color: var(--primary-navy);" class="mb-2">2. Antennes Départementales</h4>
-            <p style="font-size: 0.875rem;">Analyse des filières (anacarde, pêche, éco-circulaire) et audits techniques de labellisation.</p>
+            <p style="font-size: 0.875rem;">Analyse des filières (anacarde, pêche, éco-circulaire) et audits techniques de conformité à la labellisation.</p>
           </div>
           <div style="background: var(--bg-alt); padding: 1.25rem; border-radius: var(--radius-md);">
             <h4 style="color: #D97706;" class="mb-2">3. Bureau National (UCAD/UGB)</h4>
-            <p style="font-size: 0.875rem;">Consolidation macro-économique et accueil des chercheurs résidents avec le Comité des Sages.</p>
+            <p style="font-size: 0.875rem;">Consolidation macro-économique et accueil des chercheurs résidents avec l'arbitrage du Comité des Sages.</p>
           </div>
         </div>
       </div>
@@ -681,7 +643,6 @@
           <ul class="footer-links">
             <li><a href="#accueil">Accueil</a></li>
             <li><a href="#contexte">Contexte & Diagnostic</a></li>
-            <li><a href="#regions">14 Régions</a></li>
             <li><a href="#gouvernance">Gouvernance Souveraine</a></li>
             <li><a href="#incubateur">Incubateur IAN-ESS</a></li>
             <li><a href="#observatoire">Observatoire ON-ESS</a></li>

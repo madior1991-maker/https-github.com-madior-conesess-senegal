@@ -1,12 +1,11 @@
 /* ==========================================================================
    CONESESS - CONSEIL NATIONAL DES ENTREPRISES DE L'ESS DU SÉNÉGAL
-   APPLICATION LOGIC V3
+   APPLICATION LOGIC V4
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initNavigation();
-  initRegionalExplorer();
   initGovernanceTabs();
   initIncubatorExplorer();
   initLabelWizard();
@@ -70,93 +69,7 @@ function initNavigation() {
 }
 
 /* --------------------------------------------------------------------------
-   2. INTERACTIVE 14 REGIONS SENEGAL EXPLORER
-   -------------------------------------------------------------------------- */
-const regionData = {
-  "Dakar": {
-    hubs: "Hub National & Incubateur Communal Pikine / Guédiawaye",
-    coops: "1 240 Entreprises & Mutuelles Recensées",
-    focus: "Services, Numérique Social, Mutuelles de Santé, Artisanat Urbain",
-    contact: "dakar@conesess.sn | Guichet Unique Municipal"
-  },
-  "Thiès": {
-    hubs: "Incubateur Universitaire UCAD / Incubateur Horticole Kayar",
-    coops: "980 Coopératives & GIE",
-    focus: "Pêche Solidaire, Maraîchage Agroécologique, Artisanat d'Art",
-    contact: "thies@conesess.sn | Antenne Départementale Thiès"
-  },
-  "Saint-Louis": {
-    hubs: "Incubateur Vallée du Fleuve & Synergie UGB",
-    coops: "750 Organisations ESS",
-    focus: "Riziculture Coopérative, Économie Bleue, Éco-Tourisme",
-    contact: "saintlouis@conesess.sn | Guichet Saint-Louis"
-  },
-  "Fatick": {
-    hubs: "Incubateur Départemental Environnemental Fatick / Foundiougne",
-    coops: "620 Groupements & Mutuelles",
-    focus: "Protection de la Mangrove, Biodiversité, Anacarde & Pêche",
-    contact: "fatick@conesess.sn | Hub Thématique Foundiougne"
-  },
-  "Kaolack": {
-    hubs: "Incubateur Agropastoral du Bassin Arachidier",
-    coops: "590 Coopératives",
-    focus: "Filières Arachide, Sel, Semences Agroécologiques",
-    contact: "kaolack@conesess.sn | Antenne Régionale Kaolack"
-  },
-  "Ziguinchor": {
-    hubs: "Incubateur Forestier & Transformation Agroalimentaire Casamance",
-    coops: "680 Coopératives Féminines",
-    focus: "Anacarde, Mangue, Produits Forestiers Non Ligneux, Mutuelles",
-    contact: "ziguinchor@conesess.sn | Antenne Casamance"
-  },
-  "Kolda": {
-    hubs: "Incubateur Agropastoral & Élevage Solidaire",
-    coops: "510 Groupements",
-    focus: "Filière Laitière, Miel, Arboriculture",
-    contact: "kolda@conesess.sn | Relais Communal Kolda"
-  },
-  "Tambacounda": {
-    hubs: "Incubateur Mobile Nomade & Bus de l'Entrepreneuriat",
-    coops: "430 Organisations",
-    focus: "Mines Responsables, Coton, Artisans Ruraux",
-    contact: "tamba@conesess.sn | Clinique Mobile Tamba"
-  }
-};
-
-function initRegionalExplorer() {
-  const buttons = document.querySelectorAll('.region-btn');
-  const detailBox = document.getElementById('region-detail-display');
-
-  if (!detailBox) return;
-
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      buttons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const regionName = btn.dataset.region;
-      const data = regionData[regionName] || {
-        hubs: "Relais Communal ON-ESS & Antenne Régionale",
-        coops: "Plus de 350 Entreprises ESS",
-        focus: "Agroécologie, Mutuelles locales, Artisanat",
-        contact: `${regionName.toLowerCase()}@conesess.sn`
-      };
-
-      detailBox.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;" class="mb-2">
-          <h3 style="color: var(--primary-green); font-size: 1.4rem;"><i class="fas fa-map-marker-alt" style="color: var(--accent-gold);"></i> Région de ${regionName}</h3>
-          <span class="badge badge-navy">${data.coops}</span>
-        </div>
-        <p class="mb-2"><strong>Hub Active :</strong> ${data.hubs}</p>
-        <p class="mb-2"><strong>Spécialisations Filières :</strong> ${data.focus}</p>
-        <p style="font-size: 0.85rem; color: var(--text-muted);"><strong>Contact Régional :</strong> ${data.contact}</p>
-      `;
-    });
-  });
-}
-
-/* --------------------------------------------------------------------------
-   3. GOUVERNANCE ARCHITECTURE INTERACTIVE TABS
+   2. GOUVERNANCE ARCHITECTURE INTERACTIVE TABS
    -------------------------------------------------------------------------- */
 const govData = {
   ag: {
@@ -184,7 +97,7 @@ const govData = {
   be: {
     title: "C. Le Bureau Exécutif (BE) – Portage Politique Direct des Piliers",
     badge: "Moteur Exécutif & Plaidoyer",
-    desc: "Organe restreint chargé de la mise en œuvre de la stratégie politique. Il s'articule autour d'une Présidence et de deux Vice-Présidences dédiées aux grands piliers.",
+    desc: "Organe restreint chargé de la mise en œuvre de la stratégie politique. Il s'articules autour d'une Présidence et de deux Vice-Présidences dédiées aux grands piliers.",
     features: [
       "La Présidence : Porte la parole unifiée du patronat social auprès de l’État et des partenaires.",
       "La Vice-Présidence IAN-ESS : Pilote politiquement l'Incubateur-Accélérateur National (Citoyenneté Bâtisseuse) et négocie avec la DER/FJ, le 3FPT.",
@@ -257,7 +170,7 @@ function initGovernanceTabs() {
 }
 
 /* --------------------------------------------------------------------------
-   4. PILIER 1 : INCUBATEUR NATIONAL (IAN-ESS) INTERACTIVE EXPLORER
+   3. PILIER 1 : INCUBATEUR NATIONAL (IAN-ESS) INTERACTIVE EXPLORER
    -------------------------------------------------------------------------- */
 const incubatorData = {
   communal: {
@@ -346,7 +259,7 @@ function initIncubatorExplorer() {
 }
 
 /* --------------------------------------------------------------------------
-   5. LABEL ESS INTERACTIVE SIMULATOR (STEP WIZARD)
+   4. LABEL ESS INTERACTIVE SIMULATOR (STEP WIZARD)
    -------------------------------------------------------------------------- */
 let currentWizardStep = 1;
 
@@ -495,7 +408,7 @@ function renderWizardStep(step) {
 }
 
 /* --------------------------------------------------------------------------
-   6. MEMORANDUM SEARCH & FILTER
+   5. MEMORANDUM SEARCH & FILTER
    -------------------------------------------------------------------------- */
 function initMemorandumSearch() {
   const searchInput = document.getElementById('memo-search-input');
@@ -518,7 +431,7 @@ function initMemorandumSearch() {
 }
 
 /* --------------------------------------------------------------------------
-   7. MODAL WINDOWS & FORMS
+   6. MODAL WINDOWS & FORMS
    -------------------------------------------------------------------------- */
 function initModalsAndForms() {
   const joinBtns = document.querySelectorAll('.btn-join-modal');
