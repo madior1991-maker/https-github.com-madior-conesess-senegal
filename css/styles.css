@@ -1265,15 +1265,13 @@ img {
   color: var(--text-muted);
 }
 
-/* Responsive Breakpoints */
+/* Responsive Breakpoints & Mobile Optimization */
 @media (max-width: 992px) {
   .hero-grid {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
   .context-grid {
-    grid-template-columns: 1fr;
-  }
-  .calculator-grid {
     grid-template-columns: 1fr;
   }
   .gov-display-card {
@@ -1287,6 +1285,7 @@ img {
   }
   .footer-grid {
     grid-template-columns: 1fr 1fr;
+    gap: 2rem;
   }
   .nav-menu {
     display: none;
@@ -1297,24 +1296,132 @@ img {
     background: var(--bg-surface);
     flex-direction: column;
     padding: 1.5rem;
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-lg);
+    border-bottom: 2px solid var(--primary-green);
+    z-index: 1500;
   }
   .nav-menu.show {
     display: flex;
   }
   .mobile-toggle {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
+  .top-bar-info:nth-child(2) {
+    display: none;
+  }
+  .top-bar-info {
+    justify-content: center;
+    width: 100%;
+  }
+  .top-bar-item span {
+    font-size: 0.75rem;
+  }
+  .logo-title {
+    font-size: 1.1rem;
+  }
+  .logo-subtitle {
+    font-size: 0.65rem;
+    letter-spacing: 0.02em;
+  }
+  .hero {
+    padding: 3rem 0;
+  }
   .hero-content h1 {
-    font-size: 2.2rem;
+    font-size: 1.9rem;
+    line-height: 1.3;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+  .hero-card {
+    padding: 1.25rem;
+  }
+  .banner-flex {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .banner-item {
+    width: 100%;
+  }
+  .section {
+    padding: 3rem 0;
+  }
+  .section-title {
+    font-size: 1.65rem;
+  }
+  .section-header {
+    margin-bottom: 2rem;
+  }
+  .incubator-tabs {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  #adhesion-card-container {
+    padding: 1.5rem !important;
+  }
+  .advocacy-banner {
+    padding: 2rem 1.5rem;
+  }
+  .toast-container {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+  }
+  .toast {
+    width: 100%;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-img {
+    width: 42px;
+    height: 42px;
+  }
+  .logo-subtitle {
+    display: none;
+  }
+  .hero-stats-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.65rem;
+  }
+  .stat-item {
+    padding: 0.75rem;
+  }
+  .stat-number {
+    font-size: 1.35rem;
+  }
+  .stat-label {
+    font-size: 0.7rem;
+  }
+  .incubator-tabs {
+    grid-template-columns: 1fr;
   }
   .footer-grid {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
-  .label-wizard-card {
-    padding: 1.5rem;
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+  .modal-card {
+    padding: 1.25rem;
+    max-width: 95vw;
   }
 }
