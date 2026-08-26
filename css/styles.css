@@ -1397,17 +1397,21 @@ img {
   }
   .gov-display-card {
     grid-template-columns: 1fr;
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
   .incubator-detail-grid {
     grid-template-columns: 1fr;
   }
   .advocacy-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
   .footer-grid {
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
+  }
+  .hero-themed-card {
+    padding: 1.75rem 1.25rem;
   }
 }
 
@@ -1430,14 +1434,14 @@ img {
     letter-spacing: 0.02em;
   }
   .hero {
-    padding: 2.5rem 0;
+    padding: 2rem 0;
   }
   .hero-content h1 {
-    font-size: 1.85rem;
+    font-size: 1.7rem;
     line-height: 1.3;
   }
   .hero-subtitle {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
   .hero-actions {
     flex-direction: column;
@@ -1452,7 +1456,7 @@ img {
     padding: 1.25rem;
   }
   .hero-themed-card {
-    padding: 1.5rem 1.25rem;
+    padding: 1.5rem 1rem;
   }
   .banner-flex {
     flex-direction: column;
@@ -1463,17 +1467,20 @@ img {
     width: 100%;
   }
   .section {
-    padding: 2.25rem 0;
+    padding: 1.75rem 0;
   }
   .section-title {
-    font-size: 1.55rem;
+    font-size: 1.45rem;
   }
   .section-header {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
   .gov-nav-tabs {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
+  }
+  .gov-tab-btn:nth-child(5) {
+    grid-column: span 2;
   }
   .gov-tab-btn {
     padding: 0.6rem 0.75rem;
@@ -1481,22 +1488,25 @@ img {
   .gov-tab-btn strong {
     font-size: 0.8rem;
   }
+  .gov-diagram-visual {
+    padding: 1rem;
+  }
   .incubator-tabs {
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
   }
   .sector-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 0.85rem;
   }
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
   #adhesion-card-container {
-    padding: 1.25rem !important;
+    padding: 1.25rem 1rem !important;
   }
   .advocacy-banner {
-    padding: 1.75rem 1.25rem;
+    padding: 1.5rem 1rem;
   }
   .toast-container {
     left: 1rem;
@@ -1510,58 +1520,66 @@ img {
 }
 
 @media (max-width: 576px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
   .findings-list {
     grid-template-columns: 1fr !important;
+    gap: 0.65rem;
   }
   .sector-grid {
     grid-template-columns: 1fr;
   }
+  .gov-nav-tabs {
+    grid-template-columns: 1fr;
+  }
+  .gov-tab-btn:nth-child(5) {
+    grid-column: auto;
+  }
   .floating-whatsapp {
     bottom: 1.25rem;
-    right: 1.25rem;
-    width: 52px;
-    height: 52px;
-    font-size: 1.8rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.6rem;
   }
 }
 
 @media (max-width: 480px) {
   .logo-img {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
   }
   .logo-subtitle {
     display: none;
   }
   .hero-stats-list {
     grid-template-columns: 1fr 1fr;
-    gap: 0.65rem;
+    gap: 0.5rem;
   }
   .stat-item {
-    padding: 0.75rem;
+    padding: 0.65rem;
   }
   .stat-number {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
   }
   .stat-label {
-    font-size: 0.7rem;
-  }
-  .gov-nav-tabs {
-    grid-template-columns: 1fr;
+    font-size: 0.68rem;
   }
   .incubator-tabs {
     grid-template-columns: 1fr;
   }
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.5rem;
   }
   .footer-bottom {
     flex-direction: column;
     text-align: center;
   }
   .modal-card {
-    padding: 1.25rem;
+    padding: 1.25rem 1rem;
     max-width: 95vw;
   }
 }
