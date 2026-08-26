@@ -1,6 +1,6 @@
 /* ==========================================================================
    CONESESS - CONSEIL NATIONAL DES ENTREPRISES DE L'ESS DU SÉNÉGAL
-   APPLICATION LOGIC V4
+   APPLICATION LOGIC V5
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initGovernanceTabs();
   initIncubatorExplorer();
-  initLabelWizard();
   initMemorandumSearch();
   initModalsAndForms();
 });
@@ -97,7 +96,7 @@ const govData = {
   be: {
     title: "C. Le Bureau Exécutif (BE) – Portage Politique Direct des Piliers",
     badge: "Moteur Exécutif & Plaidoyer",
-    desc: "Organe restreint chargé de la mise en œuvre de la stratégie politique. Il s'articules autour d'une Présidence et de deux Vice-Présidences dédiées aux grands piliers.",
+    desc: "Organe restreint chargé de la mise en œuvre de la stratégie politique. Il s'articule autour d'une Présidence et de deux Vice-Présidences dédiées aux grands piliers.",
     features: [
       "La Présidence : Porte la parole unifiée du patronat social auprès de l’État et des partenaires.",
       "La Vice-Présidence IAN-ESS : Pilote politiquement l'Incubateur-Accélérateur National (Citoyenneté Bâtisseuse) et négocie avec la DER/FJ, le 3FPT.",
@@ -259,156 +258,7 @@ function initIncubatorExplorer() {
 }
 
 /* --------------------------------------------------------------------------
-   4. LABEL ESS INTERACTIVE SIMULATOR (STEP WIZARD)
-   -------------------------------------------------------------------------- */
-let currentWizardStep = 1;
-
-function initLabelWizard() {
-  const nextBtn = document.getElementById('wizard-next-btn');
-  const prevBtn = document.getElementById('wizard-prev-btn');
-  const stepContainer = document.getElementById('wizard-step-content');
-
-  if (!nextBtn || !stepContainer) return;
-
-  renderWizardStep(currentWizardStep);
-
-  nextBtn.addEventListener('click', () => {
-    if (currentWizardStep < 4) {
-      currentWizardStep++;
-      renderWizardStep(currentWizardStep);
-    } else {
-      showToast("Félicitations ! Votre structure réunit les critères préliminaires pour l'obtention du Label ESS - Citoyenneté Bâtisseuse.");
-    }
-  });
-
-  prevBtn.addEventListener('click', () => {
-    if (currentWizardStep > 1) {
-      currentWizardStep--;
-      renderWizardStep(currentWizardStep);
-    }
-  });
-}
-
-function renderWizardStep(step) {
-  const stepContainer = document.getElementById('wizard-step-content');
-  const prevBtn = document.getElementById('wizard-prev-btn');
-  const nextBtn = document.getElementById('wizard-next-btn');
-  const stepItems = document.querySelectorAll('.wizard-steps .step-item');
-
-  stepItems.forEach((item, idx) => {
-    if (idx + 1 === step) {
-      item.classList.add('active');
-    } else if (idx + 1 < step) {
-      item.classList.add('completed');
-    } else {
-      item.classList.remove('active', 'completed');
-    }
-  });
-
-  prevBtn.style.display = step === 1 ? 'none' : 'inline-flex';
-  nextBtn.textContent = step === 4 ? 'Soumettre la Demande Officielle' : 'Étape Suivante ➔';
-
-  if (step === 1) {
-    stepContainer.innerHTML = `
-      <h3 style="color: var(--primary-navy);" class="mb-3">Étape 1 : Forme Juridique & Statut de la Structure</h3>
-      <p class="text-muted mb-4">Sélectionnez la catégorie patronale d'ESS à laquelle appartient votre organisation au Sénégal.</p>
-      <div class="wizard-form-group">
-        <label>Nom de votre Entreprise / Groupement</label>
-        <input type="text" class="wizard-form-control" placeholder="ex: Coopérative Agroécologique de Kayar" id="wiz-name">
-      </div>
-      <div class="wizard-form-group">
-        <label>Type d'Organisation ESS</label>
-        <select class="wizard-form-control" id="wiz-type">
-          <option>Coopérative Agricole / Artisanale</option>
-          <option>Mutuelle de Santé / Épargne & Crédit (SFD)</option>
-          <option>Groupement d'Intérêt Économique (GIE) Territorial</option>
-          <option>Entreprise Sociale / Startup d'Impact</option>
-          <option>Association à Vocation Économique Productive</option>
-        </select>
-      </div>
-      <div class="wizard-form-group">
-        <label>Région d'Implantation Principale</label>
-        <select class="wizard-form-control">
-          <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
-          <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
-          <option>Kolda</option><option>Tambacounda</option><option>Matam</option>
-          <option>Kaffrine</option><option>Kedougou</option><option>Sédhiou</option>
-          <option>Louga</option><option>Diourbel</option>
-        </select>
-      </div>
-    `;
-  } else if (step === 2) {
-    stepContainer.innerHTML = `
-      <h3 style="color: var(--primary-navy);" class="mb-3">Étape 2 : Principes Démocratiques & Ratios Sociales</h3>
-      <p class="text-muted mb-4">Évaluation de la gouvernance éthique selon la charte du CONESESS.</p>
-      <div class="wizard-form-group">
-        <label>Appliquez-vous la règle « Une personne = Une voix » à l'Assemblée Générale ?</label>
-        <select class="wizard-form-control">
-          <option>Oui, à 100% (Immuable)</option>
-          <option>En cours de formalisation</option>
-        </select>
-      </div>
-      <div class="wizard-form-group">
-        <label>Écart entre la rémunération la plus haute et la plus basse dans votre structure</label>
-        <select class="wizard-form-control">
-          <option>Inférieur à 1:7 (Conforme aux normes du Label CONESESS)</option>
-          <option>Entre 1:7 et 1:10</option>
-          <option>Non mesuré actuellement</option>
-        </select>
-      </div>
-      <div class="wizard-form-group">
-        <label>Part des bénéfices réinvestis dans la communauté / la réserve statutaire</label>
-        <input type="text" class="wizard-form-control" placeholder="ex: 60% des bénéfices réinvestis">
-      </div>
-    `;
-  } else if (step === 3) {
-    stepContainer.innerHTML = `
-      <h3 style="color: var(--primary-navy);" class="mb-3">Étape 3 : Impact Communautaire & Ancrage "Citoyenneté Bâtisseuse"</h3>
-      <p class="text-muted mb-4">Éligibilité aux programmes d'incubation IAN-ESS et marchés publics réservés.</p>
-      <div class="wizard-form-group">
-        <label>Nombre de bénéficiaires / membres directement impactés</label>
-        <select class="wizard-form-control">
-          <option>Plus de 100 personnes (Projet d'envergure prioritaire IAN-ESS)</option>
-          <option>Entre 30 et 100 personnes</option>
-          <option>Moins de 30 personnes</option>
-        </select>
-      </div>
-      <div class="wizard-form-group">
-        <label>Pôle Sectoriel Métier Concerné</label>
-        <select class="wizard-form-control">
-          <option>Agroécologie & Souveraineté Alimentaire</option>
-          <option>Mutuelles de Santé, d'Épargne et de Crédit (SFD)</option>
-          <option>Artisanat, Énergie Renouvelable & Économie Circulaire</option>
-          <option>Services, Numérique Social & Éducation</option>
-        </select>
-      </div>
-    `;
-  } else if (step === 4) {
-    stepContainer.innerHTML = `
-      <div style="text-align: center; padding: 1.5rem 0;">
-        <div style="width: 70px; height: 70px; border-radius: 50%; background: var(--accent-soft-green); color: var(--primary-green); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 1.5rem auto;">
-          <i class="fas fa-award"></i>
-        </div>
-        <h3 style="color: var(--primary-navy);" class="mb-2">Éligibilité Validée au Pre-Label ESS !</h3>
-        <p style="color: var(--text-body); max-width: 600px; margin: 0 auto 2rem auto;">
-          Votre organisation répond aux critères de la <strong>Citoyenneté Bâtisseuse</strong>.
-          En soumettant votre dossier, l'Observatoire National (ON-ESS) procédera à l'audit technique de terrain, avant arbitrage par le Comité des Sages.
-        </p>
-        <div style="background: var(--bg-alt); padding: 1.25rem; border-radius: var(--radius-md); text-align: left;" class="mb-3">
-          <h4 style="color: var(--primary-green);" class="mb-2">Avantages rattachés au Label CONESESS :</h4>
-          <ul style="font-size: 0.9rem; line-height: 1.8;">
-            <li>✓ Accès prioritaire aux lignes de financement DER/FJ & 3FPT via la Vice-Présidence IAN-ESS.</li>
-            <li>✓ Éligibilité aux quotas de marchés publics réservés par l'État.</li>
-            <li>✓ Audit scientifique et cartographie dans le tableau de bord macro de l'Observatoire (Vision 2050).</li>
-          </ul>
-        </div>
-      </div>
-    `;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   5. MEMORANDUM SEARCH & FILTER
+   4. MEMORANDUM SEARCH & FILTER
    -------------------------------------------------------------------------- */
 function initMemorandumSearch() {
   const searchInput = document.getElementById('memo-search-input');
@@ -431,7 +281,7 @@ function initMemorandumSearch() {
 }
 
 /* --------------------------------------------------------------------------
-   6. MODAL WINDOWS & FORMS
+   5. MODAL WINDOWS & FORMS
    -------------------------------------------------------------------------- */
 function initModalsAndForms() {
   const joinBtns = document.querySelectorAll('.btn-join-modal');
@@ -459,12 +309,24 @@ function initModalsAndForms() {
     });
   }
 
-  const membershipForm = document.getElementById('form-membership');
-  if (membershipForm) {
-    membershipForm.addEventListener('submit', (e) => {
+  // Main Page Adhesion Form
+  const mainForm = document.getElementById('form-main-adhesion');
+  if (mainForm) {
+    mainForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      mainForm.reset();
+      showToast("Félicitations ! Votre demande d'adhésion au CONESESS a été soumise avec succès au Secrétariat Général.");
+    });
+  }
+
+  // Modal Form
+  const modalForm = document.getElementById('form-membership');
+  if (modalForm) {
+    modalForm.addEventListener('submit', (e) => {
       e.preventDefault();
       modalOverlay.classList.remove('show');
-      showToast("Votre demande d'adhésion au CONESESS a été transmise au Secrétariat Général avec succès !");
+      modalForm.reset();
+      showToast("Votre demande d'adhésion au CONESESS a été transmise avec succès !");
     });
   }
 }

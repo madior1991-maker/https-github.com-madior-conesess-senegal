@@ -52,7 +52,7 @@
           <img src="assets/images/logo.jpg" alt="Logo CONESESS" class="logo-img">
           <div class="logo-text">
             <span class="logo-title">CONESESS</span>
-            <span class="logo-subtitle">PATRONAT DE L'ESS SÉNÉGAL</span>
+            <span class="logo-subtitle">PATRONAT DE L'ESS DU SÉNÉGAL</span>
           </div>
         </a>
 
@@ -62,7 +62,7 @@
           <li><a href="#gouvernance" class="nav-link">Gouvernance</a></li>
           <li><a href="#incubateur" class="nav-link">Incubateur IAN-ESS</a></li>
           <li><a href="#observatoire" class="nav-link">Observatoire ON-ESS</a></li>
-          <li><a href="#label" class="nav-link">Label ESS</a></li>
+          <li><a href="#adhesion" class="nav-link">Adhésion CONESESS</a></li>
           <li><a href="#poles" class="nav-link">Pôles Métiers</a></li>
           <li><a href="#memorandum" class="nav-link">Mémorandum</a></li>
           <li><a href="#plaidoyer" class="nav-link">Demandes à l'État</a></li>
@@ -98,8 +98,8 @@
             Le Conseil National des Entreprises de l'Économie Sociale et Solidaire (CONESESS) est le cadre national de représentation, d'incubation territoriale et de prospective scientifique des coopératives, mutuelles, GIE et entreprises sociales.
           </p>
           <div class="hero-actions">
-            <a href="#label" class="btn btn-primary">
-              <i class="fas fa-award"></i> Simuler votre Éligibilité au Label ESS
+            <a href="#adhesion" class="btn btn-primary">
+              <i class="fas fa-user-plus"></i> Formulaire d'Adhésion au CONESESS
             </a>
             <a href="#memorandum" class="btn btn-outline-white">
               <i class="fas fa-file-alt"></i> Mémorandum Stratégique
@@ -371,37 +371,98 @@
     </div>
   </section>
 
-  <!-- SECTION 5: PROCESSUS DE LABELLISATION & SIMULATEUR INTERACTIF -->
-  <section id="label" class="section" style="background: var(--bg-alt);">
+  <!-- SECTION 5: FORMULAIRE D'ADHÉSION AU CONESESS -->
+  <section id="adhesion" class="section" style="background: var(--bg-alt);">
     <div class="container">
       <div class="section-header">
-        <span class="badge badge-gold">Dispositif d'Excellence</span>
-        <h2 class="section-title">Label ESS - Citoyenneté Bâtisseuse</h2>
+        <span class="badge badge-gold"><i class="fas fa-id-card"></i> Adhésion Patronale</span>
+        <h2 class="section-title">Formulaire Officiel d'Adhésion au CONESESS</h2>
         <p class="section-description">
-          Le CONESESS octroie le Label Souverain ESS après audit strict de l'ON-ESS et arbitrage du Comité des Sages. Testez l'éligibilité de votre structure ci-dessous.
+          Rejoignez le patronat souverain de l'Économie Sociale et Solidaire du Sénégal. Remplissez ce formulaire officiel pour fédérer votre organisation.
         </p>
       </div>
 
-      <div class="label-wizard-card">
-        <div class="wizard-steps">
-          <div class="step-item active">1</div>
-          <div class="step-item">2</div>
-          <div class="step-item">3</div>
-          <div class="step-item">4</div>
-        </div>
+      <div style="background: var(--bg-surface); padding: 3rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid var(--border-light); max-width: 850px; margin: 0 auto;">
+        <form id="form-main-adhesion">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+            <div class="wizard-form-group">
+              <label>Dénomination Sociale / Nom de l'Organisation *</label>
+              <input type="text" class="wizard-form-control" required placeholder="ex: Coopérative Agricole de Kayar">
+            </div>
 
-        <div id="wizard-step-content">
-          <!-- Rendered dynamically by app.js -->
-        </div>
+            <div class="wizard-form-group">
+              <label>Forme Juridique ESS *</label>
+              <select class="wizard-form-control" required>
+                <option>Coopérative Agricole / Artisanale / Halieutique</option>
+                <option>Mutuelle de Santé / Épargne & Crédit (SFD)</option>
+                <option>Groupement d'Intérêt Économique (GIE) Territorial</option>
+                <option>Entreprise Sociale / Startup d'Impact</option>
+                <option>Association à Vocation Économique Productive</option>
+              </select>
+            </div>
+          </div>
 
-        <div style="display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-light);">
-          <button id="wizard-prev-btn" class="btn btn-outline" style="display: none;">
-            <i class="fas fa-arrow-left"></i> Étape Précédente
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;">
+            <div class="wizard-form-group">
+              <label>Région Principale *</label>
+              <select class="wizard-form-control" required>
+                <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
+                <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
+                <option>Kolda</option><option>Tambacounda</option><option>Matam</option>
+                <option>Kaffrine</option><option>Kedougou</option><option>Sédhiou</option>
+                <option>Louga</option><option>Diourbel</option>
+              </select>
+            </div>
+
+            <div class="wizard-form-group">
+              <label>Département & Commune</label>
+              <input type="text" class="wizard-form-control" placeholder="ex: Département de Rufisque, Commune de Sangalkam">
+            </div>
+
+            <div class="wizard-form-group">
+              <label>Nombre de Membres / Associés</label>
+              <input type="number" class="wizard-form-control" placeholder="ex: 150">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+            <div class="wizard-form-group">
+              <label>Pôle Sectoriel Métier *</label>
+              <select class="wizard-form-control" required>
+                <option>Pôle 1 : Agroécologie & Souveraineté Alimentaire</option>
+                <option>Pôle 2 : Mutuelles de Santé, d'Épargne et de Crédit (SFD)</option>
+                <option>Pôle 3 : Artisanat, Énergie Renouvelable & Économie Circulaire</option>
+                <option>Pôle 4 : Services, Numérique Social & Éducation</option>
+              </select>
+            </div>
+
+            <div class="wizard-form-group">
+              <label>Nom & Fonction du Représentant Légal *</label>
+              <input type="text" class="wizard-form-control" required placeholder="ex: Fatou Ndiaye, Présidente">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;">
+            <div class="wizard-form-group">
+              <label>Téléphone Mobile (WhatsApp) *</label>
+              <input type="tel" class="wizard-form-control" required placeholder="+221 77 000 00 00">
+            </div>
+
+            <div class="wizard-form-group">
+              <label>Adresse E-mail Officielle *</label>
+              <input type="email" class="wizard-form-control" required placeholder="contact@cooperative.sn">
+            </div>
+          </div>
+
+          <div class="wizard-form-group">
+            <label>Brève Description des Activités & Projets</label>
+            <textarea class="wizard-form-control" rows="3" placeholder="Décrivez brièvement la production, les services et l'impact social de votre organisation..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1.05rem; margin-top: 1rem;">
+            <i class="fas fa-paper-plane"></i> Transmettre ma Demande d'Adhésion au CONESESS
           </button>
-          <button id="wizard-next-btn" class="btn btn-primary" style="margin-left: auto;">
-            Étape Suivante <i class="fas fa-arrow-right"></i>
-          </button>
-        </div>
+        </form>
       </div>
     </div>
   </section>
@@ -652,10 +713,10 @@
         <div>
           <h4>Piliers & Services</h4>
           <ul class="footer-links">
-            <li><a href="#label">Label ESS Bâtisseuse</a></li>
+            <li><a href="#adhesion">Formulaire d'Adhésion</a></li>
             <li><a href="#poles">4 Pôles Sectoriels</a></li>
             <li><a href="#memorandum">Mémorandum Stratégique</a></li>
-            <li><a href="#plaidoyer">Plaidoyer État Sénégal</a></li>
+            <li><a href="#plaidoyer">Plaidoyer État du Sénégal</a></li>
             <li><a href="#" class="btn-join-modal">Adhésion Patronale</a></li>
           </ul>
         </div>
