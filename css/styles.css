@@ -1463,37 +1463,23 @@ img {
 }
 
 /* Responsive Breakpoints & Mobile Optimization */
-@media (max-width: 1150px) {
+@media (max-width: 992px) {
   .nav-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: var(--bg-surface);
-    flex-direction: column;
-    padding: 1.5rem;
-    box-shadow: var(--shadow-lg);
-    border-bottom: 2px solid var(--primary-green);
-    z-index: 1500;
+    display: none !important;
   }
-  .nav-menu.show {
-    display: flex;
+  .desktop-only-btn {
+    display: none !important;
   }
   .mobile-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex !important;
   }
-}
-
-@media (max-width: 992px) {
   .hero-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
   .context-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
   }
   .gov-nav-tabs {
     grid-template-columns: repeat(3, 1fr);
@@ -1515,7 +1501,7 @@ img {
     gap: 2rem;
   }
   .hero-themed-card {
-    padding: 1.75rem 1.25rem;
+    padding: 1.5rem 1.15rem;
   }
 }
 
