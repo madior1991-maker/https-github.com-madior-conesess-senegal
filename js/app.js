@@ -4,7 +4,6 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initThemeToggle();
   initNavigation();
   initGovernanceTabs();
   initIncubatorExplorer();
@@ -12,38 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* --------------------------------------------------------------------------
-   0. DARK / LIGHT THEME TOGGLE
-   -------------------------------------------------------------------------- */
-function initThemeToggle() {
-  const toggleBtn = document.getElementById('theme-toggle-btn');
-  if (!toggleBtn) return;
-
-  const currentTheme = localStorage.getItem('conesess-theme') || 'light';
-  document.documentElement.setAttribute('data-theme', currentTheme);
-  updateThemeIcon(currentTheme);
-
-  toggleBtn.addEventListener('click', () => {
-    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('conesess-theme', theme);
-    updateThemeIcon(theme);
-  });
-}
-
-function updateThemeIcon(theme) {
-  const icon = document.querySelector('#theme-toggle-btn i');
-  if (icon) {
-    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-  }
-}
-
-/* --------------------------------------------------------------------------
-   1. NAVIGATION & MOBILE TOGGLE
+   1. NAVIGATION & MODERN MOBILE DRAWER SHEET
    -------------------------------------------------------------------------- */
 function initNavigation() {
   const header = document.querySelector('.main-header');
   const toggleBtn = document.querySelector('.mobile-toggle');
-  const navMenu = document.querySelector('.nav-menu');
+  const overlay = document.getElementById('mobile-nav-overlay');
+  const drawer = document.getElementById('mobile-nav-drawer');
+  const closeBtn = document.getElementById('mobile-drawer-close');
 
   window.addEventListener('scroll', () => {
     if (window.scrollY > 40) {
@@ -53,17 +28,33 @@ function initNavigation() {
     }
   });
 
-  if (toggleBtn && navMenu) {
-    toggleBtn.addEventListener('click', () => {
-      navMenu.classList.toggle('show');
-    });
+  const openDrawer = () => {
+    if (overlay && drawer) {
+      overlay.classList.add('active');
+      drawer.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  };
 
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('show');
-      });
+  const closeDrawer = () => {
+    if (overlay && drawer) {
+      overlay.classList.remove('active');
+      drawer.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  };
+
+  if (toggleBtn) toggleBtn.addEventListener('click', openDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (overlay) overlay.addEventListener('click', closeDrawer);
+
+  document.querySelectorAll('.mobile-nav-item').forEach(link => {
+    link.addEventListener('click', () => {
+      closeDrawer();
+      document.querySelectorAll('.mobile-nav-item').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
     });
-  }
+  });
 }
 
 /* --------------------------------------------------------------------------
