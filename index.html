@@ -19,6 +19,9 @@
   
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
+
+  <!-- html2pdf Library for instant PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -98,12 +101,15 @@
             Le Conseil National des Entreprises de l'Économie Sociale et Solidaire (CONESESS) est le cadre national de représentation, d'incubation territoriale et de prospective scientifique des coopératives, mutuelles, GIE et entreprises sociales.
           </p>
           <div class="hero-actions">
-            <a href="#adhesion" class="btn btn-primary">
+            <a href="#adhesion" class="btn btn-primary btn-join-modal">
               <i class="fas fa-user-plus"></i> Formulaire d'Adhésion au CONESESS
             </a>
             <a href="#memorandum" class="btn btn-outline-white">
               <i class="fas fa-file-alt"></i> Mémorandum Stratégique
             </a>
+            <button id="hero-btn-pdf" class="btn btn-navy btn-download-pdf-action">
+              <i class="fas fa-file-pdf" style="color: #F4A261;"></i> Télécharger Mémorandum (PDF)
+            </button>
           </div>
         </div>
 
@@ -382,17 +388,30 @@
         </p>
       </div>
 
-      <div style="background: var(--bg-surface); padding: 3rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid var(--border-light); max-width: 850px; margin: 0 auto;">
+      <div style="background: var(--bg-surface); padding: 3rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 1px solid var(--border-light); max-width: 850px; margin: 0 auto;" id="adhesion-card-container">
+        
+        <div id="adhesion-success-msg" style="display: none; text-align: center; padding: 2rem 1rem;">
+          <div style="width: 80px; height: 80px; border-radius: 50%; background: var(--accent-soft-green); color: var(--primary-green); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; margin: 0 auto 1.5rem auto;">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h3 style="color: var(--primary-green); font-size: 1.8rem;" class="mb-2">Demande d'Adhésion Transmise avec Succès !</h3>
+          <p style="color: var(--text-body); max-width: 600px; margin: 0 auto 1.5rem auto;">
+            Votre dossier d'adhésion au CONESESS a été enregistré sous la référence <strong id="adhesion-ref-num" style="color: var(--accent-gold);">CONESESS-2026-8942</strong>.
+            Le Secrétariat Général et l'Antenne Régionale concernée prendront contact avec votre représentant légal sous 48h.
+          </p>
+          <button class="btn btn-outline" onclick="resetAdhesionForm()"><i class="fas fa-plus-circle"></i> Soumettre une Autre Demande</button>
+        </div>
+
         <form id="form-main-adhesion">
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
             <div class="wizard-form-group">
               <label>Dénomination Sociale / Nom de l'Organisation *</label>
-              <input type="text" class="wizard-form-control" required placeholder="ex: Coopérative Agricole de Kayar">
+              <input type="text" class="wizard-form-control" required placeholder="ex: Coopérative Agricole de Kayar" id="adh-name">
             </div>
 
             <div class="wizard-form-group">
               <label>Forme Juridique ESS *</label>
-              <select class="wizard-form-control" required>
+              <select class="wizard-form-control" required id="adh-type">
                 <option>Coopérative Agricole / Artisanale / Halieutique</option>
                 <option>Mutuelle de Santé / Épargne & Crédit (SFD)</option>
                 <option>Groupement d'Intérêt Économique (GIE) Territorial</option>
@@ -405,7 +424,7 @@
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;">
             <div class="wizard-form-group">
               <label>Région Principale *</label>
-              <select class="wizard-form-control" required>
+              <select class="wizard-form-control" required id="adh-region">
                 <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
                 <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
                 <option>Kolda</option><option>Tambacounda</option><option>Matam</option>
@@ -506,21 +525,28 @@
     </div>
   </section>
 
-  <!-- SECTION 7: MÉMORANDUM STRATÉGIQUE INTÉGRAL -->
+  <!-- SECTION 7: MÉMORANDUM STRATÉGIQUE INTÉGRAL AVEC TÉLÉCHARGEMENT PDF -->
   <section id="memorandum" class="section" style="background: var(--bg-alt);">
     <div class="container">
       <div class="section-header">
         <span class="badge badge-navy">Document Fondateur</span>
         <h2 class="section-title">Mémorandum Stratégique Officiel</h2>
         <p class="section-description">
-          Consultez l'intégralité des Termes de Référence (TDRs) du CONESESS, validés par le Comité d'Initiative.
+          Consultez et téléchargez l'intégralité du Mémorandum Stratégique du CONESESS en format PDF officiel.
         </p>
       </div>
 
       <div class="memo-card">
-        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;">
           <input type="text" id="memo-search-input" class="wizard-form-control" style="flex: 1; min-width: 250px;" placeholder="🔍 Rechercher un terme (ex: DER/FJ, Waqf, Vision 2050, Incubateur Layenne...)">
-          <button class="btn btn-navy" onclick="window.print()"><i class="fas fa-print"></i> Imprimer le Mémorandum</button>
+          
+          <button id="btn-download-pdf" class="btn btn-navy btn-download-pdf-action">
+            <i class="fas fa-file-pdf" style="color: #F4A261;"></i> Télécharger le PDF Officiel
+          </button>
+          
+          <button class="btn btn-outline" onclick="window.print()">
+            <i class="fas fa-print"></i> Imprimer
+          </button>
         </div>
 
         <div class="memo-toc">
@@ -531,39 +557,82 @@
             <li><a href="#memo-3">3. Vision et Principes</a></li>
             <li><a href="#memo-4">4. Objectifs Stratégiques</a></li>
             <li><a href="#memo-5">5. Valeurs Ajoutées Patronales</a></li>
-            <li><a href="#memo-6">6. Services Concrets</a></li>
-            <li><a href="#memo-7">II. Architecture & Gouvernance</a></li>
-            <li><a href="#memo-8">III. Pilier 1 : Incubateur IAN-ESS</a></li>
-            <li><a href="#memo-9">IV. Pilier 2 : Observatoire ON-ESS</a></li>
-            <li><a href="#memo-10">VIII. Demandes à l'État</a></li>
+            <li><a href="#memo-6">6. Services Concrets aux Membres</a></li>
+            <li><a href="#memo-7">II. Architecture & Gouvernance Souveraine</a></li>
+            <li><a href="#memo-8">III. Pilier 1 : Incubateur National IAN-ESS</a></li>
+            <li><a href="#memo-9">IV. Pilier 2 : Observatoire National ON-ESS</a></li>
+            <li><a href="#memo-10">VIII. Demandes Officiellement Transmises à l'État</a></li>
           </ul>
         </div>
 
-        <div class="memo-content-text" id="memo-text-container">
+        <!-- PDF EXPORT WRAPPER -->
+        <div class="memo-content-text" id="memo-card-content">
+          <div style="text-align: center; border-bottom: 2px solid var(--primary-green); padding-bottom: 1rem; margin-bottom: 2rem;">
+            <img src="assets/images/logo.jpg" alt="CONESESS Logo" style="width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 0.5rem auto;">
+            <h2 style="color: var(--primary-navy); font-size: 1.6rem;">CONSEIL NATIONAL DES ENTREPRISES DE L'ÉCONOMIE SOCIALE ET SOLIDAIRE DU SÉNÉGAL (CONESESS)</h2>
+            <h4 style="color: var(--primary-green); font-size: 1.1rem;">MÉMORANDUM STRATÉGIQUE PATRONAL</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Comité d'Initiative - République du Sénégal | Alignment Vision Sénégal 2050</p>
+          </div>
+
           <div class="memo-section-block" id="memo-1">
             <h3>1 - Contexte du Projet</h3>
-            <p>L'économie sociale et solidaire (ESS) occupe depuis plusieurs années une place croissante dans les stratégies de développement du Sénégal. Coopératives agricoles, mutuelles de santé et d'épargne, groupements de producteurs, associations économiques et entreprises sociales font aujourd'hui vivre des centaines de milliers de ménages, en particulier en milieu rural et péri-urbain.</p>
-            <p>Cette dynamique s'inscrit dans un cadre national qui reconnaît explicitement l'ESS comme un pilier du développement économique et social : orientations de la <strong>Vision Sénégal 2050</strong>, politiques publiques dédiées aux jeunes et femmes, et cadre juridique consacré à l'ESS. C'est dans ce contexte qu'a émergé l'idée de doter le pays d'une organisation nationale de représentation propre aux entreprises de l'ESS : le <strong>CONESESS</strong>.</p>
+            <p>L'économie sociale et solidaire (ESS) occupe depuis plusieurs années une place croissante dans les stratégies de développement du Sénégal. Coopératives agricoles, mutuelles de santé et d'épargne, groupements de producteurs, associations économiques et entreprises sociales font aujourd'hui vivre des centaines de milliers de ménages, en particulier en milieu rural et péri-urbain, où l'économie dite "classique" peine parfois à créer des emplois durables.</p>
+            <p>Cette dynamique s'inscrit dans un cadre national qui reconnaît explicitement l'ESS comme un pilier du développement économique et social : orientations du plan <strong>Vision Sénégal 2050</strong>, politiques publiques dédiées à l'entrepreneuriat des jeunes et des femmes, et cadre juridique consacré à l'ESS adopté ces dernières années. L'État a ainsi manifesté sa volonté de structurer davantage ce secteur.</p>
+            <p>Malgré ces avancées, le secteur reste encore morcelé. Les initiatives sont nombreuses mais dispersées, portées par des acteurs qui, faute d'un cadre fédérateur, peinent à peser collectivement dans les décisions publiques, à mutualiser leurs moyens ou à faire reconnaître leur poids réel dans l'économie nationale. C'est dans ce contexte qu'a émergé l'idée de doter le pays d'une organisation nationale de représentation propre aux entreprises de l'ESS : le <strong>CONESESS</strong>.</p>
           </div>
 
           <div class="memo-section-block" id="memo-2">
-            <h3>2 – Constats et insuffisances ayant conduit à la création</h3>
-            <p>Ce potentiel reste toutefois freiné par plusieurs difficultés : structuration faible, absence d'un cadre patronal national dédié, accès limité aux financements adaptés, faible implication dans les politiques publiques, et manque de données fiables pour mesurer la contribution réelle de l'ESS.</p>
+            <h3>2 – Constats et Insuffisances ayant conduit à la création du CONESESS</h3>
+            <p>Au Sénégal, l'économie sociale et solidaire joue un rôle important dans la création d'emplois, la lutte contre la pauvreté, l'autonomisation des femmes et des jeunes, ainsi que dans le développement économique des territoires. Ce potentiel reste toutefois freiné par plusieurs difficultés persistent :</p>
+            <ul style="margin-left: 1.5rem; margin-bottom: 1rem; font-size: 0.95rem;">
+              <li>Une structuration encore faible et une représentation fragmentée des entreprises de l'ESS ;</li>
+              <li>L'absence d'un cadre patronal national dédié à la défense de leurs intérêts économiques ;</li>
+              <li>Un accès limité à des financements réellement adaptés à leurs modèles économiques et à leur finalité sociale ;</li>
+              <li>Une implication insuffisante des entreprises de l'ESS dans la conception des politiques publiques ;</li>
+              <li>Des mécanismes d'accompagnement, d'incubation, de formation et d'assistance technique encore lacunaires ;</li>
+              <li>Un manque de données fiables pour mesurer la contribution réelle de l'ESS à l'emploi et à la production nationale.</li>
+            </ul>
           </div>
 
           <div class="memo-section-block" id="memo-3">
             <h3>3 – Vision et Ligne Directrice</h3>
-            <p>Le CONESESS ambitionne de devenir le cadre national de représentation, de concertation, de défense des intérêts et de développement économique des entreprises de l'ESS au Sénégal. Faire de l'ESS un véritable levier de production, de création d'emplois durables, de souveraineté économique et de développement équilibré des territoires.</p>
+            <p>Le CONESESS ambitionne de devenir le cadre national de représentation, de concertation, de défense des intérêts et de développement économique des entreprises de l'économie sociale et solidaire au Sénégal.</p>
+            <p>Sa ligne directrice consiste à faire de l'ESS non seulement un instrument de solidarité, mais aussi un véritable levier de production, de création d'emplois durables, de souveraineté économique et de développement équilibré des territoires. Le CONESESS s'appuiera sur trois principes majeurs :</p>
+            <ol style="margin-left: 1.5rem; margin-bottom: 1rem;">
+              <li>Représenter les entreprises de l'ESS et défendre leurs intérêts ;</li>
+              <li>Structurer des filières et des chaînes de valeur inclusives ;</li>
+              <li>Renforcer la performance économique et l'impact social de ses membres.</li>
+            </ol>
+          </div>
+
+          <div class="memo-section-block" id="memo-7">
+            <h3>II. Architecture et Gouvernance Souveraine du CNE-ESS</h3>
+            <p>Le CONESESS fusionne la performance managériale patronale et la démocratie de l'ESS (« une personne, une voix »). Sa gouvernance se structure autour de quatre instances majeures :</p>
+            <p><strong>A. L'Assemblée Générale (AG) :</strong> L'Organe Suprême et Populaire réunissant l'ensemble des membres (coopératives, mutuelles, GIE). Une entreprise = une voix.</p>
+            <p><strong>B. Le Conseil d'Administration (CA) :</strong> L'Organe de Contrôle Stratégique représentant équitablement les 14 régions du Sénégal et nommant le Secrétaire Général.</p>
+            <p><strong>C. Le Bureau Exécutif (BE) :</strong> Portage politique direct des piliers (Présidence, Vice-Présidence IAN-ESS et Vice-Présidence ON-ESS).</p>
+            <p><strong>D. Le Secrétariat Général (SG) :</strong> L'ancre de l'exécution administrative sur le modèle patronal CNP.</p>
+            <p><strong>E. Le Collège des Membres Associés & Comité des Sages :</strong> Citoyens bâtisseurs référents et chercheurs (UCAD, UCAB) garantissant l'immunité éthique et le droit de veto moral anti-social washing.</p>
           </div>
 
           <div class="memo-section-block" id="memo-8">
             <h3>III. Pilier 1 : L'Incubateur-Accélérateur National (IAN-ESS)</h3>
-            <p>Applique de manière rigoureuse le concept d'abondance de la <strong>Citoyenneté Bâtisseuse</strong> formulé par le théoricien M. Aly Ane Diop. Mobilisation de compétences de haut potentiel pour propulser des projets d'envergure (>100 personnes impactées). Déploiement à travers 5 hubs : Communal, Départemental (Fatick/Foundiougne), Mobile (Bus 48h), Confessionnel (Layenne/Dahiras/Zakat-Waqf Fintech), Universitaire (UCAD/UCAB Kangare Lo 10ha).</p>
+            <p>Applique le concept d'abondance de la <strong>Citoyenneté Bâtisseuse</strong> (M. Aly Ane Diop). Il propulse des projets d'envergure (>100 personnes impactées) à travers 5 hubs : Communal, Départemental (Fatick/Foundiougne), Mobile (Bus Nomade 48h), Confessionnel (Layenne Ahloulahi / Dahiras / Zakat-Waqf Fintech) et Universitaire (UCAD FLSH / UCAB Bambey 10ha Kangare Lo).</p>
           </div>
 
           <div class="memo-section-block" id="memo-9">
             <h3>IV. Pilier 2 : L'Observatoire National (ON-ESS)</h3>
-            <p>Le cerveau stratégique du Conseil. Quantifie et cartographie le poids réel de l'ESS dans le PIB sénégalais. Standardise les indicateurs d'impact social (écart salarial limité de 1 à 7, règle démocratique). Authority exclusive d'instruction du Label ESS.</p>
+            <p>Le cerveau stratégique du Conseil. Quantifie et cartographie le poids réel de l'ESS dans le PIB sénégalais. Standardise les indicateurs d'impact social (écart salarial décent limité de 1 à 7, réinvestissement communautaire) et détient l'instruction exclusive du Label ESS.</p>
+          </div>
+
+          <div class="memo-section-block" id="memo-10">
+            <h3>VIII. Perspectives de Collaboration & Demandes Transmises à l'État</h3>
+            <p>Pour opérationnaliser la vision majeure issue des FORA'ESS, nous sollicitons respectueusement de l'autorité étatique :</p>
+            <ul style="margin-left: 1.5rem;">
+              <li>La co-validation du décret de reconnaissance du statut de Patronat ESS pour le CONESESS ;</li>
+              <li>L'adossement partiel des mécanismes de subvention de la DER/FJ, du 3FPT et des guichets publics aux parcours IAN-ESS ;</li>
+              <li>L'intégration de l'ON-ESS au dispositif national de collecte statistique dans l'Agenda Vision Sénégal 2050.</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -629,12 +698,12 @@
 
       <form id="form-membership">
         <div class="wizard-form-group">
-          <label>Dénomination Sociale de l'Organisation</label>
+          <label>Dénomination Sociale de l'Organisation *</label>
           <input type="text" class="wizard-form-control" required placeholder="ex: Mutuelle de Santé des Artisans de Dakar">
         </div>
 
         <div class="wizard-form-group">
-          <label>Catégorie Juridique</label>
+          <label>Catégorie Juridique *</label>
           <select class="wizard-form-control" required>
             <option>Coopérative</option>
             <option>Mutuelle de Santé / Épargne (SFD)</option>
@@ -645,7 +714,7 @@
         </div>
 
         <div class="wizard-form-group">
-          <label>Région Principale</label>
+          <label>Région Principale *</label>
           <select class="wizard-form-control" required>
             <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
             <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
@@ -656,17 +725,17 @@
         </div>
 
         <div class="wizard-form-group">
-          <label>Nom & Fonction du Représentant Légale</label>
+          <label>Nom & Fonction du Représentant Légal *</label>
           <input type="text" class="wizard-form-control" required placeholder="Prénom Nom, Président(e) / DG">
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
           <div class="wizard-form-group">
-            <label>Téléphone Mobile</label>
+            <label>Téléphone Mobile *</label>
             <input type="tel" class="wizard-form-control" required placeholder="+221 77 ...">
           </div>
           <div class="wizard-form-group">
-            <label>Adresse E-mail</label>
+            <label>Adresse E-mail *</label>
             <input type="email" class="wizard-form-control" required placeholder="contact@domaine.sn">
           </div>
         </div>

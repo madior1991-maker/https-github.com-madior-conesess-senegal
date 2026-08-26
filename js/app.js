@@ -1,6 +1,6 @@
 /* ==========================================================================
    CONESESS - CONSEIL NATIONAL DES ENTREPRISES DE L'ESS DU SÉNÉGAL
-   APPLICATION LOGIC V5
+   APPLICATION LOGIC V6 (FIXED ADHESION & PDF DOWNLOAD)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initGovernanceTabs();
   initIncubatorExplorer();
   initMemorandumSearch();
+  initPDFExport();
   initModalsAndForms();
 });
 
@@ -258,7 +259,7 @@ function initIncubatorExplorer() {
 }
 
 /* --------------------------------------------------------------------------
-   4. MEMORANDUM SEARCH & FILTER
+   4. MEMORANDUM SEARCH & PDF DOWNLOAD
    -------------------------------------------------------------------------- */
 function initMemorandumSearch() {
   const searchInput = document.getElementById('memo-search-input');
@@ -280,8 +281,45 @@ function initMemorandumSearch() {
   });
 }
 
+function initPDFExport() {
+  const pdfBtns = document.querySelectorAll('.btn-download-pdf-action');
+  
+  pdfBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      downloadMemorandumPDF();
+    });
+  });
+}
+
+function downloadMemorandumPDF() {
+  showToast("Génération du Mémorandum Stratégique PDF en cours...");
+
+  const element = document.getElementById('memo-card-content');
+  if (!element) return;
+
+  if (typeof html2pdf !== 'undefined') {
+    const opt = {
+      margin:       [0.5, 0.5, 0.5, 0.5],
+      filename:     'Memorandum_Strategique_CONESESS_Senegal.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2, useCORS: true },
+      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    
+    html2pdf().set(opt).from(element).save().then(() => {
+      showToast("Téléchargement du PDF réussi !");
+    }).catch(err => {
+      console.error(err);
+      window.print();
+    });
+  } else {
+    window.print();
+  }
+}
+
 /* --------------------------------------------------------------------------
-   5. MODAL WINDOWS & FORMS
+   5. MODAL WINDOWS & ADHESION FORM HANDLERS
    -------------------------------------------------------------------------- */
 function initModalsAndForms() {
   const joinBtns = document.querySelectorAll('.btn-join-modal');
@@ -291,6 +329,14 @@ function initModalsAndForms() {
   if (modalOverlay) {
     joinBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
+        // If button is a direct anchor to #adhesion on page, scroll smoothly
+        if (btn.getAttribute('href') === '#adhesion') {
+          const targetSection = document.getElementById('adhesion');
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+            return;
+          }
+        }
         e.preventDefault();
         modalOverlay.classList.add('show');
       });
@@ -309,25 +355,53 @@ function initModalsAndForms() {
     });
   }
 
-  // Main Page Adhesion Form
+  // Embedded Page Adhesion Form
   const mainForm = document.getElementById('form-main-adhesion');
+  const mainSuccessBox = document.getElementById('adhesion-success-msg');
+
   if (mainForm) {
     mainForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      mainForm.reset();
-      showToast("Félicitations ! Votre demande d'adhésion au CONESESS a été soumise avec succès au Secrétariat Général.");
+
+      const randRef = 'CONESESS-2026-' + Math.floor(1000 + Math.random() * 9000);
+      const refElement = document.getElementById('adhesion-ref-num');
+      if (refElement) refElement.textContent = randRef;
+
+      mainForm.style.display = 'none';
+      if (mainSuccessBox) mainSuccessBox.style.display = 'block';
+
+      showToast("Félicitations ! Votre demande d'adhésion au CONESESS a été enregistrée (" + randRef + ").");
+      
+      const cardContainer = document.getElementById('adhesion-card-container');
+      if (cardContainer) {
+        cardContainer.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   }
 
-  // Modal Form
+  // Modal Form Submission
   const modalForm = document.getElementById('form-membership');
   if (modalForm) {
     modalForm.addEventListener('submit', (e) => {
       e.preventDefault();
       modalOverlay.classList.remove('show');
       modalForm.reset();
-      showToast("Votre demande d'adhésion au CONESESS a été transmise avec succès !");
+      const randRef = 'CONESESS-2026-' + Math.floor(1000 + Math.random() * 9000);
+      showToast("Votre demande d'adhésion (" + randRef + ") a été transmise au Secrétariat Général avec succès !");
     });
+  }
+}
+
+function resetAdhesionForm() {
+  const mainForm = document.getElementById('form-main-adhesion');
+  const mainSuccessBox = document.getElementById('adhesion-success-msg');
+
+  if (mainForm) {
+    mainForm.reset();
+    mainForm.style.display = 'block';
+  }
+  if (mainSuccessBox) {
+    mainSuccessBox.style.display = 'none';
   }
 }
 
@@ -344,5 +418,5 @@ function showToast(message) {
   setTimeout(() => {
     toast.style.opacity = '0';
     setTimeout(() => toast.remove(), 300);
-  }, 4000);
+  }, 4500);
 }
