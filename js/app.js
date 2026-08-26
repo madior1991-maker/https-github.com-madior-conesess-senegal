@@ -1,6 +1,6 @@
 /* ==========================================================================
    CONESESS - CONSEIL NATIONAL DES ENTREPRISES DE L'ESS DU SÉNÉGAL
-   APPLICATION LOGIC V6 (FIXED ADHESION & PDF DOWNLOAD)
+   APPLICATION LOGIC V7 (CONFÉDÉRATEUR TERMINOLOGY UPDATE)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -75,7 +75,7 @@ const govData = {
   ag: {
     title: "A. L'Assemblée Générale (AG) – L'Organe Suprême et Populaire",
     badge: "Souveraineté & Démocratie ESS",
-    desc: "L'Assemblée Générale est l'instance souveraine du CONESESS. Elle incarne la base militante, citoyenne et économique du patronat social du Sénégal.",
+    desc: "L'Assemblée Générale est l'instance souveraine du CONESESS. Elle incarne la base militante, citoyenne et économique du réseau confédérateur de l'ESS au Sénégal.",
     features: [
       "Réunit l'ensemble des membres : coopératives locales, mutuelles de santé/d'épargne, GIE, associations productives et entreprises sociales.",
       "Fixe les grandes orientations stratégiques et élit le Conseil d'Administration.",
@@ -99,7 +99,7 @@ const govData = {
     badge: "Moteur Exécutif & Plaidoyer",
     desc: "Organe restreint chargé de la mise en œuvre de la stratégie politique. Il s'articule autour d'une Présidence et de deux Vice-Présidences dédiées aux grands piliers.",
     features: [
-      "La Présidence : Porte la parole unifiée du patronat social auprès de l’État et des partenaires.",
+      "La Présidence : Porte la parole unifiée des entreprises de l'ESS auprès de l’État et des partenaires.",
       "La Vice-Présidence IAN-ESS : Pilote politiquement l'Incubateur-Accélérateur National (Citoyenneté Bâtisseuse) et négocie avec la DER/FJ, le 3FPT.",
       "La Vice-Présidence ON-ESS : Garantit la fiabilité de l'Observatoire National et porte le plaidoyer basé sur la preuve scientifique."
     ],
@@ -107,7 +107,7 @@ const govData = {
   },
   sg: {
     title: "D. Le Secrétariat Général (SG) – Ancre d'Exécution Administrative",
-    badge: "Modèle Patronal CNP",
+    badge: "Modèle Confédéral CNP",
     desc: "Structure permanente non élue dirigée par un cadre de haut niveau recruté par le CA sur le modèle horizontal fort du CNP.",
     features: [
       "Coordonne l'administration globale et les services aux membres.",
@@ -119,7 +119,7 @@ const govData = {
   sages: {
     title: "E. Le Collège des Membres Associés & Comité des Sages",
     badge: "Légitimité Éthique & Anti-Social Washing",
-    desc: "Dispositif d'immunité éthique inspiré des meilleures traditions d'ingénierie territoriale et du modèle patronal.",
+    desc: "Dispositif d'immunité éthique inspiré des meilleures traditions d'ingénierie territoriale et du modèle confédéral.",
     features: [
       "Figures Emblématiques de l'ESS & Citoyens Bâtisseurs Référents (chercheurs UCAD/UCAB, experts territoriaux).",
       "Droit de veto moral pour vacciner l'organisation contre le social-washing et les contingences partisanes.",
@@ -329,7 +329,6 @@ function initModalsAndForms() {
   if (modalOverlay) {
     joinBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
-        // If button is a direct anchor to #adhesion on page, scroll smoothly
         if (btn.getAttribute('href') === '#adhesion') {
           const targetSection = document.getElementById('adhesion');
           if (targetSection) {
