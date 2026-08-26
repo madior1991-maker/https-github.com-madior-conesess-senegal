@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -62,16 +62,20 @@
         <ul class="nav-menu">
           <li><a href="#accueil" class="nav-link active">Accueil</a></li>
           <li><a href="#contexte" class="nav-link">Contexte</a></li>
+          <li><a href="#regions" class="nav-link">14 Régions</a></li>
           <li><a href="#gouvernance" class="nav-link">Gouvernance</a></li>
           <li><a href="#incubateur" class="nav-link">Incubateur IAN-ESS</a></li>
           <li><a href="#observatoire" class="nav-link">Observatoire ON-ESS</a></li>
+          <li><a href="#calculateur" class="nav-link">Calculateur Impact</a></li>
           <li><a href="#label" class="nav-link">Label ESS</a></li>
           <li><a href="#poles" class="nav-link">Pôles Métiers</a></li>
           <li><a href="#memorandum" class="nav-link">Mémorandum</a></li>
-          <li><a href="#plaidoyer" class="nav-link">Demandes à l'État</a></li>
         </ul>
 
         <div class="nav-cta">
+          <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle Theme">
+            <i class="fas fa-moon"></i>
+          </button>
           <button class="btn btn-primary btn-sm btn-join-modal">
             <i class="fas fa-user-plus"></i> Rejoindre le CONESESS
           </button>
@@ -182,7 +186,7 @@
       <div class="context-grid">
         <div class="context-box">
           <span class="badge badge-navy mb-3">1. Contexte National & Panafricain</span>
-          <h3 style="color: var(--primary-navy);" class="mb-3">Un Pilier Central du Développement</h3>
+          <h3 style="color: var(--primary-green);" class="mb-3">Un Pilier Central du Développement</h3>
           <p class="mb-3">
             Coopératives agricoles, mutuelles de santé et d'épargne, GIE et entreprises sociales jouent un rôle majeur dans la création d'emplois et l'autonomisation des jeunes et des femmes.
           </p>
@@ -192,7 +196,7 @@
         </div>
 
         <div>
-          <h3 style="color: var(--primary-navy);" class="mb-3">Principales Insuffisances Identifiées (TDRs)</h3>
+          <h3 style="color: var(--text-dark);" class="mb-3">Principales Insuffisances Identifiées (TDRs)</h3>
           <div class="findings-list">
             <div class="finding-card">
               <div class="finding-icon">1</div>
@@ -223,6 +227,48 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION INTERACTIVE : ANCRAGE DANS LES 14 RÉGIONS DU SÉNÉGAL -->
+  <section id="regions" class="section" style="background: var(--bg-alt);">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge badge-gold">Maillage Territorial</span>
+        <h2 class="section-title">Ancrage dans les 14 Régions du Sénégal</h2>
+        <p class="section-description">
+          Le CONESESS garantit une écoute ascendante et une présence dans chaque bassin d'emploi. Cliquez sur une région ci-dessous pour consulter son hub et ses acteurs recensés.
+        </p>
+      </div>
+
+      <div class="region-selector-container">
+        <div class="region-buttons-grid">
+          <button class="region-btn active" data-region="Dakar">Dakar</button>
+          <button class="region-btn" data-region="Thiès">Thiès</button>
+          <button class="region-btn" data-region="Saint-Louis">Saint-Louis</button>
+          <button class="region-btn" data-region="Fatick">Fatick</button>
+          <button class="region-btn" data-region="Kaolack">Kaolack</button>
+          <button class="region-btn" data-region="Ziguinchor">Ziguinchor</button>
+          <button class="region-btn" data-region="Kolda">Kolda</button>
+          <button class="region-btn" data-region="Tambacounda">Tambacounda</button>
+          <button class="region-btn" data-region="Matam">Matam</button>
+          <button class="region-btn" data-region="Kaffrine">Kaffrine</button>
+          <button class="region-btn" data-region="Kédougou">Kédougou</button>
+          <button class="region-btn" data-region="Sédhiou">Sédhiou</button>
+          <button class="region-btn" data-region="Louga">Louga</button>
+          <button class="region-btn" data-region="Diourbel">Diourbel</button>
+        </div>
+
+        <div id="region-detail-display" class="region-detail-box">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;" class="mb-2">
+            <h3 style="color: var(--primary-green); font-size: 1.4rem;"><i class="fas fa-map-marker-alt" style="color: var(--accent-gold);"></i> Région de Dakar</h3>
+            <span class="badge badge-navy">1 240 Entreprises & Mutuelles Recensées</span>
+          </div>
+          <p class="mb-2"><strong>Hub Active :</strong> Hub National & Incubateur Communal Pikine / Guédiawaye</p>
+          <p class="mb-2"><strong>Spécialisations Filières :</strong> Services, Numérique Social, Mutuelles de Santé, Artisanat Urbain</p>
+          <p style="font-size: 0.85rem; color: var(--text-muted);"><strong>Contact Régional :</strong> dakar@conesess.sn | Guichet Unique Municipal</p>
         </div>
       </div>
     </div>
@@ -313,7 +359,7 @@
         <div class="incubator-detail-grid">
           <div>
             <span class="badge badge-green mb-3">Ancrage Local</span>
-            <h3 style="font-size: 1.6rem; color: var(--primary-navy);" class="mb-3">1. L'Incubateur Communal (Proximité)</h3>
+            <h3 style="font-size: 1.6rem; color: var(--primary-green);" class="mb-3">1. L'Incubateur Communal (Proximité)</h3>
             <p class="mb-4">Dispositif d'accompagnement de proximité installé dans les communes pour structurer le tissu micro-économique local.</p>
             <div style="background: var(--bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border-left: 4px solid var(--primary-green);">
               <strong style="color: var(--primary-green);">Public & Cible :</strong>
@@ -321,12 +367,12 @@
             </div>
           </div>
           <div>
-            <div style="background: #FFFFFF; padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);" class="mb-3">
-              <h4 style="color: var(--primary-navy);" class="mb-2"><i class="fas fa-cogs" style="color: var(--accent-gold);"></i> Méthodologie d'Action</h4>
+            <div style="background: var(--bg-surface); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);" class="mb-3">
+              <h4 style="color: var(--text-dark);" class="mb-2"><i class="fas fa-cogs" style="color: var(--accent-gold);"></i> Méthodologie d'Action</h4>
               <p style="font-size: 0.9rem; color: var(--text-body);">Business Mentoring hebdomadaire, redevabilité stricte des budgets locaux chaque lundi matin, revues physiques in situ mensuelles.</p>
             </div>
-            <div style="background: #FFFFFF; padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
-              <h4 style="color: var(--primary-navy);" class="mb-2"><i class="fas fa-chart-line" style="color: var(--accent-emerald);"></i> Impact Attendu</h4>
+            <div style="background: var(--bg-surface); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+              <h4 style="color: var(--text-dark);" class="mb-2"><i class="fas fa-chart-line" style="color: var(--accent-emerald);"></i> Impact Attendu</h4>
               <p style="font-size: 0.9rem; color: var(--text-body);">Structuration directe des groupements de femmes, mutuelles communales et ateliers collectifs.</p>
             </div>
           </div>
@@ -377,21 +423,58 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div style="background: var(--bg-surface); padding: 2.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
-        <h3 style="color: var(--primary-navy);" class="mb-3">Architecture Territoriale de la Donnée à 3 Échelons</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-          <div style="background: var(--bg-alt); padding: 1.25rem; border-radius: var(--radius-md);">
-            <h4 style="color: var(--primary-green);" class="mb-2">1. Relais Communaux</h4>
-            <p style="font-size: 0.875rem;">Sourcing & veille de proximité au sein des guichets uniques municipaux. Recensement des acteurs.</p>
+  <!-- SECTION INTERACTIVE : CALCULATEUR D'IMPACT CITOYENNETÉ BÂTISSEUSE -->
+  <section id="calculateur" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge badge-green">Outil d'Évaluation</span>
+        <h2 class="section-title">Calculateur d'Impact Social & Économique</h2>
+        <p class="section-description">
+          Estimez en temps réel l'impact de votre coopérative ou entreprise sociale en termes de création d'emplois, de valeur ajoutée locale et de score Label CONESESS.
+        </p>
+      </div>
+
+      <div class="calculator-card">
+        <div class="calculator-grid">
+          <div>
+            <h3 style="color: var(--primary-green);" class="mb-3">Simulateur d'Emplois & Réinvestissement</h3>
+            
+            <div class="wizard-form-group">
+              <label>Nombre de membres ou producteurs associés</label>
+              <input type="number" id="calc-members" class="wizard-form-control" value="120" min="10">
+            </div>
+
+            <div class="wizard-form-group">
+              <label>Chiffre d'Affaires / Production Annuelle (Millions XOF)</label>
+              <input type="number" id="calc-revenue" class="wizard-form-control" value="15" min="1">
+            </div>
+
+            <div class="wizard-form-group">
+              <label>Part des bénéfices réinvestis dans la communauté (%)</label>
+              <input type="range" id="calc-reinvest" min="10" max="100" value="60" style="width: 100%;">
+            </div>
           </div>
-          <div style="background: var(--bg-alt); padding: 1.25rem; border-radius: var(--radius-md);">
-            <h4 style="color: var(--primary-navy);" class="mb-2">2. Antennes Départementales</h4>
-            <p style="font-size: 0.875rem;">Analyse des filières (anacarde, pêche, éco-circulaire) et audits techniques de labellisation.</p>
-          </div>
-          <div style="background: var(--bg-alt); padding: 1.25rem; border-radius: var(--radius-md);">
-            <h4 style="color: #D97706;" class="mb-2">3. Bureau National (UCAD/UGB)</h4>
-            <p style="font-size: 0.875rem;">Consolidation macro-économique et accueil des chercheurs résidents avec le Comité des Sages.</p>
+
+          <div class="calc-result-box">
+            <h3 style="color: #FFFFFF;" class="mb-4"><i class="fas fa-chart-pie" style="color: var(--accent-gold);"></i> Résultats d'Impact Estimés</h3>
+            
+            <div class="calc-result-item">
+              <h4 id="res-jobs">54 emplois</h4>
+              <p>Emplois durables directes et indirectes générés</p>
+            </div>
+
+            <div class="calc-result-item">
+              <h4 id="res-reinvest">9 000 k XOF</h4>
+              <p>Injection annuelle dans l'économie locale et communautaire</p>
+            </div>
+
+            <div class="calc-result-item">
+              <h4 id="res-score">100 / 100</h4>
+              <p>Score d'éligibilité prévisionnel au Label Citoyenneté Bâtisseuse</p>
+            </div>
           </div>
         </div>
       </div>
@@ -399,7 +482,7 @@
   </section>
 
   <!-- SECTION 5: PROCESSUS DE LABELLISATION & SIMULATEUR INTERACTIF -->
-  <section id="label" class="section">
+  <section id="label" class="section" style="background: var(--bg-alt);">
     <div class="container">
       <div class="section-header">
         <span class="badge badge-gold">Dispositif d'Excellence</span>
@@ -434,7 +517,7 @@
   </section>
 
   <!-- SECTION 6: LES 4 PÔLES SECTORIELS MÉTIERS -->
-  <section id="poles" class="section" style="background: var(--bg-alt);">
+  <section id="poles" class="section">
     <div class="container">
       <div class="section-header">
         <span class="badge badge-green">Organisation Métier</span>
@@ -447,25 +530,25 @@
       <div class="sector-grid">
         <div class="sector-card">
           <div class="sector-card-icon"><i class="fas fa-seedling"></i></div>
-          <h3 style="font-size: 1.25rem; color: var(--primary-navy);" class="mb-2">1. Agroécologie & Souveraineté Alimentaire</h3>
+          <h3 style="font-size: 1.25rem; color: var(--primary-green);" class="mb-2">1. Agroécologie & Souveraineté Alimentaire</h3>
           <p style="font-size: 0.9rem; color: var(--text-body);">Structuration des chaînes de valeur agricoles, coopératives céréalières et maraîchères, valorisation des sols et autonomie alimentaire.</p>
         </div>
 
         <div class="sector-card">
           <div class="sector-card-icon"><i class="fas fa-hand-holding-usd"></i></div>
-          <h3 style="font-size: 1.25rem; color: var(--primary-navy);" class="mb-2">2. Mutuelles de Santé & SFD (Finance Éthique)</h3>
+          <h3 style="font-size: 1.25rem; color: var(--primary-green);" class="mb-2">2. Mutuelles de Santé & SFD (Finance Éthique)</h3>
           <p style="font-size: 0.9rem; color: var(--text-body);">Mutuelles de santé communautaires, SFD solidairement gérés, micro-assurance et valorisation de la finance éthique (Zakat/Waqf).</p>
         </div>
 
         <div class="sector-card">
           <div class="sector-card-icon"><i class="fas fa-hammer"></i></div>
-          <h3 style="font-size: 1.25rem; color: var(--primary-navy);" class="mb-2">3. Artisanat, Énergie & Économie Circulaire</h3>
+          <h3 style="font-size: 1.25rem; color: var(--primary-green);" class="mb-2">3. Artisanat, Énergie & Économie Circulaire</h3>
           <p style="font-size: 0.9rem; color: var(--text-body);">Groupements d'artisans, valorisation du recyclage, énergies renouvelables solaires décentralisées et transformation locale.</p>
         </div>
 
         <div class="sector-card">
           <div class="sector-card-icon"><i class="fas fa-laptop-code"></i></div>
-          <h3 style="font-size: 1.25rem; color: var(--primary-navy);" class="mb-2">4. Services, Numérique Social & Éducation</h3>
+          <h3 style="font-size: 1.25rem; color: var(--primary-green);" class="mb-2">4. Services, Numérique Social & Éducation</h3>
           <p style="font-size: 0.9rem; color: var(--text-body);">Startups d'impact social, EdTech, coopératives d'enseignants, plateformes logistiques partagées et modernisation des Daaras.</p>
         </div>
       </div>
@@ -473,7 +556,7 @@
   </section>
 
   <!-- SECTION 7: MÉMORANDUM STRATÉGIQUE INTÉGRAL -->
-  <section id="memorandum" class="section">
+  <section id="memorandum" class="section" style="background: var(--bg-alt);">
     <div class="container">
       <div class="section-header">
         <span class="badge badge-navy">Document Fondateur</span>
@@ -589,7 +672,7 @@
       <button class="modal-close" id="modal-close-btn">&times;</button>
       <div style="text-align: center; margin-bottom: 1.5rem;">
         <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 0.5rem auto;">
-        <h3 style="color: var(--primary-navy);">Rejoindre le CONESESS</h3>
+        <h3 style="color: var(--primary-green);">Rejoindre le CONESESS</h3>
         <p style="font-size: 0.875rem; color: var(--text-muted);">Formulaire officiel d'adhésion au Patronat de l'ESS au Sénégal</p>
       </div>
 
@@ -670,6 +753,7 @@
           <ul class="footer-links">
             <li><a href="#accueil">Accueil</a></li>
             <li><a href="#contexte">Contexte & Diagnostic</a></li>
+            <li><a href="#regions">14 Régions</a></li>
             <li><a href="#gouvernance">Gouvernance Souveraine</a></li>
             <li><a href="#incubateur">Incubateur IAN-ESS</a></li>
             <li><a href="#observatoire">Observatoire ON-ESS</a></li>
@@ -679,10 +763,10 @@
         <div>
           <h4>Piliers & Services</h4>
           <ul class="footer-links">
+            <li><a href="#calculateur">Calculateur d'Impact</a></li>
             <li><a href="#label">Label ESS Bâtisseuse</a></li>
             <li><a href="#poles">4 Pôles Sectoriels</a></li>
             <li><a href="#memorandum">Mémorandum Stratégique</a></li>
-            <li><a href="#plaidoyer">Plaidoyer État Sénégal</a></li>
             <li><a href="#" class="btn-join-modal">Adhésion Patronale</a></li>
           </ul>
         </div>

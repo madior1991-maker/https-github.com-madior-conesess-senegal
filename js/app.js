@@ -1,10 +1,13 @@
 /* ==========================================================================
    CONESESS - CONSEIL NATIONAL DES ENTREPRISES DE L'ESS DU SÉNÉGAL
-   INTERACTIVE APPLICATION LOGIC & CHARTS
+   ENHANCED INTERACTIVE APPLICATION LOGIC & DATA V2
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeToggle();
   initNavigation();
+  initRegionalExplorer();
+  initImpactCalculator();
   initGovernanceTabs();
   initIncubatorExplorer();
   initObservatoryCharts();
@@ -12,6 +15,32 @@ document.addEventListener('DOMContentLoaded', () => {
   initMemorandumSearch();
   initModalsAndForms();
 });
+
+/* --------------------------------------------------------------------------
+   0. DARK / LIGHT THEME TOGGLE
+   -------------------------------------------------------------------------- */
+function initThemeToggle() {
+  const toggleBtn = document.getElementById('theme-toggle-btn');
+  if (!toggleBtn) return;
+
+  const currentTheme = localStorage.getItem('conesess-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', currentTheme);
+  updateThemeIcon(currentTheme);
+
+  toggleBtn.addEventListener('click', () => {
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('conesess-theme', theme);
+    updateThemeIcon(theme);
+  });
+}
+
+function updateThemeIcon(theme) {
+  const icon = document.querySelector('#theme-toggle-btn i');
+  if (icon) {
+    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  }
+}
 
 /* --------------------------------------------------------------------------
    1. NAVIGATION & MOBILE TOGGLE
@@ -34,7 +63,6 @@ function initNavigation() {
       navMenu.classList.toggle('show');
     });
 
-    // Close menu when clicking links
     document.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', () => {
         navMenu.classList.remove('show');
@@ -44,7 +72,125 @@ function initNavigation() {
 }
 
 /* --------------------------------------------------------------------------
-   2. GOVERNANCE ARCHITECTURE INTERACTIVE TABS
+   2. INTERACTIVE 14 REGIONS SENEGAL EXPLORER
+   -------------------------------------------------------------------------- */
+const regionData = {
+  "Dakar": {
+    hubs: "Hub National & Incubateur Communal Pikine / Guédiawaye",
+    coops: "1 240 Entreprises & Mutuelles Recensées",
+    focus: "Services, Numérique Social, Mutuelles de Santé, Artisanat Urbain",
+    contact: "dakar@conesess.sn | Guichet Unique Municipal"
+  },
+  "Thiès": {
+    hubs: "Incubateur Universitaire UCAD / Incubateur Horticole Kayar",
+    coops: "980 Coopératives & GIE",
+    focus: "Pêche Solidaire, Maraîchage Agroécologique, Artisanat d'Art",
+    contact: "thies@conesess.sn | Antenne Départementale Thiès"
+  },
+  "Saint-Louis": {
+    hubs: "Incubateur Vallée du Fleuve & Synergie UGB",
+    coops: "750 Organisations ESS",
+    focus: "Riziculture Coopérative, Économie Bleue, Éco-Tourisme",
+    contact: "saintlouis@conesess.sn | Guichet Saint-Louis"
+  },
+  "Fatick": {
+    hubs: "Incubateur Départemental Environnemental Fatick / Foundiougne",
+    coops: "620 Groupements & Mutuelles",
+    focus: "Protection de la Mangrove, Biodiversité, Anacarde & Pêche",
+    contact: "fatick@conesess.sn | Hub Thématique Foundiougne"
+  },
+  "Kaolack": {
+    hubs: "Incubateur Agropastoral du Bassin Arachidier",
+    coops: "590 Coopératives",
+    focus: "Filières Arachide, Sel, Semences Agroécologiques",
+    contact: "kaolack@conesess.sn | Antenne Régionale Kaolack"
+  },
+  "Ziguinchor": {
+    hubs: "Incubateur Forestier & Transformation Agroalimentaire Casamance",
+    coops: "680 Coopératives Féminines",
+    focus: "Anacarde, Mangue, Produits Forestiers Non Ligneux, Mutuelles",
+    contact: "ziguinchor@conesess.sn | Antenne Casamance"
+  },
+  "Kolda": {
+    hubs: "Incubateur Agropastoral & Élevage Solidaire",
+    coops: "510 Groupements",
+    focus: "Filière Laitière, Miel, Arboriculture",
+    contact: "kolda@conesess.sn | Relais Communal Kolda"
+  },
+  "Tambacounda": {
+    hubs: "Incubateur Mobile Nomade & Bus de l'Entrepreneuriat",
+    coops: "430 Organisations",
+    focus: "Mines Responsables, Coton, Artisans Ruraux",
+    contact: "tamba@conesess.sn | Clinique Mobile Tamba"
+  }
+};
+
+function initRegionalExplorer() {
+  const buttons = document.querySelectorAll('.region-btn');
+  const detailBox = document.getElementById('region-detail-display');
+
+  if (!detailBox) return;
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const regionName = btn.dataset.region;
+      const data = regionData[regionName] || {
+        hubs: "Relais Communal ON-ESS & Antenne Régionale",
+        coops: "Plus de 350 Entreprises ESS",
+        focus: "Agroécologie, Mutuelles locales, Artisanat",
+        contact: `${regionName.toLowerCase()}@conesess.sn`
+      };
+
+      detailBox.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;" class="mb-2">
+          <h3 style="color: var(--primary-green); font-size: 1.4rem;"><i class="fas fa-map-marker-alt" style="color: var(--accent-gold);"></i> Région de ${regionName}</h3>
+          <span class="badge badge-navy">${data.coops}</span>
+        </div>
+        <p class="mb-2"><strong>Hub Active :</strong> ${data.hubs}</p>
+        <p class="mb-2"><strong>Spécialisations Filières :</strong> ${data.focus}</p>
+        <p style="font-size: 0.85rem; color: var(--text-muted);"><strong>Contact Régional :</strong> ${data.contact}</p>
+      `;
+    });
+  });
+}
+
+/* --------------------------------------------------------------------------
+   3. CALCULATEUR D'IMPACT SOCIAL & ÉCONOMIQUE
+   -------------------------------------------------------------------------- */
+function initImpactCalculator() {
+  const membersInput = document.getElementById('calc-members');
+  const revenueInput = document.getElementById('calc-revenue');
+  const reinvestInput = document.getElementById('calc-reinvest');
+
+  if (!membersInput || !revenueInput) return;
+
+  const updateImpact = () => {
+    const members = parseInt(membersInput.value) || 0;
+    const revenue = parseFloat(revenueInput.value) || 0;
+    const reinvestPct = parseInt(reinvestInput.value) || 50;
+
+    // Calculations
+    const jobs = Math.round(members * 0.45);
+    const localReinvest = Math.round((revenue * (reinvestPct / 100)) / 1000);
+    const labelScore = Math.min(100, Math.round((members > 100 ? 40 : 20) + (reinvestPct > 50 ? 40 : 20) + (revenue > 5 ? 20 : 10)));
+
+    document.getElementById('res-jobs').textContent = `${jobs} emplois`;
+    document.getElementById('res-reinvest').textContent = `${localReinvest} k XOF`;
+    document.getElementById('res-score').textContent = `${labelScore} / 100`;
+  };
+
+  membersInput.addEventListener('input', updateImpact);
+  revenueInput.addEventListener('input', updateImpact);
+  if (reinvestInput) reinvestInput.addEventListener('input', updateImpact);
+
+  updateImpact();
+}
+
+/* --------------------------------------------------------------------------
+   4. GOUVERNANCE ARCHITECTURE INTERACTIVE TABS
    -------------------------------------------------------------------------- */
 const govData = {
   ag: {
@@ -145,7 +291,7 @@ function initGovernanceTabs() {
 }
 
 /* --------------------------------------------------------------------------
-   3. PILIER 1 : INCUBATEUR NATIONAL (IAN-ESS) INTERACTIVE EXPLORER
+   5. PILIER 1 : INCUBATEUR NATIONAL (IAN-ESS) INTERACTIVE EXPLORER
    -------------------------------------------------------------------------- */
 const incubatorData = {
   communal: {
@@ -217,12 +363,12 @@ function initIncubatorExplorer() {
               </div>
             </div>
             <div>
-              <div style="background: #FFFFFF; padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);" class="mb-3">
-                <h4 style="color: var(--primary-navy);" class="mb-2"><i class="fas fa-cogs" style="color: var(--accent-gold);"></i> Méthodologie d'Action</h4>
+              <div style="background: var(--bg-surface); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);" class="mb-3">
+                <h4 style="color: var(--text-dark);" class="mb-2"><i class="fas fa-cogs" style="color: var(--accent-gold);"></i> Méthodologie d'Action</h4>
                 <p style="font-size: 0.9rem; color: var(--text-body);">${data.methodology}</p>
               </div>
-              <div style="background: #FFFFFF; padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
-                <h4 style="color: var(--primary-navy);" class="mb-2"><i class="fas fa-chart-line" style="color: var(--accent-emerald);"></i> Impact Attendu</h4>
+              <div style="background: var(--bg-surface); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+                <h4 style="color: var(--text-dark);" class="mb-2"><i class="fas fa-chart-line" style="color: var(--accent-emerald);"></i> Impact Attendu</h4>
                 <p style="font-size: 0.9rem; color: var(--text-body);">${data.impact}</p>
               </div>
             </div>
@@ -234,7 +380,7 @@ function initIncubatorExplorer() {
 }
 
 /* --------------------------------------------------------------------------
-   4. PILIER 2 : OBSERVATOIRE NATIONAL (ON-ESS) CHARTS (CHART.JS)
+   6. PILIER 2 : OBSERVATOIRE NATIONAL (ON-ESS) CHARTS (CHART.JS)
    -------------------------------------------------------------------------- */
 function initObservatoryCharts() {
   const pibCtx = document.getElementById('pibChart');
@@ -243,7 +389,6 @@ function initObservatoryCharts() {
 
   if (typeof Chart === 'undefined') return;
 
-  // Chart 1: PIB Contribution Breakdown
   if (pibCtx) {
     new Chart(pibCtx, {
       type: 'doughnut',
@@ -266,7 +411,6 @@ function initObservatoryCharts() {
     });
   }
 
-  // Chart 2: 14 Regions Coverage Bar Chart
   if (regionCtx) {
     new Chart(regionCtx, {
       type: 'bar',
@@ -282,9 +426,7 @@ function initObservatoryCharts() {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false }
-        },
+        plugins: { legend: { display: false } },
         scales: {
           y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
           x: { grid: { display: false } }
@@ -293,7 +435,6 @@ function initObservatoryCharts() {
     });
   }
 
-  // Chart 3: Indicator Decent Wage Gap Ratio (Max 1:7)
   if (parityCtx) {
     new Chart(parityCtx, {
       type: 'bar',
@@ -310,16 +451,14 @@ function initObservatoryCharts() {
         indexAxis: 'y',
         responsive: true,
         maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false }
-        }
+        plugins: { legend: { display: false } }
       }
     });
   }
 }
 
 /* --------------------------------------------------------------------------
-   5. LABEL ESS INTERACTIVE SIMULATOR (STEP WIZARD)
+   7. LABEL ESS INTERACTIVE SIMULATOR (STEP WIZARD)
    -------------------------------------------------------------------------- */
 let currentWizardStep = 1;
 
@@ -337,7 +476,6 @@ function initLabelWizard() {
       currentWizardStep++;
       renderWizardStep(currentWizardStep);
     } else {
-      // Finish
       showToast("Félicitations ! Votre structure réunit les critères préliminaires pour l'obtention du Label ESS - Citoyenneté Bâtisseuse.");
     }
   });
@@ -356,7 +494,6 @@ function renderWizardStep(step) {
   const nextBtn = document.getElementById('wizard-next-btn');
   const stepItems = document.querySelectorAll('.wizard-steps .step-item');
 
-  // Update step indicators
   stepItems.forEach((item, idx) => {
     if (idx + 1 === step) {
       item.classList.add('active');
@@ -470,7 +607,7 @@ function renderWizardStep(step) {
 }
 
 /* --------------------------------------------------------------------------
-   6. MEMORANDUM SEARCH & FILTER
+   8. MEMORANDUM SEARCH & FILTER
    -------------------------------------------------------------------------- */
 function initMemorandumSearch() {
   const searchInput = document.getElementById('memo-search-input');
@@ -493,10 +630,9 @@ function initMemorandumSearch() {
 }
 
 /* --------------------------------------------------------------------------
-   7. MODAL WINDOWS & FORMS
+   9. MODAL WINDOWS & FORMS
    -------------------------------------------------------------------------- */
 function initModalsAndForms() {
-  // Membership Modal
   const joinBtns = document.querySelectorAll('.btn-join-modal');
   const modalOverlay = document.getElementById('membership-modal');
   const modalClose = document.getElementById('modal-close-btn');
@@ -522,7 +658,6 @@ function initModalsAndForms() {
     });
   }
 
-  // Handle Form Submissions
   const membershipForm = document.getElementById('form-membership');
   if (membershipForm) {
     membershipForm.addEventListener('submit', (e) => {
@@ -531,17 +666,8 @@ function initModalsAndForms() {
       showToast("Votre demande d'adhésion au CONESESS a été transmise au Secrétariat Général avec succès !");
     });
   }
-
-  const petitionForm = document.getElementById('form-petition');
-  if (petitionForm) {
-    petitionForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      showToast("Merci pour votre soutien à la Déclaration et aux Demandes transmises à l'État du Sénégal.");
-    });
-  }
 }
 
-/* Toast Helper */
 function showToast(message) {
   const container = document.getElementById('toast-container');
   if (!container) return;

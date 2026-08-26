@@ -1,12 +1,12 @@
 /* ==========================================================================
    CONESESS - Conseil National des Entreprises de l'Économie Sociale et Solidaire
-   DESIGN SYSTEM & CUSTOM STYLESHEET
+   DESIGN SYSTEM & CUSTOM STYLESHEET (ENHANCED VERSION V2)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Brand Palette */
+  /* Brand Palette - Light Theme */
   --primary-green: #006837;
   --primary-green-hover: #00502a;
   --primary-navy: #0A2540;
@@ -20,13 +20,14 @@
   --bg-main: #F8FAF9;
   --bg-surface: #FFFFFF;
   --bg-alt: #F1F5F3;
+  --bg-card: #FFFFFF;
   --text-dark: #0F172A;
   --text-body: #334155;
   --text-muted: #64748B;
   --border-light: #E2E8F0;
   --border-active: #006837;
   
-  /* Elevative & FX */
+  /* FX & Shadow Tokens */
   --shadow-sm: 0 2px 8px rgba(0, 104, 55, 0.06);
   --shadow-md: 0 8px 24px rgba(10, 37, 64, 0.08);
   --shadow-lg: 0 16px 40px rgba(10, 37, 64, 0.12);
@@ -41,6 +42,22 @@
   --font-heading: 'Outfit', sans-serif;
   
   --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] {
+  --bg-main: #0B131E;
+  --bg-surface: #111C2B;
+  --bg-alt: #162438;
+  --bg-card: #142133;
+  --text-dark: #F8FAFC;
+  --text-body: #CBD5E1;
+  --text-muted: #94A3B8;
+  --border-light: #1E2E45;
+  --primary-navy: #1E3A5F;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
 
 /* Reset & Core Base */
@@ -62,11 +79,12 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  color: var(--primary-navy);
+  color: var(--text-dark);
   line-height: 1.25;
   font-weight: 700;
 }
@@ -98,6 +116,28 @@ img {
   padding: 0 1rem;
 }
 
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  background: var(--bg-alt);
+  border: 1px solid var(--border-light);
+  color: var(--text-dark);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 1.1rem;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--primary-green);
+  color: #FFFFFF;
+  border-color: var(--primary-green);
+}
+
 /* Badge Utility */
 .badge {
   display: inline-flex;
@@ -112,21 +152,21 @@ img {
 }
 
 .badge-green {
-  background-color: rgba(0, 104, 55, 0.1);
+  background-color: rgba(0, 104, 55, 0.12);
   color: var(--primary-green);
-  border: 1px solid rgba(0, 104, 55, 0.2);
+  border: 1px solid rgba(0, 104, 55, 0.25);
 }
 
 .badge-gold {
   background-color: rgba(244, 162, 97, 0.15);
   color: #D97706;
-  border: 1px solid rgba(244, 162, 97, 0.3);
+  border: 1px solid rgba(244, 162, 97, 0.35);
 }
 
 .badge-navy {
-  background-color: rgba(10, 37, 64, 0.1);
+  background-color: rgba(10, 37, 64, 0.12);
   color: var(--primary-navy);
-  border: 1px solid rgba(10, 37, 64, 0.2);
+  border: 1px solid rgba(10, 37, 64, 0.25);
 }
 
 /* Buttons */
@@ -201,7 +241,7 @@ img {
 
 /* Top Announcement Bar */
 .top-bar {
-  background: linear-gradient(90deg, var(--primary-navy) 0%, #163B66 100%);
+  background: linear-gradient(90deg, #0A2540 0%, #163B66 100%);
   color: #FFFFFF;
   font-size: 0.85rem;
   padding: 0.5rem 0;
@@ -243,6 +283,10 @@ img {
   transition: var(--transition);
 }
 
+[data-theme="dark"] .main-header {
+  background: rgba(17, 28, 43, 0.94);
+}
+
 .main-header.scrolled {
   box-shadow: var(--shadow-md);
 }
@@ -278,7 +322,7 @@ img {
   font-family: var(--font-heading);
   font-size: 1.4rem;
   font-weight: 800;
-  color: var(--primary-navy);
+  color: var(--text-dark);
   letter-spacing: 0.05em;
   line-height: 1;
 }
@@ -336,7 +380,7 @@ img {
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: var(--primary-navy);
+  color: var(--text-dark);
   cursor: pointer;
 }
 
@@ -345,7 +389,7 @@ img {
   position: relative;
   background: linear-gradient(135deg, rgba(10, 37, 64, 0.94) 0%, rgba(0, 104, 55, 0.89) 100%), url('../assets/images/hero.jpg') center/cover no-repeat;
   color: #FFFFFF;
-  padding: 5rem 0 6rem 0;
+  padding: 5.5rem 0 6.5rem 0;
   overflow: hidden;
 }
 
@@ -355,8 +399,8 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(circle at 80% 20%, rgba(244, 162, 97, 0.15) 0%, transparent 40%),
-                    radial-gradient(circle at 10% 80%, rgba(42, 157, 143, 0.2) 0%, transparent 40%);
+  background-image: radial-gradient(circle at 80% 20%, rgba(244, 162, 97, 0.18) 0%, transparent 40%),
+                    radial-gradient(circle at 10% 80%, rgba(42, 157, 143, 0.22) 0%, transparent 40%);
   pointer-events: none;
 }
 
@@ -371,7 +415,7 @@ img {
 
 .hero-content h1 {
   color: #FFFFFF;
-  font-size: 2.85rem;
+  font-size: 2.9rem;
   font-weight: 800;
   line-height: 1.15;
   margin: 1.2rem 0;
@@ -504,6 +548,10 @@ img {
   font-size: 1.4rem;
 }
 
+[data-theme="dark"] .banner-icon {
+  background: rgba(0, 104, 55, 0.25);
+}
+
 .banner-text h4 {
   font-size: 1.05rem;
   margin-bottom: 0.2rem;
@@ -539,7 +587,7 @@ img {
   color: var(--text-muted);
 }
 
-/* Section: Context & Key Findings */
+/* Context & Key Findings */
 .context-grid {
   display: grid;
   grid-template-columns: 1fr 1.1fr;
@@ -603,9 +651,92 @@ img {
   font-weight: 700;
 }
 
+/* Regional Interactive Map Selector */
+.region-selector-container {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.region-buttons-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.region-btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-light);
+  background: var(--bg-alt);
+  color: var(--text-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.region-btn:hover, .region-btn.active {
+  background: var(--primary-green);
+  color: #FFFFFF;
+  border-color: var(--primary-green);
+  box-shadow: var(--shadow-sm);
+}
+
+.region-detail-box {
+  background: var(--bg-alt);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  border-left: 4px solid var(--accent-gold);
+}
+
+/* Impact Calculator Section */
+.calculator-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-light);
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+.calculator-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.calc-result-box {
+  background: linear-gradient(135deg, #0A2540 0%, #163B66 100%);
+  color: #FFFFFF;
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.calc-result-item {
+  margin-bottom: 1.25rem;
+}
+
+.calc-result-item h4 {
+  color: var(--accent-gold);
+  font-size: 1.8rem;
+  margin-bottom: 0.2rem;
+}
+
+.calc-result-item p {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.8);
+}
+
 /* Section: Governance Architecture */
 .gov-section {
-  background: var(--primary-navy);
+  background: #0A2540;
   color: #FFFFFF;
   position: relative;
   overflow: hidden;
@@ -718,6 +849,10 @@ img {
   box-shadow: var(--shadow-sm);
 }
 
+[data-theme="dark"] .incubator-tab-card.active {
+  background: rgba(0, 104, 55, 0.2);
+}
+
 .incubator-tab-card.active h4 {
   color: var(--primary-green);
 }
@@ -777,7 +912,7 @@ img {
 
 .chart-card-title {
   font-size: 1.1rem;
-  color: var(--primary-navy);
+  color: var(--text-dark);
 }
 
 .chart-container {
@@ -786,7 +921,7 @@ img {
   width: 100%;
 }
 
-/* Section: Label ESS & Simulator */
+/* Label ESS Wizard */
 .label-wizard-card {
   background: var(--bg-surface);
   border-radius: var(--radius-lg);
@@ -845,7 +980,7 @@ img {
 .wizard-form-group label {
   display: block;
   font-weight: 600;
-  color: var(--primary-navy);
+  color: var(--text-dark);
   margin-bottom: 0.5rem;
 }
 
@@ -854,6 +989,8 @@ img {
   padding: 0.85rem 1.2rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-light);
+  background: var(--bg-main);
+  color: var(--text-dark);
   font-family: var(--font-main);
   font-size: 0.95rem;
   outline: none;
@@ -920,6 +1057,7 @@ img {
 
 .memo-toc h4 {
   margin-bottom: 0.75rem;
+  color: var(--text-dark);
 }
 
 .memo-toc ul {
@@ -929,7 +1067,7 @@ img {
 }
 
 .memo-toc a {
-  color: var(--primary-navy);
+  color: var(--text-dark);
   font-weight: 500;
   font-size: 0.9rem;
 }
@@ -951,7 +1089,7 @@ img {
 
 /* State Advocacy Callout */
 .advocacy-banner {
-  background: linear-gradient(135deg, var(--primary-navy) 0%, #0F3866 100%);
+  background: linear-gradient(135deg, #0A2540 0%, #0F3866 100%);
   color: #FFFFFF;
   border-radius: var(--radius-lg);
   padding: 3.5rem;
@@ -1006,7 +1144,7 @@ img {
 }
 
 .toast {
-  background: var(--primary-navy);
+  background: #0A2540;
   color: #FFFFFF;
   padding: 1rem 1.5rem;
   border-radius: var(--radius-md);
@@ -1097,7 +1235,8 @@ img {
 }
 
 .modal-card {
-  background: #FFFFFF;
+  background: var(--bg-surface);
+  color: var(--text-dark);
   border-radius: var(--radius-lg);
   max-width: 650px;
   width: 100%;
@@ -1133,6 +1272,9 @@ img {
   .context-grid {
     grid-template-columns: 1fr;
   }
+  .calculator-grid {
+    grid-template-columns: 1fr;
+  }
   .gov-display-card {
     grid-template-columns: 1fr;
   }
@@ -1151,7 +1293,7 @@ img {
     top: 100%;
     left: 0;
     width: 100%;
-    background: #FFFFFF;
+    background: var(--bg-surface);
     flex-direction: column;
     padding: 1.5rem;
     box-shadow: var(--shadow-md);
