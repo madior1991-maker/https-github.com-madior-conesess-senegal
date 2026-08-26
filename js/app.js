@@ -366,6 +366,16 @@ function initModalsAndForms() {
       showToast("Votre demande d'adhésion (" + randRef + ") a été transmise au Secrétariat Général avec succès !");
     });
   }
+
+  // Contact Form Submission
+  const contactForm = document.getElementById('form-contact-send');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      contactForm.reset();
+      showToast("Votre message a été transmis avec succès au Secrétariat Général du CONESESS !");
+    });
+  }
 }
 
 function resetAdhesionForm() {

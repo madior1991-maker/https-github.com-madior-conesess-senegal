@@ -65,6 +65,7 @@
           <li><a href="#observatoire" class="nav-link">Observatoire</a></li>
           <li><a href="#poles" class="nav-link">Pôles Métiers</a></li>
           <li><a href="#plaidoyer" class="nav-link">Plaidoyer</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
 
         <div class="nav-cta">
@@ -622,6 +623,111 @@
     </div>
   </section>
 
+  <!-- SECTION 8: CONTACT & WHATSAPP DIRECT -->
+  <section id="contact" class="section" style="background: var(--bg-alt);">
+    <div class="container">
+      <div class="section-header">
+        <span class="badge badge-gold"><i class="fas fa-headset"></i> Service & Écoute Directe</span>
+        <h2 class="section-title">Contactez le CONESESS</h2>
+        <p class="section-description">
+          Une question sur nos programmes d'incubation, l'adhésion confédérale ou un projet territorial ? Nos équipes et le Secrétariat Général vous répondent.
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; max-width: 1050px; margin: 0 auto;">
+        
+        <!-- CARD 1: COORDONNÉES ET ACCÈS WHATSAPP -->
+        <div style="background: var(--bg-surface); padding: 2.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid var(--border-light); display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="badge badge-green mb-3"><i class="fab fa-whatsapp"></i> Assistance WhatsApp & Ligne Directe</span>
+            <h3 style="color: var(--primary-navy);" class="mb-3">Coordonnées Officielles</h3>
+            
+            <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 2rem;">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 44px; height: 44px; border-radius: 50%; background: rgba(37, 211, 102, 0.15); color: #25D366; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+                  <i class="fab fa-whatsapp"></i>
+                </div>
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--text-muted); display: block;">Ligne Directe & WhatsApp</span>
+                  <strong style="font-size: 1.15rem; color: var(--primary-green);">+221 77 538 66 27</strong>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft-green); color: var(--primary-green); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--text-muted); display: block;">Adresse E-mail Officielle</span>
+                  <strong style="font-size: 1.05rem; color: var(--text-dark);">contact@conesess.sn</strong>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft-gold); color: #D97706; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--text-muted); display: block;">Siège Social</span>
+                  <strong style="font-size: 1.05rem; color: var(--text-dark);">Dakar, République du Sénégal</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background: rgba(37, 211, 102, 0.08); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid rgba(37, 211, 102, 0.3); text-align: center;">
+            <p style="font-size: 0.9rem; color: var(--text-dark);" class="mb-3">
+              Besoin d'une réponse instantanée ? Discutez directement avec le Secrétariat Général du CONESESS sur WhatsApp.
+            </p>
+            <a href="https://wa.me/221775386627?text=Bonjour%20CONESESS,%20je%20souhaite%20en%20savoir%20plus%20sur%20vos%20activit%C3%A9s%20et%20adh%C3%A9sions." target="_blank" rel="noopener noreferrer" class="btn" style="background: #25D366; color: #FFFFFF; width: 100%; border: none; font-weight: 700; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);">
+              <i class="fab fa-whatsapp" style="font-size: 1.4rem;"></i> Discuter sur WhatsApp (+221 77 538 66 27)
+            </a>
+          </div>
+        </div>
+
+        <!-- CARD 2: FORMULAIRE DE MESSAGE -->
+        <div style="background: var(--bg-surface); padding: 2.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid var(--border-light);">
+          <h3 style="color: var(--primary-navy);" class="mb-3">Envoyer un Message</h3>
+          <p style="font-size: 0.9rem; color: var(--text-muted);" class="mb-4">Remplissez ce formulaire et nous vous recontacterons dans les plus brefs délais.</p>
+
+          <form id="form-contact-send">
+            <div class="wizard-form-group">
+              <label>Nom & Prénom *</label>
+              <input type="text" class="wizard-form-control" required placeholder="ex: Mamadou Diallo" id="contact-name">
+            </div>
+
+            <div class="wizard-form-group">
+              <label>Téléphone ou WhatsApp *</label>
+              <input type="tel" class="wizard-form-control" required placeholder="+221 77 538 66 27" id="contact-phone">
+            </div>
+
+            <div class="wizard-form-group">
+              <label>Adresse E-mail</label>
+              <input type="email" class="wizard-form-control" placeholder="nom@exemple.sn">
+            </div>
+
+            <div class="wizard-form-group">
+              <label>Sujet du Message *</label>
+              <input type="text" class="wizard-form-control" required placeholder="ex: Demande d'information / Adhésion / Incubateur">
+            </div>
+
+            <div class="wizard-form-group">
+              <label>Votre Message *</label>
+              <textarea class="wizard-form-control" rows="3" required placeholder="Rédigez votre message ici..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <button type="submit" class="btn btn-primary" style="flex: 1; padding: 0.85rem;">
+                <i class="fas fa-paper-plane"></i> Envoyer le Message
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- TOAST CONTAINER -->
   <div id="toast-container" class="toast-container"></div>
 
@@ -738,7 +844,7 @@
           <h4>Siège & Contact</h4>
           <p style="font-size: 0.875rem; margin-bottom: 0.6rem;"><i class="fas fa-map-marker-alt" style="color: var(--accent-gold);"></i> Dakar, République du Sénégal</p>
           <p style="font-size: 0.875rem; margin-bottom: 0.6rem;"><i class="fas fa-envelope" style="color: var(--accent-gold);"></i> contact@conesess.sn</p>
-          <p style="font-size: 0.875rem; margin-bottom: 0.6rem;"><i class="fas fa-phone" style="color: var(--accent-gold);"></i> +221 33 800 00 00</p>
+          <p style="font-size: 0.875rem; margin-bottom: 0.6rem;"><i class="fab fa-whatsapp" style="color: #25D366; font-size: 1.1rem;"></i> <strong>+221 77 538 66 27</strong></p>
           <p style="font-size: 0.8rem; color: var(--accent-emerald);" class="mt-2">Pour le Comité d'Initiative CONESESS</p>
         </div>
       </div>
@@ -749,6 +855,12 @@
       </div>
     </div>
   </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <a href="https://wa.me/221775386627?text=Bonjour%20CONESESS,%20je%20souhaite%20en%20savoir%20plus%20sur%20vos%20services%20et%20adh%C3%A9sions." target="_blank" rel="noopener noreferrer" class="floating-whatsapp" aria-label="Contactez-nous sur WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+    <span class="whatsapp-badge">1</span>
+  </a>
 
   <!-- Application Logic -->
   <script src="js/app.js"></script>
