@@ -19,9 +19,6 @@
   
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
-
-  <!-- html2pdf Library for instant PDF generation -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
@@ -67,7 +64,6 @@
           <li><a href="#observatoire" class="nav-link">Observatoire ON-ESS</a></li>
           <li><a href="#adhesion" class="nav-link">Adhésion CONESESS</a></li>
           <li><a href="#poles" class="nav-link">Pôles Métiers</a></li>
-          <li><a href="#memorandum" class="nav-link">Mémorandum</a></li>
           <li><a href="#plaidoyer" class="nav-link">Demandes à l'État</a></li>
         </ul>
 
@@ -104,12 +100,6 @@
             <a href="#adhesion" class="btn btn-primary btn-join-modal">
               Formulaire d'Adhésion au CONESESS
             </a>
-            <a href="#memorandum" class="btn btn-outline-white">
-              Mémorandum Stratégique
-            </a>
-            <button id="hero-btn-pdf" class="btn btn-navy btn-download-pdf-action">
-              <i class="fas fa-file-pdf" style="color: #F4A261;"></i> Télécharger Mémorandum (PDF)
-            </button>
           </div>
         </div>
 
@@ -525,120 +515,7 @@
     </div>
   </section>
 
-  <!-- SECTION 7: MÉMORANDUM STRATÉGIQUE INTÉGRAL AVEC TÉLÉCHARGEMENT PDF -->
-  <section id="memorandum" class="section" style="background: var(--bg-alt);">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Mémorandum Stratégique Officiel</h2>
-        <p class="section-description">
-          Consultez et téléchargez l'intégralité du Mémorandum Stratégique du CONESESS en format PDF officiel.
-        </p>
-      </div>
-
-      <div class="memo-card">
-        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;">
-          <input type="text" id="memo-search-input" class="wizard-form-control" style="flex: 1; min-width: 250px;" placeholder="🔍 Rechercher un terme (ex: DER/FJ, Waqf, Vision 2050, Incubateur Layenne...)">
-          
-          <button id="btn-download-pdf" class="btn btn-navy btn-download-pdf-action">
-            <i class="fas fa-file-pdf" style="color: #F4A261;"></i> Télécharger le PDF Officiel
-          </button>
-          
-          <button class="btn btn-outline" onclick="window.print()">
-            <i class="fas fa-print"></i> Imprimer
-          </button>
-        </div>
-
-        <div class="memo-toc">
-          <h4>Sommaire du Mémorandum :</h4>
-          <ul>
-            <li><a href="#memo-1">1. Contexte du Projet</a></li>
-            <li><a href="#memo-2">2. Constats et Insuffisances</a></li>
-            <li><a href="#memo-3">3. Vision et Principes</a></li>
-            <li><a href="#memo-4">4. Objectifs Stratégiques</a></li>
-            <li><a href="#memo-5">5. Valeurs Ajoutées Confédérales</a></li>
-            <li><a href="#memo-6">6. Services Concrets aux Membres</a></li>
-            <li><a href="#memo-7">II. Architecture & Gouvernance Souveraine</a></li>
-            <li><a href="#memo-8">III. Pilier 1 : Incubateur National IAN-ESS</a></li>
-            <li><a href="#memo-9">IV. Pilier 2 : Observatoire National ON-ESS</a></li>
-            <li><a href="#memo-10">VIII. Demandes Officiellement Transmises à l'État</a></li>
-          </ul>
-        </div>
-
-        <!-- PDF EXPORT WRAPPER -->
-        <div class="memo-content-text" id="memo-card-content">
-          <div style="text-align: center; border-bottom: 2px solid var(--primary-green); padding-bottom: 1rem; margin-bottom: 2rem;">
-            <img src="assets/images/logo.jpg" alt="CONESESS Logo" style="width: 70px; height: 70px; border-radius: 50%; margin: 0 auto 0.5rem auto;">
-            <h2 style="color: var(--primary-navy); font-size: 1.6rem;">CONSEIL NATIONAL DES ENTREPRISES DE L'ÉCONOMIE SOCIALE ET SOLIDAIRE DU SÉNÉGAL (CONESESS)</h2>
-            <h4 style="color: var(--primary-green); font-size: 1.1rem;">MÉMORANDUM STRATÉGIQUE CONFÉDÉRAL</h4>
-            <p style="font-size: 0.85rem; color: var(--text-muted);">Comité d'Initiative - République du Sénégal | Alignment Vision Sénégal 2050</p>
-          </div>
-
-          <div class="memo-section-block" id="memo-1">
-            <h3>1 - Contexte du Projet</h3>
-            <p>L'économie sociale et solidaire (ESS) occupe depuis plusieurs années une place croissante dans les stratégies de développement du Sénégal. Coopératives agricoles, mutuelles de santé et d'épargne, groupements de producteurs, associations économiques et entreprises sociales font aujourd'hui vivre des centaines de milliers de ménages, en particulier en milieu rural et péri-urbain, où l'économie dite "classique" peine parfois à créer des emplois durables.</p>
-            <p>Cette dynamique s'inscrit dans un cadre national qui reconnaît explicitement l'ESS comme un pilier du développement économique et social : orientations du plan <strong>Vision Sénégal 2050</strong>, politiques publiques dédiées à l'entrepreneuriat des jeunes et des femmes, et cadre juridique consacré à l'ESS adopté ces dernières années. L'État a ainsi manifesté sa volonté de structurer davantage ce secteur.</p>
-            <p>Malgré ces avancées, le secteur reste encore morcelé. Les initiatives sont nombreuses mais dispersées, portées par des acteurs qui, faute d'un cadre fédérateur, peinent à peser collectivement dans les décisions publiques, à mutualiser leurs moyens ou à faire reconnaître leur poids réel dans l'économie nationale. C'est dans ce contexte qu'a émergé l'idée de doter le pays d'une organisation nationale de représentation propre aux entreprises de l'ESS : le <strong>CONESESS</strong>.</p>
-          </div>
-
-          <div class="memo-section-block" id="memo-2">
-            <h3>2 – Constats et Insuffisances ayant conduit à la création du CONESESS</h3>
-            <p>Au Sénégal, l'économie sociale et solidaire joue un rôle important dans la création d'emplois, la lutte contre la pauvreté, l'autonomisation des femmes et des jeunes, ainsi que dans le développement économique des territoires. Ce potentiel reste toutefois freiné par plusieurs difficultés persistent :</p>
-            <ul style="margin-left: 1.5rem; margin-bottom: 1rem; font-size: 0.95rem;">
-              <li>Une structuration encore faible et une représentation fragmentée des entreprises de l'ESS ;</li>
-              <li>L'absence d'un cadre confédérateur national dédié à la défense de leurs intérêts économiques ;</li>
-              <li>Un accès limité à des financements réellement adaptés à leurs modèles économiques et à leur finalité sociale ;</li>
-              <li>Une implication insuffisante des entreprises de l'ESS dans la conception des politiques publiques ;</li>
-              <li>Des mécanismes d'accompagnement, d'incubation, de formation et d'assistance technique encore lacunaires ;</li>
-              <li>Un manque de données fiables pour mesurer la contribution réelle de l'ESS à l'emploi et à la production nationale.</li>
-            </ul>
-          </div>
-
-          <div class="memo-section-block" id="memo-3">
-            <h3>3 – Vision et Ligne Directrice</h3>
-            <p>Le CONESESS ambitionne de devenir le cadre national de représentation, de concertation, de défense des intérêts et de développement économique des entreprises de l'économie sociale et solidaire au Sénégal.</p>
-            <p>Sa ligne directrice consiste à faire de l'ESS non seulement un instrument de solidarité, mais aussi un véritable levier de production, de création d'emplois durables, de souveraineté économique et de développement équilibré des territoires. Le CONESESS s'appuiera sur trois principes majeurs :</p>
-            <ol style="margin-left: 1.5rem; margin-bottom: 1rem;">
-              <li>Représenter les entreprises de l'ESS et défendre leurs intérêts ;</li>
-              <li>Structurer des filières et des chaînes de valeur inclusives ;</li>
-              <li>Renforcer la performance économique et l'impact social de ses membres.</li>
-            </ol>
-          </div>
-
-          <div class="memo-section-block" id="memo-7">
-            <h3>II. Architecture et Gouvernance Souveraine du CNE-ESS</h3>
-            <p>Le CONESESS fusionne la performance managériale et la démocratie de l'ESS (« une personne, une voix »). Sa gouvernance se structure autour de quatre instances majeures :</p>
-            <p><strong>A. L'Assemblée Générale (AG) :</strong> L'Organe Suprême et Populaire réunissant l'ensemble des membres (coopératives, mutuelles, GIE). Une entreprise = une voix.</p>
-            <p><strong>B. Le Conseil d'Administration (CA) :</strong> L'Organe de Contrôle Stratégique représentant équitablement les 14 régions du Sénégal et nommant le Secrétaire Général.</p>
-            <p><strong>C. Le Bureau Exécutif (BE) :</strong> Portage politique direct des piliers (Présidence, Vice-Présidence IAN-ESS et Vice-Présidence ON-ESS).</p>
-            <p><strong>D. Le Secrétariat Général (SG) :</strong> L'ancre de l'exécution administrative sur le modèle confédéral CNP.</p>
-            <p><strong>E. Le Collège des Membres Associés & Comité des Sages :</strong> Citoyens bâtisseurs référents et chercheurs (UCAD, UCAB) garantissant l'immunité éthique et le droit de veto moral anti-social washing.</p>
-          </div>
-
-          <div class="memo-section-block" id="memo-8">
-            <h3>III. Pilier 1 : L'Incubateur-Accélérateur National (IAN-ESS)</h3>
-            <p>Applique le concept d'abondance de la <strong>Citoyenneté Bâtisseuse</strong> (M. Aly Ane Diop). Il propulse des projets d'envergure (>100 personnes impactées) à travers 5 hubs : Communal, Départemental (Fatick/Foundiougne), Mobile (Bus Nomade 48h), Confessionnel (Layenne Ahloulahi / Dahiras / Zakat-Waqf Fintech) et Universitaire (UCAD FLSH / UCAB Bambey 10ha Kangare Lo).</p>
-          </div>
-
-          <div class="memo-section-block" id="memo-9">
-            <h3>IV. Pilier 2 : L'Observatoire National (ON-ESS)</h3>
-            <p>Le cerveau stratégique du Conseil. Quantifie et cartographie le poids réel de l'ESS dans le PIB sénégalais. Standardise les indicateurs d'impact social (écart salarial décent limité de 1 à 7, réinvestissement communautaire) et détient l'instruction exclusive du Label ESS.</p>
-          </div>
-
-          <div class="memo-section-block" id="memo-10">
-            <h3>VIII. Perspectives de Collaboration & Demandes Transmises à l'État</h3>
-            <p>Pour opérationnaliser la vision majeure issue des FORA'ESS, nous sollicitons respectueusement de l'autorité étatique :</p>
-            <ul style="margin-left: 1.5rem;">
-              <li>La co-validation du décret de reconnaissance du statut d'organisation confédératrice des entreprises de l'ESS pour le CONESESS ;</li>
-              <li>L'adossement partiel des mécanismes de subvention de la DER/FJ, du 3FPT et des guichets publics aux parcours IAN-ESS ;</li>
-              <li>L'intégration de l'ON-ESS au dispositif national de collecte statistique dans l'Agenda Vision Sénégal 2050.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 8: PLAIDOYER & DEMANDES À L'ÉTAT -->
+  <!-- SECTION 7: PLAIDOYER & DEMANDES À L'ÉTAT -->
   <section id="plaidoyer" class="section">
     <div class="container">
       <div class="advocacy-banner">
@@ -783,7 +660,6 @@
           <ul class="footer-links">
             <li><a href="#adhesion">Formulaire d'Adhésion</a></li>
             <li><a href="#poles">4 Pôles Sectoriels</a></li>
-            <li><a href="#memorandum">Mémorandum Stratégique</a></li>
             <li><a href="#plaidoyer">Plaidoyer État du Sénégal</a></li>
             <li><a href="#" class="btn-join-modal">Adhésion Confédérale</a></li>
           </ul>

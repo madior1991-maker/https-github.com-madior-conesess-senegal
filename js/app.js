@@ -1,6 +1,6 @@
 /* ==========================================================================
    CONESESS - CONSEIL NATIONAL DES ENTREPRISES DE L'ESS DU SÉNÉGAL
-   APPLICATION LOGIC V7 (CONFÉDÉRATEUR TERMINOLOGY UPDATE)
+   APPLICATION LOGIC V8
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,8 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initGovernanceTabs();
   initIncubatorExplorer();
-  initMemorandumSearch();
-  initPDFExport();
   initModalsAndForms();
 });
 
@@ -259,67 +257,7 @@ function initIncubatorExplorer() {
 }
 
 /* --------------------------------------------------------------------------
-   4. MEMORANDUM SEARCH & PDF DOWNLOAD
-   -------------------------------------------------------------------------- */
-function initMemorandumSearch() {
-  const searchInput = document.getElementById('memo-search-input');
-  const memoSections = document.querySelectorAll('.memo-section-block');
-
-  if (!searchInput) return;
-
-  searchInput.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase().trim();
-
-    memoSections.forEach(block => {
-      const text = block.textContent.toLowerCase();
-      if (text.includes(term)) {
-        block.style.display = 'block';
-      } else {
-        block.style.display = 'none';
-      }
-    });
-  });
-}
-
-function initPDFExport() {
-  const pdfBtns = document.querySelectorAll('.btn-download-pdf-action');
-  
-  pdfBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      downloadMemorandumPDF();
-    });
-  });
-}
-
-function downloadMemorandumPDF() {
-  showToast("Génération du Mémorandum Stratégique PDF en cours...");
-
-  const element = document.getElementById('memo-card-content');
-  if (!element) return;
-
-  if (typeof html2pdf !== 'undefined') {
-    const opt = {
-      margin:       [0.5, 0.5, 0.5, 0.5],
-      filename:     'Memorandum_Strategique_CONESESS_Senegal.pdf',
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true },
-      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-    
-    html2pdf().set(opt).from(element).save().then(() => {
-      showToast("Téléchargement du PDF réussi !");
-    }).catch(err => {
-      console.error(err);
-      window.print();
-    });
-  } else {
-    window.print();
-  }
-}
-
-/* --------------------------------------------------------------------------
-   5. MODAL WINDOWS & ADHESION FORM HANDLERS
+   4. MODAL WINDOWS & ADHESION FORM HANDLERS
    -------------------------------------------------------------------------- */
 function initModalsAndForms() {
   const joinBtns = document.querySelectorAll('.btn-join-modal');
