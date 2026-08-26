@@ -4,38 +4,11 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initThemeToggle();
   initNavigation();
   initGovernanceTabs();
   initIncubatorExplorer();
   initModalsAndForms();
 });
-
-/* --------------------------------------------------------------------------
-   0. DARK / LIGHT THEME TOGGLE
-   -------------------------------------------------------------------------- */
-function initThemeToggle() {
-  const toggleBtn = document.getElementById('theme-toggle-btn');
-  if (!toggleBtn) return;
-
-  const currentTheme = localStorage.getItem('conesess-theme') || 'light';
-  document.documentElement.setAttribute('data-theme', currentTheme);
-  updateThemeIcon(currentTheme);
-
-  toggleBtn.addEventListener('click', () => {
-    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('conesess-theme', theme);
-    updateThemeIcon(theme);
-  });
-}
-
-function updateThemeIcon(theme) {
-  const icon = document.querySelector('#theme-toggle-btn i');
-  if (icon) {
-    icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-  }
-}
 
 /* --------------------------------------------------------------------------
    1. NAVIGATION & MOBILE TOGGLE
@@ -44,6 +17,14 @@ function initNavigation() {
   const header = document.querySelector('.main-header');
   const toggleBtn = document.querySelector('.mobile-toggle');
   const navMenu = document.querySelector('.nav-menu');
+
+  // Create mobile backdrop overlay dynamically
+  let backdrop = document.querySelector('.nav-backdrop');
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.className = 'nav-backdrop';
+    document.body.appendChild(backdrop);
+  }
 
   window.addEventListener('scroll', () => {
     if (window.scrollY > 40) {
@@ -54,13 +35,35 @@ function initNavigation() {
   });
 
   if (toggleBtn && navMenu) {
-    toggleBtn.addEventListener('click', () => {
-      navMenu.classList.toggle('show');
+    const toggleMenu = (e) => {
+      if (e) e.stopPropagation();
+      const isOpen = navMenu.classList.toggle('show');
+      toggleBtn.classList.toggle('active', isOpen);
+      backdrop.classList.toggle('show', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+      if (isOpen) {
+        toggleBtn.innerHTML = '<i class="fas fa-times"></i>';
+      } else {
+        toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
+      }
+    };
+
+    toggleBtn.addEventListener('click', toggleMenu);
+    backdrop.addEventListener('click', () => {
+      navMenu.classList.remove('show');
+      toggleBtn.classList.remove('active');
+      backdrop.classList.remove('show');
+      document.body.style.overflow = '';
+      toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
     });
 
     document.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', () => {
         navMenu.classList.remove('show');
+        toggleBtn.classList.remove('active');
+        backdrop.classList.remove('show');
+        document.body.style.overflow = '';
+        toggleBtn.innerHTML = '<i class="fas fa-bars"></i>';
       });
     });
   }
@@ -282,41 +285,49 @@ function initIncubatorExplorer() {
     card.addEventListener('click', () => {
       tabCards.forEach(c => {
         c.classList.remove('active');
-        c.style.background = 'rgba(255,255,255,0.05)';
-        c.style.borderColor = 'rgba(255,255,255,0.15)';
+        c.style.background = 'var(--bg-alt)';
+        c.style.borderColor = 'var(--border-light)';
         const h4 = c.querySelector('h4');
-        if (h4) h4.style.color = '#FFFFFF';
+        if (h4) {
+          h4.style.color = 'var(--primary-navy)';
+          const icon = h4.querySelector('i');
+          if (icon) icon.style.color = 'var(--primary-green)';
+        }
       });
 
       card.classList.add('active');
-      card.style.background = 'rgba(255,255,255,0.12)';
+      card.style.background = 'linear-gradient(135deg, var(--primary-green) 0%, #008748 100%)';
       card.style.borderColor = 'var(--primary-green)';
       const h4 = card.querySelector('h4');
-      if (h4) h4.style.color = 'var(--accent-gold)';
+      if (h4) {
+        h4.style.color = '#FFFFFF';
+        const icon = h4.querySelector('i');
+        if (icon) icon.style.color = '#FFFFFF';
+      }
 
       const key = card.dataset.hub;
       const data = incubatorData[key];
 
       if (data) {
         displayPanel.innerHTML = `
-          <div class="incubator-detail-grid" style="grid-template-columns: 1fr; gap: 1.25rem;">
+          <div class="incubator-detail-grid" style="grid-template-columns: 1fr; gap: 1.15rem;">
             <div>
               <span class="badge badge-green mb-2">${data.badge}</span>
-              <h3 style="font-size: 1.4rem; color: var(--accent-gold);" class="mb-2">${data.title}</h3>
-              <p style="font-size: 0.9rem; color: rgba(255,255,255,0.85);" class="mb-3">${data.desc}</p>
-              <div style="background: rgba(255,255,255,0.08); padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid var(--accent-gold);">
-                <strong style="color: var(--accent-gold); font-size: 0.85rem;">Public & Cible :</strong>
-                <p style="font-size: 0.85rem; color: rgba(255,255,255,0.9); margin-top: 0.2rem;">${data.target}</p>
+              <h3 style="font-size: 1.35rem; color: var(--primary-green);" class="mb-2">${data.title}</h3>
+              <p style="font-size: 0.875rem; color: var(--text-body);" class="mb-3">${data.desc}</p>
+              <div style="background: var(--bg-alt); padding: 0.85rem; border-radius: var(--radius-md); border-left: 3px solid var(--primary-green);">
+                <strong style="color: var(--primary-green); font-size: 0.85rem;">Public & Cible :</strong>
+                <p style="font-size: 0.825rem; color: var(--text-dark); margin-top: 0.2rem;">${data.target}</p>
               </div>
             </div>
             <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-              <div style="background: rgba(255,255,255,0.06); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
-                <h4 style="color: #FFFFFF; font-size: 0.9rem;" class="mb-1"><i class="fas fa-cogs" style="color: var(--accent-gold);"></i> Méthodologie d'Action</h4>
-                <p style="font-size: 0.825rem; color: rgba(255,255,255,0.8);">${data.methodology}</p>
+              <div style="background: var(--bg-alt); padding: 0.85rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                <h4 style="color: var(--primary-navy); font-size: 0.875rem;" class="mb-1"><i class="fas fa-cogs" style="color: var(--primary-green);"></i> Méthodologie d'Action</h4>
+                <p style="font-size: 0.825rem; color: var(--text-muted);">${data.methodology}</p>
               </div>
-              <div style="background: rgba(255,255,255,0.06); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
-                <h4 style="color: #FFFFFF; font-size: 0.9rem;" class="mb-1"><i class="fas fa-chart-line" style="color: var(--accent-emerald);"></i> Impact Attendu</h4>
-                <p style="font-size: 0.825rem; color: rgba(255,255,255,0.8);">${data.impact}</p>
+              <div style="background: var(--bg-alt); padding: 0.85rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                <h4 style="color: var(--primary-navy); font-size: 0.875rem;" class="mb-1"><i class="fas fa-chart-line" style="color: var(--primary-green);"></i> Impact Attendu</h4>
+                <p style="font-size: 0.825rem; color: var(--text-muted);">${data.impact}</p>
               </div>
             </div>
           </div>
