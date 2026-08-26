@@ -167,22 +167,21 @@ const govData = {
     `
   },
   sages: {
-    title: "E. Le Collège des Membres Associés & Comité des Sages",
-    badge: "Légitimité Éthique & Anti-Social Washing",
-    desc: "Dispositif d'immunité éthique inspiré des meilleures traditions d'ingénierie territoriale et du modèle confédéral.",
+    title: "E. Le Collège des Membres Associés : L'Ancre de la Légitimité Éthique",
+    badge: "Membre Associé CNP & Éthique",
+    desc: "Inspiré du statut de membre associé du CNP, ce collège intègre des entités et personnalités majeures :",
     features: [
-      "Figures Emblématiques de l'ESS & Citoyens Bâtisseurs Référents (chercheurs UCAD/UCAB, experts territoriaux).",
-      "Droit de veto moral pour vacciner l'organisation contre le social-washing et les contingences partisanes.",
-      "Partenaires Écosystémiques : Finance éthique, Fondations RSE, Haute Autorité du Waqf."
+      "<strong>Les Figures Emblématiques de l'ESS (Les Citoyens Bâtisseurs Référents) :</strong> Profils à haut potentiel, experts en ingénierie territoriale, chercheurs des universités (UCAD, UCAB) et leaders communautaires. Ils forment un Comité des Sages / Comité Consultatif disposant d'un droit de veto moral pour immuniser l'organisation contre les contingences partisanes et le social washing.",
+      "<strong>Les Partenaires Écosystémiques :</strong> Institutions de la finance éthique et de la philanthropie, fondations d'entreprises (RSE), et guichets de l'économie du don (Haute Autorité du Waqf)."
     ],
     diagram: `
       <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
         <div style="background: rgba(244, 162, 97, 0.25); border: 1px solid #F4A261; padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #F4A261;">
-          <i class="fas fa-award"></i> Comité des Sages
+          <i class="fas fa-award"></i> Collège des Membres Associés
         </div>
         <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-shield-alt"></i></div>
         <div style="background: rgba(0, 104, 55, 0.3); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF; font-size: 0.875rem;">
-          <i class="fas fa-check-double"></i> Droit de Veto Moral & Octroi du Label ESS
+          <i class="fas fa-check-double"></i> Droit de Veto Moral & Haute Autorité du Waqf
         </div>
       </div>
     `
