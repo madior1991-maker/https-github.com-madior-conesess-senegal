@@ -281,32 +281,43 @@ function initIncubatorExplorer() {
 
   tabCards.forEach(card => {
     card.addEventListener('click', () => {
-      tabCards.forEach(c => c.classList.remove('active'));
+      tabCards.forEach(c => {
+        c.classList.remove('active');
+        c.style.background = 'rgba(255,255,255,0.05)';
+        c.style.borderColor = 'rgba(255,255,255,0.15)';
+        const h4 = c.querySelector('h4');
+        if (h4) h4.style.color = '#FFFFFF';
+      });
+
       card.classList.add('active');
+      card.style.background = 'rgba(255,255,255,0.12)';
+      card.style.borderColor = 'var(--primary-green)';
+      const h4 = card.querySelector('h4');
+      if (h4) h4.style.color = 'var(--accent-gold)';
 
       const key = card.dataset.hub;
       const data = incubatorData[key];
 
       if (data) {
         displayPanel.innerHTML = `
-          <div class="incubator-detail-grid">
+          <div class="incubator-detail-grid" style="grid-template-columns: 1fr; gap: 1.25rem;">
             <div>
-              <span class="badge badge-green mb-3">${data.badge}</span>
-              <h3 style="font-size: 1.6rem; color: var(--primary-navy);" class="mb-3">${data.title}</h3>
-              <p class="mb-4">${data.desc}</p>
-              <div style="background: var(--bg-alt); padding: 1.25rem; border-radius: var(--radius-md); border-left: 4px solid var(--primary-green);">
-                <strong style="color: var(--primary-green);">Public & Cible :</strong>
-                <p style="font-size: 0.9rem; margin-top: 0.3rem;">${data.target}</p>
+              <span class="badge badge-green mb-2">${data.badge}</span>
+              <h3 style="font-size: 1.4rem; color: var(--accent-gold);" class="mb-2">${data.title}</h3>
+              <p style="font-size: 0.9rem; color: rgba(255,255,255,0.85);" class="mb-3">${data.desc}</p>
+              <div style="background: rgba(255,255,255,0.08); padding: 1rem; border-radius: var(--radius-md); border-left: 3px solid var(--accent-gold);">
+                <strong style="color: var(--accent-gold); font-size: 0.85rem;">Public & Cible :</strong>
+                <p style="font-size: 0.85rem; color: rgba(255,255,255,0.9); margin-top: 0.2rem;">${data.target}</p>
               </div>
             </div>
-            <div>
-              <div style="background: var(--bg-surface); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);" class="mb-3">
-                <h4 style="color: var(--text-dark);" class="mb-2"><i class="fas fa-cogs" style="color: var(--accent-gold);"></i> Méthodologie d'Action</h4>
-                <p style="font-size: 0.9rem; color: var(--text-body);">${data.methodology}</p>
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="background: rgba(255,255,255,0.06); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #FFFFFF; font-size: 0.9rem;" class="mb-1"><i class="fas fa-cogs" style="color: var(--accent-gold);"></i> Méthodologie d'Action</h4>
+                <p style="font-size: 0.825rem; color: rgba(255,255,255,0.8);">${data.methodology}</p>
               </div>
-              <div style="background: var(--bg-surface); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
-                <h4 style="color: var(--text-dark);" class="mb-2"><i class="fas fa-chart-line" style="color: var(--accent-emerald);"></i> Impact Attendu</h4>
-                <p style="font-size: 0.9rem; color: var(--text-body);">${data.impact}</p>
+              <div style="background: rgba(255,255,255,0.06); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.1);">
+                <h4 style="color: #FFFFFF; font-size: 0.9rem;" class="mb-1"><i class="fas fa-chart-line" style="color: var(--accent-emerald);"></i> Impact Attendu</h4>
+                <p style="font-size: 0.825rem; color: rgba(255,255,255,0.8);">${data.impact}</p>
               </div>
             </div>
           </div>
