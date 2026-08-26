@@ -19,9 +19,6 @@
   
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
-  
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -66,10 +63,10 @@
           <li><a href="#gouvernance" class="nav-link">Gouvernance</a></li>
           <li><a href="#incubateur" class="nav-link">Incubateur IAN-ESS</a></li>
           <li><a href="#observatoire" class="nav-link">Observatoire ON-ESS</a></li>
-          <li><a href="#calculateur" class="nav-link">Calculateur Impact</a></li>
           <li><a href="#label" class="nav-link">Label ESS</a></li>
           <li><a href="#poles" class="nav-link">Pôles Métiers</a></li>
           <li><a href="#memorandum" class="nav-link">Mémorandum</a></li>
+          <li><a href="#plaidoyer" class="nav-link">Demandes à l'État</a></li>
         </ul>
 
         <div class="nav-cta">
@@ -392,89 +389,20 @@
         </p>
       </div>
 
-      <div class="dashboard-grid mb-5">
-        <div class="chart-card">
-          <div class="chart-card-header">
-            <h4 class="chart-card-title">Poids Économique par Secteur</h4>
-            <span class="badge badge-green">Estimations ON-ESS</span>
+      <div style="background: var(--bg-surface); padding: 2.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+        <h3 style="color: var(--primary-green);" class="mb-3">Architecture Territoriale de la Donnée à 3 Échelons</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+          <div style="background: var(--bg-alt); padding: 1.25rem; border-radius: var(--radius-md);">
+            <h4 style="color: var(--primary-green);" class="mb-2">1. Relais Communaux</h4>
+            <p style="font-size: 0.875rem;">Sourcing & veille de proximité au sein des guichets uniques municipaux. Recensement des acteurs.</p>
           </div>
-          <div class="chart-container">
-            <canvas id="pibChart"></canvas>
+          <div style="background: var(--bg-alt); padding: 1.25rem; border-radius: var(--radius-md);">
+            <h4 style="color: var(--primary-navy);" class="mb-2">2. Antennes Départementales</h4>
+            <p style="font-size: 0.875rem;">Analyse des filières (anacarde, pêche, éco-circulaire) et audits techniques de labellisation.</p>
           </div>
-        </div>
-
-        <div class="chart-card">
-          <div class="chart-card-header">
-            <h4 class="chart-card-title">Maillage dans les 14 Régions</h4>
-            <span class="badge badge-navy">Relais Communaux</span>
-          </div>
-          <div class="chart-container">
-            <canvas id="regionChart"></canvas>
-          </div>
-        </div>
-
-        <div class="chart-card">
-          <div class="chart-card-header">
-            <h4 class="chart-card-title">Ratio Salarial Maximum (Équité)</h4>
-            <span class="badge badge-gold">Écart Max 1:7</span>
-          </div>
-          <div class="chart-container">
-            <canvas id="parityChart"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION INTERACTIVE : CALCULATEUR D'IMPACT CITOYENNETÉ BÂTISSEUSE -->
-  <section id="calculateur" class="section">
-    <div class="container">
-      <div class="section-header">
-        <span class="badge badge-green">Outil d'Évaluation</span>
-        <h2 class="section-title">Calculateur d'Impact Social & Économique</h2>
-        <p class="section-description">
-          Estimez en temps réel l'impact de votre coopérative ou entreprise sociale en termes de création d'emplois, de valeur ajoutée locale et de score Label CONESESS.
-        </p>
-      </div>
-
-      <div class="calculator-card">
-        <div class="calculator-grid">
-          <div>
-            <h3 style="color: var(--primary-green);" class="mb-3">Simulateur d'Emplois & Réinvestissement</h3>
-            
-            <div class="wizard-form-group">
-              <label>Nombre de membres ou producteurs associés</label>
-              <input type="number" id="calc-members" class="wizard-form-control" value="120" min="10">
-            </div>
-
-            <div class="wizard-form-group">
-              <label>Chiffre d'Affaires / Production Annuelle (Millions XOF)</label>
-              <input type="number" id="calc-revenue" class="wizard-form-control" value="15" min="1">
-            </div>
-
-            <div class="wizard-form-group">
-              <label>Part des bénéfices réinvestis dans la communauté (%)</label>
-              <input type="range" id="calc-reinvest" min="10" max="100" value="60" style="width: 100%;">
-            </div>
-          </div>
-
-          <div class="calc-result-box">
-            <h3 style="color: #FFFFFF;" class="mb-4"><i class="fas fa-chart-pie" style="color: var(--accent-gold);"></i> Résultats d'Impact Estimés</h3>
-            
-            <div class="calc-result-item">
-              <h4 id="res-jobs">54 emplois</h4>
-              <p>Emplois durables directes et indirectes générés</p>
-            </div>
-
-            <div class="calc-result-item">
-              <h4 id="res-reinvest">9 000 k XOF</h4>
-              <p>Injection annuelle dans l'économie locale et communautaire</p>
-            </div>
-
-            <div class="calc-result-item">
-              <h4 id="res-score">100 / 100</h4>
-              <p>Score d'éligibilité prévisionnel au Label Citoyenneté Bâtisseuse</p>
-            </div>
+          <div style="background: var(--bg-alt); padding: 1.25rem; border-radius: var(--radius-md);">
+            <h4 style="color: #D97706;" class="mb-2">3. Bureau National (UCAD/UGB)</h4>
+            <p style="font-size: 0.875rem;">Consolidation macro-économique et accueil des chercheurs résidents avec le Comité des Sages.</p>
           </div>
         </div>
       </div>
@@ -763,10 +691,10 @@
         <div>
           <h4>Piliers & Services</h4>
           <ul class="footer-links">
-            <li><a href="#calculateur">Calculateur d'Impact</a></li>
             <li><a href="#label">Label ESS Bâtisseuse</a></li>
             <li><a href="#poles">4 Pôles Sectoriels</a></li>
             <li><a href="#memorandum">Mémorandum Stratégique</a></li>
+            <li><a href="#plaidoyer">Plaidoyer État Sénégal</a></li>
             <li><a href="#" class="btn-join-modal">Adhésion Patronale</a></li>
           </ul>
         </div>

@@ -1,16 +1,14 @@
 /* ==========================================================================
    CONESESS - CONSEIL NATIONAL DES ENTREPRISES DE L'ESS DU SÉNÉGAL
-   ENHANCED INTERACTIVE APPLICATION LOGIC & DATA V2
+   APPLICATION LOGIC V3
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initNavigation();
   initRegionalExplorer();
-  initImpactCalculator();
   initGovernanceTabs();
   initIncubatorExplorer();
-  initObservatoryCharts();
   initLabelWizard();
   initMemorandumSearch();
   initModalsAndForms();
@@ -158,39 +156,7 @@ function initRegionalExplorer() {
 }
 
 /* --------------------------------------------------------------------------
-   3. CALCULATEUR D'IMPACT SOCIAL & ÉCONOMIQUE
-   -------------------------------------------------------------------------- */
-function initImpactCalculator() {
-  const membersInput = document.getElementById('calc-members');
-  const revenueInput = document.getElementById('calc-revenue');
-  const reinvestInput = document.getElementById('calc-reinvest');
-
-  if (!membersInput || !revenueInput) return;
-
-  const updateImpact = () => {
-    const members = parseInt(membersInput.value) || 0;
-    const revenue = parseFloat(revenueInput.value) || 0;
-    const reinvestPct = parseInt(reinvestInput.value) || 50;
-
-    // Calculations
-    const jobs = Math.round(members * 0.45);
-    const localReinvest = Math.round((revenue * (reinvestPct / 100)) / 1000);
-    const labelScore = Math.min(100, Math.round((members > 100 ? 40 : 20) + (reinvestPct > 50 ? 40 : 20) + (revenue > 5 ? 20 : 10)));
-
-    document.getElementById('res-jobs').textContent = `${jobs} emplois`;
-    document.getElementById('res-reinvest').textContent = `${localReinvest} k XOF`;
-    document.getElementById('res-score').textContent = `${labelScore} / 100`;
-  };
-
-  membersInput.addEventListener('input', updateImpact);
-  revenueInput.addEventListener('input', updateImpact);
-  if (reinvestInput) reinvestInput.addEventListener('input', updateImpact);
-
-  updateImpact();
-}
-
-/* --------------------------------------------------------------------------
-   4. GOUVERNANCE ARCHITECTURE INTERACTIVE TABS
+   3. GOUVERNANCE ARCHITECTURE INTERACTIVE TABS
    -------------------------------------------------------------------------- */
 const govData = {
   ag: {
@@ -291,7 +257,7 @@ function initGovernanceTabs() {
 }
 
 /* --------------------------------------------------------------------------
-   5. PILIER 1 : INCUBATEUR NATIONAL (IAN-ESS) INTERACTIVE EXPLORER
+   4. PILIER 1 : INCUBATEUR NATIONAL (IAN-ESS) INTERACTIVE EXPLORER
    -------------------------------------------------------------------------- */
 const incubatorData = {
   communal: {
@@ -380,85 +346,7 @@ function initIncubatorExplorer() {
 }
 
 /* --------------------------------------------------------------------------
-   6. PILIER 2 : OBSERVATOIRE NATIONAL (ON-ESS) CHARTS (CHART.JS)
-   -------------------------------------------------------------------------- */
-function initObservatoryCharts() {
-  const pibCtx = document.getElementById('pibChart');
-  const regionCtx = document.getElementById('regionChart');
-  const parityCtx = document.getElementById('parityChart');
-
-  if (typeof Chart === 'undefined') return;
-
-  if (pibCtx) {
-    new Chart(pibCtx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Agroécologie & Agriculture', 'Mutuelles & SFD', 'Artisanat & Énergie', 'Services & Numérique Social'],
-        datasets: [{
-          data: [42, 28, 18, 12],
-          backgroundColor: ['#006837', '#0A2540', '#F4A261', '#2A9D8F'],
-          borderWidth: 2,
-          borderColor: '#FFFFFF'
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { position: 'bottom', labels: { font: { family: 'Plus Jakarta Sans', size: 11 } } }
-        }
-      }
-    });
-  }
-
-  if (regionCtx) {
-    new Chart(regionCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Dakar', 'Thiès', 'Saint-Louis', 'Fatick', 'Kaolack', 'Ziguinchor', 'Kolda', 'Tambacounda'],
-        datasets: [{
-          label: 'Entreprises ESS Recensées (ON-ESS)',
-          data: [1240, 980, 750, 620, 590, 680, 510, 430],
-          backgroundColor: '#006837',
-          borderRadius: 6
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-          y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
-          x: { grid: { display: false } }
-        }
-      }
-    });
-  }
-
-  if (parityCtx) {
-    new Chart(parityCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Norme Patronat ESS CONESESS (Max 1:7)', 'Moyenne Secteur Classique (1:45+)', 'Moyenne Coopératives (1:4)'],
-        datasets: [{
-          label: 'Ratio Salarial Maximum',
-          data: [7, 45, 4],
-          backgroundColor: ['#2A9D8F', '#E76F51', '#006837'],
-          borderRadius: 6
-        }]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } }
-      }
-    });
-  }
-}
-
-/* --------------------------------------------------------------------------
-   7. LABEL ESS INTERACTIVE SIMULATOR (STEP WIZARD)
+   5. LABEL ESS INTERACTIVE SIMULATOR (STEP WIZARD)
    -------------------------------------------------------------------------- */
 let currentWizardStep = 1;
 
@@ -607,7 +495,7 @@ function renderWizardStep(step) {
 }
 
 /* --------------------------------------------------------------------------
-   8. MEMORANDUM SEARCH & FILTER
+   6. MEMORANDUM SEARCH & FILTER
    -------------------------------------------------------------------------- */
 function initMemorandumSearch() {
   const searchInput = document.getElementById('memo-search-input');
@@ -630,7 +518,7 @@ function initMemorandumSearch() {
 }
 
 /* --------------------------------------------------------------------------
-   9. MODAL WINDOWS & FORMS
+   7. MODAL WINDOWS & FORMS
    -------------------------------------------------------------------------- */
 function initModalsAndForms() {
   const joinBtns = document.querySelectorAll('.btn-join-modal');
