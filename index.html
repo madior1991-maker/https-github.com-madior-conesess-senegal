@@ -291,11 +291,41 @@
       </div>
 
       <div class="gov-nav-tabs">
-        <button class="gov-tab-btn active" data-gov="ag">Assemblée Générale (AG)</button>
-        <button class="gov-tab-btn" data-gov="ca">Conseil d'Administration (CA)</button>
-        <button class="gov-tab-btn" data-gov="be">Bureau Exécutif (BE)</button>
-        <button class="gov-tab-btn" data-gov="sg">Secrétariat Général (SG)</button>
-        <button class="gov-tab-btn" data-gov="sages">Comité des Sages & Sponsoring</button>
+        <button class="gov-tab-btn active" data-gov="ag">
+          <i class="fas fa-users"></i>
+          <div>
+            <strong>1. AG Souveraine</strong>
+            <small>Assemblée Générale</small>
+          </div>
+        </button>
+        <button class="gov-tab-btn" data-gov="ca">
+          <i class="fas fa-sitemap"></i>
+          <div>
+            <strong>2. Conseil d'Admin.</strong>
+            <small>CA (14 Régions)</small>
+          </div>
+        </button>
+        <button class="gov-tab-btn" data-gov="be">
+          <i class="fas fa-briefcase"></i>
+          <div>
+            <strong>3. Bureau Exécutif</strong>
+            <small>BE & Vice-Présidences</small>
+          </div>
+        </button>
+        <button class="gov-tab-btn" data-gov="sg">
+          <i class="fas fa-user-shield"></i>
+          <div>
+            <strong>4. Secrétariat Gén.</strong>
+            <small>SG & Pôles Métiers</small>
+          </div>
+        </button>
+        <button class="gov-tab-btn" data-gov="sages">
+          <i class="fas fa-award"></i>
+          <div>
+            <strong>5. Comité des Sages</strong>
+            <small>Légitimité & Label ESS</small>
+          </div>
+        </button>
       </div>
 
       <div id="gov-info-display" class="gov-display-card">
@@ -311,10 +341,18 @@
         </div>
         <div class="gov-diagram-visual">
           <span class="badge badge-green mb-3">Flux Décisionnel Souverain</span>
-          <div style="font-family: monospace; font-size: 0.95rem; color: #F4A261; line-height: 1.8;">
-            AG (Souveraineté Populaire)<br>
-            └── Election du CA (14 Régions)<br>
-                └── Bureau Exécutif (BE) + 2 VP
+          <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
+            <div style="background: rgba(0, 104, 55, 0.3); border: 1px solid #2A9D8F; padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #E9C46A;">
+              <i class="fas fa-users"></i> AG Souveraine (Tous les Membres)
+            </div>
+            <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
+            <div style="background: rgba(255, 255, 255, 0.08); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF;">
+              <i class="fas fa-sitemap"></i> Élection du CA (14 Régions)
+            </div>
+            <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
+            <div style="background: rgba(255, 255, 255, 0.08); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF;">
+              <i class="fas fa-gavel"></i> Vote du Budget & Orientations
+            </div>
           </div>
         </div>
       </div>

@@ -79,7 +79,21 @@ const govData = {
       "Fixe les grandes orientations stratégiques et élit le Conseil d'Administration.",
       "Principe démocratique immuable : Une entreprise / organisation = Une voix, quel que soit son chiffre d'affaires."
     ],
-    diagram: "AG (Tous les Membres) ➔ Élection du CA ➔ Pouvoir Délibératif Souverain"
+    diagram: `
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
+        <div style="background: rgba(0, 104, 55, 0.3); border: 1px solid #2A9D8F; padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #E9C46A;">
+          <i class="fas fa-users"></i> AG Souveraine (Tous les Membres)
+        </div>
+        <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
+        <div style="background: rgba(255, 255, 255, 0.08); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF;">
+          <i class="fas fa-sitemap"></i> Élection du CA (14 Régions)
+        </div>
+        <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
+        <div style="background: rgba(255, 255, 255, 0.08); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF;">
+          <i class="fas fa-gavel"></i> Vote du Budget & Orientations
+        </div>
+      </div>
+    `
   },
   ca: {
     title: "B. Le Conseil d’Administration (CA) – Parlement Stratégique",
@@ -90,7 +104,21 @@ const govData = {
       "Validation du plan de travail annuel et du budget prévisionnel.",
       "Nomme le Secrétaire Général et élit le Bureau Exécutif avec pouvoir permanent de contrôle et d'évaluation."
     ],
-    diagram: "CA (14 Régions) ➔ Mandat par l'AG ➔ Nomme SG & Supervise BE"
+    diagram: `
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
+        <div style="background: rgba(244, 162, 97, 0.25); border: 1px solid #F4A261; padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #F4A261;">
+          <i class="fas fa-sitemap"></i> CA (14 Régions du Sénégal)
+        </div>
+        <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
+        <div style="background: rgba(255, 255, 255, 0.08); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF;">
+          <i class="fas fa-briefcase"></i> Élection du Bureau Exécutif (BE)
+        </div>
+        <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
+        <div style="background: rgba(255, 255, 255, 0.08); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF;">
+          <i class="fas fa-user-check"></i> Nomination & Contrôle du SG
+        </div>
+      </div>
+    `
   },
   be: {
     title: "C. Le Bureau Exécutif (BE) – Portage Politique Direct des Piliers",
@@ -98,10 +126,24 @@ const govData = {
     desc: "Organe restreint chargé de la mise en œuvre de la stratégie politique. Il s'articule autour d'une Présidence et de deux Vice-Présidences dédiées aux grands piliers.",
     features: [
       "La Présidence : Porte la parole unifiée des entreprises de l'ESS auprès de l’État et des partenaires.",
-      "La Vice-Présidence IAN-ESS : Pilote politiquement l'Incubateur-Accélérateur National (Citoyenneté Bâtisseuse) et négocie avec la DER/FJ, le 3FPT.",
-      "La Vice-Présidence ON-ESS : Garantit la fiabilité de l'Observatoire National et porte le plaidoyer basé sur la preuve scientifique."
+      "La Vice-Présidence IAN-ESS : Pilote politiquement l'Incubateur-Accélérateur National et négocie avec la DER/FJ, le 3FPT.",
+      "La Vice-Présidence ON-ESS : Garantit la fiabilité de l'Observatoire National et porte le plaidoyer basés sur la preuve."
     ],
-    diagram: "Présidence <br> ├── VP Incubateur National (IAN-ESS) <br> └── VP Observatoire National (ON-ESS)"
+    diagram: `
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
+        <div style="background: rgba(0, 104, 55, 0.35); border: 1px solid #2A9D8F; padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #FFFFFF;">
+          <i class="fas fa-user-tie"></i> Présidence du CONESESS
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+          <div style="background: rgba(255, 255, 255, 0.08); padding: 0.65rem; border-radius: 6px; font-size: 0.8rem; color: #E9C46A;">
+            <i class="fas fa-rocket"></i> VP Incubateur IAN-ESS
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.08); padding: 0.65rem; border-radius: 6px; font-size: 0.8rem; color: #E9C46A;">
+            <i class="fas fa-chart-bar"></i> VP Observatoire ON-ESS
+          </div>
+        </div>
+      </div>
+    `
   },
   sg: {
     title: "D. Le Secrétariat Général (SG) – Ancre d'Exécution Administrative",
@@ -112,7 +154,17 @@ const govData = {
       "Fluidifie les interactions financières et techniques entre l'Incubateur et l'Observatoire.",
       "Supervise le travail quotidien des 4 Pôles Sectoriels Métiers."
     ],
-    diagram: "Secrétaire Général ➔ Coordination Administrative ➔ 4 Pôles Sectoriels"
+    diagram: `
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
+        <div style="background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #FFFFFF;">
+          <i class="fas fa-user-shield"></i> Secrétaire Général (SG)
+        </div>
+        <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
+        <div style="background: rgba(0, 104, 55, 0.25); padding: 0.75rem 1rem; border-radius: 8px; color: #E9C46A;">
+          <i class="fas fa-cogs"></i> Coordination 4 Pôles Métiers
+        </div>
+      </div>
+    `
   },
   sages: {
     title: "E. Le Collège des Membres Associés & Comité des Sages",
@@ -123,7 +175,17 @@ const govData = {
       "Droit de veto moral pour vacciner l'organisation contre le social-washing et les contingences partisanes.",
       "Partenaires Écosystémiques : Finance éthique, Fondations RSE, Haute Autorité du Waqf."
     ],
-    diagram: "Comité des Sages ➔ Droit de Veto Moral ➔ Octroi Final du Label ESS"
+    diagram: `
+      <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
+        <div style="background: rgba(244, 162, 97, 0.25); border: 1px solid #F4A261; padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #F4A261;">
+          <i class="fas fa-award"></i> Comité des Sages
+        </div>
+        <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-shield-alt"></i></div>
+        <div style="background: rgba(0, 104, 55, 0.3); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF; font-size: 0.875rem;">
+          <i class="fas fa-check-double"></i> Droit de Veto Moral & Octroi du Label ESS
+        </div>
+      </div>
+    `
   }
 };
 
@@ -154,10 +216,8 @@ function initGovernanceTabs() {
               </div>
             </div>
             <div class="gov-diagram-visual">
-              <span class="badge badge-green mb-3">Organigramme & Flux</span>
-              <div style="font-family: monospace; font-size: 0.95rem; color: #F4A261; line-height: 1.8;">
-                ${data.diagram}
-              </div>
+              <span class="badge badge-green mb-3"><i class="fas fa-project-diagram"></i> Organigramme & Flux</span>
+              ${data.diagram}
             </div>
           `;
           infoContainer.style.opacity = '1';
