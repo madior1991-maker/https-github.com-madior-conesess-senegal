@@ -71,32 +71,32 @@ function initNavigation() {
    -------------------------------------------------------------------------- */
 const govData = {
   ag: {
-    title: "A. L'Assemblée Générale (AG) – L'Organe Suprême et Populaire",
+    title: "A. L'Assemblée Générale (AG) – L'Organe Suprême",
     badge: "Souveraineté & Démocratie ESS",
     desc: "L'Assemblée Générale est l'instance souveraine du CONESESS. Elle incarne la base militante, citoyenne et économique du réseau confédérateur de l'ESS au Sénégal.",
     features: [
-      "Réunit l'ensemble des membres : coopératives locales, mutuelles de santé/d'épargne, GIE, associations productives et entreprises sociales.",
-      "Fixe les grandes orientations stratégiques et élit le Conseil d'Administration.",
-      "Principe démocratique immuable : Une entreprise / organisation = Une voix, quel que soit son chiffre d'affaires."
+      "Réunit l'ensemble des membres à jour : coopératives, mutuelles, GIE et entreprises sociales.",
+      "Définit la politique générale et élit le Conseil d'Administration.",
+      "Principe égalitaire strict : Une entreprise / organisation = Une voix."
     ],
     diagram: `
       <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
-        <div style="background: rgba(0, 104, 55, 0.3); border: 1px solid #2A9D8F; padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #E9C46A;">
+        <div style="background: var(--accent-soft-green); border: 1px solid var(--primary-green); padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: var(--primary-green);">
           <i class="fas fa-users"></i> AG Souveraine (Tous les Membres)
         </div>
-        <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
-        <div style="background: rgba(255, 255, 255, 0.08); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF;">
+        <div style="text-align: center; color: var(--primary-green); font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
+        <div style="background: #FFFFFF; border: 1px solid var(--border-light); padding: 0.75rem 1rem; border-radius: 8px; color: var(--text-dark);">
           <i class="fas fa-sitemap"></i> Élection du CA (14 Régions)
         </div>
-        <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
-        <div style="background: rgba(255, 255, 255, 0.08); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF;">
+        <div style="text-align: center; color: var(--primary-green); font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
+        <div style="background: #FFFFFF; border: 1px solid var(--border-light); padding: 0.75rem 1rem; border-radius: 8px; color: var(--text-dark);">
           <i class="fas fa-gavel"></i> Vote du Budget & Orientations
         </div>
       </div>
     `
   },
   ca: {
-    title: "B. Le Conseil d’Administration (CA) – Parlement Stratégique",
+    title: "B. Le Conseil d'Administration (CA) – Organe de Délibération",
     badge: "Contrôle & Équilibre Régional",
     desc: "Le Conseil d'Administration agit comme le parlement du CONESESS. Il veille à l'équilibre des pouvoirs et à l'application des décisions de l'AG.",
     features: [
@@ -106,15 +106,15 @@ const govData = {
     ],
     diagram: `
       <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
-        <div style="background: rgba(244, 162, 97, 0.25); border: 1px solid #F4A261; padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #F4A261;">
+        <div style="background: var(--accent-soft-gold); border: 1px solid var(--accent-gold); padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #D97706;">
           <i class="fas fa-sitemap"></i> CA (14 Régions du Sénégal)
         </div>
-        <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
-        <div style="background: rgba(255, 255, 255, 0.08); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF;">
+        <div style="text-align: center; color: #D97706; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
+        <div style="background: #FFFFFF; border: 1px solid var(--border-light); padding: 0.75rem 1rem; border-radius: 8px; color: var(--text-dark);">
           <i class="fas fa-briefcase"></i> Élection du Bureau Exécutif (BE)
         </div>
-        <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
-        <div style="background: rgba(255, 255, 255, 0.08); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF;">
+        <div style="text-align: center; color: #D97706; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
+        <div style="background: #FFFFFF; border: 1px solid var(--border-light); padding: 0.75rem 1rem; border-radius: 8px; color: var(--text-dark);">
           <i class="fas fa-user-check"></i> Nomination & Contrôle du SG
         </div>
       </div>
@@ -131,14 +131,14 @@ const govData = {
     ],
     diagram: `
       <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
-        <div style="background: rgba(0, 104, 55, 0.35); border: 1px solid #2A9D8F; padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #FFFFFF;">
+        <div style="background: var(--accent-soft-green); border: 1px solid var(--primary-green); padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: var(--primary-green);">
           <i class="fas fa-user-tie"></i> Présidence du CONESESS
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-          <div style="background: rgba(255, 255, 255, 0.08); padding: 0.65rem; border-radius: 6px; font-size: 0.8rem; color: #E9C46A;">
+          <div style="background: #FFFFFF; border: 1px solid var(--border-light); padding: 0.65rem; border-radius: 6px; font-size: 0.8rem; color: var(--primary-green); font-weight: 600;">
             <i class="fas fa-rocket"></i> VP Incubateur IAN-ESS
           </div>
-          <div style="background: rgba(255, 255, 255, 0.08); padding: 0.65rem; border-radius: 6px; font-size: 0.8rem; color: #E9C46A;">
+          <div style="background: #FFFFFF; border: 1px solid var(--border-light); padding: 0.65rem; border-radius: 6px; font-size: 0.8rem; color: var(--primary-navy); font-weight: 600;">
             <i class="fas fa-chart-bar"></i> VP Observatoire ON-ESS
           </div>
         </div>
@@ -156,11 +156,11 @@ const govData = {
     ],
     diagram: `
       <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
-        <div style="background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.2); padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #FFFFFF;">
+        <div style="background: var(--accent-soft-green); border: 1px solid var(--primary-green); padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: var(--primary-green);">
           <i class="fas fa-user-shield"></i> Secrétaire Général (SG)
         </div>
-        <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
-        <div style="background: rgba(0, 104, 55, 0.25); padding: 0.75rem 1rem; border-radius: 8px; color: #E9C46A;">
+        <div style="text-align: center; color: var(--primary-green); font-size: 1.1rem;"><i class="fas fa-arrow-down"></i></div>
+        <div style="background: #FFFFFF; border: 1px solid var(--border-light); padding: 0.75rem 1rem; border-radius: 8px; color: var(--text-dark);">
           <i class="fas fa-cogs"></i> Coordination 4 Pôles Métiers
         </div>
       </div>
@@ -176,11 +176,11 @@ const govData = {
     ],
     diagram: `
       <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
-        <div style="background: rgba(244, 162, 97, 0.25); border: 1px solid #F4A261; padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #F4A261;">
+        <div style="background: var(--accent-soft-gold); border: 1px solid var(--accent-gold); padding: 0.75rem 1rem; border-radius: 8px; font-weight: 700; color: #D97706;">
           <i class="fas fa-award"></i> Collège des Membres Associés
         </div>
-        <div style="text-align: center; color: #F4A261; font-size: 1.1rem;"><i class="fas fa-shield-alt"></i></div>
-        <div style="background: rgba(0, 104, 55, 0.3); padding: 0.75rem 1rem; border-radius: 8px; color: #FFFFFF; font-size: 0.875rem;">
+        <div style="text-align: center; color: #D97706; font-size: 1.1rem;"><i class="fas fa-shield-alt"></i></div>
+        <div style="background: #FFFFFF; border: 1px solid var(--border-light); padding: 0.75rem 1rem; border-radius: 8px; color: var(--text-dark); font-size: 0.875rem;">
           <i class="fas fa-check-double"></i> Droit de Veto Moral & Haute Autorité du Waqf
         </div>
       </div>
