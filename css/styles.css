@@ -757,9 +757,37 @@ img {
   color: rgba(255,255,255,0.8);
 }
 
+/* Unified Hero Color Palette for Vision, Governance, and Incubateur */
+.hero-themed-section {
+  position: relative;
+  background: linear-gradient(135deg, rgba(10, 37, 64, 0.96) 0%, rgba(0, 104, 55, 0.92) 100%), url('../assets/images/hero.jpg') center/cover no-repeat;
+  color: #FFFFFF;
+  overflow: hidden;
+}
+
+.hero-themed-section h1, 
+.hero-themed-section h2, 
+.hero-themed-section h3, 
+.hero-themed-section h4 {
+  color: #FFFFFF;
+}
+
+.hero-themed-section .section-description {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.hero-themed-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 2.25rem 2rem;
+}
+
 /* Section: Governance Architecture */
 .gov-section {
-  background: #0A2540;
+  background: linear-gradient(135deg, rgba(10, 37, 64, 0.96) 0%, rgba(0, 104, 55, 0.92) 100%), url('../assets/images/hero.jpg') center/cover no-repeat;
   color: #FFFFFF;
   position: relative;
   overflow: hidden;
