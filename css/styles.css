@@ -339,14 +339,15 @@ img {
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 1.4rem;
+  gap: 1.1rem;
 }
 
 .nav-link {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--text-dark);
   padding: 0.4rem 0.2rem;
+  white-space: nowrap;
   position: relative;
 }
 
@@ -1423,5 +1424,34 @@ img {
   .modal-card {
     padding: 1.25rem;
     max-width: 95vw;
+  }
+}
+
+/* Desktop Specific Optimization (Laptops & Wide Monitors) */
+@media (min-width: 993px) {
+  .hero-grid {
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 3.5rem;
+  }
+  .incubator-tabs {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .sector-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 993px) and (max-width: 1280px) {
+  .nav-menu {
+    gap: 0.7rem;
+  }
+  .nav-link {
+    font-size: 0.8rem;
+  }
+  .logo-title {
+    font-size: 1.2rem;
+  }
+  .logo-subtitle {
+    font-size: 0.6rem;
   }
 }
