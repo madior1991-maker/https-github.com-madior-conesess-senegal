@@ -234,9 +234,20 @@ img {
 }
 
 .btn-sm {
-  padding: 0.5rem 1.1rem;
-  font-size: 0.85rem;
-  border-radius: var(--radius-sm);
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.nav-cta .btn-join-modal {
+  padding: 0.425rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  gap: 0.35rem;
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
 }
 
 /* Top Announcement Bar */
