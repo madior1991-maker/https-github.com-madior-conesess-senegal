@@ -292,6 +292,44 @@ function initModalsAndForms() {
     });
   }
 
+  // Handle "Autre" legal form specification in Main Form
+  const mainTypeSelect = document.getElementById('adh-type');
+  const mainOtherGroup = document.getElementById('adh-type-other-group');
+  const mainOtherInput = document.getElementById('adh-type-other-input');
+
+  if (mainTypeSelect && mainOtherGroup && mainOtherInput) {
+    mainTypeSelect.addEventListener('change', () => {
+      if (mainTypeSelect.value === 'autre') {
+        mainOtherGroup.style.display = 'block';
+        mainOtherInput.setAttribute('required', 'true');
+        mainOtherInput.focus();
+      } else {
+        mainOtherGroup.style.display = 'none';
+        mainOtherInput.removeAttribute('required');
+        mainOtherInput.value = '';
+      }
+    });
+  }
+
+  // Handle "Autre" legal form specification in Modal Form
+  const modalTypeSelect = document.getElementById('modal-adh-type');
+  const modalOtherGroup = document.getElementById('modal-adh-type-other-group');
+  const modalOtherInput = document.getElementById('modal-adh-type-other-input');
+
+  if (modalTypeSelect && modalOtherGroup && modalOtherInput) {
+    modalTypeSelect.addEventListener('change', () => {
+      if (modalTypeSelect.value === 'autre') {
+        modalOtherGroup.style.display = 'block';
+        modalOtherInput.setAttribute('required', 'true');
+        modalOtherInput.focus();
+      } else {
+        modalOtherGroup.style.display = 'none';
+        modalOtherInput.removeAttribute('required');
+        modalOtherInput.value = '';
+      }
+    });
+  }
+
   // Embedded Page Adhesion Form
   const mainForm = document.getElementById('form-main-adhesion');
   const mainSuccessBox = document.getElementById('adhesion-success-msg');
@@ -323,6 +361,7 @@ function initModalsAndForms() {
       e.preventDefault();
       modalOverlay.classList.remove('show');
       modalForm.reset();
+      if (modalOtherGroup) modalOtherGroup.style.display = 'none';
       const randRef = 'CONESESS-2026-' + Math.floor(1000 + Math.random() * 9000);
       showToast("Votre demande d'adhésion (" + randRef + ") a été transmise au Secrétariat Général avec succès !");
     });
@@ -332,10 +371,17 @@ function initModalsAndForms() {
 function resetAdhesionForm() {
   const mainForm = document.getElementById('form-main-adhesion');
   const mainSuccessBox = document.getElementById('adhesion-success-msg');
+  const mainOtherGroup = document.getElementById('adh-type-other-group');
+  const mainOtherInput = document.getElementById('adh-type-other-input');
 
   if (mainForm) {
     mainForm.reset();
     mainForm.style.display = 'block';
+  }
+  if (mainOtherGroup) mainOtherGroup.style.display = 'none';
+  if (mainOtherInput) {
+    mainOtherInput.removeAttribute('required');
+    mainOtherInput.value = '';
   }
   if (mainSuccessBox) {
     mainSuccessBox.style.display = 'none';

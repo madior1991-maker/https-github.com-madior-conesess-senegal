@@ -464,7 +464,13 @@
                 <option>Groupement d'Intérêt Économique (GIE) Territorial</option>
                 <option>Entreprise Sociale / Startup d'Impact</option>
                 <option>Association à Vocation Économique Productive</option>
+                <option value="autre">Autre (à préciser)</option>
               </select>
+            </div>
+            
+            <div class="wizard-form-group" id="adh-type-other-group" style="display: none;">
+              <label style="color: var(--primary-green); font-weight: 600;">Précisez votre Forme Juridique *</label>
+              <input type="text" class="wizard-form-control" id="adh-type-other-input" placeholder="ex: Fondation, Syndicat Professionnel, Waqf...">
             </div>
           </div>
 
@@ -637,13 +643,19 @@
 
         <div class="wizard-form-group">
           <label>Catégorie Juridique *</label>
-          <select class="wizard-form-control" required>
+          <select class="wizard-form-control" required id="modal-adh-type">
             <option>Coopérative</option>
             <option>Mutuelle de Santé / Épargne (SFD)</option>
             <option>Groupement d'Intérêt Économique (GIE)</option>
             <option>Entreprise Sociale</option>
             <option>Association Productive</option>
+            <option value="autre">Autre (à préciser)</option>
           </select>
+        </div>
+
+        <div class="wizard-form-group" id="modal-adh-type-other-group" style="display: none;">
+          <label style="color: var(--primary-green); font-weight: 600;">Précisez votre Forme Juridique *</label>
+          <input type="text" class="wizard-form-control" id="modal-adh-type-other-input" placeholder="ex: Fondation, Syndicat Professionnel, Waqf...">
         </div>
 
         <div class="wizard-form-group">
