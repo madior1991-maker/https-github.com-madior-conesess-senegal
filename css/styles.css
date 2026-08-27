@@ -2128,6 +2128,7 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   .advocacy-grid,
   .incubator-explorer-grid,
   .gov-display-card,
+  .gov-main-grid,
   .incubator-detail-grid {
     grid-template-columns: 1fr !important;
     gap: 1.25rem !important;
