@@ -443,21 +443,29 @@ function initModalsAndForms() {
         typeVal = document.getElementById('adh-type-other-input')?.value || 'Autre Forme';
       }
       const region = document.getElementById('adh-region')?.value || 'Dakar';
-      const poleSelect = document.getElementById('adh-pole');
-      const poleVal = poleSelect?.options[poleSelect.selectedIndex]?.text || 'Général';
-      const rep = document.getElementById('adh-contact-name')?.value || 'Représentant';
+      const dept = document.getElementById('adh-dept')?.value || '';
+      const sectorSelect = document.getElementById('adh-sector');
+      const sectorVal = sectorSelect?.options[sectorSelect.selectedIndex]?.text || 'Général';
+      const members = document.getElementById('adh-members')?.value || '1';
+      const rep = document.getElementById('adh-rep')?.value || 'Représentant';
       const phone = document.getElementById('adh-phone')?.value || '+221 77 000 00 00';
       const email = document.getElementById('adh-email')?.value || '';
+      const desc = document.getElementById('adh-desc')?.value || '';
+      const motivation = document.getElementById('adh-motivation')?.value || '';
 
       saveSubmissionToDB({
         ref: randRef,
         name: name,
         type: typeVal,
         region: region,
-        pole: poleVal,
+        dept: dept,
+        sector: sectorVal,
+        members: members,
         rep: rep,
         phone: phone,
         email: email,
+        desc: desc,
+        motivation: motivation,
         status: 'En attente',
         badgeStatus: 'Non généré',
         badgeRole: 'Représentant Légal',
@@ -467,7 +475,7 @@ function initModalsAndForms() {
       mainForm.style.display = 'none';
       if (mainSuccessBox) mainSuccessBox.style.display = 'block';
 
-      showToast("Félicitations ! Votre demande d'adhésion au CONESESS a été enregistrée (" + randRef + ").");
+      showToast("Votre manifestation d'intérêt au CONESESS a bien été transmise (" + randRef + ").");
       
       const cardContainer = document.getElementById('adhesion-card-container');
       if (cardContainer) {
