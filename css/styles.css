@@ -2121,6 +2121,69 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   padding-right: 1.25rem !important;
 }
 
+/* GOUVERNANCE SECTION RESPONSIVE DESIGN */
+.gov-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 1.75rem;
+  align-items: stretch;
+  margin-bottom: 1.5rem;
+}
+
+.gov-card-primary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1.75rem;
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.gov-card-schema {
+  background: rgba(10, 37, 64, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1.75rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.gov-schema-box {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+  text-align: center;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+}
+
+.gov-schema-box.main-box {
+  background: rgba(0, 104, 55, 0.6);
+  border: 1px solid #2A9D8F;
+  font-weight: 700;
+}
+
+.gov-schema-box.accent-box {
+  background: rgba(244, 162, 97, 0.2);
+  border: 1px solid #F4A261;
+  font-weight: 700;
+  color: #E9C46A;
+  font-size: 0.85rem;
+}
+
+.gov-schema-arrow {
+  color: #F4A261;
+  font-size: 0.85rem;
+}
+
 /* Tablet & Mobile Grid Fixes (<= 992px) */
 @media (max-width: 992px) {
   .hero-grid,
