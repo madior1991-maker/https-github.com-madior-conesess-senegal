@@ -2204,6 +2204,39 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   .logo-text span:last-child {
     display: none !important;
   }
+
+  /* Footer Mobile Layout Fixes */
+  footer.footer {
+    padding: 2.25rem 0 1.25rem 0 !important;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    text-align: left !important;
+  }
+
+  .footer-brand {
+    text-align: left !important;
+  }
+
+  .footer-brand p {
+    font-size: 0.85rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .footer-bottom {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 0.65rem !important;
+    padding-top: 1rem !important;
+    font-size: 0.775rem !important;
+  }
+
+  .footer-bottom p {
+    line-height: 1.4 !important;
+  }
 }
 
 /* 5. Extra Small Phones (Below 480px) */
