@@ -18,14 +18,17 @@
   <style>
     :root {
       --admin-sidebar-w: 260px;
-      --admin-bg-light: #F4F7F6;
+      --admin-navy: #0A2540;
+      --admin-green: #006837;
+      --admin-gold: #F4A261;
+      --admin-gold-bright: #E9C46A;
+      --admin-bg-light: #F8FAFC;
       --admin-card-bg-light: #FFFFFF;
       --admin-border-light: #E2E8F0;
-      --admin-text-main: #1E293B;
+      --admin-text-main: #0A2540;
       --admin-text-muted: #64748B;
-      --admin-green: #006837;
-      --admin-green-light: #E6F4ED;
-      --admin-gold: #F4A261;
+      --admin-soft-green: rgba(0, 104, 55, 0.08);
+      --admin-soft-gold: rgba(244, 162, 97, 0.15);
     }
 
     [data-admin-theme="dark"] {
@@ -35,7 +38,7 @@
       --admin-text-main: #F1F5F9;
       --admin-text-muted: #94A3B8;
       --admin-green: #25D366;
-      --admin-green-light: rgba(37, 211, 102, 0.15);
+      --admin-soft-green: rgba(37, 211, 102, 0.15);
     }
 
     body.admin-app-body {
@@ -55,8 +58,9 @@
     /* LEFT SIDEBAR NAVIGATION */
     .admin-sidebar {
       width: var(--admin-sidebar-w);
-      background: var(--admin-card-bg-light);
-      border-right: 1px solid var(--admin-border-light);
+      background: #0A2540;
+      color: #FFFFFF;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       flex-direction: column;
       position: fixed;
@@ -71,7 +75,7 @@
       gap: 0.75rem;
       padding-bottom: 1.25rem;
       margin-bottom: 1.25rem;
-      border-bottom: 1px solid var(--admin-border-light);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     .admin-brand-avatar {
@@ -81,7 +85,8 @@
       color: #FFFFFF;
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 1.2rem;
-      box-shadow: 0 4px 12px rgba(0, 104, 55, 0.2);
+      border: 2px solid #E9C46A;
+      box-shadow: 0 4px 12px rgba(0, 104, 55, 0.3);
     }
 
     .admin-nav-menu {
@@ -100,7 +105,7 @@
       gap: 0.75rem;
       padding: 0.75rem 1rem;
       border-radius: 30px;
-      color: var(--admin-text-main);
+      color: rgba(255, 255, 255, 0.82);
       text-decoration: none;
       font-weight: 600;
       font-size: 0.875rem;
@@ -109,14 +114,16 @@
     }
 
     .admin-nav-link:hover {
-      background: var(--admin-green-light);
-      color: var(--admin-green);
+      background: rgba(0, 104, 55, 0.4);
+      color: #E9C46A;
     }
 
     .admin-nav-link.active {
-      background: var(--admin-green-light);
-      color: var(--admin-green);
+      background: var(--admin-green);
+      color: #FFFFFF;
       font-weight: 700;
+      box-shadow: 0 4px 15px rgba(0, 104, 55, 0.35);
+      border: 1px solid rgba(233, 196, 106, 0.4);
     }
 
     .admin-nav-link i {
@@ -152,6 +159,7 @@
       border-radius: 30px;
       padding: 0.55rem 1.25rem;
       width: 380px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
 
     .admin-search-box input {
@@ -191,17 +199,18 @@
     }
 
     .theme-btn.active {
-      background: var(--admin-green-light);
-      color: var(--admin-green);
+      background: var(--admin-green);
+      color: #FFFFFF;
     }
 
-    /* HERO TREND BANNER CARD */
+    /* HERO TREND BANNER CARD (EXACT CONESESS PALETTE) */
     .hero-trend-card {
-      background: var(--admin-card-bg-light);
+      background: linear-gradient(135deg, #0A2540 0%, #006837 100%);
+      color: #FFFFFF;
       border-radius: 20px;
-      border: 1px solid var(--admin-border-light);
+      border: 1.5px solid rgba(233, 196, 106, 0.4);
       padding: 1.75rem 2rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      box-shadow: 0 10px 30px rgba(10, 37, 64, 0.2);
     }
 
     .hero-trend-header {
@@ -214,7 +223,7 @@
     .hero-trend-title {
       font-size: 0.75rem;
       font-weight: 700;
-      color: var(--admin-text-muted);
+      color: #E9C46A;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       margin-bottom: 0.35rem;
@@ -225,7 +234,7 @@
       font-size: 3.2rem;
       font-weight: 800;
       line-height: 1;
-      color: var(--admin-text-main);
+      color: #FFFFFF;
     }
 
     .hero-actions-bar {
@@ -235,9 +244,9 @@
     }
 
     .action-btn-primary {
-      background: var(--admin-green);
+      background: #006837;
       color: #FFFFFF;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.25);
       border-radius: 30px;
       padding: 0.65rem 1.35rem;
       font-weight: 700;
@@ -246,13 +255,13 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      box-shadow: 0 4px 15px rgba(0, 104, 55, 0.25);
+      box-shadow: 0 4px 15px rgba(0, 104, 55, 0.35);
     }
 
     .action-btn-pill {
-      background: var(--admin-card-bg-light);
-      border: 1px solid var(--admin-border-light);
-      color: var(--admin-text-main);
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #FFFFFF;
       border-radius: 30px;
       padding: 0.65rem 1.25rem;
       font-weight: 600;
@@ -261,15 +270,16 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      backdrop-filter: blur(5px);
     }
 
     .action-btn-pill:hover {
-      background: var(--admin-green-light);
-      color: var(--admin-green);
-      border-color: var(--admin-green);
+      background: #E9C46A;
+      color: #0A2540;
+      border-color: #E9C46A;
     }
 
-    /* METRICS GRID 4 COLUMNS */
+    /* METRICS GRID 4 COLUMNS WITH ACCENT TOP BORDERS */
     .metrics-grid-4 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -281,7 +291,13 @@
       border: 1px solid var(--admin-border-light);
       border-radius: 16px;
       padding: 1.25rem 1.5rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .metric-card-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
     }
 
     .metric-card-label {
@@ -297,7 +313,41 @@
       font-family: 'Outfit', sans-serif;
       font-size: 1.85rem;
       font-weight: 800;
-      color: var(--admin-green);
+    }
+
+    /* ADMIN TABLES WITH CONESESS NAVY HEADERS */
+    .admin-table-container {
+      background: var(--admin-card-bg-light);
+      border-radius: 12px;
+      border: 1px solid var(--admin-border-light);
+      overflow-x: auto;
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      text-align: left;
+    }
+
+    .admin-table th {
+      background: #0A2540;
+      color: #FFFFFF;
+      padding: 0.9rem 1rem;
+      font-weight: 700;
+      border-bottom: 2px solid #E9C46A;
+      white-space: nowrap;
+    }
+
+    .admin-table td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--admin-border-light);
+      color: var(--admin-text-main);
+      vertical-align: middle;
+    }
+
+    .admin-table tr:hover {
+      background: rgba(0, 104, 55, 0.04);
     }
 
     /* BADGE STUDIO CR80 STYLING */
@@ -556,8 +606,8 @@
             <!-- SPARKLINE GRAPH SVG -->
             <div style="width: 260px; height: 75px;">
               <svg viewBox="0 0 260 75" style="width: 100%; height: 100%;">
-                <path d="M 0 60 Q 60 60 130 55 T 190 15 T 230 45 L 260 50" fill="none" stroke="#006837" stroke-width="3.5" stroke-linecap="round"/>
-                <path d="M 0 60 Q 60 60 130 55 T 190 15 T 230 45 L 260 50 L 260 75 L 0 75 Z" fill="rgba(0, 104, 55, 0.1)"/>
+                <path d="M 0 60 Q 60 60 130 55 T 190 15 T 230 45 L 260 50" fill="none" stroke="#E9C46A" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M 0 60 Q 60 60 130 55 T 190 15 T 230 45 L 260 50 L 260 75 L 0 75 Z" fill="rgba(233, 196, 106, 0.15)"/>
               </svg>
             </div>
           </div>
@@ -578,42 +628,42 @@
           </div>
         </div>
 
-        <!-- 8 METRICS GRID CARDS (ROW 1 & ROW 2) -->
+        <!-- 8 METRICS GRID CARDS (ROW 1 & ROW 2) WITH EXACT CONESESS PALETTE -->
         <div class="metrics-grid-4 mb-4">
-          <div class="metric-card-box">
+          <div class="metric-card-box" style="border-top: 4px solid #006837;">
             <div class="metric-card-label">Chiffre d'Affaires / Cotisations</div>
-            <div class="metric-card-val" style="color: var(--admin-green);">40 000 FCFA</div>
+            <div class="metric-card-val" style="color: #006837;">40 000 FCFA</div>
           </div>
-          <div class="metric-card-box">
+          <div class="metric-card-box" style="border-top: 4px solid #0A2540;">
             <div class="metric-card-label">Participants Confirmés</div>
-            <div class="metric-card-val" id="stat-approved-members">8</div>
+            <div class="metric-card-val" style="color: #0A2540;" id="stat-approved-members">8</div>
           </div>
-          <div class="metric-card-box">
+          <div class="metric-card-box" style="border-top: 4px solid #F4A261;">
             <div class="metric-card-label">Taux de Conversion</div>
-            <div class="metric-card-val" style="color: var(--admin-green);">85%</div>
+            <div class="metric-card-val" style="color: #D97706;">85%</div>
           </div>
-          <div class="metric-card-box">
+          <div class="metric-card-box" style="border-top: 4px solid #006837;">
             <div class="metric-card-label">Enregistrés sur Site</div>
-            <div class="metric-card-val">6 (75%)</div>
+            <div class="metric-card-val" style="color: #006837;">6 (75%)</div>
           </div>
         </div>
 
         <div class="metrics-grid-4 mb-4">
-          <div class="metric-card-box">
+          <div class="metric-card-box" style="border-top: 4px solid #F4A261;">
             <div class="metric-card-label">Participants En Attente</div>
-            <div class="metric-card-val" style="color: var(--admin-gold);" id="stat-pending-members">3</div>
+            <div class="metric-card-val" style="color: #D97706;" id="stat-pending-members">3</div>
           </div>
-          <div class="metric-card-box">
+          <div class="metric-card-box" style="border-top: 4px solid #0A2540;">
             <div class="metric-card-label">Badges Gratuits / Hôtes</div>
-            <div class="metric-card-val">2</div>
+            <div class="metric-card-val" style="color: #0A2540;">2</div>
           </div>
-          <div class="metric-card-box">
+          <div class="metric-card-box" style="border-top: 4px solid #006837;">
             <div class="metric-card-label">Inscriptions Sénégalaises</div>
-            <div class="metric-card-val">12</div>
+            <div class="metric-card-val" style="color: #006837;">12</div>
           </div>
-          <div class="metric-card-box">
+          <div class="metric-card-box" style="border-top: 4px solid #F4A261;">
             <div class="metric-card-label">Inscriptions Internationales</div>
-            <div class="metric-card-val">1</div>
+            <div class="metric-card-val" style="color: #D97706;">1</div>
           </div>
         </div>
 
