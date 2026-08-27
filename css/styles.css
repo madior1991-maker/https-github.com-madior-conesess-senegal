@@ -1951,4 +1951,135 @@ section.section {
   margin: 0;
 }
 
+/* ==========================================================================
+   RESPONSIVE DISPLAY OPTIMIZATIONS (DESKTOP & MOBILE FIXES)
+   ========================================================================== */
+
+/* 1. Global Viewport & Touch Safety */
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* 2. Desktop Navigation Fine-Tuning (993px and above) */
+@media (min-width: 993px) {
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+  }
+  .nav-menu {
+    display: flex !important;
+    align-items: center;
+    gap: 0.65rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav-link {
+    white-space: nowrap;
+    font-size: 0.835rem;
+    font-weight: 600;
+    padding: 0.35rem 0.55rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  .nav-link:hover, .nav-link.active {
+    color: var(--primary-green) !important;
+    background: rgba(0, 135, 72, 0.08);
+  }
+}
+
+/* Medium Laptop Adjustment (993px - 1200px) */
+@media (min-width: 993px) and (max-width: 1200px) {
+  .nav-menu {
+    gap: 0.4rem;
+  }
+  .nav-link {
+    font-size: 0.78rem;
+    padding: 0.25rem 0.4rem;
+  }
+  .logo-title {
+    font-size: 1.15rem;
+  }
+  .logo-subtitle {
+    font-size: 0.58rem;
+  }
+}
+
+/* 3. Tablet Responsive Layout (768px - 992px) */
+@media (max-width: 992px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 2rem !important;
+  }
+  .hero-themed-card {
+    padding: 1.75rem 1.25rem !important;
+  }
+  .incubator-tabs {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.65rem !important;
+  }
+}
+
+/* 4. Mobile Responsive Layout (Below 768px) */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1.15rem !important;
+    padding-right: 1.15rem !important;
+  }
+  .section {
+    padding: 1.5rem 0 !important;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.75rem !important;
+  }
+  .footer-bottom {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 0.75rem !important;
+  }
+  .incubator-tabs {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+    gap: 0.5rem !important;
+  }
+  .gov-nav-tabs {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+    gap: 0.5rem !important;
+  }
+  .hero-themed-card {
+    padding: 1.25rem 1rem !important;
+  }
+  .floating-whatsapp {
+    bottom: 1.25rem !important;
+    right: 1.15rem !important;
+    width: 52px !important;
+    height: 52px !important;
+    font-size: 1.75rem !important;
+  }
+}
+
+/* 5. Extra Small Phones (Below 480px) */
+@media (max-width: 480px) {
+  .logo-title {
+    font-size: 1.1rem !important;
+  }
+  .logo-subtitle {
+    display: none !important;
+  }
+  .incubator-tab-card {
+    padding: 0.6rem 0.75rem !important;
+  }
+  .incubator-tab-card h4 {
+    font-size: 0.8rem !important;
+  }
+}
+
 
