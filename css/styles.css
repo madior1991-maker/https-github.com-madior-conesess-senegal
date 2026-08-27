@@ -2134,10 +2134,10 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   }
 }
 
-/* Mobile Specific Fixes (<= 768px) */
+/* Mobile Specific Fixes & Premium UI Enhancements (<= 768px) */
 @media (max-width: 768px) {
   section.section {
-    padding: 1.35rem 0 !important;
+    padding: 1.25rem 0 !important;
   }
   
   .container {
@@ -2147,13 +2147,40 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
 
   .btn {
     width: 100%;
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
     text-align: center;
+    font-size: 0.925rem !important;
   }
 
   .badge {
     white-space: normal;
     text-align: center;
+    line-height: 1.35;
+  }
+
+  .mobile-nav-drawer {
+    width: 88vw !important;
+    max-width: 340px !important;
+  }
+
+  .mobile-nav-item {
+    padding: 0.75rem 0.9rem !important;
+    font-size: 0.9rem !important;
+    border-radius: 8px !important;
+  }
+
+  .hero-card-header {
+    flex-direction: row !important;
+    align-items: center !important;
+  }
+
+  .modal-card {
+    padding: 1.25rem 1rem !important;
+    max-width: 95vw !important;
+    border-radius: 16px !important;
   }
 }
 
