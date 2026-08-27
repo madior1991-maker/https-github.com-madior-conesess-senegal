@@ -455,10 +455,10 @@
     <!-- LEFT SIDEBAR NAVIGATION -->
     <aside class="admin-sidebar">
       <div class="admin-brand-card">
-        <div class="admin-brand-avatar">F</div>
+        <div class="admin-brand-avatar">C</div>
         <div>
-          <strong style="font-size: 1rem; color: var(--admin-text-main); display: block;">FESA 2026 / CONESESS</strong>
-          <small style="color: var(--admin-text-muted); font-size: 0.725rem;">Espace organisateur</small>
+          <strong style="font-size: 1rem; color: var(--admin-text-main); display: block;">CONESESS 2026</strong>
+          <small style="color: var(--admin-text-muted); font-size: 0.725rem;">Espace Administrateur</small>
         </div>
       </div>
 
@@ -469,8 +469,13 @@
           </a>
         </li>
         <li>
+          <a onclick="switchAdminTab('tab-web-forms')" class="admin-nav-link" id="nav-item-web-forms">
+            <i class="fas fa-inbox"></i> <span>Formulaires Web Reçus (<span id="count-nav-web-forms" style="color: var(--admin-green); font-weight: 800;">0</span>)</span>
+          </a>
+        </li>
+        <li>
           <a onclick="switchAdminTab('tab-members')" class="admin-nav-link" id="nav-item-members">
-            <i class="fas fa-users"></i> <span>Participants</span>
+            <i class="fas fa-users"></i> <span>Membres & Participants</span>
           </a>
         </li>
         <li>
@@ -519,11 +524,11 @@
       <div class="admin-top-bar">
         <div class="admin-search-box">
           <i class="fas fa-search" style="color: var(--admin-text-muted);"></i>
-          <input type="text" id="admin-global-search" placeholder="Rechercher un participant..." onkeyup="filterMembersTable()">
+          <input type="text" id="admin-global-search" placeholder="Rechercher un participant, organisation..." onkeyup="filterMembersTable()">
         </div>
 
         <div class="admin-top-actions">
-          <span class="action-btn-pill" style="font-size: 0.775rem; background: var(--admin-green-light); color: var(--admin-green); border: none;">FESA 2026</span>
+          <span class="action-btn-pill" style="font-size: 0.775rem; background: var(--admin-green-light); color: var(--admin-green); border: none;">CONESESS 2026</span>
           
           <div class="theme-toggle-pill">
             <button onclick="setAdminTheme('light')" class="theme-btn active" id="btn-theme-light"><i class="fas fa-sun"></i> Clair</button>
@@ -545,7 +550,7 @@
             <div>
               <div class="hero-trend-title">Inscriptions Totales</div>
               <div class="hero-trend-number" id="stat-total-members">13</div>
-              <small style="color: var(--admin-text-muted); font-size: 0.8rem;">FESA 2026 · CICES, Dakar, Sénégal</small>
+              <small style="color: var(--admin-text-muted); font-size: 0.8rem;">CONESESS 2026 · Dakar, Sénégal</small>
             </div>
 
             <!-- SPARKLINE GRAPH SVG -->
@@ -636,6 +641,43 @@
           </div>
         </div>
 
+      </div>
+
+      <!-- TAB: FORMULAIRES WEB REÇUS (DEMANDES DU SITE WEB EN TEMPS RÉEL) -->
+      <div id="tab-web-forms" class="admin-tab-content" style="display: none;">
+        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <div>
+              <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-inbox"></i> Réception Web en Direct</span>
+              <h2 style="font-size: 1.35rem; color: var(--admin-text-main); margin-bottom: 0.2rem;">Formulaires Soumis en Ligne par les Visiteurs</h2>
+              <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Réception centralisée de toutes les demandes d'adhésion et de contact soumises sur index.html et contact.html.</p>
+            </div>
+            
+            <button onclick="renderAdminAll()" class="action-btn-pill" style="font-size: 0.8rem;">
+              <i class="fas fa-sync-alt"></i> Actualiser les Soumissions
+            </button>
+          </div>
+
+          <div class="admin-table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Date & Heure</th>
+                  <th>Source / Type</th>
+                  <th>Organisation / Participant</th>
+                  <th>Détails & Sujet</th>
+                  <th>Région</th>
+                  <th>Contact / WhatsApp</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-web-forms-list">
+                <!-- Dynamic Submitted Web Forms -->
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       <!-- TAB 2: PARTICIPANTS / FULL MEMBERS DATABASE -->
@@ -964,10 +1006,27 @@
           </div>
         </div>
 
-        <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">
-          <i class="fas fa-check-circle"></i> Valider et Enregistrer dans la Base
+  <!-- MODAL: DÉTAIL D'UN FORMULAIRE WEB REÇU -->
+  <div id="web-form-detail-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 600px; border-radius: 20px;">
+      <button class="modal-close" onclick="closeWebFormDetailModal()">&times;</button>
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-file-alt"></i> Fiche Complète du Formulaire Soumis</span>
+        <h3 style="color: #0A2540; font-size: 1.35rem;" id="modal-detail-title">Détails de la Soumission Web</h3>
+      </div>
+
+      <div id="modal-detail-content" style="background: var(--admin-bg-light); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--admin-border-light); font-size: 0.875rem;">
+        <!-- Dynamic Detail Content -->
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem;">
+        <button id="modal-btn-approve-web" onclick="" class="action-btn-primary" style="flex: 1; justify-content: center;">
+          <i class="fas fa-check"></i> Valider Adhésion
         </button>
-      </form>
+        <button id="modal-btn-whatsapp-web" onclick="" class="action-btn-pill" style="background: #25D366; color: #FFFFFF; border: none;">
+          <i class="fab fa-whatsapp"></i> WhatsApp
+        </button>
+      </div>
     </div>
   </div>
 

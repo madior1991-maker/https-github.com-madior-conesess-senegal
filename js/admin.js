@@ -607,13 +607,129 @@ function renderAdminAll() {
   if (statBadgesBtn) statBadgesBtn.textContent = badgesCount;
 
   const countNavPendingAdmins = document.getElementById('count-nav-pending-admins');
+  const countNavWebForms = document.getElementById('count-nav-web-forms');
   if (countNavPendingAdmins) countNavPendingAdmins.textContent = pendingAdminsCount;
+  if (countNavWebForms) countNavWebForms.textContent = members.length + contacts.length;
 
   renderRecentMembersTable(members.slice(0, 5));
   renderFullMembersTable(members);
   renderBadgeSelectOptions(members);
   renderContactsTable(contacts);
   renderAdminUsersTable(adminUsers);
+  renderWebFormsTable(members, contacts);
+}
+
+// Render Submitted Web Forms Table
+function renderWebFormsTable(members, contacts) {
+  const tbody = document.getElementById('tbody-web-forms-list');
+  if (!tbody) return;
+
+  const allSubmissions = [];
+
+  members.forEach(m => {
+    allSubmissions.push({
+      id: m.ref,
+      date: m.date || 'Récemment',
+      type: 'Adhésion Membre (index.html)',
+      name: m.name,
+      details: `${m.type} - ${m.pole || 'Général'}`,
+      region: m.region,
+      contact: `${m.rep} (${m.phone})`,
+      rawPhone: m.phone,
+      email: m.email || '',
+      status: m.status,
+      rawData: m
+    });
+  });
+
+  contacts.forEach((c, idx) => {
+    allSubmissions.push({
+      id: 'CONTACT-' + (idx + 1),
+      date: c.date || 'Récemment',
+      type: 'Formulaire Contact (contact.html)',
+      name: c.name,
+      details: `Sujet : ${c.subject}`,
+      region: 'Sénégal',
+      contact: `${c.name} (${c.phone})`,
+      rawPhone: c.phone,
+      email: c.email || '',
+      status: 'Nouveau',
+      rawData: c
+    });
+  });
+
+  if (allSubmissions.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--admin-text-muted);">Aucun formulaire soumis sur le site web pour le moment.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = allSubmissions.map(s => `
+    <tr>
+      <td style="font-size: 0.8rem; color: var(--admin-text-muted);">${s.date}</td>
+      <td><span class="badge ${s.type.includes('Adhésion') ? 'badge-green' : 'badge-gold'}" style="font-size: 0.7rem;">${s.type}</span></td>
+      <td><strong>${s.name}</strong></td>
+      <td style="font-size: 0.825rem;">${s.details}</td>
+      <td><span class="badge badge-green" style="font-size: 0.7rem;">${s.region}</span></td>
+      <td style="font-size: 0.825rem;"><strong>${s.contact}</strong></td>
+      <td>${getStatusBadgeHTML(s.status)}</td>
+      <td>
+        <div style="display: flex; gap: 0.35rem;">
+          <button onclick="openWebFormDetailModal('${s.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Voir Fiche"><i class="fas fa-eye"></i> Détails</button>
+          <a href="https://wa.me/${s.rawPhone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(s.name)},%20suite%20%C3%A0%20votre%20formulaire%20soumis%20sur%20le%20site%20CONESESS..." target="_blank" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #25D366; color: #FFFFFF; border: none;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Open Web Form Detail Modal
+function openWebFormDetailModal(id) {
+  const modal = document.getElementById('web-form-detail-modal');
+  const title = document.getElementById('modal-detail-title');
+  const content = document.getElementById('modal-detail-content');
+
+  const members = getMembersDB();
+  const member = members.find(m => m.ref === id);
+
+  if (member && modal && content) {
+    if (title) title.textContent = `Fiche d'Adhésion : ${member.name}`;
+    content.innerHTML = `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+        <div><strong>Référence :</strong> <span style="color: var(--admin-green); font-family: monospace;">${member.ref}</span></div>
+        <div><strong>Date de Soumission :</strong> ${member.date || 'Récemment'}</div>
+        <div><strong>Organisation :</strong> ${member.name}</div>
+        <div><strong>Forme Juridique :</strong> ${member.type}</div>
+        <div><strong>Région :</strong> ${member.region}</div>
+        <div><strong>Pôle Métier :</strong> ${member.pole || 'Général'}</div>
+        <div><strong>Représentant Légal :</strong> ${member.rep}</div>
+        <div><strong>Téléphone / WhatsApp :</strong> ${member.phone}</div>
+        <div><strong>E-mail Officiel :</strong> ${member.email || 'Non renseigné'}</div>
+        <div><strong>Statut du Dossier :</strong> ${member.status}</div>
+      </div>
+    `;
+
+    const btnApprove = document.getElementById('modal-btn-approve-web');
+    if (btnApprove) {
+      btnApprove.onclick = function() {
+        approveMember(member.ref);
+        closeWebFormDetailModal();
+      };
+    }
+
+    const btnWa = document.getElementById('modal-btn-whatsapp-web');
+    if (btnWa) {
+      btnWa.onclick = function() {
+        window.open(`https://wa.me/${member.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(member.rep)},%20votre%20dossier%20CONESESS...`, '_blank');
+      };
+    }
+
+    modal.classList.add('show');
+  }
+}
+
+function closeWebFormDetailModal() {
+  const modal = document.getElementById('web-form-detail-modal');
+  if (modal) modal.classList.remove('show');
 }
 
 // Recent Members Table
