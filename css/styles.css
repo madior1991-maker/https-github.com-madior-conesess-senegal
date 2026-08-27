@@ -2234,6 +2234,13 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   overflow-wrap: break-word;
 }
 
+/* Completely Hide Footer on Mobile (< 768px) */
+@media (max-width: 768px) {
+  footer.footer {
+    display: none !important;
+  }
+}
+
 /* Tablet Adaptive Layout (576px to 991px) */
 @media (max-width: 991px) and (min-width: 576px) {
   .footer-grid {
