@@ -304,29 +304,8 @@ function initIncubatorExplorer() {
 
   tabCards.forEach(card => {
     card.addEventListener('click', () => {
-      tabCards.forEach(c => {
-        c.classList.remove('active');
-        c.style.background = '#FFFFFF';
-        c.style.borderColor = 'var(--border-light)';
-        c.style.borderLeft = '1px solid var(--border-light)';
-        const h4 = c.querySelector('h4');
-        if (h4) {
-          h4.style.color = 'var(--text-dark)';
-          const icon = h4.querySelector('i');
-          if (icon) icon.style.color = 'var(--primary-green)';
-        }
-      });
-
+      tabCards.forEach(c => c.classList.remove('active'));
       card.classList.add('active');
-      card.style.background = '#FFFFFF';
-      card.style.borderColor = 'var(--border-light)';
-      card.style.borderLeft = '4px solid var(--primary-green)';
-      const h4 = card.querySelector('h4');
-      if (h4) {
-        h4.style.color = 'var(--primary-green)';
-        const icon = h4.querySelector('i');
-        if (icon) icon.style.color = 'var(--primary-green)';
-      }
 
       const key = card.dataset.hub;
       const data = incubatorData[key];
