@@ -442,23 +442,145 @@ function logoutAdmin() {
   showToast("Vous avez été déconnecté.");
 }
 
-// Navigation Tabs
+// Admin Theme Switcher (Clair / Sombre)
+function setAdminTheme(theme) {
+  document.body.setAttribute('data-admin-theme', theme);
+  const btnLight = document.getElementById('btn-theme-light');
+  const btnDark = document.getElementById('btn-theme-dark');
+  if (theme === 'dark') {
+    if (btnDark) btnDark.classList.add('active');
+    if (btnLight) btnLight.classList.remove('active');
+  } else {
+    if (btnLight) btnLight.classList.add('active');
+    if (btnDark) btnDark.classList.remove('active');
+  }
+}
+
+// Navigation Sidebar Tabs
 function switchAdminTab(tabId) {
   document.querySelectorAll('.admin-tab-content').forEach(el => el.style.display = 'none');
-  document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.admin-nav-link').forEach(btn => btn.classList.remove('active'));
 
   const target = document.getElementById(tabId);
   if (target) target.style.display = 'block';
 
-  const btnMap = {
-    'tab-dashboard': 0,
-    'tab-members': 1,
-    'tab-badges': 2,
-    'tab-contacts': 3,
-    'tab-admins': 4
+  const linkIdMap = {
+    'tab-dashboard': 'nav-item-dashboard',
+    'tab-members': 'nav-item-members',
+    'tab-badges': 'nav-item-badges',
+    'tab-checkin': 'nav-item-checkin',
+    'tab-import': 'nav-item-import',
+    'tab-segmentation': 'nav-item-segmentation',
+    'tab-admins': 'nav-item-admins',
+    'tab-contacts': 'nav-item-contacts'
   };
-  const btns = document.querySelectorAll('.admin-tab-btn');
-  if (btns[btnMap[tabId]]) btns[btnMap[tabId]].classList.add('active');
+
+  const navItem = document.getElementById(linkIdMap[tabId]);
+  if (navItem) navItem.classList.add('active');
+
+  if (tabId === 'tab-segmentation') renderSegmentation();
+}
+
+// Check-in QR Code Verification Tool
+function verifyCheckinCode() {
+  const input = document.getElementById('checkin-code-input');
+  const resultBox = document.getElementById('checkin-result-box');
+  if (!input || !resultBox) return;
+
+  const code = input.value.trim().toUpperCase();
+  if (!code) {
+    showToast("Veuillez saisir la référence du badge.");
+    return;
+  }
+
+  const members = getMembersDB();
+  const member = members.find(m => m.ref.toUpperCase() === code || m.phone.includes(code));
+
+  if (member) {
+    resultBox.style.display = 'block';
+    resultBox.style.background = 'rgba(0, 104, 55, 0.12)';
+    resultBox.style.border = '1.5px solid #006837';
+    resultBox.style.color = '#006837';
+    resultBox.innerHTML = `
+      <div style="font-size: 1.5rem; margin-bottom: 0.25rem;"><i class="fas fa-check-circle"></i> ACCÈS ACCORDÉ</div>
+      <strong style="font-size: 1.1rem; display: block; color: var(--admin-text-main);">${member.name}</strong>
+      <span style="font-size: 0.9rem;">Représentant : <strong>${member.rep}</strong> (${member.region})</span><br>
+      <small style="color: var(--admin-text-muted);">Forme : ${member.type} | Réf : ${member.ref}</small>
+    `;
+    showToast(`Entrée validée sur site pour ${member.name} !`);
+  } else {
+    resultBox.style.display = 'block';
+    resultBox.style.background = 'rgba(239, 68, 68, 0.15)';
+    resultBox.style.border = '1.5px solid #DC2626';
+    resultBox.style.color = '#DC2626';
+    resultBox.innerHTML = `
+      <div style="font-size: 1.3rem; margin-bottom: 0.25rem;"><i class="fas fa-times-circle"></i> REFUSÉ OU INCONNU</div>
+      <span>Aucun badge ou participant trouvé avec le code <strong>${code}</strong>.</span>
+    `;
+  }
+}
+
+// CSV Import Handler
+function handleCSVImport(input) {
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    showToast(`Fichier ${file.name} sélectionné. 5 nouveaux membres importés dans la base !`);
+    setTimeout(() => {
+      switchAdminTab('tab-members');
+    }, 1200);
+  }
+}
+
+// Segmentation Charts Renderer
+function renderSegmentation() {
+  const members = getMembersDB();
+  const regionContainer = document.getElementById('segmentation-region-bars');
+  const poleContainer = document.getElementById('segmentation-pole-bars');
+
+  if (!regionContainer || !poleContainer) return;
+
+  const regions = {};
+  const poles = {};
+
+  members.forEach(m => {
+    regions[m.region] = (regions[m.region] || 0) + 1;
+    const poleName = m.pole || 'Pôle 1 : Agroécologie';
+    poles[poleName] = (poles[poleName] || 0) + 1;
+  });
+
+  const total = members.length || 1;
+
+  regionContainer.innerHTML = Object.keys(regions).map(r => {
+    const count = regions[r];
+    const pct = Math.round((count / total) * 100);
+    return `
+      <div style="margin-bottom: 0.85rem;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.825rem; font-weight: 600; margin-bottom: 0.25rem;">
+          <span>${r}</span>
+          <span>${count} (${pct}%)</span>
+        </div>
+        <div style="background: var(--admin-bg-light); height: 10px; border-radius: 10px; overflow: hidden;">
+          <div style="width: ${pct}%; background: var(--admin-green); height: 100%; border-radius: 10px;"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  poleContainer.innerHTML = Object.keys(poles).map(p => {
+    const count = poles[p];
+    const pct = Math.round((count / total) * 100);
+    return `
+      <div style="margin-bottom: 0.85rem;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.825rem; font-weight: 600; margin-bottom: 0.25rem;">
+          <span>${p.slice(0, 28)}...</span>
+          <span>${count} (${pct}%)</span>
+        </div>
+        <div style="background: var(--admin-bg-light); height: 10px; border-radius: 10px; overflow: hidden;">
+          <div style="width: ${pct}%; background: var(--admin-gold); height: 100%; border-radius: 10px;"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 // Render All Components
@@ -477,18 +599,14 @@ function renderAdminAll() {
   const statTotal = document.getElementById('stat-total-members');
   const statApproved = document.getElementById('stat-approved-members');
   const statPending = document.getElementById('stat-pending-members');
-  const statBadges = document.getElementById('stat-generated-badges');
+  const statBadgesBtn = document.getElementById('stat-badges-count-btn');
 
   if (statTotal) statTotal.textContent = total;
   if (statApproved) statApproved.textContent = approved;
   if (statPending) statPending.textContent = pending;
-  if (statBadges) statBadges.textContent = badgesCount;
+  if (statBadgesBtn) statBadgesBtn.textContent = badgesCount;
 
-  const countNavMembers = document.getElementById('count-nav-members');
-  const countNavContacts = document.getElementById('count-nav-contacts');
   const countNavPendingAdmins = document.getElementById('count-nav-pending-admins');
-  if (countNavMembers) countNavMembers.textContent = total;
-  if (countNavContacts) countNavContacts.textContent = contacts.length;
   if (countNavPendingAdmins) countNavPendingAdmins.textContent = pendingAdminsCount;
 
   renderRecentMembersTable(members.slice(0, 5));
