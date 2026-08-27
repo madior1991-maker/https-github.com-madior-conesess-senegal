@@ -640,9 +640,17 @@ img {
 
 .stat-label {
   font-size: 0.775rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
+}
+
+.stat-desc {
+  font-size: 0.735rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 0.35rem;
+  line-height: 1.35;
 }
 
 /* Quick Banner - Senegal Vision 2050 */
