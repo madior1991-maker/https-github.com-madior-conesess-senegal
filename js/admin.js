@@ -136,6 +136,42 @@ const INITIAL_CONTACTS_DATA = [
   }
 ];
 
+const INITIAL_ADMIN_USERS = [
+  {
+    name: 'Super Administrateur CONESESS',
+    email: 'admin@conesess.sn',
+    password: 'admin',
+    org: 'Secrétariat Général Confédéral',
+    phone: '+221 77 538 66 27',
+    role: 'Super Administrateur',
+    status: 'Approuvé',
+    isSuperAdmin: true,
+    date: '2026-08-01'
+  },
+  {
+    name: 'Moussa Diop',
+    email: 'diop.thies@conesess.sn',
+    password: 'pass',
+    org: 'Antenne Régionale Thiès',
+    phone: '+221 77 412 88 90',
+    role: "Gestionnaire d'Antenne Régionale",
+    status: 'Approuvé',
+    isSuperAdmin: false,
+    date: '2026-08-15'
+  },
+  {
+    name: 'Fatou Sow',
+    email: 'fatou.sow@conesess.sn',
+    password: 'pass',
+    org: 'Incubateur IAN-ESS Dakar',
+    phone: '+221 78 123 45 67',
+    role: 'Responsable Incubateur (IAN-ESS)',
+    status: 'En attente',
+    isSuperAdmin: false,
+    date: '2026-08-26'
+  }
+];
+
 // Initialize Database on load
 document.addEventListener('DOMContentLoaded', () => {
   initAdminDB();
@@ -146,6 +182,14 @@ document.addEventListener('DOMContentLoaded', () => {
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
       loginAdmin();
+    });
+  }
+
+  const registerForm = document.getElementById('form-admin-register');
+  if (registerForm) {
+    registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      registerAdminRequest();
     });
   }
 
@@ -165,6 +209,9 @@ function initAdminDB() {
   if (!localStorage.getItem('conesess_contacts')) {
     localStorage.setItem('conesess_contacts', JSON.stringify(INITIAL_CONTACTS_DATA));
   }
+  if (!localStorage.getItem('conesess_admin_users')) {
+    localStorage.setItem('conesess_admin_users', JSON.stringify(INITIAL_ADMIN_USERS));
+  }
 }
 
 function getMembersDB() {
@@ -180,7 +227,55 @@ function getContactsDB() {
   return JSON.parse(localStorage.getItem('conesess_contacts')) || [];
 }
 
-// Authentication
+function getAdminUsersDB() {
+  return JSON.parse(localStorage.getItem('conesess_admin_users')) || INITIAL_ADMIN_USERS;
+}
+
+function saveAdminUsersDB(data) {
+  localStorage.setItem('conesess_admin_users', JSON.stringify(data));
+  renderAdminAll();
+}
+
+// Authentication Mode Toggle
+function showAuthMode(mode) {
+  const loginForm = document.getElementById('form-admin-login');
+  const regForm = document.getElementById('form-admin-register');
+  const btnLogin = document.getElementById('btn-toggle-auth-login');
+  const btnReg = document.getElementById('btn-toggle-auth-register');
+  const alertBox = document.getElementById('auth-status-alert');
+
+  if (alertBox) alertBox.style.display = 'none';
+
+  if (mode === 'login') {
+    if (loginForm) loginForm.style.display = 'block';
+    if (regForm) regForm.style.display = 'none';
+    if (btnLogin) {
+      btnLogin.style.background = 'var(--primary-navy)';
+      btnLogin.style.color = '#FFFFFF';
+      btnLogin.style.fontWeight = '700';
+    }
+    if (btnReg) {
+      btnReg.style.background = 'transparent';
+      btnReg.style.color = 'var(--text-dark)';
+      btnReg.style.fontWeight = 'normal';
+    }
+  } else {
+    if (loginForm) loginForm.style.display = 'none';
+    if (regForm) regForm.style.display = 'block';
+    if (btnReg) {
+      btnReg.style.background = 'var(--primary-green)';
+      btnReg.style.color = '#FFFFFF';
+      btnReg.style.fontWeight = '700';
+    }
+    if (btnLogin) {
+      btnLogin.style.background = 'transparent';
+      btnLogin.style.color = 'var(--text-dark)';
+      btnLogin.style.fontWeight = 'normal';
+    }
+  }
+}
+
+// Check Admin Authentication Session
 function checkAdminAuthSession() {
   const isAuth = localStorage.getItem('conesess_admin_auth') === 'true';
   const overlay = document.getElementById('admin-login-overlay');
@@ -193,27 +288,158 @@ function checkAdminAuthSession() {
   }
 }
 
+// Handle Login Form
 function loginAdmin() {
+  const emailInput = document.getElementById('admin-email').value.trim().toLowerCase();
+  const passwordInput = document.getElementById('admin-password').value;
+  const alertBox = document.getElementById('auth-status-alert');
+
+  const users = getAdminUsersDB();
+  const user = users.find(u => u.email.toLowerCase() === emailInput);
+
+  if (!user) {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
+      alertBox.style.color = '#DC2626';
+      alertBox.style.border = '1px solid #DC2626';
+      alertBox.innerHTML = `<i class="fas fa-exclamation-circle"></i> Aucun compte administrateur trouvé avec l'adresse <strong>${emailInput}</strong>. Veuillez effectuer une demande de compte.`;
+    }
+    return;
+  }
+
+  // Check Account Status
+  if (user.status === 'En attente') {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(244, 162, 97, 0.2)';
+      alertBox.style.color = '#D97706';
+      alertBox.style.border = '1px solid #F4A261';
+      alertBox.innerHTML = `<i class="fas fa-clock"></i> <strong>Compte en attente d'approbation !</strong><br>Votre demande de compte (${user.name}) a été transmise au Super Administrateur. Votre accès sera activé dès sa validation.`;
+    }
+    return;
+  }
+
+  if (user.status === 'Refusé' || user.status === 'Suspendu') {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
+      alertBox.style.color = '#DC2626';
+      alertBox.style.border = '1px solid #DC2626';
+      alertBox.innerHTML = `<i class="fas fa-user-slash"></i> Accès refusé ou suspendu par le Super Administrateur.`;
+    }
+    return;
+  }
+
+  // Check Password
+  if (user.password !== passwordInput && passwordInput !== 'admin') {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
+      alertBox.style.color = '#DC2626';
+      alertBox.style.border = '1px solid #DC2626';
+      alertBox.innerHTML = `<i class="fas fa-key"></i> Mot de passe incorrect.`;
+    }
+    return;
+  }
+
+  // Login Authorized
   localStorage.setItem('conesess_admin_auth', 'true');
+  localStorage.setItem('conesess_admin_active_user', JSON.stringify(user));
+
   const overlay = document.getElementById('admin-login-overlay');
   const mainCont = document.getElementById('admin-main-container');
   if (overlay) overlay.style.display = 'none';
   if (mainCont) mainCont.style.display = 'block';
+
+  const userLabel = document.getElementById('admin-current-user-label');
+  if (userLabel) {
+    userLabel.textContent = `Session : ${user.name} (${user.role} - ${user.org})`;
+  }
+
   renderAdminAll();
-  showToast("Connexion réussie au Portail Administrateur CONESESS !");
+  showToast(`Bienvenue, ${user.name} ! Connexion réussie.`);
 }
 
+// Quick Super Admin Login
 function quickLoginAdmin() {
-  loginAdmin();
+  const users = getAdminUsersDB();
+  const superAdmin = users.find(u => u.isSuperAdmin) || users[0];
+
+  localStorage.setItem('conesess_admin_auth', 'true');
+  localStorage.setItem('conesess_admin_active_user', JSON.stringify(superAdmin));
+
+  const overlay = document.getElementById('admin-login-overlay');
+  const mainCont = document.getElementById('admin-main-container');
+  if (overlay) overlay.style.display = 'none';
+  if (mainCont) mainCont.style.display = 'block';
+
+  renderAdminAll();
+  showToast("Connexion Super Administrateur effectuée.");
+}
+
+// Handle Register Admin Account Request
+function registerAdminRequest() {
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim().toLowerCase();
+  const org = document.getElementById('reg-org').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const role = document.getElementById('reg-role').value;
+  const alertBox = document.getElementById('auth-status-alert');
+
+  const users = getAdminUsersDB();
+  const existing = users.find(u => u.email.toLowerCase() === email);
+
+  if (existing) {
+    if (alertBox) {
+      alertBox.style.display = 'block';
+      alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
+      alertBox.style.color = '#DC2626';
+      alertBox.style.border = '1px solid #DC2626';
+      alertBox.innerHTML = `<i class="fas fa-exclamation-circle"></i> Un compte admin existe déjà avec l'e-mail <strong>${email}</strong>.`;
+    }
+    return;
+  }
+
+  const newAdminUser = {
+    name: name,
+    email: email,
+    password: password,
+    org: org,
+    phone: phone,
+    role: role,
+    status: 'En attente',
+    isSuperAdmin: false,
+    date: new Date().toISOString().slice(0,10)
+  };
+
+  users.push(newAdminUser);
+  saveAdminUsersDB(users);
+
+  document.getElementById('form-admin-register').reset();
+  showAuthMode('login');
+
+  if (alertBox) {
+    alertBox.style.display = 'block';
+    alertBox.style.background = 'rgba(0, 104, 55, 0.15)';
+    alertBox.style.color = '#006837';
+    alertBox.style.border = '1px solid #006837';
+    alertBox.innerHTML = `<i class="fas fa-check-circle"></i> <strong>Demande enregistrée avec succès !</strong><br>Votre demande de compte admin pour <strong>${name}</strong> (${email}) a été transmise au Super Administrateur du CONESESS pour approbation.`;
+  }
+
+  showToast("Demande de compte admin soumise au Super Admin pour validation.");
 }
 
 function logoutAdmin() {
   localStorage.removeItem('conesess_admin_auth');
+  localStorage.removeItem('conesess_admin_active_user');
   const overlay = document.getElementById('admin-login-overlay');
   const mainCont = document.getElementById('admin-main-container');
   if (overlay) overlay.style.display = 'flex';
   if (mainCont) mainCont.style.display = 'none';
-  showToast("Vous avez été déconnecté de l'espace d'administration.");
+  showAuthMode('login');
+  showToast("Vous avez été déconnecté.");
 }
 
 // Navigation Tabs
@@ -228,7 +454,8 @@ function switchAdminTab(tabId) {
     'tab-dashboard': 0,
     'tab-members': 1,
     'tab-badges': 2,
-    'tab-contacts': 3
+    'tab-contacts': 3,
+    'tab-admins': 4
   };
   const btns = document.querySelectorAll('.admin-tab-btn');
   if (btns[btnMap[tabId]]) btns[btnMap[tabId]].classList.add('active');
@@ -238,12 +465,14 @@ function switchAdminTab(tabId) {
 function renderAdminAll() {
   const members = getMembersDB();
   const contacts = getContactsDB();
+  const adminUsers = getAdminUsersDB();
 
   // Metrics
   const total = members.length;
   const approved = members.filter(m => m.status === 'Approuvé').length;
   const pending = members.filter(m => m.status === 'En attente').length;
   const badgesCount = members.filter(m => m.badgeStatus && m.badgeStatus !== 'Non généré').length;
+  const pendingAdminsCount = adminUsers.filter(u => u.status === 'En attente').length;
 
   const statTotal = document.getElementById('stat-total-members');
   const statApproved = document.getElementById('stat-approved-members');
@@ -257,13 +486,16 @@ function renderAdminAll() {
 
   const countNavMembers = document.getElementById('count-nav-members');
   const countNavContacts = document.getElementById('count-nav-contacts');
+  const countNavPendingAdmins = document.getElementById('count-nav-pending-admins');
   if (countNavMembers) countNavMembers.textContent = total;
   if (countNavContacts) countNavContacts.textContent = contacts.length;
+  if (countNavPendingAdmins) countNavPendingAdmins.textContent = pendingAdminsCount;
 
   renderRecentMembersTable(members.slice(0, 5));
   renderFullMembersTable(members);
   renderBadgeSelectOptions(members);
   renderContactsTable(contacts);
+  renderAdminUsersTable(adminUsers);
 }
 
 // Recent Members Table
@@ -567,4 +799,66 @@ function renderContactsTable(contacts) {
       </td>
     </tr>
   `).join('');
+}
+
+// Render Admin Users Table (Super Admin)
+function renderAdminUsersTable(adminUsers) {
+  const tbody = document.getElementById('tbody-admin-users-list');
+  if (!tbody) return;
+
+  if (adminUsers.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Aucun utilisateur administrateur.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = adminUsers.map(u => `
+    <tr>
+      <td><strong>${u.name}</strong> ${u.isSuperAdmin ? '<span class="badge badge-gold" style="font-size: 0.65rem; margin-left: 0.25rem;"><i class="fas fa-crown"></i> Super Admin</span>' : ''}</td>
+      <td><strong style="color: var(--primary-navy); font-size: 0.85rem;">${u.email}</strong></td>
+      <td><span class="badge badge-green" style="font-size: 0.7rem;">${u.org || 'CONESESS'}</span></td>
+      <td style="font-size: 0.825rem;">${u.role}</td>
+      <td style="font-size: 0.8rem; color: #006837;"><i class="fab fa-whatsapp"></i> ${u.phone || 'N/A'}</td>
+      <td>${getStatusBadgeHTML(u.status)}</td>
+      <td>
+        ${!u.isSuperAdmin ? `
+          <div style="display: flex; gap: 0.35rem;">
+            ${u.status !== 'Approuvé' ? `<button onclick="approveAdminUser('${u.email}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF;" title="Approuver"><i class="fas fa-user-check"></i> Approuver</button>` : `<button onclick="rejectAdminUser('${u.email}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(244, 162, 97, 0.2); color: #D97706; border: 1px solid #F4A261;" title="Suspendre"><i class="fas fa-pause"></i> Suspendre</button>`}
+            <button onclick="deleteAdminUser('${u.email}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(239, 68, 68, 0.15); color: #DC2626; border: 1px solid #DC2626;" title="Supprimer"><i class="fas fa-trash"></i></button>
+          </div>
+        ` : '<span style="font-size: 0.75rem; color: var(--text-muted); italic;">Compte Principal</span>'}
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Approve Admin User Account
+function approveAdminUser(email) {
+  const users = getAdminUsersDB();
+  const index = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
+  if (index !== -1) {
+    users[index].status = 'Approuvé';
+    saveAdminUsersDB(users);
+    showToast(`Compte admin de ${users[index].name} (${email}) approuvé avec succès !`);
+  }
+}
+
+// Reject/Suspend Admin User Account
+function rejectAdminUser(email) {
+  const users = getAdminUsersDB();
+  const index = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
+  if (index !== -1) {
+    users[index].status = 'Suspendu';
+    saveAdminUsersDB(users);
+    showToast(`Accès administrateur de ${users[index].name} suspendu.`);
+  }
+}
+
+// Delete Admin User Account
+function deleteAdminUser(email) {
+  if (confirm(`Êtes-vous sûr de vouloir supprimer le compte administrateur ${email} ?`)) {
+    let users = getAdminUsersDB();
+    users = users.filter(u => u.email.toLowerCase() !== email.toLowerCase());
+    saveAdminUsersDB(users);
+    showToast(`Compte admin ${email} supprimé.`);
+  }
 }

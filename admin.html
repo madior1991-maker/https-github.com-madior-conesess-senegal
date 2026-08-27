@@ -297,27 +297,86 @@
 
   <!-- ADMIN LOGIN OVERLAY -->
   <div id="admin-login-overlay" class="admin-login-overlay">
-    <div class="admin-login-card">
-      <div style="text-align: center; margin-bottom: 1.5rem;">
-        <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 70px; height: 70px; border-radius: 50%; border: 3px solid var(--primary-green); margin-bottom: 0.75rem;">
-        <h2 style="color: var(--primary-navy); font-size: 1.5rem; margin-bottom: 0.25rem;">Portail d'Administration</h2>
-        <p style="font-size: 0.85rem; color: var(--text-muted);">Espace Sécurisé CONESESS - Gestion des Adhésions & Badges</p>
+    <div class="admin-login-card" style="max-width: 480px;">
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 65px; height: 65px; border-radius: 50%; border: 3px solid var(--primary-green); margin-bottom: 0.5rem;">
+        <h2 style="color: var(--primary-navy); font-size: 1.45rem; margin-bottom: 0.2rem;">Portail d'Administration</h2>
+        <p style="font-size: 0.825rem; color: var(--text-muted);">Espace Sécurisé CONESESS - Gestion des Adhésions & Badges</p>
       </div>
 
+      <!-- LOGIN MODE TOGGLE BUTTONS -->
+      <div style="display: flex; gap: 0.5rem; background: var(--bg-alt); padding: 0.35rem; border-radius: var(--radius-md); margin-bottom: 1.25rem; border: 1px solid var(--border-light);">
+        <button id="btn-toggle-auth-login" onclick="showAuthMode('login')" class="btn btn-sm" style="flex: 1; font-size: 0.8rem; background: var(--primary-navy); color: #FFFFFF; font-weight: 700;">
+          <i class="fas fa-sign-in-alt"></i> Se Connecter
+        </button>
+        <button id="btn-toggle-auth-register" onclick="showAuthMode('register')" class="btn btn-sm" style="flex: 1; font-size: 0.8rem; background: transparent; color: var(--text-dark);">
+          <i class="fas fa-user-plus"></i> Demander un Compte
+        </button>
+      </div>
+
+      <!-- STATUS ALERT BOX -->
+      <div id="auth-status-alert" style="display: none; padding: 0.75rem; border-radius: var(--radius-md); font-size: 0.825rem; margin-bottom: 1rem;"></div>
+
+      <!-- FORM 1: LOGIN FORM -->
       <form id="form-admin-login">
         <div class="wizard-form-group mb-3">
-          <label style="font-weight: 600; font-size: 0.85rem;">Identifiant Administrateur</label>
-          <input type="email" id="admin-email" class="wizard-form-control" value="admin@conesess.sn" required placeholder="admin@conesess.sn">
+          <label style="font-weight: 600; font-size: 0.825rem;">Identifiant E-mail Administrateur *</label>
+          <input type="email" id="admin-email" class="wizard-form-control" value="admin@conesess.sn" required placeholder="admin@conesess.sn" style="height: 38px; font-size: 0.85rem;">
         </div>
         <div class="wizard-form-group mb-4">
-          <label style="font-weight: 600; font-size: 0.85rem;">Mot de Passe</label>
-          <input type="password" id="admin-password" class="wizard-form-control" value="admin" required placeholder="••••••••">
+          <label style="font-weight: 600; font-size: 0.825rem;">Mot de Passe *</label>
+          <input type="password" id="admin-password" class="wizard-form-control" value="admin" required placeholder="••••••••" style="height: 38px; font-size: 0.85rem;">
         </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 0.95rem;">
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem; font-size: 0.9rem;">
           <i class="fas fa-lock"></i> Connexion au Portail Admin
         </button>
-        <button type="button" onclick="quickLoginAdmin()" class="btn btn-outline mt-2" style="width: 100%; padding: 0.65rem; font-size: 0.85rem;">
-          <i class="fas fa-bolt" style="color: var(--accent-gold);"></i> Connexion Démo Immédiate
+        <button type="button" onclick="quickLoginAdmin()" class="btn btn-outline mt-2" style="width: 100%; padding: 0.6rem; font-size: 0.825rem;">
+          <i class="fas fa-bolt" style="color: var(--accent-gold);"></i> Connexion Super Admin Démo
+        </button>
+      </form>
+
+      <!-- FORM 2: REGISTER ACCOUNT REQUEST FORM -->
+      <form id="form-admin-register" style="display: none;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;" class="mb-2">
+          <div class="wizard-form-group" style="margin-bottom: 0.4rem;">
+            <label style="font-weight: 600; font-size: 0.775rem;">Nom & Prénom *</label>
+            <input type="text" id="reg-name" class="wizard-form-control" required placeholder="ex: Fatou Ndiaye" style="height: 36px; font-size: 0.825rem;">
+          </div>
+          <div class="wizard-form-group" style="margin-bottom: 0.4rem;">
+            <label style="font-weight: 600; font-size: 0.775rem;">E-mail Officiel *</label>
+            <input type="email" id="reg-email" class="wizard-form-control" required placeholder="fatou@conesess.sn" style="height: 36px; font-size: 0.825rem;">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;" class="mb-2">
+          <div class="wizard-form-group" style="margin-bottom: 0.4rem;">
+            <label style="font-weight: 600; font-size: 0.775rem;">Antenne / Service *</label>
+            <input type="text" id="reg-org" class="wizard-form-control" required placeholder="ex: Antenne Thiès / Incubateur" style="height: 36px; font-size: 0.825rem;">
+          </div>
+          <div class="wizard-form-group" style="margin-bottom: 0.4rem;">
+            <label style="font-weight: 600; font-size: 0.775rem;">Téléphone / WhatsApp *</label>
+            <input type="tel" id="reg-phone" class="wizard-form-control" required placeholder="+221 77 000 00 00" style="height: 36px; font-size: 0.825rem;">
+          </div>
+        </div>
+
+        <div class="wizard-form-group" style="margin-bottom: 0.4rem;">
+          <label style="font-weight: 600; font-size: 0.775rem;">Mot de Passe Souhaité *</label>
+          <input type="password" id="reg-password" class="wizard-form-control" required placeholder="Choisissez un mot de passe fort" style="height: 36px; font-size: 0.825rem;">
+        </div>
+
+        <div class="wizard-form-group mb-3">
+          <label style="font-weight: 600; font-size: 0.775rem;">Motif / Rôle Souhaité *</label>
+          <select id="reg-role" class="wizard-form-control" required style="height: 36px; font-size: 0.825rem;">
+            <option>Gestionnaire d'Antenne Régionale</option>
+            <option>Coordonnateur Pôle Métier</option>
+            <option>Responsable Incubateur (IAN-ESS)</option>
+            <option>Analyste Observatoire (ON-ESS)</option>
+            <option>Secrétariat Technique & Badges</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.7rem; font-size: 0.875rem;">
+          <i class="fas fa-paper-plane"></i> Soumettre la Demande au Super Admin
         </button>
       </form>
     </div>
@@ -332,7 +391,7 @@
         <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 42px; height: 42px; border-radius: 50%; border: 2px solid #E9C46A;">
         <div>
           <strong style="font-size: 1.1rem; color: #FFFFFF; display: block;">CONESESS - Système de Gestion & Badges</strong>
-          <small style="color: #E9C46A; font-size: 0.725rem;">Cadre National Fédérateur des Entreprises de l'ESS du Sénégal</small>
+          <small style="color: #E9C46A; font-size: 0.725rem;" id="admin-current-user-label">Session : Super Administrateur (admin@conesess.sn)</small>
         </div>
       </div>
 
@@ -358,7 +417,10 @@
         <i class="fas fa-id-badge"></i> <span>Studio de Gestion des Badges</span>
       </button>
       <button class="admin-tab-btn" onclick="switchAdminTab('tab-contacts')">
-        <i class="fas fa-envelope-open-text"></i> <span>Messages de Contact (<span id="count-nav-contacts">0</span>)</span>
+        <i class="fas fa-envelope-open-text"></i> <span>Messages (<span id="count-nav-contacts">0</span>)</span>
+      </button>
+      <button class="admin-tab-btn" id="nav-btn-admins" onclick="switchAdminTab('tab-admins')">
+        <i class="fas fa-user-shield"></i> <span>Gestion des Admins (<span id="count-nav-pending-admins" style="color: var(--accent-gold); font-weight: 800;">0</span>)</span>
       </button>
     </nav>
 
@@ -625,6 +687,38 @@
                 </thead>
                 <tbody id="tbody-contacts-list">
                   <!-- Dynamic Rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: SUPER ADMIN USER APPROVALS MANAGEMENT -->
+        <div id="tab-admins" class="admin-tab-content" style="display: none;">
+          <div style="background: #FFFFFF; border-radius: var(--radius-lg); padding: 1.5rem; border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+              <div>
+                <span class="badge badge-gold mb-1" style="font-size: 0.75rem;"><i class="fas fa-shield-alt"></i> Contrôle des Accès Super Admin</span>
+                <h2 style="color: var(--primary-navy); font-size: 1.35rem; margin-bottom: 0.2rem;">Gestion des Comptes Administrateurs & Approbations</h2>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">En tant que Super Administrateur, examinez et validez les demandes d'accès aux services confédéraux.</p>
+              </div>
+            </div>
+
+            <div class="admin-table-container">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Nom & Prénom</th>
+                    <th>E-mail (Identifiant)</th>
+                    <th>Antenne / Organisation</th>
+                    <th>Rôle / Motif Souhaité</th>
+                    <th>Téléphone</th>
+                    <th>Statut d'Accès</th>
+                    <th>Actions de Validation</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-admin-users-list">
+                  <!-- Dynamic Admin Users Rows -->
                 </tbody>
               </table>
             </div>
