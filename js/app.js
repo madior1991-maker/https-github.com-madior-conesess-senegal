@@ -343,20 +343,13 @@ function initIncubatorExplorer() {
    4. MODAL WINDOWS & ADHESION FORM HANDLERS
    -------------------------------------------------------------------------- */
 function initModalsAndForms() {
-  const joinBtns = document.querySelectorAll('.btn-join-modal');
+  const joinBtns = document.querySelectorAll('.btn-join-modal, [href="adhesion.html"], [href="#adhesion"], [data-open-modal="membership-modal"]');
   const modalOverlay = document.getElementById('membership-modal');
   const modalClose = document.getElementById('modal-close-btn');
 
   if (modalOverlay) {
     joinBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
-        if (btn.getAttribute('href') === '#adhesion') {
-          const targetSection = document.getElementById('adhesion');
-          if (targetSection) {
-            targetSection.scrollIntoView({ behavior: 'smooth' });
-            return;
-          }
-        }
         e.preventDefault();
         modalOverlay.classList.add('show');
       });
@@ -503,31 +496,40 @@ function initModalsAndForms() {
         typeVal = document.getElementById('modal-adh-type-other-input')?.value || 'Autre Forme';
       }
       const region = document.getElementById('modal-adh-region')?.value || 'Dakar';
-      const poleSelect = document.getElementById('modal-adh-pole');
-      const poleVal = poleSelect?.options[poleSelect.selectedIndex]?.text || 'Général';
-      const rep = document.getElementById('modal-adh-contact-name')?.value || 'Représentant';
+      const dept = document.getElementById('modal-adh-dept')?.value || '';
+      const sectorSelect = document.getElementById('modal-adh-sector');
+      const sectorVal = sectorSelect?.options[sectorSelect.selectedIndex]?.text || 'Général';
+      const members = document.getElementById('modal-adh-members')?.value || '1';
+      const rep = document.getElementById('modal-adh-rep')?.value || 'Représentant';
       const phone = document.getElementById('modal-adh-phone')?.value || '+221 77 000 00 00';
       const email = document.getElementById('modal-adh-email')?.value || '';
+      const desc = document.getElementById('modal-adh-desc')?.value || '';
+      const motivation = document.getElementById('modal-adh-motivation')?.value || '';
 
       saveSubmissionToDB({
         ref: randRef,
         name: name,
         type: typeVal,
         region: region,
-        pole: poleVal,
+        dept: dept,
+        sector: sectorVal,
+        members: members,
         rep: rep,
         phone: phone,
         email: email,
+        desc: desc,
+        motivation: motivation,
         status: 'En attente',
         badgeStatus: 'Non généré',
         badgeRole: 'Représentant Légal',
         date: new Date().toISOString().slice(0,10)
       });
 
-      modalOverlay.classList.remove('show');
+      if (modalOverlay) modalOverlay.classList.remove('show');
       modalForm.reset();
       if (modalOtherGroup) modalOtherGroup.style.display = 'none';
-      showToast("Votre demande d'adhésion (" + randRef + ") a été transmise au Secrétariat Technique avec succès !");
+
+      showToast("Votre manifestation d'intérêt au CONESESS a bien été transmise (" + randRef + ").");
     });
   }
 

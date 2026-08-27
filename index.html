@@ -1208,69 +1208,108 @@
   <!-- TOAST CONTAINER -->
   <div id="toast-container" class="toast-container"></div>
 
-  <!-- MODAL ADHÉSION -->
+  <!-- MODAL ADHÉSION (MANIFESTATION D'INTÉRÊT) -->
   <div id="membership-modal" class="modal-overlay">
-    <div class="modal-card">
+    <div class="modal-card" style="max-width: 750px;">
       <button class="modal-close" id="modal-close-btn">&times;</button>
-      <div style="text-align: center; margin-bottom: 1.5rem;">
-        <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 0.5rem auto;">
-        <h3 style="color: var(--primary-green);">Rejoindre le CONESESS</h3>
-        <p style="font-size: 0.875rem; color: var(--text-muted);">Formulaire officiel d'adhésion au CONESESS - Cadre National Fédérateur des Entreprises de l'ESS du Sénégal</p>
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 55px; height: 55px; border-radius: 50%; margin: 0 auto 0.4rem auto; border: 2px solid var(--accent-gold);">
+        <h3 style="color: var(--primary-green); margin-bottom: 0.25rem; font-size: 1.35rem; font-weight: 800;">Rejoindre le CONESESS</h3>
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Formulaire Officiel de Manifestation d'Intérêt – CONESESS Sénégal</p>
       </div>
 
       <form id="form-membership">
-        <div class="wizard-form-group">
-          <label>Dénomination Sociale de l'Organisation *</label>
-          <input type="text" class="wizard-form-control" required placeholder="ex: Mutuelle de Santé des Artisans de Dakar">
-        </div>
-
-        <div class="wizard-form-group">
-          <label>Catégorie Juridique *</label>
-          <select class="wizard-form-control" required id="modal-adh-type">
-            <option>Coopérative</option>
-            <option>Mutuelle de Santé / Épargne (SFD)</option>
-            <option>Groupement d'Intérêt Économique (GIE)</option>
-            <option>Entreprise Sociale</option>
-            <option>Association Productive</option>
-            <option value="autre">Autre (à préciser)</option>
-          </select>
-        </div>
-
-        <div class="wizard-form-group" id="modal-adh-type-other-group" style="display: none;">
-          <label style="color: var(--primary-green); font-weight: 600;">Précisez votre Forme Juridique *</label>
-          <input type="text" class="wizard-form-control" id="modal-adh-type-other-input" placeholder="ex: Fondation, Syndicat Professionnel, Waqf...">
-        </div>
-
-        <div class="wizard-form-group">
-          <label>Région Principale *</label>
-          <select class="wizard-form-control" required>
-            <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
-            <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
-            <option>Kolda</option><option>Tambacounda</option><option>Matam</option>
-            <option>Kaffrine</option><option>Kedougou</option><option>Sédhiou</option>
-            <option>Louga</option><option>Diourbel</option>
-          </select>
-        </div>
-
-        <div class="wizard-form-group">
-          <label>Nom & Fonction du Représentant Légal *</label>
-          <input type="text" class="wizard-form-control" required placeholder="Prénom Nom, Président(e) / DG">
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 0.85rem;">
           <div class="wizard-form-group">
-            <label>Téléphone Mobile *</label>
-            <input type="tel" class="wizard-form-control" required placeholder="+221 77 ...">
+            <label>Dénomination de l’organisation *</label>
+            <input type="text" class="wizard-form-control" required placeholder="ex: Coopérative Agricole de Kayar" id="modal-adh-name">
           </div>
+
           <div class="wizard-form-group">
-            <label>Adresse E-mail *</label>
-            <input type="email" class="wizard-form-control" required placeholder="contact@domaine.sn">
+            <label>Forme juridique *</label>
+            <select class="wizard-form-control" required id="modal-adh-type">
+              <option>Coopérative</option>
+              <option>Groupement d'Intérêt Économique (GIE)</option>
+              <option>Mutuelle</option>
+              <option>Entreprise sociale</option>
+              <option value="autre">Autre (à préciser)</option>
+            </select>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem; background: var(--primary-green); border: none;">
+        <div class="wizard-form-group" id="modal-adh-type-other-group" style="display: none; margin-bottom: 0.85rem;">
+          <label style="color: var(--primary-green); font-weight: 600;">Précisez la forme juridique *</label>
+          <input type="text" class="wizard-form-control" id="modal-adh-type-other-input" placeholder="ex: Fondation, Association, Waqf...">
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 0.85rem;">
+          <div class="wizard-form-group">
+            <label>Région *</label>
+            <select class="wizard-form-control" required id="modal-adh-region">
+              <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
+              <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
+              <option>Kolda</option><option>Tambacounda</option><option>Matam</option>
+              <option>Kaffrine</option><option>Kedougou</option><option>Sédhiou</option>
+              <option>Louga</option><option>Diourbel</option>
+            </select>
+          </div>
+
+          <div class="wizard-form-group">
+            <label>Département / Commune *</label>
+            <input type="text" class="wizard-form-control" required id="modal-adh-dept" placeholder="ex: Rufisque / Sangalkam">
+          </div>
+
+          <div class="wizard-form-group">
+            <label>Secteur d’activité *</label>
+            <select class="wizard-form-control" required id="modal-adh-sector">
+              <option>Agroécologie & Souveraineté Alimentaire</option>
+              <option>Finance inclusive, Mutuelles & SFD</option>
+              <option>Artisanat, Énergie & Économie Circulaire</option>
+              <option>Services, Numérique & Éducation</option>
+              <option>Autre secteur d'activité</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 0.85rem;">
+          <div class="wizard-form-group">
+            <label>Nombre de membres / salariés *</label>
+            <input type="number" class="wizard-form-control" required id="modal-adh-members" placeholder="ex: 120">
+          </div>
+
+          <div class="wizard-form-group">
+            <label>Nom et fonction du représentant légal *</label>
+            <input type="text" class="wizard-form-control" required placeholder="ex: Fatou Ndiaye, Présidente" id="modal-adh-rep">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 0.85rem;">
+          <div class="wizard-form-group">
+            <label>Téléphone / WhatsApp *</label>
+            <input type="tel" class="wizard-form-control" required placeholder="+221 77 000 00 00" id="modal-adh-phone">
+          </div>
+
+          <div class="wizard-form-group">
+            <label>Adresse électronique *</label>
+            <input type="email" class="wizard-form-control" required placeholder="contact@organisation.sn" id="modal-adh-email">
+          </div>
+        </div>
+
+        <div class="wizard-form-group" style="margin-bottom: 0.85rem;">
+          <label>Présentation succincte de l’organisation *</label>
+          <textarea class="wizard-form-control" rows="2" required id="modal-adh-desc" placeholder="Présentez brièvement votre organisation, vos activités principales et votre ancrage territorial..."></textarea>
+        </div>
+
+        <div class="wizard-form-group" style="margin-bottom: 1.15rem;">
+          <label>Motivation pour rejoindre le CONESESS *</label>
+          <textarea class="wizard-form-control" rows="2" required id="modal-adh-motivation" placeholder="Expliquez vos attentes et motivations pour rejoindre le réseau national CONESESS..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem; font-weight: 700; background: var(--primary-green); color: #FFFFFF; border: none; border-radius: var(--radius-md);">
           <i class="fas fa-paper-plane"></i> Transmettre ma manifestation d’intérêt
         </button>
+
       </form>
     </div>
   </div>
