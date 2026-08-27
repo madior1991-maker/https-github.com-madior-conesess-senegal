@@ -2138,28 +2138,30 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
 /* Mobile Specific Fixes & Premium UI Enhancements (<= 768px) */
 @media (max-width: 768px) {
   section.section {
-    padding: 1.25rem 0 !important;
+    padding: 1.15rem 0 !important;
   }
   
   .container {
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
+    padding-left: 0.95rem !important;
+    padding-right: 0.95rem !important;
   }
 
   .btn {
     width: 100%;
-    min-height: 46px;
+    min-height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-size: 0.925rem !important;
+    font-size: 0.9rem !important;
+    padding: 0.65rem 1rem !important;
   }
 
   .badge {
     white-space: normal;
     text-align: center;
     line-height: 1.35;
+    font-size: 0.75rem !important;
   }
 
   .mobile-nav-drawer {
@@ -2168,8 +2170,8 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   }
 
   .mobile-nav-item {
-    padding: 0.75rem 0.9rem !important;
-    font-size: 0.9rem !important;
+    padding: 0.7rem 0.85rem !important;
+    font-size: 0.875rem !important;
     border-radius: 8px !important;
   }
 
@@ -2179,9 +2181,55 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   }
 
   .modal-card {
-    padding: 1.25rem 1rem !important;
+    padding: 1.15rem 0.95rem !important;
     max-width: 95vw !important;
-    border-radius: 16px !important;
+    border-radius: 14px !important;
+  }
+
+  /* Force all inline grid containers to stack on mobile */
+  div[style*="display: grid"],
+  div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  /* Compact inner card paddings on mobile */
+  div[style*="padding: 2rem"],
+  div[style*="padding: 1.75rem"],
+  div[style*="padding: 1.85rem"],
+  div[style*="padding: 1.5rem"] {
+    padding: 1.15rem 1rem !important;
+  }
+
+  .logo-text span:last-child {
+    display: none !important;
+  }
+}
+
+/* 5. Extra Small Phones (Below 480px) */
+@media (max-width: 480px) {
+  .logo-title {
+    font-size: 1.05rem !important;
+  }
+
+  .logo-subtitle {
+    display: none !important;
+  }
+
+  .incubator-tab-card {
+    padding: 0.6rem 0.75rem !important;
+  }
+
+  .incubator-tab-card h4 {
+    font-size: 0.8rem !important;
+  }
+
+  .wizard-form-group {
+    width: 100% !important;
+  }
+
+  form div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
   }
 }
 
