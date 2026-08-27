@@ -2184,6 +2184,61 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   font-size: 0.85rem;
 }
 
+/* QUATRE DÉFIS PRIORITAIRES STYLING & MOBILE ALIGNMENT */
+.findings-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.85rem;
+  width: 100%;
+}
+
+.finding-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-light);
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  text-align: left;
+}
+
+.finding-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent-soft-gold);
+  color: #D97706;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.finding-body {
+  text-align: left;
+}
+
+.finding-body strong {
+  font-size: 0.875rem;
+  display: block;
+  color: var(--primary-navy);
+  line-height: 1.25;
+  text-align: left;
+}
+
+.finding-body p {
+  font-size: 0.785rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+  line-height: 1.35;
+  text-align: left;
+}
+
 /* Tablet & Mobile Grid Fixes (<= 992px) */
 @media (max-width: 992px) {
   .hero-grid,
@@ -2192,9 +2247,10 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   .incubator-explorer-grid,
   .gov-display-card,
   .gov-main-grid,
+  .findings-list,
   .incubator-detail-grid {
     grid-template-columns: 1fr !important;
-    gap: 1.25rem !important;
+    gap: 0.85rem !important;
   }
 }
 
