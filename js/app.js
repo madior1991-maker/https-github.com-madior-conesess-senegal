@@ -64,7 +64,7 @@ const govData = {
   ag: {
     title: "A. L'Assemblée Générale (AG) – L'Organe Suprême",
     badge: "Souveraineté & Démocratie ESS",
-    desc: "L'Assemblée Générale est l'instance souveraine du CONESESS. Elle incarne la base militante, citoyenne et économique du réseau confédérateur de l'ESS au Sénégal.",
+    desc: "L'Assemblée Générale est l'instance souveraine du CONESESS. Elle incarne la base militante, citoyenne et économique du cadre national fédérateur de l'ESS au Sénégal.",
     features: [
       "Réunit l'ensemble des membres à jour : coopératives, mutuelles, GIE et entreprises sociales.",
       "Définit la politique générale et élit le Conseil d'Administration.",
@@ -138,7 +138,7 @@ const govData = {
   },
   sg: {
     title: "D. Le Secrétariat Général (SG) – Ancre d'Exécution Administrative",
-    badge: "Modèle Confédéral CNP",
+    badge: "Modèle Cadre Fédérateur CNP",
     desc: "Structure permanente non élue dirigée par un cadre de haut niveau recruté par le CA sur le modèle horizontal fort du CNP.",
     features: [
       "Coordonne l'administration globale et les services aux membres.",
