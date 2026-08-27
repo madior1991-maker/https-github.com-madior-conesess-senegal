@@ -1,0 +1,570 @@
+/* ==========================================================================
+   CONESESS - ADMIN DASHBOARD & BADGE MANAGEMENT LOGIC
+   ========================================================================== */
+
+const INITIAL_MEMBERS_DATA = [
+  {
+    ref: 'CONESESS-2026-1042',
+    name: 'Coopérative Agro-maraîchère de Kayar',
+    type: 'Coopérative Agricole / Halieutique',
+    region: 'Thiès',
+    pole: 'Agroécologie & Souveraineté Alimentaire',
+    rep: 'Mamadou Ndiaye (Président)',
+    phone: '+221 77 412 88 90',
+    email: 'kayar.coop@conesess.sn',
+    status: 'Approuvé',
+    badgeStatus: 'Généré',
+    badgeRole: 'Président Représentant Légal',
+    date: '2026-08-25'
+  },
+  {
+    ref: 'CONESESS-2026-2184',
+    name: 'Mutuelle de Santé Communautaire de Yeumbeul',
+    type: 'Mutuelle de Santé',
+    region: 'Dakar',
+    pole: 'Mutuelles de Santé & SFD',
+    rep: 'Aïssatou Sow (Directrice)',
+    phone: '+221 78 123 45 67',
+    email: 'yeumbeul.sante@conesess.sn',
+    status: 'Approuvé',
+    badgeStatus: 'Imprimé',
+    badgeRole: 'Directrice Générale',
+    date: '2026-08-24'
+  },
+  {
+    ref: 'CONESESS-2026-3091',
+    name: 'GIE Bokk Jom de Ziguinchor',
+    type: "Groupement d'Intérêt Économique (GIE)",
+    region: 'Ziguinchor',
+    pole: 'Artisanat & Économie Circulaire',
+    rep: 'Ousmane Sané (Gérant)',
+    phone: '+221 77 987 65 43',
+    email: 'bokkjom.zig@conesess.sn',
+    status: 'En attente',
+    badgeStatus: 'Non généré',
+    badgeRole: 'Gérant Représentant',
+    date: '2026-08-26'
+  },
+  {
+    ref: 'CONESESS-2026-4412',
+    name: 'SFD Finance Éthique & Solidaire (Waqf)',
+    type: 'Entreprise Sociale / SFD',
+    region: 'Dakar',
+    pole: 'Mutuelles de Santé & SFD',
+    rep: 'Dr. Cheikh Diop (Président)',
+    phone: '+221 77 538 66 27',
+    email: 'waqf.finance@conesess.sn',
+    status: 'Approuvé',
+    badgeStatus: 'Délivré',
+    badgeRole: 'Président Conseil Éthique',
+    date: '2026-08-22'
+  },
+  {
+    ref: 'CONESESS-2026-5219',
+    name: 'Coopérative Halieutique de Saint-Louis',
+    type: 'Coopérative Halieutique',
+    region: 'Saint-Louis',
+    pole: 'Agroécologie & Souveraineté Alimentaire',
+    rep: 'Abdoulaye Fall',
+    phone: '+221 76 543 21 09',
+    email: 'pecheurs.ndar@conesess.sn',
+    status: 'Approuvé',
+    badgeStatus: 'Généré',
+    badgeRole: 'Président de Section',
+    date: '2026-08-21'
+  },
+  {
+    ref: 'CONESESS-2026-6810',
+    name: 'Startup Éco-Soleil Numérique Social',
+    type: 'Entreprise Sociale / Startup',
+    region: 'Fatick',
+    pole: 'Services, Numérique Social & Éducation',
+    rep: 'Aminata Ba',
+    phone: '+221 77 345 67 89',
+    email: 'ecosoleil@conesess.sn',
+    status: 'En attente',
+    badgeStatus: 'Non généré',
+    badgeRole: 'Fondatrice & CEO',
+    date: '2026-08-26'
+  },
+  {
+    ref: 'CONESESS-2026-7730',
+    name: 'Coopérative de Transformation de Kolda',
+    type: 'Coopérative Agricole',
+    region: 'Kolda',
+    pole: 'Agroécologie & Souveraineté Alimentaire',
+    rep: 'Ibrahima Baldé',
+    phone: '+221 70 876 54 32',
+    email: 'kolda.agro@conesess.sn',
+    status: 'Approuvé',
+    badgeStatus: 'Non généré',
+    badgeRole: 'Coordonnateur Régional',
+    date: '2026-08-23'
+  },
+  {
+    ref: 'CONESESS-2026-8942',
+    name: 'Association des Artisans du Solaire de Kaolack',
+    type: 'Association Productive',
+    region: 'Kaolack',
+    pole: 'Artisanat & Économie Circulaire',
+    rep: 'Samba Cissé',
+    phone: '+221 77 210 98 76',
+    email: 'artisans.kaolack@conesess.sn',
+    status: 'Approuvé',
+    badgeStatus: 'Généré',
+    badgeRole: 'Secrétaire Général',
+    date: '2026-08-20'
+  }
+];
+
+const INITIAL_CONTACTS_DATA = [
+  {
+    date: '2026-08-26 14:32',
+    name: 'Fatou Kiné Ndiaye',
+    phone: '+221 77 654 32 10',
+    email: 'fatou.ndiaye@coop-thies.sn',
+    subject: "Adhésion au CONESESS",
+    message: "Bonjour, notre coopérative souhaite rejoindre le CONESESS. Pouvons-nous programmer une rencontre avec l'Antenne de Thiès ?"
+  },
+  {
+    date: '2026-08-25 09:15',
+    name: 'Moussa Gueye',
+    phone: '+221 78 901 23 45',
+    email: 'moussa.gueye@gie-dakar.sn',
+    subject: "Accompagnement Incubateur (IAN-ESS)",
+    message: "Nous sollicitons un accompagnement technique et financier dans le cadre du Pôle 3 pour moderniser nos ateliers solaires."
+  }
+];
+
+// Initialize Database on load
+document.addEventListener('DOMContentLoaded', () => {
+  initAdminDB();
+  checkAdminAuthSession();
+
+  const loginForm = document.getElementById('form-admin-login');
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      loginAdmin();
+    });
+  }
+
+  const manualForm = document.getElementById('form-manual-add-member');
+  if (manualForm) {
+    manualForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      saveManualMember();
+    });
+  }
+});
+
+function initAdminDB() {
+  if (!localStorage.getItem('conesess_members')) {
+    localStorage.setItem('conesess_members', JSON.stringify(INITIAL_MEMBERS_DATA));
+  }
+  if (!localStorage.getItem('conesess_contacts')) {
+    localStorage.setItem('conesess_contacts', JSON.stringify(INITIAL_CONTACTS_DATA));
+  }
+}
+
+function getMembersDB() {
+  return JSON.parse(localStorage.getItem('conesess_members')) || [];
+}
+
+function saveMembersDB(data) {
+  localStorage.setItem('conesess_members', JSON.stringify(data));
+  renderAdminAll();
+}
+
+function getContactsDB() {
+  return JSON.parse(localStorage.getItem('conesess_contacts')) || [];
+}
+
+// Authentication
+function checkAdminAuthSession() {
+  const isAuth = localStorage.getItem('conesess_admin_auth') === 'true';
+  const overlay = document.getElementById('admin-login-overlay');
+  const mainCont = document.getElementById('admin-main-container');
+
+  if (isAuth && overlay && mainCont) {
+    overlay.style.display = 'none';
+    mainCont.style.display = 'block';
+    renderAdminAll();
+  }
+}
+
+function loginAdmin() {
+  localStorage.setItem('conesess_admin_auth', 'true');
+  const overlay = document.getElementById('admin-login-overlay');
+  const mainCont = document.getElementById('admin-main-container');
+  if (overlay) overlay.style.display = 'none';
+  if (mainCont) mainCont.style.display = 'block';
+  renderAdminAll();
+  showToast("Connexion réussie au Portail Administrateur CONESESS !");
+}
+
+function quickLoginAdmin() {
+  loginAdmin();
+}
+
+function logoutAdmin() {
+  localStorage.removeItem('conesess_admin_auth');
+  const overlay = document.getElementById('admin-login-overlay');
+  const mainCont = document.getElementById('admin-main-container');
+  if (overlay) overlay.style.display = 'flex';
+  if (mainCont) mainCont.style.display = 'none';
+  showToast("Vous avez été déconnecté de l'espace d'administration.");
+}
+
+// Navigation Tabs
+function switchAdminTab(tabId) {
+  document.querySelectorAll('.admin-tab-content').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
+
+  const target = document.getElementById(tabId);
+  if (target) target.style.display = 'block';
+
+  const btnMap = {
+    'tab-dashboard': 0,
+    'tab-members': 1,
+    'tab-badges': 2,
+    'tab-contacts': 3
+  };
+  const btns = document.querySelectorAll('.admin-tab-btn');
+  if (btns[btnMap[tabId]]) btns[btnMap[tabId]].classList.add('active');
+}
+
+// Render All Components
+function renderAdminAll() {
+  const members = getMembersDB();
+  const contacts = getContactsDB();
+
+  // Metrics
+  const total = members.length;
+  const approved = members.filter(m => m.status === 'Approuvé').length;
+  const pending = members.filter(m => m.status === 'En attente').length;
+  const badgesCount = members.filter(m => m.badgeStatus && m.badgeStatus !== 'Non généré').length;
+
+  const statTotal = document.getElementById('stat-total-members');
+  const statApproved = document.getElementById('stat-approved-members');
+  const statPending = document.getElementById('stat-pending-members');
+  const statBadges = document.getElementById('stat-generated-badges');
+
+  if (statTotal) statTotal.textContent = total;
+  if (statApproved) statApproved.textContent = approved;
+  if (statPending) statPending.textContent = pending;
+  if (statBadges) statBadges.textContent = badgesCount;
+
+  const countNavMembers = document.getElementById('count-nav-members');
+  const countNavContacts = document.getElementById('count-nav-contacts');
+  if (countNavMembers) countNavMembers.textContent = total;
+  if (countNavContacts) countNavContacts.textContent = contacts.length;
+
+  renderRecentMembersTable(members.slice(0, 5));
+  renderFullMembersTable(members);
+  renderBadgeSelectOptions(members);
+  renderContactsTable(contacts);
+}
+
+// Recent Members Table
+function renderRecentMembersTable(members) {
+  const tbody = document.getElementById('tbody-recent-members');
+  if (!tbody) return;
+
+  if (members.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Aucune adhésion enregistrée.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = members.map(m => `
+    <tr>
+      <td><strong style="color: var(--primary-green); font-family: monospace;">${m.ref}</strong></td>
+      <td><strong>${m.name}</strong></td>
+      <td>${m.type}</td>
+      <td><span class="badge badge-green" style="font-size: 0.7rem;">${m.region}</span></td>
+      <td style="font-size: 0.8rem; color: var(--text-muted);">${m.pole || 'Général'}</td>
+      <td>${getStatusBadgeHTML(m.status)}</td>
+      <td>
+        <button onclick="approveMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(0, 104, 55, 0.15); color: #006837; border: 1px solid #006837;" title="Approuver"><i class="fas fa-check"></i></button>
+        <button onclick="openBadgeForMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(244, 162, 97, 0.2); color: #D97706; border: 1px solid #F4A261;" title="Badge"><i class="fas fa-id-badge"></i></button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Full Members Table
+function renderFullMembersTable(members) {
+  const tbody = document.getElementById('tbody-full-members');
+  if (!tbody) return;
+
+  if (members.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted);">Aucun membre trouvé dans la base de données.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = members.map(m => `
+    <tr>
+      <td><strong style="color: var(--primary-green); font-family: monospace;">${m.ref}</strong></td>
+      <td><strong>${m.name}</strong><br><small style="color: var(--text-muted);">${m.email || ''}</small></td>
+      <td>${m.type}</td>
+      <td><span class="badge badge-green" style="font-size: 0.7rem;">${m.region}</span></td>
+      <td style="font-size: 0.825rem;"><strong>${m.rep}</strong><br><span style="color: #006837;"><i class="fab fa-whatsapp"></i> ${m.phone}</span></td>
+      <td>${getStatusBadgeHTML(m.status)}</td>
+      <td><span class="badge badge-gold" style="font-size: 0.7rem;">${m.badgeStatus || 'Non généré'}</span></td>
+      <td>
+        <div style="display: flex; gap: 0.35rem;">
+          ${m.status !== 'Approuvé' ? `<button onclick="approveMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF;" title="Valider"><i class="fas fa-check"></i></button>` : ''}
+          <button onclick="openBadgeForMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: var(--accent-gold); color: #FFFFFF;" title="Générer Badge"><i class="fas fa-id-badge"></i></button>
+          <button onclick="deleteMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(239, 68, 68, 0.15); color: #DC2626; border: 1px solid #DC2626;" title="Supprimer"><i class="fas fa-trash"></i></button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function getStatusBadgeHTML(status) {
+  if (status === 'Approuvé') {
+    return `<span class="status-badge status-approved"><i class="fas fa-check-circle"></i> Approuvé</span>`;
+  } else if (status === 'Rejeté') {
+    return `<span class="status-badge status-rejected"><i class="fas fa-times-circle"></i> Rejeté</span>`;
+  } else {
+    return `<span class="status-badge status-pending"><i class="fas fa-clock"></i> En attente</span>`;
+  }
+}
+
+// Status Updates
+function approveMember(ref) {
+  const members = getMembersDB();
+  const index = members.findIndex(m => m.ref === ref);
+  if (index !== -1) {
+    members[index].status = 'Approuvé';
+    if (members[index].badgeStatus === 'Non généré') {
+      members[index].badgeStatus = 'Généré';
+    }
+    saveMembersDB(members);
+    showToast(`Adhésion de ${members[index].name} approuvée avec succès !`);
+  }
+}
+
+function deleteMember(ref) {
+  if (confirm(`Êtes-vous sûr de vouloir supprimer le dossier ${ref} de la base de données ?`)) {
+    let members = getMembersDB();
+    members = members.filter(m => m.ref !== ref);
+    saveMembersDB(members);
+    showToast(`Dossier ${ref} supprimé.`);
+  }
+}
+
+// Filter Function
+function filterMembersTable() {
+  const query = document.getElementById('search-member-input').value.toLowerCase();
+  const region = document.getElementById('filter-region-select').value;
+  const status = document.getElementById('filter-status-select').value;
+
+  const members = getMembersDB();
+  const filtered = members.filter(m => {
+    const matchesSearch = (m.name + ' ' + m.ref + ' ' + m.rep + ' ' + m.phone).toLowerCase().includes(query);
+    const matchesRegion = region === '' || m.region === region;
+    const matchesStatus = status === '' || m.status === status;
+    return matchesSearch && matchesRegion && matchesStatus;
+  });
+
+  renderFullMembersTable(filtered);
+}
+
+// CSV Export
+function exportMembersCSV() {
+  const members = getMembersDB();
+  if (members.length === 0) {
+    showToast("Aucune donnée à exporter.");
+    return;
+  }
+
+  let csvContent = "data:text/csv;charset=utf-8,";
+  csvContent += "Référence,Organisation,Forme Juridique,Région,Pôle Métier,Représentant,Téléphone,Email,Statut,Statut Badge\n";
+
+  members.forEach(m => {
+    const row = [
+      `"${m.ref}"`,
+      `"${m.name}"`,
+      `"${m.type}"`,
+      `"${m.region}"`,
+      `"${m.pole || ''}"`,
+      `"${m.rep}"`,
+      `"${m.phone}"`,
+      `"${m.email || ''}"`,
+      `"${m.status}"`,
+      `"${m.badgeStatus || ''}"`
+    ].join(",");
+    csvContent += row + "\n";
+  });
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", `CONESESS_Base_Membres_${new Date().toISOString().slice(0,10)}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  showToast("Exportation de la base de données des membres au format CSV réussie !");
+}
+
+// Add Member Modal
+function openAddMemberModal() {
+  const modal = document.getElementById('admin-add-member-modal');
+  if (modal) modal.classList.add('show');
+}
+
+function closeAddMemberModal() {
+  const modal = document.getElementById('admin-add-member-modal');
+  if (modal) modal.classList.remove('show');
+}
+
+function saveManualMember() {
+  const name = document.getElementById('manual-name').value;
+  const type = document.getElementById('manual-type').value;
+  const region = document.getElementById('manual-region').value;
+  const pole = document.getElementById('manual-pole').value;
+  const rep = document.getElementById('manual-rep').value;
+  const phone = document.getElementById('manual-phone').value;
+
+  const newRef = 'CONESESS-2026-' + Math.floor(1000 + Math.random() * 9000);
+  const newMember = {
+    ref: newRef,
+    name: name,
+    type: type,
+    region: region,
+    pole: pole,
+    rep: rep,
+    phone: phone,
+    email: '',
+    status: 'Approuvé',
+    badgeStatus: 'Généré',
+    badgeRole: 'Représentant Légal',
+    date: new Date().toISOString().slice(0,10)
+  };
+
+  const members = getMembersDB();
+  members.unshift(newMember);
+  saveMembersDB(members);
+
+  closeAddMemberModal();
+  document.getElementById('form-manual-add-member').reset();
+  showToast(`Organisation ${name} enregistrée avec la référence ${newRef}.`);
+}
+
+// BADGE STUDIO LOGIC
+function renderBadgeSelectOptions(members) {
+  const select = document.getElementById('badge-select-member');
+  if (!select) return;
+
+  if (members.length === 0) {
+    select.innerHTML = `<option value="">Aucun membre disponible</option>`;
+    return;
+  }
+
+  select.innerHTML = members.map(m => `
+    <option value="${m.ref}">${m.name} (${m.region}) - ${m.ref}</option>
+  `).join('');
+
+  loadMemberIntoBadgeStudio();
+}
+
+function openBadgeForMember(ref) {
+  switchAdminTab('tab-badges');
+  const select = document.getElementById('badge-select-member');
+  if (select) {
+    select.value = ref;
+    loadMemberIntoBadgeStudio();
+  }
+}
+
+function loadMemberIntoBadgeStudio() {
+  const select = document.getElementById('badge-select-member');
+  if (!select || !select.value) return;
+
+  const ref = select.value;
+  const members = getMembersDB();
+  const member = members.find(m => m.ref === ref);
+
+  if (member) {
+    const roleInput = document.getElementById('badge-input-role');
+    const statusSelect = document.getElementById('badge-input-status');
+
+    if (roleInput) roleInput.value = member.badgeRole || 'Représentant Légal';
+    if (statusSelect) statusSelect.value = member.badgeStatus || 'Généré';
+
+    updateBadgePreview(member);
+  }
+}
+
+function updateBadgePreview(memberData = null) {
+  const select = document.getElementById('badge-select-member');
+  if (!select || !select.value) return;
+
+  const members = getMembersDB();
+  const member = memberData || members.find(m => m.ref === select.value);
+
+  if (!member) return;
+
+  const role = document.getElementById('badge-input-role').value || 'Représentant Légal';
+  const badgeStatus = document.getElementById('badge-input-status').value || 'Généré';
+
+  document.getElementById('badge-preview-org').textContent = member.name;
+  document.getElementById('badge-preview-name').textContent = member.rep;
+  document.getElementById('badge-preview-role').textContent = role;
+  document.getElementById('badge-preview-ref').textContent = member.ref;
+  document.getElementById('badge-preview-region').textContent = member.region;
+  document.getElementById('badge-preview-pole').textContent = (member.pole || 'Général').slice(0, 15) + '...';
+  document.getElementById('badge-preview-status').textContent = `Badge ${badgeStatus} - CONESESS`;
+}
+
+function saveBadgeStatus() {
+  const select = document.getElementById('badge-select-member');
+  if (!select || !select.value) return;
+
+  const ref = select.value;
+  const role = document.getElementById('badge-input-role').value;
+  const status = document.getElementById('badge-input-status').value;
+
+  const members = getMembersDB();
+  const index = members.findIndex(m => m.ref === ref);
+  if (index !== -1) {
+    members[index].badgeRole = role;
+    members[index].badgeStatus = status;
+    saveMembersDB(members);
+    showToast(`Statut du badge pour ${members[index].name} mis à jour : ${status}`);
+  }
+}
+
+function printCurrentBadge() {
+  window.print();
+}
+
+// Contacts Table Render
+function renderContactsTable(contacts) {
+  const tbody = document.getElementById('tbody-contacts-list');
+  if (!tbody) return;
+
+  if (contacts.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Aucun message de contact reçu.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = contacts.map((c, i) => `
+    <tr>
+      <td style="font-size: 0.8rem; color: var(--text-muted);">${c.date || 'Récemment'}</td>
+      <td><strong>${c.name}</strong></td>
+      <td><span style="color: #006837;"><i class="fab fa-whatsapp"></i> ${c.phone}</span></td>
+      <td>${c.email || 'N/A'}</td>
+      <td><span class="badge badge-gold" style="font-size: 0.7rem;">${c.subject}</span></td>
+      <td style="font-size: 0.825rem; max-width: 280px;">${c.message}</td>
+      <td>
+        <a href="https://wa.me/${c.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(c.name)},%20suite%20%C3%A0%20votre%20message%20sur%20CONESESS..." target="_blank" class="btn btn-sm" style="background: #25D366; color: #FFFFFF; font-size: 0.75rem;">
+          <i class="fab fa-whatsapp"></i> Répondre
+        </a>
+      </td>
+    </tr>
+  `).join('');
+}

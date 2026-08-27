@@ -409,6 +409,20 @@ function initModalsAndForms() {
     });
   }
 
+  // Helper function to save new member submission to localStorage DB
+  function saveSubmissionToDB(newMember) {
+    const members = JSON.parse(localStorage.getItem('conesess_members')) || [];
+    members.unshift(newMember);
+    localStorage.setItem('conesess_members', JSON.stringify(members));
+  }
+
+  // Helper function to save contact message to localStorage DB
+  function saveContactMessageToDB(newMessage) {
+    const contacts = JSON.parse(localStorage.getItem('conesess_contacts')) || [];
+    contacts.unshift(newMessage);
+    localStorage.setItem('conesess_contacts', JSON.stringify(contacts));
+  }
+
   // Embedded Page Adhesion Form
   const mainForm = document.getElementById('form-main-adhesion');
   const mainSuccessBox = document.getElementById('adhesion-success-msg');
@@ -420,6 +434,35 @@ function initModalsAndForms() {
       const randRef = 'CONESESS-2026-' + Math.floor(1000 + Math.random() * 9000);
       const refElement = document.getElementById('adhesion-ref-num');
       if (refElement) refElement.textContent = randRef;
+
+      // Extract form values
+      const name = document.getElementById('adh-name')?.value || 'Organisation ESS';
+      const typeSelect = document.getElementById('adh-type');
+      let typeVal = typeSelect?.options[typeSelect.selectedIndex]?.text || 'Coopérative';
+      if (typeSelect?.value === 'autre') {
+        typeVal = document.getElementById('adh-type-other-input')?.value || 'Autre Forme';
+      }
+      const region = document.getElementById('adh-region')?.value || 'Dakar';
+      const poleSelect = document.getElementById('adh-pole');
+      const poleVal = poleSelect?.options[poleSelect.selectedIndex]?.text || 'Général';
+      const rep = document.getElementById('adh-contact-name')?.value || 'Représentant';
+      const phone = document.getElementById('adh-phone')?.value || '+221 77 000 00 00';
+      const email = document.getElementById('adh-email')?.value || '';
+
+      saveSubmissionToDB({
+        ref: randRef,
+        name: name,
+        type: typeVal,
+        region: region,
+        pole: poleVal,
+        rep: rep,
+        phone: phone,
+        email: email,
+        status: 'En attente',
+        badgeStatus: 'Non généré',
+        badgeRole: 'Représentant Légal',
+        date: new Date().toISOString().slice(0,10)
+      });
 
       mainForm.style.display = 'none';
       if (mainSuccessBox) mainSuccessBox.style.display = 'block';
@@ -438,21 +481,67 @@ function initModalsAndForms() {
   if (modalForm) {
     modalForm.addEventListener('submit', (e) => {
       e.preventDefault();
+
+      const randRef = 'CONESESS-2026-' + Math.floor(1000 + Math.random() * 9000);
+
+      const name = document.getElementById('modal-adh-name')?.value || 'Organisation ESS';
+      const typeSelect = document.getElementById('modal-adh-type');
+      let typeVal = typeSelect?.options[typeSelect.selectedIndex]?.text || 'Coopérative';
+      if (typeSelect?.value === 'autre') {
+        typeVal = document.getElementById('modal-adh-type-other-input')?.value || 'Autre Forme';
+      }
+      const region = document.getElementById('modal-adh-region')?.value || 'Dakar';
+      const poleSelect = document.getElementById('modal-adh-pole');
+      const poleVal = poleSelect?.options[poleSelect.selectedIndex]?.text || 'Général';
+      const rep = document.getElementById('modal-adh-contact-name')?.value || 'Représentant';
+      const phone = document.getElementById('modal-adh-phone')?.value || '+221 77 000 00 00';
+      const email = document.getElementById('modal-adh-email')?.value || '';
+
+      saveSubmissionToDB({
+        ref: randRef,
+        name: name,
+        type: typeVal,
+        region: region,
+        pole: poleVal,
+        rep: rep,
+        phone: phone,
+        email: email,
+        status: 'En attente',
+        badgeStatus: 'Non généré',
+        badgeRole: 'Représentant Légal',
+        date: new Date().toISOString().slice(0,10)
+      });
+
       modalOverlay.classList.remove('show');
       modalForm.reset();
       if (modalOtherGroup) modalOtherGroup.style.display = 'none';
-      const randRef = 'CONESESS-2026-' + Math.floor(1000 + Math.random() * 9000);
       showToast("Votre demande d'adhésion (" + randRef + ") a été transmise au Secrétariat Technique avec succès !");
     });
   }
 
-  // Contact Form Submission
-  const contactForm = document.getElementById('form-contact-send');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+  // Standalone & Inline Contact Form Submissions
+  const standaloneContactForm = document.getElementById('form-contact-standalone');
+  if (standaloneContactForm) {
+    standaloneContactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      contactForm.reset();
-      showToast("Votre message a été transmis avec succès au Secrétariat Technique du CONESESS !");
+      const inputs = standaloneContactForm.querySelectorAll('input, select, textarea');
+      const name = inputs[0]?.value || 'Visiteur';
+      const phone = inputs[1]?.value || '+221 77 000 00 00';
+      const email = inputs[2]?.value || '';
+      const subject = inputs[4]?.value || 'Demande d\'Information';
+      const message = inputs[5]?.value || '';
+
+      saveContactMessageToDB({
+        date: new Date().toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }),
+        name: name,
+        phone: phone,
+        email: email,
+        subject: subject,
+        message: message
+      });
+
+      standaloneContactForm.reset();
+      showToast("Votre message a été transmis avec succès au Secrétariat Général du CONESESS !");
     });
   }
 }
