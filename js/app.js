@@ -229,45 +229,45 @@ function initGovernanceTabs() {
    3. PILIER 1 : INCUBATEUR NATIONAL (IAN-ESS) INTERACTIVE EXPLORER
    -------------------------------------------------------------------------- */
 const incubatorData = {
-  communal: {
-    title: "1. L'Incubateur Communal (Proximité)",
-    badge: "Ancrage Local",
-    desc: "Dispositif d'accompagnement de proximité installé dans les communes pour structurer le tissu micro-économique local.",
-    target: "Accompagne tous types de projets ESS d'envergure, structurants et duplicables au niveau municipal.",
-    methodology: "Business Mentoring hebdomadaire, redevabilité stricte des budgets locaux chaque lundi matin, revues physiques in situ.",
-    impact: "Structuration directe des groupements de femmes, mutuelles communales et ateliers collectifs."
+  proximite: {
+    title: "1. Incubateurs territoriaux de proximité",
+    badge: "Ancrage Territorial",
+    desc: "Accompagner les entreprises et projets ESS au plus près des communes et bassins économiques.",
+    target: "Projets ESS communaux, GIE locaux, coopératives de quartier et mutuelles de santé/épargne.",
+    methodology: "Diagnostic entrepreneurial, Business Mentoring hebdomadaire, formation pratique et digitalisation de proximité.",
+    impact: "Structuration directe des acteurs économiques locaux et création d'emplois durables au niveau municipal."
   },
-  departemental: {
-    title: "2. L'Incubateur Départemental / Environnemental",
-    badge: "Hub Thématique Fatick/Foundiougne",
-    desc: "Hub thématique territorial conçu pour résoudre des problématiques environnementales et économiques spécifiques.",
-    target: "Exemple de prototype : Hub Fatick / Foundiougne dédié à la conservation de la biodiversité, au reboisement de la mangrove et à l'économie bleue.",
-    methodology: "Synergie inter-départementale, valorisation des chaînes de valeur halieutiques et éco-touristiques solidairement gérées.",
-    impact: "Restauration des écosystèmes et création d'emplois verts pour la jeunesse rurale."
+  thematiques: {
+    title: "2. Hubs thématiques et environnementaux",
+    badge: "Transition Écologique & Climat",
+    desc: "Développer des dispositifs spécialisés autour des enjeux environnementaux, agricoles, climatiques et territoriaux.",
+    target: "Initiatives d'agro-écologie, de gestion des déchets, de reboisement et d'économie verte/bleue.",
+    methodology: "Accompagnement thématique ciblé, ingénierie de projets éco-responsables et valorisation des filières durables.",
+    impact: "Restauration des écosystèmes locaux, résilience climatique et développement des chaînes de valeur vertes."
   },
   mobile: {
-    title: "3. L'Incubateur Mobile (Modèle Nomade & Bus)",
-    badge: "Équité Territoriale & Hackathons",
-    desc: "Dispositif nomade corrigeant les inégalités d'accès aux services dans les zones enclavées sans bureau fixe.",
-    target: "Clinique mobile et Bus de l'Entrepreneuriat allant au pas de la porte des acteurs ruraux.",
-    methodology: "Parcours initié par un Hackathon Territorial de 48h agissant comme un entonnoir de sélection pour capter et financer les projets champions.",
-    impact: "Détection des pépites rurales et inclusion des zones isolées dans l'agenda national."
+    title: "3. Incubateur mobile",
+    badge: "Équité Territoriale & Inclusion",
+    desc: "Déployer des équipes et services d’accompagnement vers les territoires ne disposant pas encore d’infrastructures permanentes.",
+    target: "Entreprises et groupements solidaires situés dans les communes et zones rurales enclavées.",
+    methodology: "Dispositif nomade d'accompagnement terrain, ateliers de formation mobiles et caravanes de conseil.",
+    impact: "Accès équitable aux services d'ingénierie et intégration des territoires ruraux dans la dynamique nationale."
   },
-  confessionnel: {
-    title: "4. L'Incubateur Confessionnel (Philanthropie Éthique)",
-    badge: "Prototype Ahloulahi / Layenne",
-    desc: "Articule la foi et l'ESS pour transformer la charité passive en autonomisation économique durable.",
-    target: "Prototype Ahloulahi Incubator (Communauté Layenne) et dahiras/daaras productifs.",
-    methodology: "Mutation des Dahiras en Coopératives Productives Solidaires, modernisation des Daaras en pôles agro-écologiques, intégration Zakat (amorçage) & Waqf (garantie) via Fintech sociale.",
-    impact: "Souveraineté économique communautaire et valorisation éthique de la finance sociale."
+  partenariats: {
+    title: "4. Partenariats communautaires et confessionnels",
+    badge: "Finance Solidaire & Éthique",
+    desc: "Construire, lorsque cela est pertinent, des partenariats avec les organisations communautaires et confessionnelles engagées dans l’entrepreneuriat solidaire et le développement économique.",
+    target: "Organisations communautaires, associations citoyennes et groupements solidaires confessionnels.",
+    methodology: "Partenariats éthiques, structuration en coopératives autonomes et ingénierie de finance sociale solidaire.",
+    impact: "Autonomisation économique des communautés et valorisation de l'entrepreneuriat solidaire ancré."
   },
-  universitaire: {
-    title: "5. L'Incubateur Universitaire (Service à la Communauté)",
-    badge: "UCAD / UCAB - Loi 2015-02",
-    desc: "Operationalise la mission régalienne de Service à la Communauté des universités publiques sénégalaises.",
-    target: "Cabinets de conseil pédagogiques (UCAD FLSH) et exploitation partagée de 10 ha agro-écologiques à Kangare Lo avec l'UCAB de Bambey.",
-    methodology: "Synergie intergénérationnelle étudiants, enseignants-chercheurs et coopératives d'exploitation.",
-    impact: "Transition recherche-action, incubations universitaires et souveraineté alimentaire."
+  universitaires: {
+    title: "5. Hubs universitaires",
+    badge: "Recherche, Innovation & ESS",
+    desc: "Créer des passerelles entre universités, recherche, innovation et entreprises ESS à travers des conventions avec les établissements intéressés.",
+    target: "Étudiants-entrepreneurs, enseignants-chercheurs, laboratoires de recherche et startups sociales.",
+    methodology: "Conventions université-entreprise, transfert d'innovation, incubation académique et mentoring d'experts.",
+    impact: "Valorisation de la recherche appliquée, innovation sociale et émergence d'entreprises ESS à fort potentiel."
   }
 };
 

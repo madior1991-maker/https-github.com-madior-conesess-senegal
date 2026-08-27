@@ -446,56 +446,78 @@
             L’IAN-ESS constitue le programme stratégique d’incubation et d’accélération territoriale envisagé par le CONESESS.
           </p>
           <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.55; margin: 0;">
-            Sa vocation est de rapprocher les services d’accompagnement, de formation, de mentoring et d’ingénierie financière des entreprises ESS dans leurs territoires. Le dispositif pourra être progressivement développé autour de plusieurs modèles complémentaires.
+            Sa vocation est de rapprocher les services d’accompagnement, de formation, de mentoring et d’ingénierie financière des entreprises ESS dans leurs territoires. Le dispositif pourra être progressivement développé autour de <strong>5 modèles complémentaires</strong>.
           </p>
         </div>
 
-        <!-- 5 Modèles Complémentaires Grid -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+        <div class="advocacy-grid" style="display: grid; grid-template-columns: 1fr 1.25fr; gap: 1.5rem; align-items: stretch; margin-bottom: 1.5rem;">
           
-          <!-- Modèle 1 -->
-          <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-left: 4px solid var(--primary-green); padding: 1.25rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-soft-green); color: var(--primary-green); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; margin-bottom: 0.6rem;">1</div>
-            <h3 style="color: var(--primary-navy); font-size: 0.95rem; margin-bottom: 0.4rem;">Incubateurs territoriaux de proximité</h3>
-            <p style="font-size: 0.825rem; color: var(--text-muted); line-height: 1.45; margin: 0;">
-              Accompagner les entreprises et projets ESS au plus près des communes et bassins économiques.
-            </p>
+          <!-- Left Column: Interactive Selector Cards -->
+          <div>
+            <span class="badge badge-navy mb-3" style="font-size: 0.75rem;"><i class="fas fa-hand-pointer"></i> Cliquez pour explorer les modèles</span>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+              
+              <div class="incubator-tab-card active" data-hub="proximite" style="background: #FFFFFF; border: 1px solid var(--border-light); border-left: 4px solid var(--primary-green); padding: 0.85rem 1.15rem; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease; box-shadow: var(--shadow-sm);">
+                <h4 style="font-size: 0.925rem; color: var(--primary-green); margin: 0; font-weight: 700;">
+                  <i class="fas fa-city" style="margin-right: 0.5rem; color: var(--primary-green);"></i> 1. Incubateurs territoriaux de proximité
+                </h4>
+              </div>
+
+              <div class="incubator-tab-card" data-hub="thematiques" style="background: #FFFFFF; border: 1px solid var(--border-light); padding: 0.85rem 1.15rem; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
+                <h4 style="font-size: 0.925rem; color: var(--text-dark); margin: 0; font-weight: 600;">
+                  <i class="fas fa-leaf" style="margin-right: 0.5rem; color: var(--primary-green);"></i> 2. Hubs thématiques et environnementaux
+                </h4>
+              </div>
+
+              <div class="incubator-tab-card" data-hub="mobile" style="background: #FFFFFF; border: 1px solid var(--border-light); padding: 0.85rem 1.15rem; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
+                <h4 style="font-size: 0.925rem; color: var(--text-dark); margin: 0; font-weight: 600;">
+                  <i class="fas fa-bus" style="margin-right: 0.5rem; color: var(--primary-green);"></i> 3. Incubateur mobile
+                </h4>
+              </div>
+
+              <div class="incubator-tab-card" data-hub="partenariats" style="background: #FFFFFF; border: 1px solid var(--border-light); padding: 0.85rem 1.15rem; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
+                <h4 style="font-size: 0.925rem; color: var(--text-dark); margin: 0; font-weight: 600;">
+                  <i class="fas fa-hands-helping" style="margin-right: 0.5rem; color: var(--primary-green);"></i> 4. Partenariats communautaires et confessionnels
+                </h4>
+              </div>
+
+              <div class="incubator-tab-card" data-hub="universitaires" style="background: #FFFFFF; border: 1px solid var(--border-light); padding: 0.85rem 1.15rem; border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease;">
+                <h4 style="font-size: 0.925rem; color: var(--text-dark); margin: 0; font-weight: 600;">
+                  <i class="fas fa-graduation-cap" style="margin-right: 0.5rem; color: var(--primary-green);"></i> 5. Hubs universitaires
+                </h4>
+              </div>
+
+            </div>
           </div>
 
-          <!-- Modèle 2 -->
-          <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-left: 4px solid var(--primary-green); padding: 1.25rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-soft-green); color: var(--primary-green); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; margin-bottom: 0.6rem;">2</div>
-            <h3 style="color: var(--primary-navy); font-size: 0.95rem; margin-bottom: 0.4rem;">Hubs thématiques et environnementaux</h3>
-            <p style="font-size: 0.825rem; color: var(--text-muted); line-height: 1.45; margin: 0;">
-              Développer des dispositifs spécialisés autour des enjeux environnementaux, agricoles, climatiques et territoriaux.
-            </p>
-          </div>
-
-          <!-- Modèle 3 -->
-          <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-left: 4px solid var(--primary-green); padding: 1.25rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-soft-green); color: var(--primary-green); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; margin-bottom: 0.6rem;">3</div>
-            <h3 style="color: var(--primary-navy); font-size: 0.95rem; margin-bottom: 0.4rem;">Incubateur mobile</h3>
-            <p style="font-size: 0.825rem; color: var(--text-muted); line-height: 1.45; margin: 0;">
-              Déployer des équipes et services d’accompagnement vers les territoires ne disposant pas encore d’infrastructures permanentes.
-            </p>
-          </div>
-
-          <!-- Modèle 4 -->
-          <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-left: 4px solid var(--accent-gold); padding: 1.25rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-soft-gold); color: #D97706; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; margin-bottom: 0.6rem;">4</div>
-            <h3 style="color: var(--primary-navy); font-size: 0.95rem; margin-bottom: 0.4rem;">Partenariats communautaires et confessionnels</h3>
-            <p style="font-size: 0.825rem; color: var(--text-muted); line-height: 1.45; margin: 0;">
-              Construire, lorsque cela est pertinent, des partenariats avec les organisations communautaires et confessionnelles engagées dans l’entrepreneuriat solidaire et le développement économique.
-            </p>
-          </div>
-
-          <!-- Modèle 5 -->
-          <div style="background: #FFFFFF; border: 1px solid var(--border-light); border-left: 4px solid var(--accent-gold); padding: 1.25rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-soft-gold); color: #D97706; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; margin-bottom: 0.6rem;">5</div>
-            <h3 style="color: var(--primary-navy); font-size: 0.95rem; margin-bottom: 0.4rem;">Hubs universitaires</h3>
-            <p style="font-size: 0.825rem; color: var(--text-muted); line-height: 1.45; margin: 0;">
-              Créer des passerelles entre universités, recherche, innovation et entreprises ESS à travers des conventions avec les établissements intéressés.
-            </p>
+          <!-- Right Column: Interactive Detail Display Panel -->
+          <div id="incubator-detail-display" style="background: #FFFFFF; padding: 1.75rem; border-radius: var(--radius-md); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: center;">
+            <div class="incubator-detail-grid" style="grid-template-columns: 1fr; gap: 1.15rem;">
+              <div>
+                <span class="badge badge-green mb-2">Ancrage Territorial</span>
+                <h3 style="font-size: 1.3rem; color: var(--primary-green);" class="mb-2">1. Incubateurs territoriaux de proximité</h3>
+                <p style="font-size: 0.9rem; color: var(--text-body); line-height: 1.55;" class="mb-3">
+                  Accompagner les entreprises et projets ESS au plus près des communes et bassins économiques.
+                </p>
+                <div style="background: var(--accent-soft-green); padding: 0.85rem 1rem; border-radius: var(--radius-md); border-left: 3px solid var(--primary-green);">
+                  <strong style="color: var(--primary-green); font-size: 0.85rem;"><i class="fas fa-users"></i> Public & Cible :</strong>
+                  <p style="font-size: 0.825rem; color: var(--text-dark); margin-top: 0.2rem; margin-bottom: 0; line-height: 1.45;">
+                    Projets ESS communaux, GIE locaux, coopératives de quartier et mutuelles de santé/épargne.
+                  </p>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="background: var(--bg-alt); padding: 0.85rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                  <h4 style="color: var(--primary-navy); font-size: 0.875rem;" class="mb-1"><i class="fas fa-cogs" style="color: var(--accent-gold);"></i> Méthodologie d'Action</h4>
+                  <p style="font-size: 0.825rem; color: var(--text-body); margin: 0; line-height: 1.45;">Diagnostic entrepreneurial, Business Mentoring hebdomadaire, formation pratique et digitalisation de proximité.</p>
+                </div>
+                <div style="background: var(--bg-alt); padding: 0.85rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+                  <h4 style="color: var(--primary-navy); font-size: 0.875rem;" class="mb-1"><i class="fas fa-chart-line" style="color: var(--primary-green);"></i> Impact Attendu</h4>
+                  <p style="font-size: 0.825rem; color: var(--text-body); margin: 0; line-height: 1.45;">Structuration directe des acteurs économiques locaux et création d'emplois durables au niveau municipal.</p>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
