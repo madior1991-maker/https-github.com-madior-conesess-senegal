@@ -2179,9 +2179,21 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   font-size: 0.85rem;
 }
 
-.gov-schema-arrow {
-  color: #F4A261;
-  font-size: 0.85rem;
+/* CONTEXTE SECTION SHOWCASE DESIGN & RESPONSIVE COLLAPSE */
+@media (max-width: 768px) {
+  .context-showcase-container {
+    padding: 1.25rem 1rem !important;
+  }
+  
+  .context-dual-cards {
+    grid-template-columns: 1fr !important;
+    gap: 1.15rem !important;
+  }
+
+  .context-defis-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+  }
 }
 
 /* QUATRE DÉFIS PRIORITAIRES STYLING & MOBILE ALIGNMENT */
@@ -2237,6 +2249,69 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   margin-bottom: 0;
   line-height: 1.35;
   text-align: left;
+}
+
+/* GOVERNANCE COMPACT DYNAMIC CARD HOVER EFFECTS */
+.gov-compact-card {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease, border-color 0.25s ease !important;
+}
+
+.gov-compact-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35) !important;
+  border-color: rgba(233, 196, 106, 0.6) !important;
+}
+
+/* Mobile Responsive Rules for Organigram and Governance Cards */
+@media (max-width: 768px) {
+  .gov-card-wrapper,
+  .gov-hero-theme-card {
+    padding: 1.25rem 1rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .gov-compact-card.master-card > div {
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+  .gov-matrix-level-1 {
+    flex-direction: column !important;
+    text-align: center !important;
+    padding: 0.85rem 0.75rem !important;
+  }
+  .gov-matrix-level-1 > div {
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+  .gov-matrix-level-2,
+  .gov-matrix-level-3 {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .gov-organigram-node {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 0.75rem 0.65rem !important;
+    gap: 0.4rem !important;
+  }
+
+  .gov-organigram-node > div {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.35rem !important;
+  }
+
+  .gov-role-tag {
+    font-size: 0.675rem !important;
+    padding: 0.2rem 0.5rem !important;
+  }
+
+  .gov-pill-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.4rem !important;
+  }
 }
 
 /* Tablet & Mobile Grid Fixes (<= 992px) */

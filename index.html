@@ -205,71 +205,128 @@
       </div>
     </div>
   </div>
-
-  <!-- SECTION 1: CONTEXTE ET CONSTATS -->
-  <section id="contexte" class="section" style="background: var(--bg-surface); padding: 1.5rem 0;">
+  <!-- SECTION 1: CONTEXTE ET CONSTATS (LAYOUT INSPIRÉ DES SECTIONS VISION & PÔLES) -->
+  <section id="contexte" class="section" style="background: var(--bg-surface); padding: 2rem 0;">
     <div class="container">
-      <div style="background: var(--bg-alt); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 1.5rem 1.75rem; box-shadow: var(--shadow-sm);">
-        <div class="section-header" style="margin-bottom: 1.5rem; text-align: left;">
-          <span class="badge badge-green mb-2"><i class="fas fa-search-location"></i> Contexte & Diagnostic</span>
-          <h2 class="section-title" style="font-size: 1.75rem; margin-bottom: 0.35rem; color: var(--primary-navy);">Pourquoi le CONESESS ?</h2>
-          <p class="section-description" style="font-size: 0.95rem; margin: 0; color: var(--text-body);">
-            L’Économie Sociale et Solidaire constitue un levier important de développement économique, de création d’emplois, de cohésion sociale et de développement territorial au Sénégal.
+      <div style="background: var(--bg-alt); border: 1px solid var(--border-light); border-radius: var(--radius-lg); padding: 2rem 2.25rem; box-shadow: var(--shadow-sm);" class="context-showcase-container">
+        
+        <!-- Header Section -->
+        <div style="margin-bottom: 2rem; text-align: center;">
+          <span class="badge badge-green mb-2"><i class="fas fa-search-location"></i> Diagnostic & Ambition Nationale</span>
+          <h2 style="color: var(--primary-navy); font-size: 2rem; margin-bottom: 0.5rem; font-weight: 800;">Pourquoi le CONESESS ?</h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 780px; margin: 0 auto; line-height: 1.6;">
+            L’Économie Sociale et Solidaire constitue un levier prioritaire de création d’emplois durables, de cohésion sociale et de développement territorial au Sénégal.
           </p>
         </div>
 
-        <div class="context-grid" style="display: grid; grid-template-columns: 1fr 1.15fr; gap: 1.75rem; align-items: stretch;">
-          <div class="context-box" style="background: #FFFFFF; border: 1px solid var(--border-light); border-left: 4px solid var(--primary-green); padding: 1.75rem; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: center;">
-            <p style="font-size: 0.875rem; line-height: 1.6; color: var(--text-body);" class="mb-3">
-              Coopératives, mutuelles, GIE, entreprises sociales et autres initiatives collectives participent quotidiennement à la production de biens et services, à l’inclusion financière, à la sécurité alimentaire, à l’autonomisation économique des femmes et des jeunes ainsi qu’au développement des territoires.
-            </p>
-            <p style="font-size: 0.875rem; line-height: 1.6; color: var(--text-body);" class="mb-3">
-              Cependant, l’écosystème reste marqué par une représentation fragmentée, un accès encore insuffisant aux financements adaptés, un déficit de données économiques consolidées et une faible mutualisation des moyens de production et d’accès aux marchés.
-            </p>
-            <div style="background: var(--accent-soft-green); border-radius: var(--radius-md); padding: 0.85rem 1rem; border-left: 3px solid var(--primary-green);">
-              <p style="font-size: 0.85rem; line-height: 1.5; color: var(--primary-green); font-weight: 600; margin: 0;">
-                <i class="fas fa-seedling"></i> Le CONESESS est né de la volonté de contribuer à rapprocher ces différentes composantes autour d’un cadre fédérateur, ouvert et complémentaire aux organisations existantes.
+        <!-- DUAL SHOWCASE CARDS (Rappel Style Section Vision) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;" class="context-dual-cards">
+          
+          <!-- Card 1: Diagnostic & Dynamique -->
+          <div style="background: linear-gradient(135deg, var(--primary-navy) 0%, #163B66 100%); color: #FFFFFF; padding: 2rem; border-radius: var(--radius-md); border-top: 4px solid var(--accent-gold); box-shadow: var(--shadow-md); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;">
+            <div style="position: absolute; top: -15px; right: -15px; font-size: 6rem; color: rgba(255, 255, 255, 0.05); pointer-events: none;">
+              <i class="fas fa-landmark"></i>
+            </div>
+            <div>
+              <div style="display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(233, 196, 106, 0.15); border: 1px solid rgba(233, 196, 106, 0.4); padding: 0.35rem 0.85rem; border-radius: 30px; color: #E9C46A; font-weight: 700; font-size: 0.85rem; margin-bottom: 1rem;">
+                <i class="fas fa-landmark"></i> Une Dynamique Réelle
+              </div>
+              <p style="font-size: 0.95rem; line-height: 1.65; color: rgba(255, 255, 255, 0.92); margin-bottom: 0.85rem;">
+                Coopératives, mutuelles, GIE et entreprises sociales participent au quotidien à la production de biens et services, à la sécurité alimentaire et à l'autonomisation des jeunes et des femmes.
+              </p>
+              <p style="font-size: 0.875rem; line-height: 1.6; color: rgba(255, 255, 255, 0.78); margin: 0;">
+                Cependant, l'écosystème fait face à une dispersion des acteurs, un accès limité aux financements adaptés et un manque de données économiques consolidées.
               </p>
             </div>
           </div>
 
-          <div style="display: flex; flex-direction: column; justify-content: center;" class="defis-wrapper">
-            <h3 style="color: var(--primary-navy); font-size: 1.15rem; margin-bottom: 0.85rem; text-align: left;"><i class="fas fa-bullseye" style="color: var(--accent-gold);"></i> Quatre Défis Prioritaires</h3>
-            <div class="findings-list">
-              <div class="finding-card">
-                <div class="finding-icon">1</div>
-                <div class="finding-body">
-                  <strong>Une représentation encore fragmentée</strong>
-                  <p>Renforcer la concertation et la capacité collective de représentation des différentes familles de l’ESS.</p>
-                </div>
+          <!-- Card 2: Mission & Réponse CONESESS -->
+          <div style="background: linear-gradient(135deg, var(--primary-green) 0%, #004D25 100%); color: #FFFFFF; padding: 2rem; border-radius: var(--radius-md); border-top: 4px solid #FFFFFF; box-shadow: var(--shadow-md); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;">
+            <div style="position: absolute; top: -15px; right: -15px; font-size: 6rem; color: rgba(255, 255, 255, 0.05); pointer-events: none;">
+              <i class="fas fa-seedling"></i>
+            </div>
+            <div>
+              <div style="display: inline-flex; align-items: center; gap: 0.6rem; background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); padding: 0.35rem 0.85rem; border-radius: 30px; color: #FFFFFF; font-weight: 700; font-size: 0.85rem; margin-bottom: 1rem;">
+                <i class="fas fa-seedling"></i> La Réponse CONESESS
               </div>
-
-              <div class="finding-card">
-                <div class="finding-icon">2</div>
-                <div class="finding-body">
-                  <strong>Un accès insuffisant aux financements adaptés</strong>
-                  <p>Favoriser le développement de mécanismes financiers compatibles avec les réalités économiques et la finalité sociale des entreprises ESS.</p>
-                </div>
-              </div>
-
-              <div class="finding-card">
-                <div class="finding-icon">3</div>
-                <div class="finding-body">
-                  <strong>Un déficit de données économiques consolidées</strong>
-                  <p>Produire des données permettant de mieux mesurer la contribution de l’ESS à l’emploi, aux territoires, aux chaînes de valeur et à l’économie nationale.</p>
-                </div>
-              </div>
-
-              <div class="finding-card">
-                <div class="finding-icon">4</div>
-                <div class="finding-body">
-                  <strong>Une mutualisation économique encore limitée</strong>
-                  <p>Développer le partage d’équipements, de services, de plateformes logistiques, de technologies et d’opportunités commerciales entre entreprises.</p>
-                </div>
-              </div>
+              <p style="font-size: 0.95rem; line-height: 1.65; color: rgba(255, 255, 255, 0.95); margin-bottom: 0.85rem; font-weight: 600;">
+                Le CONESESS constitue le cadre national stratégique né de la volonté de rapprocher et fédérer toutes ces composantes de l'ESS.
+              </p>
+              <p style="font-size: 0.875rem; line-height: 1.6; color: rgba(255, 255, 255, 0.85); margin: 0;">
+                Un espace ouvert et complémentaire visant à offrir une voix patronale forte, structurer les marchés et accélérer le passage à l'échelle des entreprises sociales.
+              </p>
             </div>
           </div>
+
         </div>
+
+        <!-- 4 DÉFIS PRIORITAIRES GRID (Rappel Style Pôles & Piliers) -->
+        <div style="margin-top: 1rem;">
+          <h3 style="color: var(--primary-navy); font-size: 1.2rem; font-weight: 800; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; text-align: left;">
+            <i class="fas fa-bullseye" style="color: var(--accent-gold);"></i> Quatre Défis Prioritaires à Relever
+          </h3>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem;" class="context-defis-grid">
+            
+            <!-- Défi 1 -->
+            <div class="modern-card-panel" style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 1.35rem; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; border-top: 3px solid var(--accent-gold);">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;">
+                <div style="width: 42px; height: 42px; border-radius: 12px; background: var(--accent-soft-gold); color: #D97706; display: flex; align-items: center; justify-content: center; font-size: 1.15rem;">
+                  <i class="fas fa-network-wired"></i>
+                </div>
+                <span style="font-size: 0.8rem; font-weight: 800; color: #D97706; background: var(--accent-soft-gold); padding: 0.2rem 0.65rem; border-radius: 20px;">Défi 01</span>
+              </div>
+              <h4 style="color: var(--primary-navy); font-size: 1.05rem; margin-bottom: 0.5rem; font-weight: 700; text-align: left;">Représentation fragmentée</h4>
+              <p style="font-size: 0.85rem; color: var(--text-body); line-height: 1.55; margin: 0; flex-grow: 1; text-align: left;">
+                Renforcer la concertation et la capacité collective de représentation des différentes familles de l’ESS auprès de l'État et des partenaires.
+              </p>
+            </div>
+
+            <!-- Défi 2 -->
+            <div class="modern-card-panel" style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 1.35rem; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; border-top: 3px solid var(--primary-green);">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;">
+                <div style="width: 42px; height: 42px; border-radius: 12px; background: var(--accent-soft-green); color: var(--primary-green); display: flex; align-items: center; justify-content: center; font-size: 1.15rem;">
+                  <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <span style="font-size: 0.8rem; font-weight: 800; color: var(--primary-green); background: var(--accent-soft-green); padding: 0.2rem 0.65rem; border-radius: 20px;">Défi 02</span>
+              </div>
+              <h4 style="color: var(--primary-navy); font-size: 1.05rem; margin-bottom: 0.5rem; font-weight: 700; text-align: left;">Financements inadaptés</h4>
+              <p style="font-size: 0.85rem; color: var(--text-body); line-height: 1.55; margin: 0; flex-grow: 1; text-align: left;">
+                Favoriser le développement de mécanismes financiers éthiques et adaptés aux réalités économiques et sociales des entreprises de l'ESS.
+              </p>
+            </div>
+
+            <!-- Défi 3 -->
+            <div class="modern-card-panel" style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 1.35rem; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; border-top: 3px solid var(--primary-navy);">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;">
+                <div style="width: 42px; height: 42px; border-radius: 12px; background: rgba(10, 37, 64, 0.1); color: var(--primary-navy); display: flex; align-items: center; justify-content: center; font-size: 1.15rem;">
+                  <i class="fas fa-chart-pie"></i>
+                </div>
+                <span style="font-size: 0.8rem; font-weight: 800; color: var(--primary-navy); background: rgba(10, 37, 64, 0.1); padding: 0.2rem 0.65rem; border-radius: 20px;">Défi 03</span>
+              </div>
+              <h4 style="color: var(--primary-navy); font-size: 1.05rem; margin-bottom: 0.5rem; font-weight: 700; text-align: left;">Déficit de données</h4>
+              <p style="font-size: 0.85rem; color: var(--text-body); line-height: 1.55; margin: 0; flex-grow: 1; text-align: left;">
+                Produire des données fiables mesurant la contribution réelle de l’ESS à la création d'emplois, aux chaînes de valeur et au PIB national.
+              </p>
+            </div>
+
+            <!-- Défi 4 -->
+            <div class="modern-card-panel" style="background: #FFFFFF; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 1.35rem; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; border-top: 3px solid #2A9D8F;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.85rem;">
+                <div style="width: 42px; height: 42px; border-radius: 12px; background: rgba(42, 157, 143, 0.15); color: #2A9D8F; display: flex; align-items: center; justify-content: center; font-size: 1.15rem;">
+                  <i class="fas fa-boxes"></i>
+                </div>
+                <span style="font-size: 0.8rem; font-weight: 800; color: #2A9D8F; background: rgba(42, 157, 143, 0.15); padding: 0.2rem 0.65rem; border-radius: 20px;">Défi 04</span>
+              </div>
+              <h4 style="color: var(--primary-navy); font-size: 1.05rem; margin-bottom: 0.5rem; font-weight: 700; text-align: left;">Mutualisation limitée</h4>
+              <p style="font-size: 0.85rem; color: var(--text-body); line-height: 1.55; margin: 0; flex-grow: 1; text-align: left;">
+                Développer le partage d’équipements, de plateformes logistiques, de technologies et d’opportunités commerciales entre entreprises de l'ESS.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -393,87 +450,122 @@
     </div>
   </section>
 
-  <!-- SECTION 2: GOUVERNANCE DÉMOCRATIQUE ET REPRÉSENTATIVE -->
-  <section id="gouvernance" class="section gov-section hero-themed-section" style="padding: 1.5rem 0;">
+  <!-- SECTION GOUVERNANCE (COMPACT & DYNAMIQUE SHOWCASE EXECUTIVE) -->
+  <section id="gouvernance" class="section" style="padding: 2rem 0;">
     <div class="container">
-      <div class="hero-themed-card">
+      <div style="background: linear-gradient(135deg, rgba(0, 61, 29, 0.88) 0%, rgba(0, 34, 16, 0.92) 100%); backdrop-filter: blur(14px); border-radius: var(--radius-lg); padding: 2rem 2.25rem; border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: 0 15px 35px rgba(0,0,0,0.25); position: relative; overflow: hidden;" class="gov-hero-theme-card">
         
-        <div class="section-header" style="margin-bottom: 1.5rem; text-align: center;">
-          <span class="badge badge-gold mb-2"><i class="fas fa-sitemap"></i> Architecture de la Gouvernance</span>
-          <h2 style="font-size: 1.75rem; margin-bottom: 0.35rem; color: #FFFFFF;">Une gouvernance démocratique et représentative</h2>
-          <p style="color: rgba(255,255,255,0.9); font-size: 0.95rem; max-width: 820px; margin: 0 auto;" class="section-description">
-            Le CONESESS entend concilier les principes démocratiques de l’Économie Sociale et Solidaire avec les exigences de performance, de transparence et de responsabilité nécessaires au développement des entreprises.
+        <!-- Section Header -->
+        <div class="section-header" style="margin-bottom: 1.75rem; text-align: center;">
+          <span class="badge" style="background: rgba(233, 196, 106, 0.15); border: 1px solid rgba(233, 196, 106, 0.4); color: #E9C46A; font-weight: 700; font-size: 0.8rem; padding: 0.3rem 0.8rem; border-radius: 30px; display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem;">
+            <i class="fas fa-sitemap"></i> Architecture & Gouvernance Institutionnelle
+          </span>
+          <h2 style="font-size: 1.85rem; margin-bottom: 0.4rem; color: #FFFFFF; font-weight: 800;">
+            Une gouvernance <span style="color: #E9C46A;">démocratique</span> & <span style="color: #2A9D8F;">structurée</span>
+          </h2>
+          <p style="color: rgba(255, 255, 255, 0.88); font-size: 0.9rem; max-width: 820px; margin: 0 auto; line-height: 1.55;">
+            Structure organique du CONESESS conciliant démocratie participative, transparence et efficacité opérationnelle.
           </p>
         </div>
 
-        <div class="gov-main-grid">
+        <!-- UNIFIED COMPACT GOVERNANCE GRID -->
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
           
-          <!-- L'ASSEMBLÉE GÉNÉRALE -->
-          <div class="gov-card-primary">
-            <span class="badge badge-gold mb-3" style="width: fit-content;"><i class="fas fa-users"></i> Instance Souveraine</span>
-            <h3 style="color: #E9C46A; font-size: 1.3rem; margin-bottom: 0.75rem;">L’Assemblée Générale</h3>
-            <p style="color: rgba(255,255,255,0.92); font-size: 0.9rem; line-height: 1.6;" class="mb-3">
-              L’Assemblée Générale constitue l’instance souveraine du CONESESS. Elle réunit les membres conformément aux dispositions des statuts.
-            </p>
-            <p style="color: rgba(255,255,255,0.92); font-size: 0.9rem; line-height: 1.6;" class="mb-3">
-              Elle définit les grandes orientations, approuve les rapports d’activités et financiers et élit les organes dirigeants dans les conditions prévues par les statuts.
-            </p>
-            <div style="background: rgba(0, 104, 55, 0.4); border: 1px solid #2A9D8F; padding: 0.85rem 1rem; border-radius: 8px;">
-              <p style="color: #FFFFFF; font-size: 0.85rem; margin: 0; line-height: 1.45;">
-                <i class="fas fa-balance-scale" style="color: #E9C46A;"></i> Le fonctionnement du CONESESS repose sur les principes de <strong>démocratie, de transparence, de représentativité et de redevabilité</strong>.
-              </p>
+          <!-- MASTER BOX: ASSEMBLÉE GÉNÉRALE -->
+          <div class="gov-compact-card master-card" style="background: linear-gradient(135deg, rgba(233, 196, 106, 0.2) 0%, rgba(233, 196, 106, 0.08) 100%); border: 1.5px solid #E9C46A; padding: 1.15rem 1.35rem; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(233, 196, 106, 0.25); color: #E9C46A; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; border: 1px solid #E9C46A; flex-shrink: 0;">
+                <i class="fas fa-crown"></i>
+              </div>
+              <div>
+                <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.25rem;">
+                  <h3 style="color: #FFFFFF; font-size: 1.15rem; margin: 0; font-weight: 800;">L’Assemblée Générale</h3>
+                  <span style="background: #E9C46A; color: #003D1D; font-size: 0.685rem; padding: 0.2rem 0.6rem; border-radius: 20px; font-weight: 800; text-transform: uppercase;">Instance Souveraine</span>
+                </div>
+                <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.85rem; margin: 0; line-height: 1.45;">
+                  Organe délibérant souverain rassemblant tous les membres affiliés. Elle fixe la vision stratégique, évalue les bilans et élit les instances dirigeantes selon les principes de <strong>Démocratie, Transparence, Représentativité & Redevabilité</strong>.
+                </p>
+              </div>
             </div>
           </div>
 
-          <!-- SCHÉMA ARCHITECTURE INSTITUTIONNELLE PROPOSÉE -->
-          <div class="gov-card-schema">
-            <h3 style="color: #FFFFFF; font-size: 1.15rem; margin-bottom: 1rem; text-align: center;">
-              <i class="fas fa-project-diagram" style="color: #2A9D8F;"></i> Architecture institutionnelle proposée
-            </h3>
+          <!-- 4 ORGANES COMPACT GRID (2x2 Desktop / 1 Column Mobile) -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.85rem;">
             
-            <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center;" class="gov-schema-tree">
-              
-              <div class="gov-schema-box main-box">
-                <i class="fas fa-users" style="color: #E9C46A;"></i> Assemblée Générale
+            <!-- Organe 1: Conseil d'Administration -->
+            <div class="gov-compact-card" style="background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.16); border-top: 3px solid #2A9D8F; padding: 1rem 1.15rem; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease;">
+              <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                  <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <i class="fas fa-sitemap" style="color: #2A9D8F; font-size: 1.1rem;"></i>
+                    <strong style="color: #FFFFFF; font-size: 0.975rem;">Conseil d’Administration</strong>
+                  </div>
+                  <span style="background: rgba(42, 157, 143, 0.25); color: #2A9D8F; border: 1px solid rgba(42, 157, 143, 0.4); font-size: 0.685rem; padding: 0.15rem 0.55rem; border-radius: 12px; font-weight: 700;">Orientation</span>
+                </div>
+                <p style="color: rgba(255, 255, 255, 0.85); font-size: 0.825rem; margin: 0; line-height: 1.45;">
+                  Assure l'orientation stratégique, valide les orientations et contrôle l'exécution des décisions de l'AG.
+                </p>
               </div>
-              
-              <div class="gov-schema-arrow"><i class="fas fa-arrow-down"></i></div>
-              
-              <div class="gov-schema-box">
-                <i class="fas fa-sitemap" style="color: #2A9D8F;"></i> Conseil d’Administration
-              </div>
-
-              <div class="gov-schema-arrow"><i class="fas fa-arrow-down"></i></div>
-
-              <div class="gov-schema-box">
-                <i class="fas fa-briefcase" style="color: #2A9D8F;"></i> Bureau Exécutif
-              </div>
-
-              <div class="gov-schema-arrow"><i class="fas fa-arrow-down"></i></div>
-
-              <div class="gov-schema-box">
-                <i class="fas fa-user-shield" style="color: #2A9D8F;"></i> Secrétariat Général
-              </div>
-
-              <div class="gov-schema-arrow"><i class="fas fa-arrow-down"></i></div>
-
-              <div class="gov-schema-box accent-box">
-                <i class="fas fa-network-wired"></i> Pôles sectoriels et représentations territoriales
-              </div>
-
             </div>
+
+            <!-- Organe 2: Bureau Exécutif -->
+            <div class="gov-compact-card" style="background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.16); border-top: 3px solid #2A9D8F; padding: 1rem 1.15rem; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease;">
+              <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                  <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <i class="fas fa-briefcase" style="color: #2A9D8F; font-size: 1.1rem;"></i>
+                    <strong style="color: #FFFFFF; font-size: 0.975rem;">Bureau Exécutif</strong>
+                  </div>
+                  <span style="background: rgba(42, 157, 143, 0.25); color: #2A9D8F; border: 1px solid rgba(42, 157, 143, 0.4); font-size: 0.685rem; padding: 0.15rem 0.55rem; border-radius: 12px; font-weight: 700;">Pilotage</span>
+                </div>
+                <p style="color: rgba(255, 255, 255, 0.85); font-size: 0.825rem; margin: 0; line-height: 1.45;">
+                  Assure le pilotage politique, la représentation institutionnelle et le suivi opérationnel permanent.
+                </p>
+              </div>
+            </div>
+
+            <!-- Organe 3: Secrétariat Général -->
+            <div class="gov-compact-card" style="background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.16); border-top: 3px solid #F4A261; padding: 1rem 1.15rem; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease;">
+              <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                  <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <i class="fas fa-user-shield" style="color: #F4A261; font-size: 1.1rem;"></i>
+                    <strong style="color: #FFFFFF; font-size: 0.975rem;">Secrétariat Général</strong>
+                  </div>
+                  <span style="background: rgba(244, 162, 97, 0.2); color: #F4A261; border: 1px solid rgba(244, 162, 97, 0.35); font-size: 0.685rem; padding: 0.15rem 0.55rem; border-radius: 12px; font-weight: 700;">Gestion</span>
+                </div>
+                <p style="color: rgba(255, 255, 255, 0.85); font-size: 0.825rem; margin: 0; line-height: 1.45;">
+                  Gère l'administration quotidienne, coordonne les commissions techniques et exécute les programmes.
+                </p>
+              </div>
+            </div>
+
+            <!-- Organe 4: Pôles Sectoriels & Territoires -->
+            <div class="gov-compact-card" style="background: linear-gradient(135deg, rgba(244, 162, 97, 0.2) 0%, rgba(244, 162, 97, 0.08) 100%); border: 1px solid #F4A261; padding: 1rem 1.15rem; border-radius: 10px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease;">
+              <div>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+                  <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <i class="fas fa-network-wired" style="color: #F4A261; font-size: 1.1rem;"></i>
+                    <strong style="color: #F4A261; font-size: 0.95rem;">Pôles & Territoires</strong>
+                  </div>
+                  <span style="background: rgba(244, 162, 97, 0.35); color: #FFFFFF; border: 1px solid #F4A261; font-size: 0.685rem; padding: 0.15rem 0.55rem; border-radius: 12px; font-weight: 800;">Action Terrain</span>
+                </div>
+                <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.825rem; margin: 0; line-height: 1.45;">
+                  Anime les filières économiques et assure l'ancrage régional au plus près des entreprises de l'ESS.
+                </p>
+              </div>
+            </div>
+
           </div>
 
         </div>
 
-        <!-- ENCADRÉ PHASE CONSTITUTIVE -->
-        <div style="background: rgba(244, 162, 97, 0.15); border: 1px solid #F4A261; border-left: 4px solid #F4A261; padding: 1rem 1.25rem; border-radius: 10px; color: #FFFFFF;">
-          <strong style="color: #E9C46A; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; margin-bottom: 0.25rem;">
-            <i class="fas fa-info-circle"></i> Phase constitutive
-          </strong>
-          <p style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.92); line-height: 1.5; margin: 0;">
-            Jusqu’à l’adoption définitive des statuts et à l’installation des organes élus par l’Assemblée Générale constitutive, cette architecture constitue le projet de gouvernance proposé par le Comité d’initiative.
-          </p>
+        <!-- COMPACT BOTTOM TICKER BANNER -->
+        <div style="background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.12); border-left: 3px solid #E9C46A; padding: 0.75rem 1.15rem; border-radius: 8px; color: rgba(255, 255, 255, 0.9); margin-top: 1.25rem; display: flex; align-items: center; gap: 0.75rem;">
+          <i class="fas fa-info-circle" style="color: #E9C46A; font-size: 1rem; flex-shrink: 0;"></i>
+          <span style="font-size: 0.815rem; line-height: 1.4; margin: 0;">
+            <strong style="color: #E9C46A;">Phase Constitutive :</strong> Architecture transitoire proposée par le Comité d’initiative jusqu'à l'Assemblée Générale constitutive.
+          </span>
         </div>
 
       </div>
