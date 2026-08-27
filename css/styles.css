@@ -2082,4 +2082,79 @@ html, body {
   }
 }
 
+/* ==========================================================================
+   GLOBAL DISPLAY & RESPONSIVENESS FIXES (DESKTOP & MOBILE OPTIMIZATION)
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100%;
+}
+
+img, video, iframe, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+p, h1, h2, h3, h4, h5, h6, span, strong, a {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+/* Fluid Typography Scaling */
+h1 { font-size: clamp(1.75rem, 4vw, 2.6rem) !important; }
+h2 { font-size: clamp(1.35rem, 3.2vw, 2rem) !important; }
+h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
+
+/* Responsive Container Spacing */
+.container {
+  width: 100% !important;
+  max-width: 1240px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 1.25rem !important;
+  padding-right: 1.25rem !important;
+}
+
+/* Tablet & Mobile Grid Fixes (<= 992px) */
+@media (max-width: 992px) {
+  .hero-grid,
+  .context-grid,
+  .advocacy-grid,
+  .incubator-explorer-grid,
+  .gov-display-card,
+  .incubator-detail-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+}
+
+/* Mobile Specific Fixes (<= 768px) */
+@media (max-width: 768px) {
+  section.section {
+    padding: 1.35rem 0 !important;
+  }
+  
+  .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .badge {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
 
