@@ -94,8 +94,8 @@ img {
 }
 
 .container {
-  width: 90%;
-  max-width: 1280px;
+  width: 92%;
+  max-width: 1320px;
   margin: 0 auto;
   padding: 0 1rem;
 }
@@ -521,7 +521,7 @@ img {
   position: relative;
   background: linear-gradient(135deg, rgba(10, 37, 64, 0.94) 0%, rgba(0, 104, 55, 0.89) 100%), url('../assets/images/hero.jpg') center/cover no-repeat;
   color: #FFFFFF;
-  padding: 3.25rem 0 3.75rem 0;
+  padding: 2.25rem 0 2.5rem 0;
   overflow: hidden;
 }
 
@@ -701,7 +701,7 @@ img {
 
 /* Section Common Styling */
 .section {
-  padding: 3rem 0;
+  padding: 1.5rem 0;
 }
 
 .section-header {
