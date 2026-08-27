@@ -2180,11 +2180,20 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
 }
 
 /* CONTEXTE SECTION SHOWCASE DESIGN & RESPONSIVE COLLAPSE */
+.context-split-grid > div {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
 @media (max-width: 768px) {
   .context-showcase-container {
     padding: 1.25rem 1rem !important;
   }
   
+  .context-split-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+  }
+
   .context-dual-cards {
     grid-template-columns: 1fr !important;
     gap: 1.15rem !important;
@@ -2480,8 +2489,7 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   }
 
   .footer-col-brand,
-  .footer-col-menu,
-  .footer-col-services,
+  .footer-col-nav,
   .footer-col-contact {
     text-align: center !important;
     display: flex !important;
