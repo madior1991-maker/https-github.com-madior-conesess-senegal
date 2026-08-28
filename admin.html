@@ -710,6 +710,11 @@
             <i class="fas fa-key"></i> <span>Niveaux d'accès badges</span>
           </a>
         </li>
+        <li>
+          <a onclick="switchAdminTab('tab-settings')" class="admin-nav-link" id="nav-item-settings">
+            <i class="fas fa-cog"></i> <span style="color: #E9C46A; font-weight: 800;">Paramètres Super Admin</span>
+          </a>
+        </li>
       </ul>
 
       <div style="padding-top: 1rem; border-top: 1px solid var(--admin-border-light);">
@@ -1303,6 +1308,98 @@
                 </tr>
               </thead>
               <tbody id="tbody-contacts-list"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 12: PARAMÈTRES SUPER ADMIN (MADIOR) -->
+      <div id="tab-settings" class="admin-tab-content" style="display: none;">
+        <div style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h2 style="font-size: 1.4rem; color: var(--admin-text-main); margin-bottom: 0.2rem;"><i class="fas fa-cog" style="color: #E9C46A;"></i> Paramètres & Administration Générale (Super Admin)</h2>
+            <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Espace de contrôle réservé à <strong>madior1991@gmail.com</strong> : Gestion globale des accès, rôles, suppressions et paramètres e-mail.</p>
+          </div>
+          <span class="badge badge-gold" style="font-size: 0.8rem; padding: 6px 14px;"><i class="fas fa-crown"></i> Mode Super Admin Actif (Madior)</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;" class="mb-4">
+          <!-- CARD 1: DESTINATAIRE DES NOTIFICATIONS E-MAIL -->
+          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(0, 104, 55, 0.15); color: #006837; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                <i class="fas fa-envelope-open-text"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 1.05rem; margin: 0; color: var(--admin-text-main);">Destinataire des Notifications E-mail</h3>
+                <small style="color: var(--admin-text-muted);">Réception en temps réel des formulaires reçus</small>
+              </div>
+            </div>
+            
+            <form id="form-settings-notifications" onsubmit="saveNotificationSettings(event)">
+              <div class="wizard-form-group mb-3">
+                <label style="font-weight: 600; font-size: 0.825rem;">E-mail Principal de Notification *</label>
+                <input type="email" id="setting-target-email" class="wizard-form-control" value="madior1991@gmail.com" required style="height: 40px; font-weight: 700;">
+              </div>
+              <div class="wizard-form-group mb-3">
+                <label style="font-weight: 600; font-size: 0.825rem;">Alertes Actives</label>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.825rem; color: var(--admin-text-body);">
+                  <label><input type="checkbox" checked disabled> Adhésions et manifestations d'intérêt</label>
+                  <label><input type="checkbox" checked disabled> Candidatures au Comité de Pilotage</label>
+                  <label><input type="checkbox" checked disabled> Messages de contact web</label>
+                </div>
+              </div>
+              <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; background: #006837;">
+                <i class="fas fa-save"></i> Enregistrer E-mail de Notification
+              </button>
+            </form>
+          </div>
+
+          <!-- CARD 2: POLITIQUE DE SÉCURITÉ & HABILITATIONS -->
+          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(244, 162, 97, 0.2); color: #D97706; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                <i class="fas fa-user-shield"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 1.05rem; margin: 0; color: var(--admin-text-main);">Habilitations & Droits d'Accès</h3>
+                <small style="color: var(--admin-text-muted);">Attribution des autorisations d'administration</small>
+              </div>
+            </div>
+            
+            <div style="font-size: 0.825rem; display: flex; flex-direction: column; gap: 0.75rem;">
+              <div style="background: rgba(10, 37, 64, 0.05); padding: 0.75rem; border-radius: 10px; border-left: 3px solid #0A2540;">
+                <strong>Super Administrateur (Madior) :</strong> Accès total (Changement de rôles, suppression d'administrateurs, configuration des paramètres).
+              </div>
+              <div style="background: rgba(0, 104, 55, 0.05); padding: 0.75rem; border-radius: 10px; border-left: 3px solid #006837;">
+                <strong>Gestionnaires d'Antennes / Pôles :</strong> Validation des dossiers d'adhésion et impression des badges officiels.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABLEAU DE GESTION COMPLÈTE DES ADMINISTRATEURS (SUPPRESSION ET RÔLES) -->
+        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h3 style="font-size: 1.15rem; margin: 0; color: var(--admin-text-main);"><i class="fas fa-user-cog" style="color: #006837;"></i> Control Panel : Comptes Administrateurs & Rôles</h3>
+              <p style="font-size: 0.8rem; color: var(--admin-text-muted);" class="m-0">Privilège Super Admin (<strong>madior1991@gmail.com</strong>) : Modifier les rôles, attribuer les accès ou supprimer un administrateur.</p>
+            </div>
+          </div>
+
+          <div class="admin-table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Nom & Titulaire</th>
+                  <th>Adresse E-mail</th>
+                  <th>Organisation / Antenne</th>
+                  <th>Rôle Actuel</th>
+                  <th>Statut</th>
+                  <th>Actions Super Admin (Madior)</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-super-admin-settings-users"></tbody>
             </table>
           </div>
         </div>

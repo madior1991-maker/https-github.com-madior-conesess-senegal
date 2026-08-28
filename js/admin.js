@@ -455,7 +455,8 @@ function switchAdminTab(tabId) {
     'tab-import': 'nav-item-import',
     'tab-segmentation': 'nav-item-segmentation',
     'tab-admins': 'nav-item-admins',
-    'tab-contacts': 'nav-item-contacts'
+    'tab-contacts': 'nav-item-contacts',
+    'tab-settings': 'nav-item-settings'
   };
 
   const navItem = document.getElementById(linkIdMap[tabId]);
@@ -623,6 +624,7 @@ function renderAdminAll() {
   renderBadgeSelectOptions(members);
   renderContactsTable(contacts);
   renderAdminUsersTable(adminUsers);
+  renderSuperAdminSettingsUsersTable(adminUsers);
   renderWebFormsTable(members, contacts, webForms);
   renderSteeringCandidatesTable(webForms);
   renderAdminNotifications();
@@ -2075,10 +2077,49 @@ function rejectAdminUser(email) {
 
 // Delete Admin User Account
 function deleteAdminUser(email) {
-  if (confirm(`Êtes-vous sûr de vouloir supprimer le compte administrateur ${email} ?`)) {
+  if (confirm(`Êtes-vous sûr de vouloir supprimer définitivement le compte administrateur ${email} ?`)) {
     let users = getAdminUsersDB();
     users = users.filter(u => u.email.toLowerCase() !== email.toLowerCase());
     saveAdminUsersDB(users);
-    showToast(`Compte admin ${email} supprimé.`);
+    showToast(`Le compte administrateur ${email} a été supprimé avec succès par Madior.`);
+  }
+}
+
+// Render Super Admin Settings Users Table (Madior Privileges)
+function renderSuperAdminSettingsUsersTable(adminUsers) {
+  const tbody = document.getElementById('tbody-super-admin-settings-users');
+  if (!tbody) return;
+
+  if (adminUsers.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--admin-text-muted);">Aucun utilisateur administrateur enregistré.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = adminUsers.map(u => `
+    <tr>
+      <td><strong>${u.name}</strong> ${u.isSuperAdmin ? '<span class="badge badge-gold" style="font-size: 0.65rem; margin-left: 0.25rem;"><i class="fas fa-crown"></i> Super Admin</span>' : ''}</td>
+      <td><strong style="color: var(--admin-navy); font-size: 0.85rem;">${u.email}</strong></td>
+      <td><span class="badge badge-green" style="font-size: 0.7rem;">${u.org || 'CONESESS'}</span></td>
+      <td style="font-size: 0.825rem;"><strong>${u.role}</strong></td>
+      <td>${getStatusBadgeHTML(u.status)}</td>
+      <td>
+        <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+          <button onclick="openEditAdminRoleModal('${u.email}')" class="btn btn-sm" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; background: #0A2540; color: #FFFFFF;" title="Changer Rôle & Accès"><i class="fas fa-user-tag"></i> Rôle & Accès</button>
+          ${!u.isSuperAdmin ? `
+            ${u.status !== 'Approuvé' ? `<button onclick="approveAdminUser('${u.email}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF;" title="Approuver Compte"><i class="fas fa-user-check"></i> Activer</button>` : `<button onclick="rejectAdminUser('${u.email}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(244, 162, 97, 0.2); color: #D97706; border: 1px solid #F4A261;" title="Suspendre Accès"><i class="fas fa-pause"></i> Suspendre</button>`}
+            <button onclick="deleteAdminUser('${u.email}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(239, 68, 68, 0.15); color: #DC2626; border: 1px solid #DC2626;" title="Supprimer définitivement l'administrateur"><i class="fas fa-trash"></i> Supprimer Admin</button>
+          ` : '<span style="font-size: 0.7rem; color: #006837; font-weight: 700;"><i class="fas fa-shield-alt"></i> Compte Principal Protégé</span>'}
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function saveNotificationSettings(e) {
+  if (e) e.preventDefault();
+  const newTarget = document.getElementById('setting-target-email')?.value.trim();
+  if (newTarget) {
+    localStorage.setItem('conesess_notification_target_email', newTarget);
+    showToast(`Adresse e-mail de notification mise à jour : ${newTarget}`);
   }
 }
