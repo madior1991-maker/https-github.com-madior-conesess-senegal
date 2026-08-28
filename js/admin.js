@@ -751,7 +751,7 @@ function renderAdhesionsTable() {
       <td>${getStatusBadgeHTML(m.status)}</td>
       <td>
         <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
-          <button onclick="openWebFormDetailModal('${m.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Visualiser le Dossier"><i class="fas fa-eye"></i> Visualiser</button>
+          <button onclick="openWebFormDetailModal('${m.ref}')" class="action-btn-view" title="Visualiser le Dossier"><i class="fas fa-eye"></i> Visualiser</button>
           <button onclick="downloadFormSubmissionPDF('${m.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF; border: none;" title="Télécharger Fiche PDF"><i class="fas fa-file-pdf"></i> PDF</button>
           <button onclick="downloadFormSubmissionText('${m.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #0A2540; color: #FFFFFF; border: none;" title="Exporter Fichier Texte"><i class="fas fa-file-alt"></i> TXT</button>
           ${m.status !== 'Approuvé' ? `<button onclick="approveMember('${m.ref}')" class="action-btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Approuver"><i class="fas fa-check"></i></button>` : ''}
@@ -771,13 +771,17 @@ function openWebFormDetailModal(id) {
   const title = document.getElementById('modal-detail-title');
   const content = document.getElementById('modal-detail-content');
 
+  if (!modal || !content) return;
+
   const members = getMembersDB();
   const webForms = getWebFormsDB();
   const contacts = getContactsDB();
 
-  let member = members.find(m => m.ref === id);
-  let webForm = !member ? webForms.find(w => w.id === id || w.ref === id) : null;
-  let contact = (!member && !webForm) ? contacts.find((c, idx) => `CONTACT-${idx + 1}` === id) : null;
+  const targetStr = String(id || '').trim().toLowerCase();
+
+  let member = members.find(m => String(m.ref || m.id || '').trim().toLowerCase() === targetStr);
+  let webForm = !member ? webForms.find(w => String(w.id || w.ref || '').trim().toLowerCase() === targetStr) : null;
+  let contact = (!member && !webForm) ? contacts.find((c, idx) => `contact-${idx + 1}` === targetStr || String(c.id || c.ref || '').trim().toLowerCase() === targetStr) : null;
 
   if (member && modal && content) {
     if (title) title.textContent = `Fiche d'Adhésion Membre : ${member.name}`;
@@ -1389,10 +1393,10 @@ function renderSteeringCandidatesTable(webForms = []) {
       <td>${getStatusBadgeHTML(c.status)}</td>
       <td>
         <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
-          <button onclick="openWebFormDetailModal('${c.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Visualiser la Candidature"><i class="fas fa-eye"></i> Visualiser</button>
-          <button onclick="downloadFormSubmissionPDF('${c.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF; border: none;" title="Télécharger Fiche PDF"><i class="fas fa-file-pdf"></i> PDF</button>
-          ${c.status !== 'Approuvé' ? `<button onclick="approveSteeringCandidate('${c.id}')" class="action-btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Approuver la Candidature"><i class="fas fa-check"></i></button>` : ''}
-          ${c.status !== 'Rejeté' ? `<button onclick="rejectSteeringCandidate('${c.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; color: #DC2626; border-color: #DC2626;" title="Rejeter la Candidature"><i class="fas fa-times"></i></button>` : ''}
+          <button onclick="openWebFormDetailModal('${c.id || c.ref}')" class="action-btn-view" title="Visualiser la Candidature"><i class="fas fa-eye"></i> Visualiser</button>
+          <button onclick="downloadFormSubmissionPDF('${c.id || c.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF; border: none;" title="Télécharger Fiche PDF"><i class="fas fa-file-pdf"></i> PDF</button>
+          ${c.status !== 'Approuvé' ? `<button onclick="approveSteeringCandidate('${c.id || c.ref}')" class="action-btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Approuver la Candidature"><i class="fas fa-check"></i></button>` : ''}
+          ${c.status !== 'Rejeté' ? `<button onclick="rejectSteeringCandidate('${c.id || c.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; color: #DC2626; border-color: #DC2626;" title="Rejeter la Candidature"><i class="fas fa-times"></i></button>` : ''}
           <a href="https://wa.me/${c.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(c.name)},%20suite%20%C3%A0%20votre%20candidature%20au%20poste%20de%20${encodeURIComponent(c.role)}%20au%20Comit%C3%A9%20de%20Pilotage..." target="_blank" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #25D366; color: #FFFFFF; border: none;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
       </td>
@@ -1403,7 +1407,7 @@ function renderSteeringCandidatesTable(webForms = []) {
 // Approve / Reject Handlers
 function approveSteeringCandidate(id) {
   const forms = getWebFormsDB();
-  const candidate = forms.find(f => f.id === id);
+  const candidate = forms.find(f => String(f.id || f.ref).toLowerCase() === String(id).toLowerCase());
   if (candidate) {
     candidate.status = 'Approuvé';
     saveWebFormsDB(forms);
@@ -1413,7 +1417,7 @@ function approveSteeringCandidate(id) {
 
 function rejectSteeringCandidate(id) {
   const forms = getWebFormsDB();
-  const candidate = forms.find(f => f.id === id);
+  const candidate = forms.find(f => String(f.id || f.ref).toLowerCase() === String(id).toLowerCase());
   if (candidate) {
     candidate.status = 'Rejeté';
     saveWebFormsDB(forms);
@@ -1423,7 +1427,7 @@ function rejectSteeringCandidate(id) {
 
 function approveWebForm(id) {
   const forms = getWebFormsDB();
-  const form = forms.find(f => f.id === id);
+  const form = forms.find(f => String(f.id || f.ref).toLowerCase() === String(id).toLowerCase());
   if (form) {
     form.status = 'Approuvé';
     saveWebFormsDB(forms);
@@ -1435,10 +1439,13 @@ function approveWebForm(id) {
 
 function rejectWebForm(id) {
   const forms = getWebFormsDB();
-  const form = forms.find(f => f.id === id);
+  const form = forms.find(f => String(f.id || f.ref).toLowerCase() === String(id).toLowerCase());
   if (form) {
     form.status = 'Rejeté';
     saveWebFormsDB(forms);
+    showToast(`Formulaire ${id} rejeté.`);
+  }
+}
     showToast(`Formulaire ${id} rejeté.`);
     return;
   }
