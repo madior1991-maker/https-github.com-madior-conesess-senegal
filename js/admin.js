@@ -1665,42 +1665,105 @@ function filterMembersTable() {
   renderFullMembersTable(filtered);
 }
 
-// CSV Export
-function exportMembersCSV() {
+// Excel Export (.xls Spreadsheet)
+function exportMembersExcel() {
   const members = getMembersDB();
   if (members.length === 0) {
     showToast("Aucune donnée à exporter.");
     return;
   }
 
-  let csvContent = "data:text/csv;charset=utf-8,";
-  csvContent += "Référence,Organisation,Forme Juridique,Région,Pôle Métier,Représentant,Téléphone,Email,Statut,Statut Badge\n";
+  const now = new Date();
+  const dateStr = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
 
-  members.forEach(m => {
-    const row = [
-      `"${m.ref}"`,
-      `"${m.name}"`,
-      `"${m.type}"`,
-      `"${m.region}"`,
-      `"${m.pole || ''}"`,
-      `"${m.rep}"`,
-      `"${m.phone}"`,
-      `"${m.email || ''}"`,
-      `"${m.status}"`,
-      `"${m.badgeStatus || ''}"`
-    ].join(",");
-    csvContent += row + "\n";
-  });
+  let excelHTML = `
+    <html xmlns:o="urn:schemas-microsoft-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+    <head>
+      <meta charset="utf-8">
+      <!--[if gte mso 9]>
+      <xml>
+        <x:ExcelWorkbook>
+          <x:ExcelWorksheets>
+            <x:ExcelWorksheet>
+              <x:Name>Base Membres CONESESS</x:Name>
+              <x:WorksheetOptions>
+                <x:DisplayGridlines/>
+              </x:WorksheetOptions>
+            </x:ExcelWorksheet>
+          </x:ExcelWorksheets>
+        </x:ExcelWorkbook>
+      </xml>
+      <![endif]-->
+      <style>
+        body { font-family: Arial, sans-serif; }
+        .title { font-size: 16pt; font-weight: bold; color: #0A2540; text-align: center; margin-bottom: 15px; }
+        .subtitle { font-size: 10pt; color: #555555; text-align: center; margin-bottom: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th { background-color: #006837; color: #FFFFFF; font-weight: bold; border: 1px solid #004d28; padding: 10px; text-align: left; font-size: 11pt; }
+        td { border: 1px solid #DDDDDD; padding: 8px; font-size: 10pt; vertical-align: middle; }
+        tr:nth-child(even) { background-color: #F9FAFB; }
+        .badge-approved { color: #006837; font-weight: bold; }
+        .badge-pending { color: #D97706; font-weight: bold; }
+      </style>
+    </head>
+    <body>
+      <div class="title">CONESESS SÉNÉGAL - REGISTRE OFFICIEL DES MEMBRES & ADHÉSIONS</div>
+      <div class="subtitle">Exportation du ${dateStr} - Secrétariat Général Confédéral</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Référence</th>
+            <th>Dénomination Organisation</th>
+            <th>Forme Juridique</th>
+            <th>Région</th>
+            <th>Pôle Métier</th>
+            <th>Représentant Légal</th>
+            <th>Téléphone / WhatsApp</th>
+            <th>Adresse E-mail</th>
+            <th>Statut Dossier</th>
+            <th>Statut Badge</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${members.map(m => `
+            <tr>
+              <td><strong>${m.ref || ''}</strong></td>
+              <td><strong>${m.name || ''}</strong></td>
+              <td>${m.type || ''}</td>
+              <td>${m.region || ''}</td>
+              <td>${m.pole || 'Pôle Métier non spécifié'}</td>
+              <td>${m.rep || ''}</td>
+              <td>${m.phone || ''}</td>
+              <td>${m.email || ''}</td>
+              <td class="${m.status === 'Approuvé' ? 'badge-approved' : 'badge-pending'}">${m.status || 'En attente'}</td>
+              <td>${m.badgeStatus || 'Non imprimé'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </body>
+    </html>
+  `;
 
-  const encodedUri = encodeURI(csvContent);
+  const blob = new Blob([excelHTML], { type: "application/vnd.ms-excel;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", `CONESESS_Base_Membres_${new Date().toISOString().slice(0,10)}.csv`);
+  link.href = url;
+  link.download = `CONESESS_Base_Membres_${new Date().toISOString().slice(0,10)}.xls`;
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 
-  showToast("Exportation de la base de données des membres au format CSV réussie !");
+  if (typeof logAuditEvent === 'function') {
+    logAuditEvent("Export Excel", "Base des membres exportée au format Excel (.xls)");
+  }
+  showToast("Base des membres exportée avec succès au format Excel (.xls) !");
+}
+
+// Alias for backwards compatibility
+function exportMembersCSV() {
+  exportMembersExcel();
 }
 
 // Add Member Modal
