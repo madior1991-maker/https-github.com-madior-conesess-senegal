@@ -1663,11 +1663,7 @@ section.section {
     grid-column: auto;
   }
   .floating-whatsapp {
-    bottom: 1.25rem;
-    right: 1rem;
-    width: 50px;
-    height: 50px;
-    font-size: 1.6rem;
+    display: none !important;
   }
 }
 
@@ -2714,26 +2710,9 @@ html, body {
     font-size: 0.8rem !important;
   }
 
-  /* Floating WhatsApp Mobile Responsiveness */
+  /* Hide Floating WhatsApp Widget on Mobile */
   .floating-whatsapp {
-    bottom: 1.25rem !important;
-    right: 1rem !important;
-    width: 52px !important;
-    height: 52px !important;
-    font-size: 1.65rem !important;
-  }
-  .floating-whatsapp i {
-    font-size: 1.65rem !important;
-  }
-  .whatsapp-label {
     display: none !important;
-  }
-  .whatsapp-badge {
-    width: 18px !important;
-    height: 18px !important;
-    font-size: 0.65rem !important;
-    top: -1px !important;
-    right: -1px !important;
   }
 
   /* Section Plaidoyer Mobile Enhancements */
