@@ -406,11 +406,39 @@ function initModalsAndForms() {
     });
   }
 
+  // Helper function to dispatch automatic email notification alert to madior1991@gmail.com
+  function dispatchEmailNotificationAlert(type, title, details) {
+    const notifs = JSON.parse(localStorage.getItem('conesess_notifications')) || [];
+    const targetEmail = "madior1991@gmail.com";
+    const now = new Date();
+    const dateStr = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    
+    const notifItem = {
+      id: 'notif-' + Date.now(),
+      targetEmail: targetEmail,
+      type: type,
+      title: title,
+      details: details,
+      date: dateStr,
+      read: false
+    };
+
+    notifs.unshift(notifItem);
+    localStorage.setItem('conesess_notifications', JSON.stringify(notifs));
+    console.log(`[ALERT EMAIL SENT -> ${targetEmail}]: ${title} - ${details}`);
+  }
+
   // Helper function to save new member submission to localStorage DB
   function saveSubmissionToDB(newMember) {
     const members = JSON.parse(localStorage.getItem('conesess_members')) || [];
     members.unshift(newMember);
     localStorage.setItem('conesess_members', JSON.stringify(members));
+
+    dispatchEmailNotificationAlert(
+      "Adhésion Membre",
+      `Nouveau Dossier d'Adhésion : ${newMember.name}`,
+      `Organisation: ${newMember.name} (${newMember.region}) | Réf: ${newMember.ref} | Contact: ${newMember.rep} (${newMember.phone})`
+    );
   }
 
   // Helper function to save contact message to localStorage DB
@@ -418,6 +446,12 @@ function initModalsAndForms() {
     const contacts = JSON.parse(localStorage.getItem('conesess_contacts')) || [];
     contacts.unshift(newMessage);
     localStorage.setItem('conesess_contacts', JSON.stringify(contacts));
+
+    dispatchEmailNotificationAlert(
+      "Message Contact",
+      `Nouveau Message Web de ${newMessage.name}`,
+      `Sujet: ${newMessage.subject} | Contact: ${newMessage.name} (${newMessage.phone})`
+    );
   }
 
   // Embedded Page Adhesion Form
@@ -598,6 +632,12 @@ function initModalsAndForms() {
       const existingForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
       existingForms.unshift(newApp);
       localStorage.setItem('conesess_web_forms', JSON.stringify(existingForms));
+
+      dispatchEmailNotificationAlert(
+        "Comité de Pilotage",
+        `Candidature au Comité de Pilotage : ${name}`,
+        `Poste visé: ${role} | Organisation: ${org} (${region}) | Réf: ${ref} | Tel: ${phone}`
+      );
 
       steeringForm.reset();
       showToast(`Félicitations ${name} ! Votre candidature au poste de "${role}" au Comité de Pilotage a été transmise au Secrétariat Général.`);

@@ -7,7 +7,7 @@ const INITIAL_CONTACTS_DATA = [];
 const INITIAL_ADMIN_USERS = [
   {
     name: 'Madior',
-    email: 'madior@conesess.sn',
+    email: 'madior1991@gmail.com',
     password: 'admin',
     org: 'Présidence & Secrétariat Général Confédéral',
     phone: '+221 77 538 66 27',
@@ -70,14 +70,14 @@ function initAdminDB() {
   }
 
   let users = JSON.parse(localStorage.getItem('conesess_admin_users')) || [];
-  const madiorExists = users.some(u => u.email.toLowerCase() === 'madior@conesess.sn');
+  const madiorGmailExists = users.some(u => u.email.toLowerCase() === 'madior1991@gmail.com');
 
-  if (!madiorExists) {
+  if (!madiorGmailExists) {
     users.unshift(INITIAL_ADMIN_USERS[0]);
     localStorage.setItem('conesess_admin_users', JSON.stringify(users));
   } else {
-    // Ensure Madior is set as active Super Admin with full rights
-    const madiorIndex = users.findIndex(u => u.email.toLowerCase() === 'madior@conesess.sn');
+    // Ensure madior1991@gmail.com is set as active Super Admin with full rights
+    const madiorIndex = users.findIndex(u => u.email.toLowerCase() === 'madior1991@gmail.com');
     if (madiorIndex !== -1) {
       users[madiorIndex].isSuperAdmin = true;
       users[madiorIndex].role = 'Super Administrateur Confédéral';
@@ -267,7 +267,7 @@ function loginAdmin() {
 // Quick Super Admin Login
 function quickLoginAdmin() {
   const users = getAdminUsersDB();
-  const superAdmin = users.find(u => u.email.toLowerCase() === 'madior@conesess.sn') || users.find(u => u.isSuperAdmin) || users[0];
+  const superAdmin = users.find(u => u.email.toLowerCase() === 'madior1991@gmail.com') || users.find(u => u.isSuperAdmin) || users[0];
 
   localStorage.setItem('conesess_admin_auth', 'true');
   localStorage.setItem('conesess_admin_active_user', JSON.stringify(superAdmin));
@@ -283,7 +283,65 @@ function quickLoginAdmin() {
   }
 
   renderAdminAll();
-  showToast(`Bienvenue Madior ! Connexion Super Administrateur Confédéral effectuée.`);
+  showToast(`Bienvenue Madior ! Connexion Super Administrateur (madior1991@gmail.com) effectuée.`);
+}
+
+// Notification Center Logic for madior1991@gmail.com
+function renderAdminNotifications() {
+  const notifs = JSON.parse(localStorage.getItem('conesess_notifications')) || [];
+  const badgeEl = document.getElementById('admin-notification-badge');
+  const listEl = document.getElementById('admin-notification-list');
+
+  const unreadCount = notifs.filter(n => !n.read).length;
+  if (badgeEl) {
+    badgeEl.textContent = unreadCount;
+    badgeEl.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+  }
+
+  if (listEl) {
+    if (notifs.length === 0) {
+      listEl.innerHTML = `<p style="text-align: center; color: var(--admin-text-muted); font-size: 0.8rem; padding: 15px 0;">Aucune alerte e-mail reçue pour madior1991@gmail.com.</p>`;
+      return;
+    }
+
+    listEl.innerHTML = notifs.map(n => `
+      <div style="padding: 10px; border-bottom: 1px solid var(--admin-border-light); font-size: 0.775rem; background: ${n.read ? 'transparent' : 'rgba(233, 196, 106, 0.15)'}; transition: background 0.2s ease;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+          <span class="badge badge-gold" style="font-size: 0.65rem;">${n.type}</span>
+          <span style="font-size: 0.675rem; color: var(--admin-text-muted);">${n.date}</span>
+        </div>
+        <strong style="display: block; color: var(--admin-text-main); margin-bottom: 2px;">${n.title}</strong>
+        <p style="margin: 0 0 6px 0; color: var(--admin-text-body); font-size: 0.725rem;">${n.details}</p>
+        <div style="display: flex; gap: 6px; align-items: center; justify-content: space-between;">
+          <small style="color: #006837; font-weight: 700;"><i class="fas fa-check-circle"></i> Transmis à madior1991@gmail.com</small>
+          <a href="mailto:madior1991@gmail.com?subject=${encodeURIComponent('Notification CONESESS: ' + n.title)}&body=${encodeURIComponent('Alerte de soumission web CONESESS :\n\n' + n.details + '\n\nDate : ' + n.date)}" target="_blank" class="btn btn-sm" style="padding: 2px 8px; font-size: 0.675rem; background: #0A2540; color: #FFFFFF;" title="Envoyer par e-mail direct">
+            <i class="fas fa-paper-plane"></i> Transmettre E-mail
+          </a>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function toggleAdminNotificationMenu() {
+  const dropdown = document.getElementById('admin-notification-dropdown');
+  if (dropdown) {
+    const isVisible = dropdown.style.display === 'block';
+    dropdown.style.display = isVisible ? 'none' : 'block';
+
+    if (!isVisible) {
+      const notifs = JSON.parse(localStorage.getItem('conesess_notifications')) || [];
+      notifs.forEach(n => n.read = true);
+      localStorage.setItem('conesess_notifications', JSON.stringify(notifs));
+      renderAdminNotifications();
+    }
+  }
+}
+
+function clearAllNotifications() {
+  localStorage.setItem('conesess_notifications', JSON.stringify([]));
+  renderAdminNotifications();
+  showToast("Historique des notifications e-mail effacé.");
 }
 
 // Handle Register Admin Account Request
@@ -567,6 +625,7 @@ function renderAdminAll() {
   renderAdminUsersTable(adminUsers);
   renderWebFormsTable(members, contacts, webForms);
   renderSteeringCandidatesTable(webForms);
+  renderAdminNotifications();
 }
 
 // Render Dedicated Adhesions Table
