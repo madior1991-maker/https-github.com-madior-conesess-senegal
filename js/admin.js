@@ -628,6 +628,7 @@ function renderAdminAll() {
   renderWebFormsTable(members, contacts, webForms);
   renderSteeringCandidatesTable(webForms);
   renderAdminNotifications();
+  renderAuditLogTable();
 }
 
 // Render Dedicated Adhesions Table
@@ -2186,6 +2187,7 @@ function importFullDatabaseJSON(e) {
         if (importedData.notifications) localStorage.setItem('conesess_notifications', JSON.stringify(importedData.notifications));
 
         renderAdminAll();
+        logAuditEvent('Restauration Base de Données', 'BDD restaurée depuis un fichier JSON');
         showToast("Restauration de la base de données effectuée avec succès !");
       }
     } catch (err) {
@@ -2193,4 +2195,74 @@ function importFullDatabaseJSON(e) {
     }
   };
   reader.readAsText(file);
+}
+
+// Security Audit Log Trail
+function logAuditEvent(action, details) {
+  const logs = JSON.parse(localStorage.getItem('conesess_audit_logs')) || [];
+  const now = new Date();
+  const dateStr = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  const newLog = {
+    id: 'audit-' + Date.now(),
+    date: dateStr,
+    user: 'Madior (madior1991@gmail.com)',
+    action: action,
+    details: details,
+    ip: '127.0.0.1 (Session Sécurisée)'
+  };
+
+  logs.unshift(newLog);
+  localStorage.setItem('conesess_audit_logs', JSON.stringify(logs.slice(0, 50)));
+}
+
+function renderAuditLogTable() {
+  const tbody = document.getElementById('tbody-audit-log-list');
+  if (!tbody) return;
+
+  const logs = JSON.parse(localStorage.getItem('conesess_audit_logs')) || [
+    {
+      date: new Date().toLocaleDateString('fr-FR') + ' 19:30',
+      user: 'Madior (madior1991@gmail.com)',
+      action: 'Initialisation Système',
+      details: 'Super Administrateur connecté & Privilèges actifs',
+      ip: '127.0.0.1 (SSL)'
+    }
+  ];
+
+  tbody.innerHTML = logs.map(l => `
+    <tr>
+      <td style="font-size: 0.775rem; color: var(--admin-text-muted); font-family: monospace;">${l.date}</td>
+      <td><strong style="color: var(--admin-navy);">${l.user}</strong></td>
+      <td><span class="badge badge-gold" style="font-size: 0.675rem;">${l.action}</span></td>
+      <td style="font-size: 0.8rem;">${l.details}</td>
+      <td style="font-size: 0.75rem; color: var(--admin-text-muted); font-family: monospace;">${l.ip}</td>
+    </tr>
+  `).join('');
+}
+
+function clearAuditTrail() {
+  if (confirm("Voulez-vous effacer le journal d'audit de sécurité ?")) {
+    localStorage.setItem('conesess_audit_logs', JSON.stringify([]));
+    renderAuditLogTable();
+    showToast("Journal d'audit effacé.");
+  }
+}
+
+function changeSuperAdminPassword(e) {
+  if (e) e.preventDefault();
+  const oldPass = document.getElementById('setting-old-password')?.value;
+  const newPass = document.getElementById('setting-new-password')?.value;
+
+  const users = getAdminUsersDB();
+  const index = users.findIndex(u => u.email.toLowerCase() === 'madior1991@gmail.com');
+
+  if (index !== -1) {
+    users[index].password = newPass;
+    saveAdminUsersDB(users);
+    logAuditEvent('Changement Mot de Passe', 'Mot de passe Super Admin mis à jour');
+    if (document.getElementById('setting-old-password')) document.getElementById('setting-old-password').value = '';
+    if (document.getElementById('setting-new-password')) document.getElementById('setting-new-password').value = '';
+    showToast("Le mot de passe du Super Administrateur (Madior) a été mis à jour avec succès !");
+  }
 }

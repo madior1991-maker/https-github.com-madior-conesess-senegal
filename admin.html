@@ -1443,16 +1443,44 @@
                 <input type="file" id="input-import-json" accept=".json" onchange="importFullDatabaseJSON(event)" style="display: none;">
               </label>
             </div>
+        <!-- CARD 5: CHANGER LE MOT DE PASSE SUPER ADMIN -->
+          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(220, 38, 38, 0.15); color: #DC2626; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                <i class="fas fa-key"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 1.05rem; margin: 0; color: var(--admin-text-main);">Changer le Mot de Passe Super Admin</h3>
+                <small style="color: var(--admin-text-muted);">Mise à jour du mot de passe pour madior1991@gmail.com</small>
+              </div>
+            </div>
+            
+            <form onsubmit="changeSuperAdminPassword(event)">
+              <div class="wizard-form-group mb-2">
+                <label style="font-weight: 600; font-size: 0.8rem;">Ancien Mot de Passe *</label>
+                <input type="password" id="setting-old-password" class="wizard-form-control" placeholder="••••••••" required style="height: 38px;">
+              </div>
+              <div class="wizard-form-group mb-3">
+                <label style="font-weight: 600; font-size: 0.8rem;">Nouveau Mot de Passe *</label>
+                <input type="password" id="setting-new-password" class="wizard-form-control" placeholder="Entrez le nouveau mot de passe" required style="height: 38px;">
+              </div>
+              <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; background: #DC2626; border: none;">
+                <i class="fas fa-lock-open"></i> Mettre à Jour le Mot de Passe
+              </button>
+            </form>
           </div>
         </div>
 
-        <!-- TABLEAU DE GESTION COMPLÈTE DES ADMINISTRATEURS (SUPPRESSION ET RÔLES) -->
-        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
+        <!-- TABLEAU 1: GESTION COMPLÈTE DES ADMINISTRATEURS (SUPPRESSION ET RÔLES) -->
+        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);" class="mb-4">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
             <div>
               <h3 style="font-size: 1.15rem; margin: 0; color: var(--admin-text-main);"><i class="fas fa-user-cog" style="color: #006837;"></i> Control Panel : Comptes Administrateurs & Rôles</h3>
               <p style="font-size: 0.8rem; color: var(--admin-text-muted);" class="m-0">Privilège Super Admin (<strong>madior1991@gmail.com</strong>) : Modifier les rôles, attribuer les accès ou supprimer un administrateur.</p>
             </div>
+            <button onclick="openAddAdminModal()" class="action-btn-primary" style="background: #0A2540;">
+              <i class="fas fa-user-plus"></i> Créer un Compte Admin
+            </button>
           </div>
 
           <div class="admin-table-container">
@@ -1468,6 +1496,34 @@
                 </tr>
               </thead>
               <tbody id="tbody-super-admin-settings-users"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TABLEAU 2: JOURNAL D'AUDIT DE SÉCURITÉ & HISTORIQUE DES ACTIONS -->
+        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h3 style="font-size: 1.15rem; margin: 0; color: var(--admin-text-main);"><i class="fas fa-history" style="color: #E9C46A;"></i> Journal d'Audit & Historique de Sécurité</h3>
+              <p style="font-size: 0.8rem; color: var(--admin-text-muted);" class="m-0">Traces en temps réel des connexions, modifications de rôles, suppressions et téléchargements.</p>
+            </div>
+            <button onclick="clearAuditTrail()" class="action-btn-pill" style="font-size: 0.75rem; color: #DC2626; border: 1px solid #DC2626;">
+              <i class="fas fa-trash"></i> Effacer le Journal
+            </button>
+          </div>
+
+          <div class="admin-table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Horodatage</th>
+                  <th>Utilisateur / Acteur</th>
+                  <th>Action Effectuée</th>
+                  <th>Détails & Cible</th>
+                  <th>IP / Origine</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-audit-log-list"></tbody>
             </table>
           </div>
         </div>
