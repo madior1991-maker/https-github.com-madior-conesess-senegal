@@ -55,44 +55,45 @@
       min-height: 100vh;
     }
 
-    /* LEFT SIDEBAR NAVIGATION */
+    /* LEFT SIDEBAR NAVIGATION - PALETTE VERT & BLANC INSTITUTIONNEL */
     .admin-sidebar {
       width: var(--admin-sidebar-w);
-      background: #0A2540;
+      background: linear-gradient(180deg, #004D28 0%, #006837 100%);
       color: #FFFFFF;
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      border-right: 1px solid rgba(255, 255, 255, 0.15);
       display: flex;
       flex-direction: column;
       position: fixed;
       top: 0; bottom: 0; left: 0;
       z-index: 100;
-      padding: 0.85rem 0.75rem;
+      padding: 1rem 0.85rem;
+      box-shadow: 4px 0 20px rgba(0, 77, 40, 0.15);
     }
 
     .admin-brand-card {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      padding-bottom: 0.85rem;
-      margin-bottom: 0.85rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      gap: 0.65rem;
+      padding-bottom: 0.9rem;
+      margin-bottom: 0.9rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .admin-brand-avatar {
-      width: 36px; height: 36px;
+      width: 38px; height: 38px;
       border-radius: 50%;
-      background: var(--admin-green);
-      color: #FFFFFF;
+      background: #FFFFFF;
+      color: #006837;
       display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 1rem;
+      font-weight: 800; font-size: 1.1rem;
       border: 2px solid #E9C46A;
-      box-shadow: 0 3px 10px rgba(0, 104, 55, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .admin-nav-menu {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.35rem;
       list-style: none;
       padding: 0;
       margin: 0;
@@ -102,32 +103,37 @@
     .admin-nav-link {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      padding: 0.5rem 0.85rem;
+      gap: 0.65rem;
+      padding: 0.55rem 0.95rem;
       border-radius: 30px;
-      color: rgba(255, 255, 255, 0.85);
+      color: rgba(255, 255, 255, 0.92);
       text-decoration: none;
       font-weight: 600;
-      font-size: 0.825rem;
-      transition: all 0.2s ease;
+      font-size: 0.835rem;
+      transition: all 0.22s ease;
       cursor: pointer;
     }
 
     .admin-nav-link:hover {
-      background: rgba(0, 104, 55, 0.4);
-      color: #E9C46A;
+      background: rgba(255, 255, 255, 0.18);
+      color: #FFFFFF;
+      transform: translateX(3px);
     }
 
     .admin-nav-link.active {
-      background: var(--admin-green);
-      color: #FFFFFF;
-      font-weight: 700;
-      box-shadow: 0 4px 12px rgba(0, 104, 55, 0.35);
-      border: 1px solid rgba(233, 196, 106, 0.4);
+      background: #FFFFFF;
+      color: #006837;
+      font-weight: 800;
+      box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+      border: 1px solid #E9C46A;
+    }
+
+    .admin-nav-link.active i {
+      color: #006837;
     }
 
     .admin-nav-link i {
-      font-size: 0.9rem;
+      font-size: 0.925rem;
       width: 18px;
       text-align: center;
     }
