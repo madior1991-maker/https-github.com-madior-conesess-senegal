@@ -25,10 +25,42 @@ const INITIAL_ADMIN_USERS = [
     role: 'Super Administrateur',
     status: 'Approuvé',
     isSuperAdmin: true,
+    canDelete: true,
+    date: '2026-08-01'
+  },
+  {
+    name: 'Agent Restreint (Test)',
+    email: 'agent.limite@conesess.sn',
+    password: 'admin',
+    org: 'Antenne Régionale (Consultation)',
+    phone: '+221 77 000 11 22',
+    role: 'Administrateur Restreint (Fonctions Limitées)',
+    status: 'Approuvé',
+    isSuperAdmin: false,
+    canDelete: false,
     date: '2026-08-01'
   }
 ];
 const INITIAL_STEERING_CANDIDATES = [];
+
+// Helper functions for Limited Administrator Permissions
+function getActiveAdminUser() {
+  return JSON.parse(localStorage.getItem('conesess_admin_active_user')) || {
+    email: 'madior1991@gmail.com',
+    name: 'Madior',
+    role: 'Super Administrateur Confédéral',
+    isSuperAdmin: true,
+    canDelete: true
+  };
+}
+
+function canCurrentUserDelete() {
+  const user = getActiveAdminUser();
+  if (user.isSuperAdmin || user.email.toLowerCase() === 'madior1991@gmail.com') return true;
+  if (user.canDelete === false) return false;
+  if (user.role && (user.role.includes('Restreint') || user.role.includes('Limitées'))) return false;
+  return true;
+}
 
 // Initialize Database on load
 document.addEventListener('DOMContentLoaded', () => {
@@ -98,6 +130,10 @@ function initAdminDB() {
 }
 
 function clearAllAdminData() {
+  if (!canCurrentUserDelete()) {
+    showToast("Accès refusé : Le rôle 'Administrateur Restreint' ne dispose pas des privilèges de purge BDD !");
+    return;
+  }
   if (confirm("Êtes-vous sûr de vouloir réinitialiser la base de données et effacer toutes les données de test ?")) {
     localStorage.setItem('conesess_members', JSON.stringify([]));
     localStorage.setItem('conesess_web_forms', JSON.stringify([]));
@@ -1603,7 +1639,7 @@ function renderFullMembersTable(members) {
         <div style="display: flex; gap: 0.35rem;">
           ${m.status !== 'Approuvé' ? `<button onclick="approveMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF;" title="Valider"><i class="fas fa-check"></i></button>` : ''}
           <button onclick="openBadgeForMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: var(--accent-gold); color: #FFFFFF;" title="Générer Badge"><i class="fas fa-id-badge"></i></button>
-          <button onclick="deleteMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(239, 68, 68, 0.15); color: #DC2626; border: 1px solid #DC2626;" title="Supprimer"><i class="fas fa-trash"></i></button>
+          ${canCurrentUserDelete() ? `<button onclick="deleteMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(239, 68, 68, 0.15); color: #DC2626; border: 1px solid #DC2626;" title="Supprimer"><i class="fas fa-trash"></i></button>` : ''}
         </div>
       </td>
     </tr>
@@ -1635,6 +1671,10 @@ function approveMember(ref) {
 }
 
 function deleteMember(ref) {
+  if (!canCurrentUserDelete()) {
+    showToast("Accès refusé : Votre rôle 'Administrateur Restreint' ne dispose pas des privilèges de suppression de formulaires !");
+    return;
+  }
   if (confirm(`Êtes-vous sûr de vouloir supprimer le dossier ${ref} de la base de données ?`)) {
     let members = getMembersDB();
     members = members.filter(m => m.ref !== ref);
@@ -2080,6 +2120,10 @@ function printCurrentBadge() {
 }
 
 function deleteContact(index) {
+  if (!canCurrentUserDelete()) {
+    showToast("Accès refusé : Votre rôle 'Administrateur Restreint' ne permet pas de supprimer des formulaires ou messages !");
+    return;
+  }
   if (confirm("Êtes-vous sûr de vouloir supprimer ce message de contact ?")) {
     const contacts = getContactsDB();
     contacts.splice(index, 1);
@@ -2112,7 +2156,7 @@ function renderContactsTable(contacts) {
           <a href="https://wa.me/${c.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(c.name)},%20suite%20%C3%A0%20votre%20message%20sur%20CONESESS..." target="_blank" class="btn btn-sm" style="background: #25D366; color: #FFFFFF; font-size: 0.75rem;">
             <i class="fab fa-whatsapp"></i> Répondre
           </a>
-          <button onclick="deleteContact(${i})" class="btn btn-sm" style="background: rgba(239, 68, 68, 0.15); color: #DC2626; border: 1px solid #DC2626; font-size: 0.75rem;" title="Supprimer"><i class="fas fa-trash"></i></button>
+          ${canCurrentUserDelete() ? `<button onclick="deleteContact(${i})" class="btn btn-sm" style="background: rgba(239, 68, 68, 0.15); color: #DC2626; border: 1px solid #DC2626; font-size: 0.75rem;" title="Supprimer"><i class="fas fa-trash"></i></button>` : ''}
         </div>
       </td>
     </tr>
@@ -2174,6 +2218,10 @@ function rejectAdminUser(email) {
 
 // Delete Admin User Account
 function deleteAdminUser(email) {
+  if (!canCurrentUserDelete()) {
+    showToast("Accès refusé : Seul le Super Administrateur (Madior) dispose des privilèges de suppression !");
+    return;
+  }
   if (confirm(`Êtes-vous sûr de vouloir supprimer définitivement le compte administrateur ${email} ?`)) {
     let users = getAdminUsersDB();
     users = users.filter(u => u.email.toLowerCase() !== email.toLowerCase());
