@@ -1538,8 +1538,12 @@
     <div class="modal-card" style="max-width: 650px; border-radius: 20px;">
       <button class="modal-close" onclick="closeAddMemberModal()">&times;</button>
       <div style="text-align: center; margin-bottom: 1.25rem;">
-        <h3 style="color: #0A2540; font-size: 1.35rem;">Formulaire Officiel d'Adhésion / Inscription</h3>
-        <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Formulaire d'adhésion au CONESESS conservé et intégré.</p>
+        <h3 style="color: #0A2540; font-size: 1.15rem; font-weight: 800; line-height: 1.35; margin-bottom: 0.35rem;">
+          Vous représentez une coopérative, une mutuelle, un GIE, une entreprise sociale ou une organisation engagée dans l’Économie Sociale et Solidaire ?
+        </h3>
+        <p style="font-size: 0.85rem; color: #006837; font-weight: 700; margin: 0;">
+          Vous pouvez manifester votre intérêt pour rejoindre la dynamique nationale du CONESESS.
+        </p>
       </div>
 
       <form id="form-manual-add-member">
@@ -1592,6 +1596,13 @@
             <input type="tel" id="manual-phone" class="wizard-form-control" required placeholder="+221 77 000 00 00">
           </div>
         </div>
+
+        <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem; background: #006837; margin-top: 0.5rem; font-weight: 700;">
+          <i class="fas fa-paper-plane"></i> Transmettre ma manifestation d’intérêt
+        </button>
+      </form>
+    </div>
+  </div>
 
   <!-- MODAL: MODIFIER LE RÔLE D'UN ADMINISTRATEUR -->
   <div id="modal-edit-admin-role" class="modal-overlay">
