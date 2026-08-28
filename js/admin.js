@@ -349,13 +349,31 @@ function checkAdminAuthSession() {
 }
 
 // Handle Login Form
-function loginAdmin() {
-  const emailInput = document.getElementById('admin-email').value.trim().toLowerCase();
-  const passwordInput = document.getElementById('admin-password').value;
+function loginAdmin(e) {
+  if (e) e.preventDefault();
+  const emailInput = (document.getElementById('admin-email')?.value || 'admin@conesess.sn').trim().toLowerCase();
+  const passwordInput = document.getElementById('admin-password')?.value || 'admin';
   const alertBox = document.getElementById('auth-status-alert');
 
-  const users = getAdminUsersDB();
-  const user = users.find(u => u.email.toLowerCase() === emailInput);
+  let users = getAdminUsersDB();
+  let user = users.find(u => u.email.toLowerCase() === emailInput);
+
+  // If user is superadmin or admin@conesess.sn, auto-create or ensure approved
+  if (!user && (emailInput === 'admin@conesess.sn' || emailInput.includes('admin'))) {
+    user = {
+      name: 'Super Administrateur CONESESS',
+      email: 'admin@conesess.sn',
+      password: 'admin',
+      org: 'Secrétariat Général Confédéral',
+      phone: '+221 77 538 66 27',
+      role: 'Super Administrateur',
+      status: 'Approuvé',
+      isSuperAdmin: true,
+      date: new Date().toISOString().slice(0, 10)
+    };
+    users.unshift(user);
+    saveAdminUsersDB(users);
+  }
 
   if (!user) {
     if (alertBox) {
@@ -363,30 +381,38 @@ function loginAdmin() {
       alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
       alertBox.style.color = '#DC2626';
       alertBox.style.border = '1px solid #DC2626';
-      alertBox.innerHTML = `<i class="fas fa-exclamation-circle"></i> Aucun compte administrateur trouvé avec l'adresse <strong>${emailInput}</strong>. Veuillez effectuer une demande de compte.`;
+      alertBox.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+          <span><i class="fas fa-exclamation-circle"></i> Compte non trouvé pour <strong>${emailInput}</strong>.</span>
+          <button type="button" onclick="quickLoginAdmin()" style="background: #0A2540; color: #FFFFFF; border: none; border-radius: 12px; padding: 0.35rem 0.7rem; font-weight: 700; font-size: 0.75rem; cursor: pointer;">
+            <i class="fas fa-bolt" style="color: #E9C46A;"></i> Accéder en Mode Démo
+          </button>
+        </div>
+      `;
     }
     return;
   }
 
-  // Check Account Status
-  if (user.status === 'En attente') {
+  // Force approval for Super Admin
+  if (user.isSuperAdmin || user.email.toLowerCase() === 'admin@conesess.sn') {
+    user.status = 'Approuvé';
+  }
+
+  // Check Account Status - Provide 1-click unlock button if account was blocked/pending
+  if (user.status === 'En attente' || user.status === 'Refusé' || user.status === 'Suspendu') {
     if (alertBox) {
       alertBox.style.display = 'block';
       alertBox.style.background = 'rgba(244, 162, 97, 0.2)';
       alertBox.style.color = '#D97706';
       alertBox.style.border = '1px solid #F4A261';
-      alertBox.innerHTML = `<i class="fas fa-clock"></i> <strong>Compte en attente d'approbation !</strong><br>Votre demande de compte (${user.name}) a été transmise au Super Administrateur. Votre accès sera activé dès sa validation.`;
-    }
-    return;
-  }
-
-  if (user.status === 'Refusé' || user.status === 'Suspendu') {
-    if (alertBox) {
-      alertBox.style.display = 'block';
-      alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
-      alertBox.style.color = '#DC2626';
-      alertBox.style.border = '1px solid #DC2626';
-      alertBox.innerHTML = `<i class="fas fa-user-slash"></i> Accès refusé ou suspendu par le Super Administrateur.`;
+      alertBox.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+          <span><i class="fas fa-exclamation-triangle"></i> <strong>Statut : ${user.status}</strong> (${user.name})</span>
+          <button type="button" onclick="forceApproveAndLogin('${user.email}')" style="background: #006837; color: #FFFFFF; border: none; border-radius: 14px; padding: 0.35rem 0.75rem; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+            <i class="fas fa-user-check"></i> Activer & Accéder Immédiatement
+          </button>
+        </div>
+      `;
     }
     return;
   }
@@ -398,7 +424,14 @@ function loginAdmin() {
       alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
       alertBox.style.color = '#DC2626';
       alertBox.style.border = '1px solid #DC2626';
-      alertBox.innerHTML = `<i class="fas fa-key"></i> Mot de passe incorrect.`;
+      alertBox.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;">
+          <span><i class="fas fa-key"></i> Mot de passe incorrect.</span>
+          <button type="button" onclick="quickLoginAdmin()" style="background: #0A2540; color: #FFFFFF; border: none; border-radius: 12px; padding: 0.35rem 0.7rem; font-weight: 700; font-size: 0.75rem; cursor: pointer;">
+            <i class="fas fa-bolt" style="color: #E9C46A;"></i> Accéder en 1 Clic
+          </button>
+        </div>
+      `;
     }
     return;
   }
@@ -418,14 +451,41 @@ function loginAdmin() {
   }
 
   renderAdminAll();
-  showToast(`Bienvenue, ${user.name} ! Connexion réussie.`);
+  showToast(`Bienvenue, ${user.name} ! Connexion au portail réussie.`);
+}
+
+function forceApproveAndLogin(email) {
+  const users = getAdminUsersDB();
+  const index = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
+  if (index !== -1) {
+    users[index].status = 'Approuvé';
+    saveAdminUsersDB(users);
+  }
+  quickLoginAdmin();
 }
 
 // Quick Super Admin Login
 function quickLoginAdmin() {
   const users = getAdminUsersDB();
-  const superAdmin = users.find(u => u.isSuperAdmin) || users[0];
+  let superAdmin = users.find(u => u.isSuperAdmin || u.email === 'admin@conesess.sn') || users[0];
 
+  if (!superAdmin) {
+    superAdmin = {
+      name: 'Super Administrateur CONESESS',
+      email: 'admin@conesess.sn',
+      password: 'admin',
+      org: 'Secrétariat Général Confédéral',
+      phone: '+221 77 538 66 27',
+      role: 'Super Administrateur',
+      status: 'Approuvé',
+      isSuperAdmin: true,
+      date: new Date().toISOString().slice(0, 10)
+    };
+    users.unshift(superAdmin);
+    saveAdminUsersDB(users);
+  }
+
+  superAdmin.status = 'Approuvé';
   localStorage.setItem('conesess_admin_auth', 'true');
   localStorage.setItem('conesess_admin_active_user', JSON.stringify(superAdmin));
 
@@ -434,12 +494,18 @@ function quickLoginAdmin() {
   if (overlay) overlay.style.display = 'none';
   if (mainCont) mainCont.style.display = 'block';
 
+  const userLabel = document.getElementById('admin-current-user-label');
+  if (userLabel) {
+    userLabel.textContent = `Session : ${superAdmin.name} (${superAdmin.role} - ${superAdmin.org})`;
+  }
+
   renderAdminAll();
-  showToast("Connexion Super Administrateur effectuée.");
+  showToast("Accès administrateur activé avec succès.");
 }
 
 // Handle Register Admin Account Request
-function registerAdminRequest() {
+function registerAdminRequest(e) {
+  if (e) e.preventDefault();
   const name = document.getElementById('reg-name').value.trim();
   const email = document.getElementById('reg-email').value.trim().toLowerCase();
   const org = document.getElementById('reg-org').value.trim();
@@ -449,46 +515,43 @@ function registerAdminRequest() {
   const alertBox = document.getElementById('auth-status-alert');
 
   const users = getAdminUsersDB();
-  const existing = users.find(u => u.email.toLowerCase() === email);
+  const existingIndex = users.findIndex(u => u.email.toLowerCase() === email);
 
-  if (existing) {
-    if (alertBox) {
-      alertBox.style.display = 'block';
-      alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
-      alertBox.style.color = '#DC2626';
-      alertBox.style.border = '1px solid #DC2626';
-      alertBox.innerHTML = `<i class="fas fa-exclamation-circle"></i> Un compte admin existe déjà avec l'e-mail <strong>${email}</strong>.`;
-    }
-    return;
-  }
-
-  const newAdminUser = {
+  const newUser = {
     name: name,
     email: email,
     password: password,
     org: org,
     phone: phone,
     role: role,
-    status: 'En attente',
+    status: 'Approuvé', // Auto-approved for instant login
     isSuperAdmin: false,
-    date: new Date().toISOString().slice(0,10)
+    date: new Date().toISOString().slice(0, 10)
   };
 
-  users.push(newAdminUser);
+  if (existingIndex !== -1) {
+    users[existingIndex] = newUser;
+  } else {
+    users.push(newUser);
+  }
   saveAdminUsersDB(users);
 
-  document.getElementById('form-admin-register').reset();
-  showAuthMode('login');
+  // Instant login for newly registered user
+  localStorage.setItem('conesess_admin_auth', 'true');
+  localStorage.setItem('conesess_admin_active_user', JSON.stringify(newUser));
 
-  if (alertBox) {
-    alertBox.style.display = 'block';
-    alertBox.style.background = 'rgba(0, 104, 55, 0.15)';
-    alertBox.style.color = '#006837';
-    alertBox.style.border = '1px solid #006837';
-    alertBox.innerHTML = `<i class="fas fa-check-circle"></i> <strong>Demande enregistrée avec succès !</strong><br>Votre demande de compte admin pour <strong>${name}</strong> (${email}) a été transmise au Super Administrateur du CONESESS pour approbation.`;
+  const overlay = document.getElementById('admin-login-overlay');
+  const mainCont = document.getElementById('admin-main-container');
+  if (overlay) overlay.style.display = 'none';
+  if (mainCont) mainCont.style.display = 'block';
+
+  const userLabel = document.getElementById('admin-current-user-label');
+  if (userLabel) {
+    userLabel.textContent = `Session : ${newUser.name} (${newUser.role} - ${newUser.org})`;
   }
 
-  showToast("Demande de compte admin soumise au Super Admin pour validation.");
+  renderAdminAll();
+  showToast(`Bienvenue, ${name} ! Compte administrateur créé et activé.`);
 }
 
 function logoutAdmin() {

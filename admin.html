@@ -596,7 +596,7 @@
       <div id="auth-status-alert" style="display: none; padding: 0.75rem; border-radius: 10px; font-size: 0.825rem; margin-bottom: 1rem;"></div>
 
       <!-- FORM 1: LOGIN -->
-      <form id="form-admin-login">
+      <form id="form-admin-login" onsubmit="loginAdmin(event)">
         <div class="wizard-form-group mb-3">
           <label style="font-weight: 600; font-size: 0.825rem; color: #1E293B;">Identifiant E-mail Administrateur *</label>
           <input type="email" id="admin-email" class="wizard-form-control" value="admin@conesess.sn" required placeholder="admin@conesess.sn" style="height: 38px; font-size: 0.85rem;">
@@ -608,13 +608,13 @@
         <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">
           <i class="fas fa-lock"></i> Connexion au Portail Admin
         </button>
-        <button type="button" onclick="quickLoginAdmin()" class="action-btn-pill mt-2" style="width: 100%; justify-content: center; padding: 0.6rem; font-size: 0.825rem;">
-          <i class="fas fa-bolt" style="color: var(--admin-gold);"></i> Connexion Démo Immédiate
+        <button type="button" onclick="quickLoginAdmin()" class="action-btn-pill mt-2" style="width: 100%; justify-content: center; padding: 0.6rem; font-size: 0.825rem; background: #0A2540; color: #FFFFFF; border: none;">
+          <i class="fas fa-bolt" style="color: var(--admin-gold);"></i> Accès Démo Immédiat
         </button>
       </form>
 
       <!-- FORM 2: REGISTER -->
-      <form id="form-admin-register" style="display: none;">
+      <form id="form-admin-register" style="display: none;" onsubmit="registerAdminRequest(event)">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;" class="mb-2">
           <div class="wizard-form-group" style="margin-bottom: 0.4rem;">
             <label style="font-weight: 600; font-size: 0.775rem;">Nom & Prénom *</label>
