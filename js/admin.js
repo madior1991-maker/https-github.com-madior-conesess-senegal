@@ -1383,9 +1383,9 @@ function renderSteeringCandidatesTable(webForms = []) {
       <td><strong>${c.name}</strong><br><small style="color: var(--admin-text-muted);">${c.org}</small></td>
       <td><span class="badge badge-green" style="font-size: 0.7rem;">${c.region}</span></td>
       <td><span class="badge badge-gold" style="font-size: 0.75rem; font-weight: 700;">${c.role}</span></td>
-      <td style="font-size: 0.775rem; max-width: 250px; line-height: 1.3;">
-        <strong>Expérience :</strong> ${(c.experience || '').slice(0, 75)}...<br>
-        <strong style="color: var(--admin-green);">Motivation :</strong> ${(c.motivation || '').slice(0, 75)}...
+      <td style="font-size: 0.775rem; max-width: 230px; line-height: 1.3;">
+        <strong>Expérience :</strong> ${(c.experience || '').slice(0, 60)}...<br>
+        <strong style="color: var(--admin-green);">Motivation :</strong> ${(c.motivation || '').slice(0, 60)}...
       </td>
       <td style="font-size: 0.8rem;">
         <strong>${c.phone}</strong><br>
@@ -1393,14 +1393,118 @@ function renderSteeringCandidatesTable(webForms = []) {
       </td>
       <td>${getStatusBadgeHTML(c.status)}</td>
       <td>
-        <div style="display: flex; gap: 0.35rem;">
-          ${c.status !== 'Approuvé' ? `<button onclick="approveSteeringCandidate('${c.id}')" class="action-btn-primary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" title="Approuver la Candidature"><i class="fas fa-check"></i> Approuver</button>` : ''}
-          ${c.status !== 'Rejeté' ? `<button onclick="rejectSteeringCandidate('${c.id}')" class="action-btn-pill" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; color: #DC2626; border-color: #DC2626;" title="Rejeter la Candidature"><i class="fas fa-times"></i> Rejeter</button>` : ''}
-          <a href="https://wa.me/${c.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(c.name)},%20suite%20%C3%A0%20votre%20candidature%20au%20poste%20de%20${encodeURIComponent(c.role)}%20au%20Comit%C3%A9%20de%20Pilotage..." target="_blank" class="action-btn-pill" style="padding: 0.3rem 0.5rem; font-size: 0.75rem; background: #25D366; color: #FFFFFF; border: none;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <div style="display: flex; gap: 0.3rem; flex-wrap: wrap;">
+          <button onclick="openWebFormDetailModal('${c.id || c.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.45rem; font-size: 0.725rem;" title="Aperçu du Dossier"><i class="fas fa-eye"></i> Aperçu</button>
+          <button onclick="downloadFormSubmissionPDF('${c.id || c.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.45rem; font-size: 0.725rem; background: #006837; color: #FFFFFF; border: none;" title="Télécharger Candidature PDF"><i class="fas fa-file-pdf"></i> PDF</button>
+          <button onclick="downloadFormSubmissionText('${c.id || c.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.45rem; font-size: 0.725rem; background: #0A2540; color: #FFFFFF; border: none;" title="Fiche TXT"><i class="fas fa-file-alt"></i> TXT</button>
+          ${c.status !== 'Approuvé' ? `<button onclick="approveSteeringCandidate('${c.id}')" class="action-btn-primary" style="padding: 0.25rem 0.45rem; font-size: 0.725rem;" title="Approuver"><i class="fas fa-check"></i></button>` : ''}
+          ${c.status !== 'Rejeté' ? `<button onclick="rejectSteeringCandidate('${c.id}')" class="action-btn-pill" style="padding: 0.25rem 0.45rem; font-size: 0.725rem; color: #DC2626; border-color: #DC2626;" title="Rejeter"><i class="fas fa-times"></i></button>` : ''}
+          <a href="https://wa.me/${c.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(c.name)},%20suite%20%C3%A0%20votre%20candidature%20au%20poste%20de%20${encodeURIComponent(c.role)}%20au%20Comit%C3%A9%20de%20Pilotage..." target="_blank" class="action-btn-pill" style="padding: 0.25rem 0.45rem; font-size: 0.725rem; background: #25D366; color: #FFFFFF; border: none;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
       </td>
     </tr>
   `).join('');
+}
+
+// Export All Steering Committee Candidates as PDF Report
+function exportSteeringCandidatesPDF() {
+  const forms = getWebFormsDB();
+  const candidates = forms.filter(wf => wf.type === 'Candidature Comité de Pilotage');
+
+  if (candidates.length === 0) {
+    showToast("Aucune candidature au Comité de Pilotage disponible pour le moment.");
+    return;
+  }
+
+  const printWin = window.open('', '_blank', 'width=950,height=1000');
+  if (!printWin) {
+    showToast("Veuillez autoriser les fenêtres surgissantes pour ouvrir le rapport PDF.");
+    return;
+  }
+
+  printWin.document.write(`
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+      <meta charset="UTF-8">
+      <title>CONESESS_Rapport_Comite_Pilotage</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      <style>
+        @page { size: A4 landscape; margin: 10mm; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #0A2540; margin: 0; padding: 20px; background: #FFFFFF; font-size: 12px; }
+        .pdf-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #006837; padding-bottom: 12px; margin-bottom: 18px; }
+        .pdf-brand { display: flex; align-items: center; gap: 12px; }
+        .pdf-brand img { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #E9C46A; object-fit: cover; }
+        .pdf-brand-text h1 { margin: 0; color: #006837; font-size: 1.15rem; font-weight: 800; }
+        .pdf-brand-text p { margin: 2px 0 0 0; color: #D97706; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        
+        table.list-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        table.list-table th { background: #006837; color: #FFFFFF; padding: 8px 10px; text-align: left; font-size: 0.8rem; text-transform: uppercase; }
+        table.list-table td { padding: 8px 10px; border-bottom: 1px solid #E2E8F0; font-size: 0.8rem; vertical-align: top; }
+        table.list-table tr:nth-child(even) { background: #F8FAFC; }
+
+        @media print {
+          .no-print { display: none !important; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="no-print" style="background: #0A2540; color: #fff; padding: 12px; text-align: center; border-radius: 8px; margin-bottom: 15px; font-weight: 700;">
+        <i class="fas fa-users-cog"></i> Rapport Officiel des Candidatures au Comité de Pilotage.
+        <button onclick="window.print()" style="margin-left: 15px; padding: 6px 16px; background: #006837; color: #fff; border: none; border-radius: 20px; cursor: pointer; font-weight: 700;">
+          Imprimer / Enregistrer le Rapport PDF
+        </button>
+      </div>
+
+      <div class="pdf-header">
+        <div class="pdf-brand">
+          <img src="assets/images/logo.jpg" alt="Logo CONESESS">
+          <div class="pdf-brand-text">
+            <h1>CONESESS SÉNÉGAL</h1>
+            <p>Registre Officiel des Candidats au Comité de Pilotage Confédéral</p>
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <strong style="color: #006837; font-size: 1rem;">${candidates.length} Candidat(s) Enregistré(s)</strong><br>
+          <small style="color: #64748B;">Extrait le ${new Date().toLocaleDateString('fr-FR')}</small>
+        </div>
+      </div>
+
+      <table class="list-table">
+        <thead>
+          <tr>
+            <th>Référence</th>
+            <th>Candidat & Organisation</th>
+            <th>Région</th>
+            <th>Poste Visé</th>
+            <th>Téléphone / Email</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${candidates.map(c => `
+            <tr>
+              <td style="font-family: monospace; font-weight: 700;">${c.ref}</td>
+              <td><strong>${c.name}</strong><br><small style="color: #64748B;">${c.org}</small></td>
+              <td>${c.region}</td>
+              <td><strong style="color: #D97706;">${c.role}</strong></td>
+              <td>${c.phone}<br><small style="color: #64748B;">${c.email}</small></td>
+              <td><strong>${(c.status || 'En attente').toUpperCase()}</strong></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <script>
+        window.onload = function() {
+          setTimeout(function() { window.print(); }, 400);
+        };
+      </script>
+    </body>
+    </html>
+  `);
+
+  printWin.document.close();
 }
 
 // Approve / Reject Handlers
