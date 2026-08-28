@@ -558,6 +558,51 @@ function initModalsAndForms() {
       showToast("Votre message a été transmis avec succès au Secrétariat Général du CONESESS !");
     });
   }
+
+  // Steering Committee Candidate Form Handler
+  const steeringForm = document.getElementById('form-steering-committee-candidate');
+  if (steeringForm) {
+    steeringForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('steering-name').value;
+      const org = document.getElementById('steering-org').value;
+      const region = document.getElementById('steering-region').value;
+      const email = document.getElementById('steering-email').value;
+      const phone = document.getElementById('steering-phone').value;
+      const role = document.getElementById('steering-role').value;
+      const experience = document.getElementById('steering-experience').value;
+      const motivation = document.getElementById('steering-motivation').value;
+
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+      const ref = `CP-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      const newApp = {
+        id: 'web-' + Date.now(),
+        type: 'Candidature Comité de Pilotage',
+        ref: ref,
+        name: name,
+        org: org,
+        legalForm: 'Candidat Comité de Pilotage',
+        region: region,
+        email: email,
+        phone: phone,
+        role: role,
+        details: `Poste visé : ${role} | Expérience : ${experience}`,
+        motivation: motivation,
+        experience: experience,
+        status: 'En attente',
+        date: dateStr
+      };
+
+      const existingForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
+      existingForms.unshift(newApp);
+      localStorage.setItem('conesess_web_forms', JSON.stringify(existingForms));
+
+      steeringForm.reset();
+      showToast(`Félicitations ${name} ! Votre candidature au poste de "${role}" au Comité de Pilotage a été transmise au Secrétariat Général.`);
+    });
+  }
 }
 
 function resetAdhesionForm() {

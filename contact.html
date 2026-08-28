@@ -245,6 +245,92 @@
     </div>
   </section>
 
+  <!-- SECTION: APPEL À CANDIDATURES - COMITÉ DE PILOTAGE DU CONESESS -->
+  <section id="candidature-comite" class="section" style="padding: 2.5rem 0; background: var(--bg-alt);">
+    <div class="container">
+      <div style="background: linear-gradient(135deg, #0A2540 0%, #006837 100%); color: #FFFFFF; padding: 2rem 2.25rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); border: 2px solid #E9C46A;">
+        <div style="text-align: center; max-width: 800px; margin: 0 auto 1.75rem auto;">
+          <span class="badge" style="background: rgba(233, 196, 106, 0.2); color: #E9C46A; border: 1px solid #E9C46A; font-size: 0.8rem; font-weight: 700; padding: 0.35rem 0.85rem; border-radius: 30px; margin-bottom: 0.5rem; display: inline-flex; align-items: center; gap: 0.4rem;">
+            <i class="fas fa-users-cog"></i> Instance de Gouvernance Confédérale
+          </span>
+          <h2 style="font-size: 1.85rem; color: #FFFFFF; font-weight: 800; margin-bottom: 0.5rem;">Appel à Candidatures : Comité de Pilotage du CONESESS</h2>
+          <p style="font-size: 0.925rem; color: rgba(255, 255, 255, 0.92); line-height: 1.6; margin-bottom: 0.5rem;">
+            Le Conseil National des Entreprises de l'ESS lance un appel à candidatures pour la constitution de son Comité de Pilotage. Les candidatures seront examinées avec rigueur et équité selon <strong>la compétence et l’engagement de chacun</strong>.
+          </p>
+          <small style="color: #E9C46A; font-size: 0.8rem; font-weight: 700;">
+            <i class="fas fa-balance-scale"></i> Critère d'Éligibilité : Compétence technique, leadership avéré et engagement fort dans l'Économie Sociale et Solidaire au Sénégal.
+          </small>
+        </div>
+
+        <form id="form-steering-committee-candidate" style="background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.15); padding: 1.5rem; border-radius: var(--radius-md);">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;" class="mb-3">
+            <div class="wizard-form-group">
+              <label style="font-size: 0.825rem; font-weight: 700; color: #E9C46A;">Nom & Prénom du Candidat *</label>
+              <input type="text" id="steering-name" class="wizard-form-control" required placeholder="ex: Cheikh Oumar Sy" style="background: rgba(255, 255, 255, 0.95); color: #0A2540;">
+            </div>
+
+            <div class="wizard-form-group">
+              <label style="font-size: 0.825rem; font-weight: 700; color: #E9C46A;">Organisation / Entreprise ESS Représentée *</label>
+              <input type="text" id="steering-org" class="wizard-form-control" required placeholder="ex: Coopérative Maraîchère / GIE / Mutuelle" style="background: rgba(255, 255, 255, 0.95); color: #0A2540;">
+            </div>
+
+            <div class="wizard-form-group">
+              <label style="font-size: 0.825rem; font-weight: 700; color: #E9C46A;">Région d’Implantation *</label>
+              <select id="steering-region" class="wizard-form-control" required style="background: rgba(255, 255, 255, 0.95); color: #0A2540;">
+                <option value="">Sélectionner votre Région</option>
+                <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
+                <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
+                <option>Kolda</option><option>Tambacounda</option><option>Matam</option>
+                <option>Kaffrine</option><option>Kedougou</option><option>Sédhiou</option>
+                <option>Louga</option><option>Diourbel</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;" class="mb-3">
+            <div class="wizard-form-group">
+              <label style="font-size: 0.825rem; font-weight: 700; color: #E9C46A;">Adresse E-mail Officielle *</label>
+              <input type="email" id="steering-email" class="wizard-form-control" required placeholder="candidat@conesess.sn" style="background: rgba(255, 255, 255, 0.95); color: #0A2540;">
+            </div>
+
+            <div class="wizard-form-group">
+              <label style="font-size: 0.825rem; font-weight: 700; color: #E9C46A;">Téléphone / WhatsApp Direct *</label>
+              <input type="tel" id="steering-phone" class="wizard-form-control" required placeholder="+221 77 000 00 00" style="background: rgba(255, 255, 255, 0.95); color: #0A2540;">
+            </div>
+
+            <div class="wizard-form-group">
+              <label style="font-size: 0.825rem; font-weight: 700; color: #E9C46A;">Poste Visé au Comité de Pilotage *</label>
+              <select id="steering-role" class="wizard-form-control" required style="background: rgba(255, 255, 255, 0.95); color: #0A2540; font-weight: 700;">
+                <option value="">Sélectionner une des 7 fonctions</option>
+                <option value="Coordinateur">1. Coordinateur</option>
+                <option value="Coordinateur adjoint">2. Coordinateur adjoint</option>
+                <option value="Rapporteur">3. Rapporteur</option>
+                <option value="Responsable Administration et Organisation de l'AG">4. Responsable Administration et Organisation de l'AG</option>
+                <option value="Responsable Partenariat et Mobilisation des ressources">5. Responsable Partenariat et Mobilisation des ressources</option>
+                <option value="Responsable administratif et financier">6. Responsable administratif et financier</option>
+                <option value="Responsable communication">7. Responsable communication</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="wizard-form-group mb-3">
+            <label style="font-size: 0.825rem; font-weight: 700; color: #E9C46A;">Compétences Clés & Expérience Professionnelle *</label>
+            <textarea id="steering-experience" class="wizard-form-control" rows="3" required placeholder="Décrivez brièvement votre parcours, vos diplômes et votre expérience pertinente pour le poste visé..." style="background: rgba(255, 255, 255, 0.95); color: #0A2540;"></textarea>
+          </div>
+
+          <div class="wizard-form-group mb-4">
+            <label style="font-size: 0.825rem; font-weight: 700; color: #E9C46A;">Note de Motivation & Engagement envers l'ESS au Sénégal *</label>
+            <textarea id="steering-motivation" class="wizard-form-control" rows="3" required placeholder="Expliquez votre vision, votre motivation et la valeur ajoutée que vous apporterez au Comité de Pilotage du CONESESS..." style="background: rgba(255, 255, 255, 0.95); color: #0A2540;"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 1rem; font-weight: 800; background: #008748; color: #FFFFFF; border: 2px solid #E9C46A; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.6rem;">
+            <i class="fas fa-paper-plane"></i> Transmettre ma Candidature Officielle au Comité de Pilotage
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer class="footer" style="background: var(--primary-navy); color: #FFFFFF; padding: 3rem 0 1.5rem 0; border-top: 4px solid var(--primary-green);">
     <div class="container">

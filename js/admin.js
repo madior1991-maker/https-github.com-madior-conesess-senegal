@@ -172,6 +172,54 @@ const INITIAL_ADMIN_USERS = [
   }
 ];
 
+const INITIAL_STEERING_CANDIDATES = [
+  {
+    id: 'CP-2026-101',
+    ref: 'CP-2026-101',
+    type: 'Candidature Comité de Pilotage',
+    name: 'Cheikh Oumar Sy',
+    org: 'Coopérative Agroécologique du Bassin Arachidier',
+    region: 'Kaolack',
+    email: 'cheikh.sy@conesess.sn',
+    phone: '+221 77 543 21 00',
+    role: 'Coordinateur',
+    experience: '12 ans d’expérience en gestion de coopératives agricoles et coordination de projets de souveraineté alimentaire.',
+    motivation: 'Développer un cadre confédéral fort capable d’accompagner la Vision Sénégal 2050 et de structurer l’ESS dans les 14 régions.',
+    status: 'En attente',
+    date: '2026-08-27 10:15'
+  },
+  {
+    id: 'CP-2026-102',
+    ref: 'CP-2026-102',
+    type: 'Candidature Comité de Pilotage',
+    name: 'Dr. Mariama Ba',
+    org: 'Mutuelle de Santé & Solidarité des Femmes de Saint-Louis',
+    region: 'Saint-Louis',
+    email: 'mariama.ba@conesess.sn',
+    phone: '+221 78 412 99 88',
+    role: 'Rapporteur',
+    experience: 'Docteur en Économie du Développement, 8 ans en rédaction de rapports stratégiques et politiques publiques d’inclusion sociale.',
+    motivation: 'Assurer une formalisation rigoureuse des travaux du Comité et une cartographie précise de l’impact de l’ESS.',
+    status: 'En attente',
+    date: '2026-08-26 16:40'
+  },
+  {
+    id: 'CP-2026-103',
+    ref: 'CP-2026-103',
+    type: 'Candidature Comité de Pilotage',
+    name: 'Mamadou Lamine Diagne',
+    org: 'Startup Sociale Éco-Digitale Dakar',
+    region: 'Dakar',
+    email: 'lamine.diagne@conesess.sn',
+    phone: '+221 70 987 65 43',
+    role: 'Responsable communication',
+    experience: 'Spécialiste en communication institutionnelle, médias numériques et plaidoyer stratégique auprès des partenaires.',
+    motivation: 'Promouvoir la visibilité nationale et internationale du CONESESS pour faire de 2026 l’Année de l’ESS au Sénégal.',
+    status: 'En attente',
+    date: '2026-08-27 14:20'
+  }
+];
+
 // Initialize Database on load
 document.addEventListener('DOMContentLoaded', () => {
   initAdminDB();
@@ -212,6 +260,18 @@ function initAdminDB() {
   if (!localStorage.getItem('conesess_admin_users')) {
     localStorage.setItem('conesess_admin_users', JSON.stringify(INITIAL_ADMIN_USERS));
   }
+  if (!localStorage.getItem('conesess_web_forms')) {
+    localStorage.setItem('conesess_web_forms', JSON.stringify(INITIAL_STEERING_CANDIDATES));
+  }
+}
+
+function getWebFormsDB() {
+  return JSON.parse(localStorage.getItem('conesess_web_forms')) || INITIAL_STEERING_CANDIDATES;
+}
+
+function saveWebFormsDB(data) {
+  localStorage.setItem('conesess_web_forms', JSON.stringify(data));
+  renderAdminAll();
 }
 
 function getMembersDB() {
@@ -456,6 +516,11 @@ function setAdminTheme(theme) {
   }
 }
 
+function toggleAdminSidebar() {
+  const sidebar = document.querySelector('.admin-sidebar');
+  if (sidebar) sidebar.classList.toggle('active');
+}
+
 // Navigation Sidebar Tabs
 function switchAdminTab(tabId) {
   document.querySelectorAll('.admin-tab-content').forEach(el => el.style.display = 'none');
@@ -466,6 +531,8 @@ function switchAdminTab(tabId) {
 
   const linkIdMap = {
     'tab-dashboard': 'nav-item-dashboard',
+    'tab-web-forms': 'nav-item-web-forms',
+    'tab-steering': 'nav-item-steering',
     'tab-members': 'nav-item-members',
     'tab-badges': 'nav-item-badges',
     'tab-checkin': 'nav-item-checkin',
@@ -479,6 +546,10 @@ function switchAdminTab(tabId) {
   if (navItem) navItem.classList.add('active');
 
   if (tabId === 'tab-segmentation') renderSegmentation();
+
+  // Close mobile sidebar on tab switch
+  const sidebar = document.querySelector('.admin-sidebar');
+  if (sidebar && window.innerWidth <= 992) sidebar.classList.remove('active');
 }
 
 // Check-in QR Code Verification Tool
@@ -588,6 +659,7 @@ function renderAdminAll() {
   const members = getMembersDB();
   const contacts = getContactsDB();
   const adminUsers = getAdminUsersDB();
+  const webForms = getWebFormsDB();
 
   // Metrics
   const total = members.length;
@@ -595,6 +667,7 @@ function renderAdminAll() {
   const pending = members.filter(m => m.status === 'En attente').length;
   const badgesCount = members.filter(m => m.badgeStatus && m.badgeStatus !== 'Non généré').length;
   const pendingAdminsCount = adminUsers.filter(u => u.status === 'En attente').length;
+  const steeringCount = webForms.filter(f => f.type === 'Candidature Comité de Pilotage').length;
 
   const statTotal = document.getElementById('stat-total-members');
   const statApproved = document.getElementById('stat-approved-members');
@@ -608,23 +681,43 @@ function renderAdminAll() {
 
   const countNavPendingAdmins = document.getElementById('count-nav-pending-admins');
   const countNavWebForms = document.getElementById('count-nav-web-forms');
+  const countNavSteering = document.getElementById('count-nav-steering');
+
   if (countNavPendingAdmins) countNavPendingAdmins.textContent = pendingAdminsCount;
-  if (countNavWebForms) countNavWebForms.textContent = members.length + contacts.length;
+  if (countNavWebForms) countNavWebForms.textContent = members.length + contacts.length + webForms.length;
+  if (countNavSteering) countNavSteering.textContent = steeringCount;
 
   renderRecentMembersTable(members.slice(0, 5));
   renderFullMembersTable(members);
   renderBadgeSelectOptions(members);
   renderContactsTable(contacts);
   renderAdminUsersTable(adminUsers);
-  renderWebFormsTable(members, contacts);
+  renderWebFormsTable(members, contacts, webForms);
+  renderSteeringCandidatesTable(webForms);
 }
 
 // Render Submitted Web Forms Table
-function renderWebFormsTable(members, contacts) {
+function renderWebFormsTable(members, contacts, webForms = []) {
   const tbody = document.getElementById('tbody-web-forms-list');
   if (!tbody) return;
 
   const allSubmissions = [];
+
+  webForms.forEach(wf => {
+    allSubmissions.push({
+      id: wf.id || wf.ref,
+      date: wf.date || 'Récemment',
+      type: wf.type || 'Formulaire Web',
+      name: wf.name,
+      details: wf.details || `${wf.org} - ${wf.role || wf.type}`,
+      region: wf.region || 'Sénégal',
+      contact: `${wf.name} (${wf.phone})`,
+      rawPhone: wf.phone,
+      email: wf.email || '',
+      status: wf.status,
+      rawData: wf
+    });
+  });
 
   members.forEach(m => {
     allSubmissions.push({
@@ -666,7 +759,7 @@ function renderWebFormsTable(members, contacts) {
   tbody.innerHTML = allSubmissions.map(s => `
     <tr>
       <td style="font-size: 0.8rem; color: var(--admin-text-muted);">${s.date}</td>
-      <td><span class="badge ${s.type.includes('Adhésion') ? 'badge-green' : 'badge-gold'}" style="font-size: 0.7rem;">${s.type}</span></td>
+      <td><span class="badge ${s.type.includes('Comité') ? 'badge-gold' : (s.type.includes('Adhésion') ? 'badge-green' : 'badge-gold')}" style="font-size: 0.7rem;">${s.type}</span></td>
       <td><strong>${s.name}</strong></td>
       <td style="font-size: 0.825rem;">${s.details}</td>
       <td><span class="badge badge-green" style="font-size: 0.7rem;">${s.region}</span></td>
@@ -675,11 +768,102 @@ function renderWebFormsTable(members, contacts) {
       <td>
         <div style="display: flex; gap: 0.35rem;">
           <button onclick="openWebFormDetailModal('${s.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Voir Fiche"><i class="fas fa-eye"></i> Détails</button>
+          ${s.status !== 'Approuvé' ? `<button onclick="approveWebForm('${s.id}')" class="action-btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Approuver"><i class="fas fa-check"></i> Approuver</button>` : ''}
+          ${s.status !== 'Rejeté' ? `<button onclick="rejectWebForm('${s.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; color: #DC2626; border-color: #DC2626;" title="Rejeter"><i class="fas fa-times"></i> Rejeter</button>` : ''}
           <a href="https://wa.me/${s.rawPhone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(s.name)},%20suite%20%C3%A0%20votre%20formulaire%20soumis%20sur%20le%20site%20CONESESS..." target="_blank" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #25D366; color: #FFFFFF; border: none;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
       </td>
     </tr>
   `).join('');
+}
+
+// Render Steering Committee Candidates Table
+function renderSteeringCandidatesTable(webForms = []) {
+  const tbody = document.getElementById('tbody-steering-candidates');
+  if (!tbody) return;
+
+  const candidates = webForms.filter(wf => wf.type === 'Candidature Comité de Pilotage');
+
+  if (candidates.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--admin-text-muted);">Aucune candidature au Comité de Pilotage reçue pour le moment.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = candidates.map(c => `
+    <tr>
+      <td style="font-size: 0.8rem; font-family: monospace;"><strong>${c.ref}</strong><br><small style="color: var(--admin-text-muted);">${c.date}</small></td>
+      <td><strong>${c.name}</strong><br><small style="color: var(--admin-text-muted);">${c.org}</small></td>
+      <td><span class="badge badge-green" style="font-size: 0.7rem;">${c.region}</span></td>
+      <td><span class="badge badge-gold" style="font-size: 0.75rem; font-weight: 700;">${c.role}</span></td>
+      <td style="font-size: 0.775rem; max-width: 250px; line-height: 1.3;">
+        <strong>Expérience :</strong> ${(c.experience || '').slice(0, 75)}...<br>
+        <strong style="color: var(--admin-green);">Motivation :</strong> ${(c.motivation || '').slice(0, 75)}...
+      </td>
+      <td style="font-size: 0.8rem;">
+        <strong>${c.phone}</strong><br>
+        <small style="color: var(--admin-text-muted);">${c.email}</small>
+      </td>
+      <td>${getStatusBadgeHTML(c.status)}</td>
+      <td>
+        <div style="display: flex; gap: 0.35rem;">
+          ${c.status !== 'Approuvé' ? `<button onclick="approveSteeringCandidate('${c.id}')" class="action-btn-primary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" title="Approuver la Candidature"><i class="fas fa-check"></i> Approuver</button>` : ''}
+          ${c.status !== 'Rejeté' ? `<button onclick="rejectSteeringCandidate('${c.id}')" class="action-btn-pill" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; color: #DC2626; border-color: #DC2626;" title="Rejeter la Candidature"><i class="fas fa-times"></i> Rejeter</button>` : ''}
+          <a href="https://wa.me/${c.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(c.name)},%20suite%20%C3%A0%20votre%20candidature%20au%20poste%20de%20${encodeURIComponent(c.role)}%20au%20Comit%C3%A9%20de%20Pilotage..." target="_blank" class="action-btn-pill" style="padding: 0.3rem 0.5rem; font-size: 0.75rem; background: #25D366; color: #FFFFFF; border: none;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Approve / Reject Handlers
+function approveSteeringCandidate(id) {
+  const forms = getWebFormsDB();
+  const candidate = forms.find(f => f.id === id);
+  if (candidate) {
+    candidate.status = 'Approuvé';
+    saveWebFormsDB(forms);
+    showToast(`Candidature de ${candidate.name} pour le poste de "${candidate.role}" au Comité de Pilotage approuvée avec succès !`);
+  }
+}
+
+function rejectSteeringCandidate(id) {
+  const forms = getWebFormsDB();
+  const candidate = forms.find(f => f.id === id);
+  if (candidate) {
+    candidate.status = 'Rejeté';
+    saveWebFormsDB(forms);
+    showToast(`Candidature de ${candidate.name} rejetée.`);
+  }
+}
+
+function approveWebForm(id) {
+  const forms = getWebFormsDB();
+  const form = forms.find(f => f.id === id);
+  if (form) {
+    form.status = 'Approuvé';
+    saveWebFormsDB(forms);
+    showToast(`Formulaire ${id} approuvé avec succès !`);
+    return;
+  }
+  approveMember(id);
+}
+
+function rejectWebForm(id) {
+  const forms = getWebFormsDB();
+  const form = forms.find(f => f.id === id);
+  if (form) {
+    form.status = 'Rejeté';
+    saveWebFormsDB(forms);
+    showToast(`Formulaire ${id} rejeté.`);
+    return;
+  }
+  const members = getMembersDB();
+  const m = members.find(mem => mem.ref === id);
+  if (m) {
+    m.status = 'Rejeté';
+    saveMembersDB(members);
+    showToast(`Dossier ${id} rejeté.`);
+  }
 }
 
 // Open Web Form Detail Modal
