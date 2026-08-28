@@ -1161,7 +1161,10 @@ function downloadCurrentModalFormText() {
 function openEditAdminRoleModal(email) {
   const users = getAdminUsersDB();
   const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-  if (!user) return;
+  if (!user) {
+    showToast("Impossible de localiser l'utilisateur " + email);
+    return;
+  }
 
   const modal = document.getElementById('modal-edit-admin-role');
   const subtitle = document.getElementById('edit-admin-user-email-subtitle');
@@ -1170,14 +1173,38 @@ function openEditAdminRoleModal(email) {
 
   if (subtitle) subtitle.textContent = `${user.name} (${user.email})`;
   if (emailInput) emailInput.value = user.email;
-  if (select) select.value = user.role || "Gestionnaire d'Antenne Régionale";
 
-  if (modal) modal.classList.add('show');
+  if (select) {
+    let matched = false;
+    for (let i = 0; i < select.options.length; i++) {
+      if (select.options[i].value === user.role || select.options[i].text.includes(user.role)) {
+        select.selectedIndex = i;
+        matched = true;
+        break;
+      }
+    }
+    if (!matched && user.role) {
+      const opt = document.createElement('option');
+      opt.value = user.role;
+      opt.textContent = user.role;
+      select.appendChild(opt);
+      select.value = user.role;
+    }
+  }
+
+  if (modal) {
+    modal.classList.add('show');
+    modal.style.display = 'flex';
+    modal.style.zIndex = '99999';
+  }
 }
 
 function closeEditAdminRoleModal() {
   const modal = document.getElementById('modal-edit-admin-role');
-  if (modal) modal.classList.remove('show');
+  if (modal) {
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+  }
 }
 
 function saveAdminRoleSubmit(e) {
@@ -1189,8 +1216,14 @@ function saveAdminRoleSubmit(e) {
   const index = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
   if (index !== -1) {
     users[index].role = newRole;
+    if (newRole.includes('Super Administrateur')) {
+      users[index].isSuperAdmin = true;
+    }
     saveAdminUsersDB(users);
-    showToast(`Rôle de l'administrateur ${users[index].name} mis à jour : ${newRole}`);
+    if (typeof logAuditEvent === 'function') {
+      logAuditEvent('Modification de Rôle', `Rôle de ${users[index].name} (${email}) changé pour : ${newRole}`);
+    }
+    showToast(`Rôle de ${users[index].name} mis à jour avec succès : ${newRole}`);
     renderAdminAll();
     closeEditAdminRoleModal();
   }
