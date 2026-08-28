@@ -105,9 +105,9 @@ img {
 
 .container {
   width: 96%;
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 1.25rem;
+  padding: 0 1.5rem;
 }
 
 section.section {
@@ -2489,49 +2489,72 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
    GLOBAL SCREEN-FIT & MOBILE RESPONSIVE ENHANCEMENTS
    ========================================================================== */
 
-/* 1. Desktop Screen Viewport Fitting (Desktop / Laptops >= 992px) */
+/* 1. Desktop Screen Viewport Fitting & Widescreen Expansion (Desktop / Laptops >= 992px) */
 @media (min-width: 992px) {
   .section {
-    padding: 1.5rem 0 !important;
+    padding: 2rem 0 !important;
   }
 
   .container {
-    max-width: 1200px;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    width: 96% !important;
+    max-width: 1480px !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
   }
 
   /* Compact Section Headers for Viewport Fit */
   .section-header {
-    margin-bottom: 1.35rem !important;
+    margin-bottom: 1.75rem !important;
   }
 
   .section-header h2, 
   .section h2 {
-    font-size: 1.8rem !important;
-    margin-bottom: 0.35rem !important;
+    font-size: 2rem !important;
+    margin-bottom: 0.45rem !important;
   }
 
   .section-header p,
   .section p {
-    font-size: 0.925rem !important;
-    line-height: 1.55 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
   }
 
   /* Executive Split Grid Alignment */
   .context-split-grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: 1.5rem !important;
+    gap: 2rem !important;
     align-items: stretch !important;
   }
 
   /* Incubator 2-Column Split */
   #incubateur .advocacy-grid {
     display: grid !important;
-    grid-template-columns: 1fr 1.3fr !important;
-    gap: 1.35rem !important;
+    grid-template-columns: 1fr 1.35fr !important;
+    gap: 2.25rem !important;
     align-items: stretch !important;
+  }
+
+  /* Sector Grid Widescreen 4 Columns */
+  .sector-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.25rem !important;
+  }
+
+  /* Value Chain 4 Columns */
+  .value-chain-pipeline {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 1.25rem !important;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1600px !important;
+    padding-left: 2.5rem !important;
+    padding-right: 2.5rem !important;
   }
 }
 
