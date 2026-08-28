@@ -358,31 +358,6 @@
       border-color: #E9C46A;
     }
 
-    /* HIGH VISIBILITY VISUALISER / ACTION BUTTON */
-    .action-btn-view {
-      background: #0A2540 !important;
-      color: #FFFFFF !important;
-      border: 1px solid #0A2540 !important;
-      border-radius: 30px;
-      padding: 0.3rem 0.75rem;
-      font-weight: 700;
-      font-size: 0.775rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(10, 37, 64, 0.2);
-    }
-
-    .action-btn-view:hover {
-      background: #006837 !important;
-      border-color: #006837 !important;
-      color: #FFFFFF !important;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 104, 55, 0.3);
-    }
-
     /* METRICS GRID 4 COLUMNS COMPACT */
     .metrics-grid-4 {
       display: grid;
@@ -575,7 +550,7 @@
 <body class="admin-app-body" data-admin-theme="light">
 
   <!-- ADMIN LOGIN OVERLAY -->
-  <div id="admin-login-overlay" class="admin-login-overlay" style="display: none;">
+  <div id="admin-login-overlay" class="admin-login-overlay">
     <div class="admin-login-card">
       <div style="text-align: center; margin-bottom: 1.25rem;">
         <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 65px; height: 65px; border-radius: 50%; border: 3px solid var(--admin-green); margin-bottom: 0.5rem;">
@@ -596,7 +571,7 @@
       <div id="auth-status-alert" style="display: none; padding: 0.75rem; border-radius: 10px; font-size: 0.825rem; margin-bottom: 1rem;"></div>
 
       <!-- FORM 1: LOGIN -->
-      <form id="form-admin-login" onsubmit="loginAdmin(event)">
+      <form id="form-admin-login">
         <div class="wizard-form-group mb-3">
           <label style="font-weight: 600; font-size: 0.825rem; color: #1E293B;">Identifiant E-mail Administrateur *</label>
           <input type="email" id="admin-email" class="wizard-form-control" value="admin@conesess.sn" required placeholder="admin@conesess.sn" style="height: 38px; font-size: 0.85rem;">
@@ -608,13 +583,13 @@
         <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">
           <i class="fas fa-lock"></i> Connexion au Portail Admin
         </button>
-        <button type="button" onclick="quickLoginAdmin()" class="action-btn-pill mt-2" style="width: 100%; justify-content: center; padding: 0.6rem; font-size: 0.825rem; background: #0A2540; color: #FFFFFF; border: none;">
-          <i class="fas fa-bolt" style="color: var(--admin-gold);"></i> Accès Démo Immédiat
+        <button type="button" onclick="quickLoginAdmin()" class="action-btn-pill mt-2" style="width: 100%; justify-content: center; padding: 0.6rem; font-size: 0.825rem;">
+          <i class="fas fa-bolt" style="color: var(--admin-gold);"></i> Connexion Démo Immédiate
         </button>
       </form>
 
       <!-- FORM 2: REGISTER -->
-      <form id="form-admin-register" style="display: none;" onsubmit="registerAdminRequest(event)">
+      <form id="form-admin-register" style="display: none;">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;" class="mb-2">
           <div class="wizard-form-group" style="margin-bottom: 0.4rem;">
             <label style="font-weight: 600; font-size: 0.775rem;">Nom & Prénom *</label>
@@ -661,7 +636,7 @@
   </div>
 
   <!-- MAIN ADMIN APP WRAPPER -->
-  <div id="admin-main-container" class="admin-app-wrapper" style="display: block;">
+  <div id="admin-main-container" class="admin-app-wrapper" style="display: none;">
     
     <!-- BACKDROP OVERLAY FOR MOBILE SIDEBAR -->
     <div id="admin-sidebar-overlay" class="admin-sidebar-overlay" onclick="toggleAdminSidebar()"></div>
@@ -1413,26 +1388,26 @@
 
   <!-- MODAL: DÉTAIL D'UN FORMULAIRE WEB REÇU -->
   <div id="web-form-detail-modal" class="modal-overlay">
-    <div class="modal-card" style="max-width: 720px; border-radius: 20px;">
+    <div class="modal-card" style="max-width: 650px; border-radius: 20px;">
       <button class="modal-close" onclick="closeWebFormDetailModal()">&times;</button>
       <div style="text-align: center; margin-bottom: 1.25rem;">
-        <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-file-alt"></i> Fiche Officielle Confédérale</span>
+        <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-file-alt"></i> Fiche Complète de Soumission</span>
         <h3 style="color: #0A2540; font-size: 1.35rem;" id="modal-detail-title">Détails de la Soumission Web</h3>
       </div>
 
-      <div id="modal-detail-content" style="background: var(--admin-bg-light); padding: 1.25rem; border-radius: 14px; border: 1px solid var(--admin-border-light); font-size: 0.875rem;">
+      <div id="modal-detail-content" style="background: var(--admin-bg-light); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--admin-border-light); font-size: 0.875rem;">
         <!-- Dynamic Detail Content -->
       </div>
 
       <div style="display: flex; gap: 0.6rem; margin-top: 1.25rem; flex-wrap: wrap;">
-        <button id="modal-btn-download-pdf" onclick="downloadCurrentModalFormPDF()" class="action-btn-primary" style="background: #006837; color: #FFFFFF; border: none; flex: 1; justify-content: center;">
-          <i class="fas fa-file-pdf"></i> Télécharger Fiche PDF
+        <button id="modal-btn-approve-web" onclick="" class="action-btn-primary" style="flex: 1; justify-content: center;">
+          <i class="fas fa-check"></i> Valider Adhésion
         </button>
-        <button id="modal-btn-download-web" onclick="downloadCurrentModalFormText()" class="action-btn-pill" style="background: #0A2540; color: #FFFFFF; border: none;">
-          <i class="fas fa-file-alt"></i> Export TXT
+        <button id="modal-btn-pdf-web" onclick="downloadFormSubmissionPDF()" class="action-btn-pill" style="background: #006837; color: #FFFFFF; border: none; font-weight: 700;">
+          <i class="fas fa-file-pdf"></i> Télécharger PDF
         </button>
-        <button id="modal-btn-approve-web" onclick="" class="action-btn-primary" style="background: #E9C46A; color: #0A2540; border: none;">
-          <i class="fas fa-check"></i> Valider
+        <button id="modal-btn-txt-web" onclick="downloadCurrentModalFormText()" class="action-btn-pill" style="background: #0A2540; color: #FFFFFF; border: none;">
+          <i class="fas fa-file-alt"></i> Fiche TXT
         </button>
         <button id="modal-btn-whatsapp-web" onclick="" class="action-btn-pill" style="background: #25D366; color: #FFFFFF; border: none;">
           <i class="fab fa-whatsapp"></i> WhatsApp
