@@ -1388,23 +1388,26 @@
 
   <!-- MODAL: DÉTAIL D'UN FORMULAIRE WEB REÇU -->
   <div id="web-form-detail-modal" class="modal-overlay">
-    <div class="modal-card" style="max-width: 650px; border-radius: 20px;">
+    <div class="modal-card" style="max-width: 720px; border-radius: 20px;">
       <button class="modal-close" onclick="closeWebFormDetailModal()">&times;</button>
       <div style="text-align: center; margin-bottom: 1.25rem;">
-        <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-file-alt"></i> Fiche Complète de Soumission</span>
+        <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-file-alt"></i> Fiche Officielle Confédérale</span>
         <h3 style="color: #0A2540; font-size: 1.35rem;" id="modal-detail-title">Détails de la Soumission Web</h3>
       </div>
 
-      <div id="modal-detail-content" style="background: var(--admin-bg-light); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--admin-border-light); font-size: 0.875rem;">
+      <div id="modal-detail-content" style="background: var(--admin-bg-light); padding: 1.25rem; border-radius: 14px; border: 1px solid var(--admin-border-light); font-size: 0.875rem;">
         <!-- Dynamic Detail Content -->
       </div>
 
       <div style="display: flex; gap: 0.6rem; margin-top: 1.25rem; flex-wrap: wrap;">
-        <button id="modal-btn-approve-web" onclick="" class="action-btn-primary" style="flex: 1; justify-content: center;">
-          <i class="fas fa-check"></i> Valider Adhésion
+        <button id="modal-btn-download-pdf" onclick="downloadCurrentModalFormPDF()" class="action-btn-primary" style="background: #006837; color: #FFFFFF; border: none; flex: 1; justify-content: center;">
+          <i class="fas fa-file-pdf"></i> Télécharger Fiche PDF
         </button>
         <button id="modal-btn-download-web" onclick="downloadCurrentModalFormText()" class="action-btn-pill" style="background: #0A2540; color: #FFFFFF; border: none;">
-          <i class="fas fa-download"></i> Télécharger Fiche
+          <i class="fas fa-file-alt"></i> Export TXT
+        </button>
+        <button id="modal-btn-approve-web" onclick="" class="action-btn-primary" style="background: #E9C46A; color: #0A2540; border: none;">
+          <i class="fas fa-check"></i> Valider
         </button>
         <button id="modal-btn-whatsapp-web" onclick="" class="action-btn-pill" style="background: #25D366; color: #FFFFFF; border: none;">
           <i class="fab fa-whatsapp"></i> WhatsApp

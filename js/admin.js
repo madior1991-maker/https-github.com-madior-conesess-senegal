@@ -750,9 +750,10 @@ function renderAdhesionsTable() {
       <td style="font-size: 0.8rem; color: var(--admin-text-muted);">${m.date || 'Récemment'}</td>
       <td>${getStatusBadgeHTML(m.status)}</td>
       <td>
-        <div style="display: flex; gap: 0.35rem;">
+        <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
           <button onclick="openWebFormDetailModal('${m.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Visualiser le Dossier"><i class="fas fa-eye"></i> Visualiser</button>
-          <button onclick="downloadFormSubmissionText('${m.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #0A2540; color: #FFFFFF; border: none;" title="Télécharger Fiche"><i class="fas fa-download"></i> Télécharger</button>
+          <button onclick="downloadFormSubmissionPDF('${m.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF; border: none;" title="Télécharger Fiche PDF"><i class="fas fa-file-pdf"></i> PDF</button>
+          <button onclick="downloadFormSubmissionText('${m.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #0A2540; color: #FFFFFF; border: none;" title="Exporter Fichier Texte"><i class="fas fa-file-alt"></i> TXT</button>
           ${m.status !== 'Approuvé' ? `<button onclick="approveMember('${m.ref}')" class="action-btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Approuver"><i class="fas fa-check"></i></button>` : ''}
         </div>
       </td>
@@ -763,7 +764,7 @@ function renderAdhesionsTable() {
 // Global Modal Form ID Tracker
 let currentModalSubmissionId = null;
 
-// Open Web Form Detail Modal & Allow Download
+// Open Web Form Detail Modal & Allow PDF/TXT Downloads
 function openWebFormDetailModal(id) {
   currentModalSubmissionId = id;
   const modal = document.getElementById('web-form-detail-modal');
@@ -776,21 +777,53 @@ function openWebFormDetailModal(id) {
 
   let member = members.find(m => m.ref === id);
   let webForm = !member ? webForms.find(w => w.id === id || w.ref === id) : null;
+  let contact = (!member && !webForm) ? contacts.find((c, idx) => `CONTACT-${idx + 1}` === id) : null;
 
   if (member && modal && content) {
     if (title) title.textContent = `Fiche d'Adhésion Membre : ${member.name}`;
     content.innerHTML = `
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-        <div><strong>Référence :</strong> <span style="color: var(--admin-green); font-family: monospace;">${member.ref}</span></div>
-        <div><strong>Date de Soumission :</strong> ${member.date || 'Récemment'}</div>
-        <div><strong>Dénomination Organisation :</strong> ${member.name}</div>
-        <div><strong>Forme Juridique :</strong> ${member.type}</div>
-        <div><strong>Région d'Implantation :</strong> ${member.region}</div>
-        <div><strong>Pôle Métier :</strong> ${member.pole || 'Général'}</div>
-        <div><strong>Représentant Légal :</strong> ${member.rep}</div>
-        <div><strong>Téléphone / WhatsApp :</strong> ${member.phone}</div>
-        <div><strong>Adresse E-mail :</strong> ${member.email || 'Non renseigné'}</div>
-        <div><strong>Statut du Dossier :</strong> ${getStatusBadgeHTML(member.status)}</div>
+      <div style="background: var(--admin-card-bg-light); border-radius: 12px; border: 1px solid var(--admin-border-light); padding: 1.25rem; color: var(--admin-text-main);">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.9rem; margin-bottom: 0.9rem; border-bottom: 2px solid var(--admin-bg-light); flex-wrap: wrap; gap: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 42px; height: 42px; border-radius: 50%; border: 2px solid #E9C46A; object-fit: cover;">
+            <div>
+              <h4 style="margin: 0; font-size: 1.05rem; color: #006837; font-weight: 800;">Adhésion Officielle CONESESS</h4>
+              <small style="color: var(--admin-text-muted); font-size: 0.775rem;">Réf : <strong style="font-family: monospace; color: var(--admin-green);">${member.ref}</strong> · Reçu le ${member.date || 'Récemment'}</small>
+            </div>
+          </div>
+          <div>${getStatusBadgeHTML(member.status)}</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; margin-bottom: 0.85rem;">
+          <div style="background: var(--admin-bg-light); padding: 0.85rem; border-radius: 10px; border-left: 4px solid #006837;">
+            <span style="font-size: 0.7rem; color: var(--admin-text-muted); text-transform: uppercase; font-weight: 700; display: block;">Dénomination Organisation</span>
+            <strong style="font-size: 0.95rem; color: var(--admin-text-main); display: block; margin-top: 0.2rem;">${member.name}</strong>
+            <span class="badge badge-green" style="font-size: 0.7rem; margin-top: 0.35rem; display: inline-block;">${member.type}</span>
+          </div>
+
+          <div style="background: var(--admin-bg-light); padding: 0.85rem; border-radius: 10px; border-left: 4px solid #E9C46A;">
+            <span style="font-size: 0.7rem; color: var(--admin-text-muted); text-transform: uppercase; font-weight: 700; display: block;">Représentant Légal</span>
+            <strong style="font-size: 0.95rem; color: var(--admin-text-main); display: block; margin-top: 0.2rem;">${member.rep}</strong>
+            <small style="color: var(--admin-text-muted);">${member.badgeRole || 'Président Représentant Légal'}</small>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-bottom: 0.85rem; background: var(--admin-bg-light); padding: 0.75rem 1rem; border-radius: 10px;">
+          <div><span style="font-size: 0.75rem; color: var(--admin-text-muted);">Région d'Implantation :</span> <span class="badge badge-gold" style="font-size: 0.75rem;">${member.region}</span></div>
+          <div><span style="font-size: 0.75rem; color: var(--admin-text-muted);">Pôle Métier :</span> <strong style="color: #006837; font-size: 0.825rem;">${member.pole || 'Général'}</strong></div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; background: rgba(0, 104, 55, 0.08); padding: 0.75rem 1rem; border-radius: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+          <div>
+            <span style="font-size: 0.75rem; color: var(--admin-text-muted);">Coordonnées de Contact Direct :</span><br>
+            <strong style="color: #006837; font-size: 0.9rem;"><i class="fab fa-whatsapp"></i> ${member.phone}</strong>
+            <span style="margin: 0 0.5rem; color: #CBD5E1;">|</span>
+            <span style="font-size: 0.85rem; color: var(--admin-text-main);"><i class="fas fa-envelope"></i> ${member.email || 'Non renseigné'}</span>
+          </div>
+          <a href="https://wa.me/${member.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(member.rep)},%20suite%20%C3%A0%20votre%20dossier%20d'adh%C3%A9sion%20CONESESS..." target="_blank" class="action-btn-pill" style="background: #25D366; color: #FFFFFF; font-size: 0.75rem; border: none;">
+            <i class="fab fa-whatsapp"></i> WhatsApp Direct
+          </a>
+        </div>
       </div>
     `;
 
@@ -813,17 +846,55 @@ function openWebFormDetailModal(id) {
   } else if (webForm && modal && content) {
     if (title) title.textContent = `Fiche Formulaire : ${webForm.name}`;
     content.innerHTML = `
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-        <div><strong>Référence / ID :</strong> <span style="color: var(--admin-green); font-family: monospace;">${webForm.id || webForm.ref}</span></div>
-        <div><strong>Type de Formulaire :</strong> ${webForm.type}</div>
-        <div><strong>Nom du Candidat :</strong> ${webForm.name}</div>
-        <div><strong>Organisation :</strong> ${webForm.org || 'N/A'}</div>
-        <div><strong>Région :</strong> ${webForm.region || 'Sénégal'}</div>
-        <div><strong>Poste Visé :</strong> ${webForm.role || 'N/A'}</div>
-        <div><strong>E-mail :</strong> ${webForm.email || 'N/A'}</div>
-        <div><strong>Téléphone / WhatsApp :</strong> ${webForm.phone}</div>
-        <div style="grid-column: 1 / -1;"><strong>Compétences & Parcours :</strong><br>${webForm.experience || 'N/A'}</div>
-        <div style="grid-column: 1 / -1;"><strong>Note de Motivation :</strong><br>${webForm.motivation || 'N/A'}</div>
+      <div style="background: var(--admin-card-bg-light); border-radius: 12px; border: 1px solid var(--admin-border-light); padding: 1.25rem; color: var(--admin-text-main);">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.9rem; margin-bottom: 0.9rem; border-bottom: 2px solid var(--admin-bg-light); flex-wrap: wrap; gap: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 42px; height: 42px; border-radius: 50%; border: 2px solid #E9C46A; object-fit: cover;">
+            <div>
+              <h4 style="margin: 0; font-size: 1.05rem; color: #006837; font-weight: 800;">${webForm.type}</h4>
+              <small style="color: var(--admin-text-muted); font-size: 0.775rem;">Réf : <strong style="font-family: monospace; color: var(--admin-green);">${webForm.id || webForm.ref}</strong> · Reçu le ${webForm.date || 'Récemment'}</small>
+            </div>
+          </div>
+          <div>${getStatusBadgeHTML(webForm.status || 'Nouveau')}</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; margin-bottom: 0.85rem;">
+          <div style="background: var(--admin-bg-light); padding: 0.85rem; border-radius: 10px; border-left: 4px solid #006837;">
+            <span style="font-size: 0.7rem; color: var(--admin-text-muted); text-transform: uppercase; font-weight: 700; display: block;">Candidat / Visiteur</span>
+            <strong style="font-size: 0.95rem; color: var(--admin-text-main); display: block; margin-top: 0.2rem;">${webForm.name}</strong>
+            <small style="color: var(--admin-text-muted);">${webForm.org || 'Candidat Indépendant'}</small>
+          </div>
+
+          <div style="background: var(--admin-bg-light); padding: 0.85rem; border-radius: 10px; border-left: 4px solid #E9C46A;">
+            <span style="font-size: 0.7rem; color: var(--admin-text-muted); text-transform: uppercase; font-weight: 700; display: block;">Poste ou Rôle Visé</span>
+            <strong style="font-size: 0.95rem; color: #006837; display: block; margin-top: 0.2rem;">${webForm.role || webForm.type}</strong>
+            <span class="badge badge-gold" style="font-size: 0.7rem; margin-top: 0.35rem; display: inline-block;">${webForm.region || 'Sénégal'}</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; background: rgba(0, 104, 55, 0.08); padding: 0.75rem 1rem; border-radius: 10px; align-items: center; justify-content: space-between; margin-bottom: 0.85rem; flex-wrap: wrap;">
+          <div>
+            <span style="font-size: 0.75rem; color: var(--admin-text-muted);">Coordonnées :</span><br>
+            <strong style="color: #006837; font-size: 0.9rem;"><i class="fab fa-whatsapp"></i> ${webForm.phone}</strong>
+            <span style="margin: 0 0.5rem; color: #CBD5E1;">|</span>
+            <span style="font-size: 0.85rem; color: var(--admin-text-main);"><i class="fas fa-envelope"></i> ${webForm.email || 'N/A'}</span>
+          </div>
+          <a href="https://wa.me/${webForm.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(webForm.name)},%20suite%20%C3%A0%20votre%20formulaire%20CONESESS..." target="_blank" class="action-btn-pill" style="background: #25D366; color: #FFFFFF; font-size: 0.75rem; border: none;">
+            <i class="fab fa-whatsapp"></i> WhatsApp Direct
+          </a>
+        </div>
+
+        ${(webForm.experience || webForm.motivation) ? `
+          <div style="background: var(--admin-bg-light); padding: 1rem; border-radius: 10px; margin-top: 0.5rem;">
+            <strong style="font-size: 0.8rem; color: #006837; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 0.35rem;">
+              <i class="fas fa-file-alt"></i> Compétences, Parcours & Motivation
+            </strong>
+            <div style="font-size: 0.85rem; color: var(--admin-text-main); line-height: 1.5; white-space: pre-line; background: var(--admin-card-bg-light); padding: 0.85rem; border-radius: 8px; border-left: 3px solid #006837;">
+              ${webForm.experience ? `<strong>Parcours & Expérience :</strong><br>${webForm.experience}<br><br>` : ''}
+              ${webForm.motivation ? `<strong>Motivation :</strong><br>${webForm.motivation}` : ''}
+            </div>
+          </div>
+        ` : ''}
       </div>
     `;
 
@@ -838,7 +909,65 @@ function openWebFormDetailModal(id) {
     const btnWa = document.getElementById('modal-btn-whatsapp-web');
     if (btnWa) {
       btnWa.onclick = function() {
-        window.open(`https://wa.me/${webForm.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(webForm.name)},%20suite%20%C3%A0%20votre%20candidature%20CONESESS...`, '_blank');
+        window.open(`https://wa.me/${webForm.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(webForm.name)},%20suite%20%C3%A0%20votre%20formulaire%20CONESESS...`, '_blank');
+      };
+    }
+
+    modal.classList.add('show');
+  } else if (contact && modal && content) {
+    if (title) title.textContent = `Fiche de Message Contact : ${contact.name}`;
+    content.innerHTML = `
+      <div style="background: var(--admin-card-bg-light); border-radius: 12px; border: 1px solid var(--admin-border-light); padding: 1.25rem; color: var(--admin-text-main);">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.9rem; margin-bottom: 0.9rem; border-bottom: 2px solid var(--admin-bg-light); flex-wrap: wrap; gap: 0.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 42px; height: 42px; border-radius: 50%; border: 2px solid #E9C46A; object-fit: cover;">
+            <div>
+              <h4 style="margin: 0; font-size: 1.05rem; color: #006837; font-weight: 800;">Message de Contact Web</h4>
+              <small style="color: var(--admin-text-muted); font-size: 0.775rem;">Reçu le ${contact.date || 'Récemment'}</small>
+            </div>
+          </div>
+          <div><span class="badge badge-gold">${contact.subject}</span></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.85rem; margin-bottom: 0.85rem;">
+          <div style="background: var(--admin-bg-light); padding: 0.85rem; border-radius: 10px; border-left: 4px solid #006837;">
+            <span style="font-size: 0.7rem; color: var(--admin-text-muted); text-transform: uppercase; font-weight: 700; display: block;">Expéditeur</span>
+            <strong style="font-size: 0.95rem; color: var(--admin-text-main); display: block; margin-top: 0.2rem;">${contact.name}</strong>
+          </div>
+
+          <div style="background: var(--admin-bg-light); padding: 0.85rem; border-radius: 10px; border-left: 4px solid #E9C46A;">
+            <span style="font-size: 0.7rem; color: var(--admin-text-muted); text-transform: uppercase; font-weight: 700; display: block;">Sujet du Message</span>
+            <strong style="font-size: 0.95rem; color: #006837; display: block; margin-top: 0.2rem;">${contact.subject}</strong>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; background: rgba(0, 104, 55, 0.08); padding: 0.75rem 1rem; border-radius: 10px; align-items: center; justify-content: space-between; margin-bottom: 0.85rem; flex-wrap: wrap;">
+          <div>
+            <span style="font-size: 0.75rem; color: var(--admin-text-muted);">Contact Direct :</span><br>
+            <strong style="color: #006837; font-size: 0.9rem;"><i class="fab fa-whatsapp"></i> ${contact.phone}</strong>
+            <span style="margin: 0 0.5rem; color: #CBD5E1;">|</span>
+            <span style="font-size: 0.85rem; color: var(--admin-text-main);"><i class="fas fa-envelope"></i> ${contact.email || 'N/A'}</span>
+          </div>
+          <a href="https://wa.me/${contact.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(contact.name)},%20suite%20%C3%A0%20votre%20message%20sur%20CONESESS..." target="_blank" class="action-btn-pill" style="background: #25D366; color: #FFFFFF; font-size: 0.75rem; border: none;">
+            <i class="fab fa-whatsapp"></i> WhatsApp Direct
+          </a>
+        </div>
+
+        <div style="background: var(--admin-bg-light); padding: 1rem; border-radius: 10px;">
+          <strong style="font-size: 0.8rem; color: #006837; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 0.35rem;">
+            <i class="fas fa-comment-alt"></i> Contenu du Message :
+          </strong>
+          <p style="font-size: 0.875rem; color: var(--admin-text-main); line-height: 1.5; margin: 0; white-space: pre-line; background: var(--admin-card-bg-light); padding: 0.85rem; border-radius: 8px; border-left: 3px solid #006837;">
+            ${contact.message}
+          </p>
+        </div>
+      </div>
+    `;
+
+    const btnWa = document.getElementById('modal-btn-whatsapp-web');
+    if (btnWa) {
+      btnWa.onclick = function() {
+        window.open(`https://wa.me/${contact.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(contact.name)},%20suite%20%C3%A0%20votre%20message%20sur%20CONESESS...`, '_blank');
       };
     }
 
@@ -849,6 +978,164 @@ function openWebFormDetailModal(id) {
 function closeWebFormDetailModal() {
   const modal = document.getElementById('web-form-detail-modal');
   if (modal) modal.classList.remove('show');
+}
+
+// Download Form Submission Details as a Formatted PDF File
+function downloadFormSubmissionPDF(id) {
+  const targetId = id || currentModalSubmissionId;
+  if (!targetId) return;
+
+  const members = getMembersDB();
+  const webForms = getWebFormsDB();
+  const contacts = getContactsDB();
+
+  let item = members.find(m => m.ref === targetId);
+  let category = "Dossier d'Adhésion Membre";
+
+  if (!item) {
+    item = webForms.find(w => w.id === targetId || w.ref === targetId);
+    if (item) category = item.type || "Formulaire Web";
+  }
+
+  if (!item) {
+    const contactIndex = parseInt(targetId.replace('CONTACT-', '')) - 1;
+    if (!isNaN(contactIndex) && contacts[contactIndex]) {
+      item = contacts[contactIndex];
+      category = "Message de Contact Web";
+    }
+  }
+
+  if (!item) {
+    showToast("Impossible de localiser la fiche de ce formulaire.");
+    return;
+  }
+
+  const name = item.name || item.org || 'Inconnu';
+  const ref = item.ref || item.id || targetId;
+  const date = item.date || new Date().toLocaleDateString('fr-FR');
+  const type = item.type || category;
+  const region = item.region || 'Sénégal';
+  const rep = item.rep || item.name || 'N/A';
+  const phone = item.phone || 'N/A';
+  const email = item.email || 'N/A';
+  const status = item.status || 'Reçu';
+  const role = item.role || item.badgeRole || 'Représentant Légal';
+  const pole = item.pole || 'Général';
+  const exp = item.experience || item.message || item.details || item.motivation || 'Dossier d\'adhésion officiel enregistré dans la base confédérale CONESESS.';
+
+  const printWindow = window.open('', '_blank', 'width=850,height=1000');
+  if (!printWindow) {
+    showToast("Veuillez autoriser les fenêtres surgissantes pour générer la fiche PDF.");
+    return;
+  }
+
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+      <meta charset="UTF-8">
+      <title>CONESESS - Fiche Officielle PDF - ${ref}</title>
+      <style>
+        @page { size: A4; margin: 15mm; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #0A2540; margin: 0; padding: 20px; font-size: 13px; line-height: 1.5; background: #FFF; }
+        .senegal-bar { height: 6px; background: linear-gradient(90deg, #006837 33%, #FFD100 33% 66%, #E31B23 66%); margin-bottom: 20px; border-radius: 3px; }
+        .header-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; border-bottom: 2px solid #006837; padding-bottom: 15px; }
+        .header-logo { width: 65px; height: 65px; border-radius: 50%; border: 2px solid #E9C46A; }
+        .title-conf { font-size: 15px; font-weight: bold; color: #006837; margin: 0; text-transform: uppercase; }
+        .subtitle-conf { font-size: 10px; color: #64748B; margin: 3px 0 0 0; }
+        .doc-badge { background: #006837; color: #FFF; padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        .section-title { font-size: 12px; font-weight: bold; color: #006837; background: #F4F7F5; padding: 6px 10px; border-left: 4px solid #006837; margin-top: 18px; margin-bottom: 10px; text-transform: uppercase; }
+        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+        .data-table td { padding: 8px 10px; border-bottom: 1px solid #E2E8F0; vertical-align: top; }
+        .data-label { font-weight: bold; color: #64748B; width: 35%; font-size: 12px; }
+        .data-val { font-weight: 600; color: #0A2540; font-size: 12px; }
+        .box-content { background: #F8FAF9; border: 1px solid #E2E8F0; padding: 12px; border-radius: 6px; font-size: 12px; color: #334155; margin-top: 5px; white-space: pre-line; }
+        .footer-stamp { margin-top: 35px; border-top: 1px solid #CBD5E1; padding-top: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #64748B; }
+        .seal-box { border: 2px dashed #006837; color: #006837; padding: 8px 15px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 10px; display: inline-block; }
+      </style>
+    </head>
+    <body>
+      <div class="senegal-bar"></div>
+      
+      <table class="header-table">
+        <tr>
+          <td style="width: 75px;"><img src="assets/images/logo.jpg" class="header-logo" alt="CONESESS"></td>
+          <td>
+            <h1 class="title-conf">CONSEIL NATIONAL DES ENTREPRISES DE L'ÉCONOMIE SOCIALE ET SOLIDAIRE</h1>
+            <p class="subtitle-conf">REPRÉSENTER • FÉDÉRER • STRUCTURER • ACCÉLÉRER — CONESESS SÉNÉGAL</p>
+            <small style="color: #006837; font-weight: bold;">Secrétariat Général Confédéral — Dakar, République du Sénégal</small>
+          </td>
+          <td style="text-align: right; vertical-align: top;">
+            <span class="doc-badge">${status}</span>
+            <div style="font-size: 11px; margin-top: 10px; color: #64748B;">Réf : <strong style="color: #0A2540; font-family: monospace;">${ref}</strong></div>
+            <div style="font-size: 10px; color: #94A3B8;">Date : ${date}</div>
+          </td>
+        </tr>
+      </table>
+
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="margin: 0; font-size: 14px; color: #0A2540; text-transform: uppercase; letter-spacing: 0.5px;">FICHE OFFICIELLE DE SOUMISSION DE FORMULAIRE (PDF)</h2>
+        <small style="color: #64748B;">Document certifié extrait de la plateforme sécurisée de gestion confédérale</small>
+      </div>
+
+      <div class="section-title">1. IDENTIFICATION DE L'ORGANISATION / CANDIDAT</div>
+      <table class="data-table">
+        <tr><td class="data-label">Dénomination Sociale / Nom :</td><td class="data-val">${name}</td></tr>
+        <tr><td class="data-label">Forme Juridique / Type :</td><td class="data-val">${type}</td></tr>
+        <tr><td class="data-label">Région d'Implantation :</td><td class="data-val">${region}</td></tr>
+        <tr><td class="data-label">Pôle Métier / Secteur :</td><td class="data-val">${pole}</td></tr>
+      </table>
+
+      <div class="section-title">2. REPRÉSENTATION LÉGALE & CONTACTS DIRECTS</div>
+      <table class="data-table">
+        <tr><td class="data-label">Représentant Légal / Nom :</td><td class="data-val">${rep}</td></tr>
+        <tr><td class="data-label">Fonction / Rôle :</td><td class="data-val">${role}</td></tr>
+        <tr><td class="data-label">Téléphone / WhatsApp Direct :</td><td class="data-val">${phone}</td></tr>
+        <tr><td class="data-label">Adresse E-mail Officielle :</td><td class="data-val">${email}</td></tr>
+      </table>
+
+      <div class="section-title">3. DÉTAILS DU DOSSIER, EXPÉRIENCE & MOTIVATION</div>
+      <div class="box-content">${exp}</div>
+
+      <div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <div class="seal-box">
+            CONESESS SÉNÉGAL<br>DOC CERTIFIÉ CONFORME
+          </div>
+        </div>
+        <div style="text-align: right; width: 220px; border-top: 1px solid #0A2540; padding-top: 5px;">
+          <strong style="font-size: 11px; color: #0A2540;">Le Secrétariat Général</strong><br>
+          <small style="color: #64748B;">Cachet & Signature Confédérale</small>
+        </div>
+      </div>
+
+      <div class="footer-stamp">
+        <div>CONESESS Sénégal — Siège Confédéral : Immeuble ESS, Avenue Léopold Sédar Senghor, Dakar</div>
+        <div>Page 1 / 1 — Généré le ${new Date().toLocaleDateString('fr-FR')}</div>
+      </div>
+
+      <script>
+        window.onload = function() {
+          setTimeout(function() {
+            window.print();
+          }, 300);
+        };
+      </script>
+    </body>
+    </html>
+  `;
+
+  printWindow.document.open();
+  printWindow.document.write(htmlContent);
+  printWindow.document.close();
+
+  showToast(`Génération du PDF pour ${name}...`);
+}
+
+function downloadCurrentModalFormPDF() {
+  if (currentModalSubmissionId) {
+    downloadFormSubmissionPDF(currentModalSubmissionId);
+  }
 }
 
 // Download Form Submission Details as a TXT File
@@ -1100,10 +1387,12 @@ function renderSteeringCandidatesTable(webForms = []) {
       </td>
       <td>${getStatusBadgeHTML(c.status)}</td>
       <td>
-        <div style="display: flex; gap: 0.35rem;">
-          ${c.status !== 'Approuvé' ? `<button onclick="approveSteeringCandidate('${c.id}')" class="action-btn-primary" style="padding: 0.3rem 0.6rem; font-size: 0.75rem;" title="Approuver la Candidature"><i class="fas fa-check"></i> Approuver</button>` : ''}
-          ${c.status !== 'Rejeté' ? `<button onclick="rejectSteeringCandidate('${c.id}')" class="action-btn-pill" style="padding: 0.3rem 0.6rem; font-size: 0.75rem; color: #DC2626; border-color: #DC2626;" title="Rejeter la Candidature"><i class="fas fa-times"></i> Rejeter</button>` : ''}
-          <a href="https://wa.me/${c.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(c.name)},%20suite%20%C3%A0%20votre%20candidature%20au%20poste%20de%20${encodeURIComponent(c.role)}%20au%20Comit%C3%A9%20de%20Pilotage..." target="_blank" class="action-btn-pill" style="padding: 0.3rem 0.5rem; font-size: 0.75rem; background: #25D366; color: #FFFFFF; border: none;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+          <button onclick="openWebFormDetailModal('${c.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Visualiser la Candidature"><i class="fas fa-eye"></i> Visualiser</button>
+          <button onclick="downloadFormSubmissionPDF('${c.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF; border: none;" title="Télécharger Fiche PDF"><i class="fas fa-file-pdf"></i> PDF</button>
+          ${c.status !== 'Approuvé' ? `<button onclick="approveSteeringCandidate('${c.id}')" class="action-btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Approuver la Candidature"><i class="fas fa-check"></i></button>` : ''}
+          ${c.status !== 'Rejeté' ? `<button onclick="rejectSteeringCandidate('${c.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; color: #DC2626; border-color: #DC2626;" title="Rejeter la Candidature"><i class="fas fa-times"></i></button>` : ''}
+          <a href="https://wa.me/${c.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(c.name)},%20suite%20%C3%A0%20votre%20candidature%20au%20poste%20de%20${encodeURIComponent(c.role)}%20au%20Comit%C3%A9%20de%20Pilotage..." target="_blank" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #25D366; color: #FFFFFF; border: none;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
       </td>
     </tr>
