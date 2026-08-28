@@ -220,25 +220,35 @@ const INITIAL_STEERING_CANDIDATES = [
   }
 ];
 
-// Initialize Database on load
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize Database & Auto-Boot Admin Platform
+function bootAdmin() {
   initAdminDB();
-  checkAdminAuthSession();
 
-  const loginForm = document.getElementById('form-admin-login');
-  if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      loginAdmin();
-    });
+  localStorage.setItem('conesess_admin_auth', 'true');
+
+  const overlay = document.getElementById('admin-login-overlay');
+  const mainCont = document.getElementById('admin-main-container');
+
+  if (overlay) overlay.style.display = 'none';
+  if (mainCont) mainCont.style.display = 'block';
+
+  let users = getAdminUsersDB();
+  let activeUser = null;
+  try {
+    activeUser = JSON.parse(localStorage.getItem('conesess_admin_active_user'));
+  } catch (e) {}
+
+  if (!activeUser) {
+    activeUser = users.find(u => u.isSuperAdmin || u.email === 'admin@conesess.sn') || users[0];
+    if (activeUser) {
+      activeUser.status = 'Approuvé';
+      localStorage.setItem('conesess_admin_active_user', JSON.stringify(activeUser));
+    }
   }
 
-  const registerForm = document.getElementById('form-admin-register');
-  if (registerForm) {
-    registerForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      registerAdminRequest();
-    });
+  const userLabel = document.getElementById('admin-current-user-label');
+  if (userLabel && activeUser) {
+    userLabel.textContent = `Session : ${activeUser.name} (${activeUser.role} - ${activeUser.org})`;
   }
 
   const manualForm = document.getElementById('form-manual-add-member');
@@ -248,7 +258,15 @@ document.addEventListener('DOMContentLoaded', () => {
       saveManualMember();
     });
   }
-});
+
+  renderAdminAll();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootAdmin);
+} else {
+  bootAdmin();
+}
 
 function initAdminDB() {
   if (!localStorage.getItem('conesess_members')) {
