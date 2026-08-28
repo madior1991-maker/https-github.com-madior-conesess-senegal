@@ -1910,8 +1910,169 @@ function saveBadgeStatus() {
   }
 }
 
+// Robust Toast Notification System
+function showToast(message) {
+  let toastContainer = document.getElementById('admin-toast-container');
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.id = 'admin-toast-container';
+    toastContainer.style.cssText = 'position: fixed; bottom: 24px; right: 24px; z-index: 10000; display: flex; flex-direction: column; gap: 10px; pointer-events: none;';
+    document.body.appendChild(toastContainer);
+  }
+
+  const toast = document.createElement('div');
+  toast.style.cssText = 'background: #0A2540; color: #FFFFFF; border-left: 4px solid #006837; padding: 12px 20px; border-radius: 8px; font-size: 0.875rem; font-weight: 600; box-shadow: 0 10px 25px rgba(0,0,0,0.35); opacity: 0; transform: translateY(20px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: auto; display: flex; align-items: center; gap: 10px;';
+  toast.innerHTML = `<i class="fas fa-check-circle" style="color: #E9C46A; font-size: 1.1rem;"></i> <span>${message}</span>`;
+  toastContainer.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateY(0)';
+  }, 20);
+
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      if (toast.parentNode) toast.parentNode.removeChild(toast);
+    }, 300);
+  }, 3500);
+}
+
+// Download High-Definition Badge PDF Card
+function downloadBadgePDF() {
+  const select = document.getElementById('badge-select-member');
+  if (!select || !select.value) {
+    showToast("Veuillez sélectionner un membre pour générer son badge.");
+    return;
+  }
+
+  const members = getMembersDB();
+  const member = members.find(m => m.ref === select.value);
+  if (!member) return;
+
+  const name = document.getElementById('badge-input-name')?.value || member.rep || member.name;
+  const org = document.getElementById('badge-input-org')?.value || member.name;
+  const role = document.getElementById('badge-input-role')?.value || 'Représentant Légal';
+  const level = document.getElementById('badge-input-level')?.value || 'Membre Confédéral';
+  const region = document.getElementById('badge-input-region')?.value || member.region || 'Dakar';
+  const status = document.getElementById('badge-input-status')?.value || 'Généré';
+
+  const printWin = window.open('', '_blank', 'width=750,height=950');
+  if (!printWin) {
+    showToast("Veuillez autoriser les fenêtres surgissantes pour ouvrir la carte Badge.");
+    return;
+  }
+
+  printWin.document.write(`
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+      <meta charset="UTF-8">
+      <title>BADGE_OFFICIEL_CONESESS_${member.ref}</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      <style>
+        @page { size: A4; margin: 15mm; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #F4F7F5; margin: 0; padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .badge-card { width: 340px; height: 530px; background: linear-gradient(145deg, #0A2540 0%, #061526 100%); border-radius: 20px; border: 3px solid #E9C46A; color: #FFFFFF; box-shadow: 0 20px 45px rgba(0,0,0,0.35); position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
+        .senegal-bar { height: 6px; width: 100%; background: linear-gradient(90deg, #00853F 0%, #00853F 33.3%, #FDEF42 33.3%, #FDEF42 66.6%, #E31B23 66.6%, #E31B23 100%); }
+        .badge-header { background: linear-gradient(135deg, #006837 0%, #004D28 100%); padding: 16px 12px 10px 12px; text-align: center; border-bottom: 2px solid #E9C46A; }
+        .badge-brand { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 4px; }
+        .badge-brand img { width: 44px; height: 44px; border-radius: 50%; border: 2px solid #E9C46A; object-fit: cover; }
+        .badge-brand h1 { margin: 0; color: #FFFFFF; font-size: 1.15rem; font-weight: 800; letter-spacing: 1px; }
+        .badge-brand p { margin: 2px 0 0 0; color: #E9C46A; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
+        
+        .badge-photo-box { width: 110px; height: 110px; border-radius: 50%; border: 4px solid #E9C46A; margin: 15px auto 8px auto; overflow: hidden; background: #FFFFFF; display: flex; align-items: center; justify-content: center; }
+        .badge-photo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .badge-body { text-align: center; padding: 0 16px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        .badge-holder-name { font-size: 1.2rem; font-weight: 800; color: #FFFFFF; margin: 0 0 4px 0; }
+        .badge-holder-org { font-size: 0.825rem; color: #E9C46A; font-weight: 700; margin: 0 0 8px 0; }
+        .badge-holder-role { display: inline-block; background: rgba(0, 104, 55, 0.4); color: #FFFFFF; border: 1.5px solid #006837; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 12px; }
+
+        .badge-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: rgba(255,255,255,0.06); padding: 8px 12px; border-radius: 10px; font-size: 0.725rem; border: 1px solid rgba(255,255,255,0.12); margin-bottom: 10px; }
+        .badge-info-lbl { color: #94A3B8; font-size: 0.65rem; text-transform: uppercase; display: block; }
+        .badge-info-val { color: #FFFFFF; font-weight: 700; font-family: monospace; }
+
+        .badge-footer { background: #004D28; border-top: 1.5px solid #E9C46A; padding: 10px; text-align: center; font-size: 0.65rem; color: rgba(255,255,255,0.9); }
+        .badge-status-pill { display: inline-block; background: #E9C46A; color: #0A2540; font-weight: 800; padding: 3px 10px; border-radius: 12px; font-size: 0.65rem; text-transform: uppercase; margin-bottom: 4px; }
+
+        @media print {
+          body { background: transparent; padding: 0; }
+          .no-print { display: none !important; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="no-print" style="margin-bottom: 20px; text-align: center;">
+        <button onclick="window.print()" style="padding: 10px 24px; background: #006837; color: #fff; border: none; border-radius: 25px; cursor: pointer; font-weight: 800; font-size: 0.9rem;">
+          <i class="fas fa-print"></i> Imprimer / Enregistrer le Badge PDF
+        </button>
+      </div>
+
+      <div class="badge-card">
+        <div class="senegal-bar"></div>
+        <div class="badge-header">
+          <div class="badge-brand">
+            <img src="assets/images/logo.jpg" alt="Logo CONESESS">
+            <div>
+              <h1>CONESESS</h1>
+              <p>SÉNÉGAL • ESS CONFÉDÉRATION</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="badge-photo-box">
+          <img src="assets/images/logo.jpg" alt="Photo Titulaire">
+        </div>
+
+        <div class="badge-body">
+          <div class="badge-holder-name">${name}</div>
+          <div class="badge-holder-org">${org}</div>
+          <div><span class="badge-holder-role">${role}</span></div>
+
+          <div class="badge-info-grid">
+            <div>
+              <span class="badge-info-lbl">Réf. Accréditation</span>
+              <span class="badge-info-val">${member.ref}</span>
+            </div>
+            <div>
+              <span class="badge-info-lbl">Région</span>
+              <span class="badge-info-val" style="color: #E9C46A;">${region}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="badge-footer">
+          <span class="badge-status-pill">ACCRÉDITÉ • ${level.toUpperCase()}</span><br>
+          Conseil National des Entreprises de l'ESS du Sénégal
+        </div>
+      </div>
+
+      <script>
+        window.onload = function() {
+          setTimeout(function() { window.print(); }, 400);
+        };
+      </script>
+    </body>
+    </html>
+  `);
+
+  printWin.document.close();
+}
+
 function printCurrentBadge() {
-  window.print();
+  downloadBadgePDF();
+}
+
+function deleteContact(index) {
+  if (confirm("Êtes-vous sûr de vouloir supprimer ce message de contact ?")) {
+    const contacts = getContactsDB();
+    contacts.splice(index, 1);
+    localStorage.setItem('conesess_contacts', JSON.stringify(contacts));
+    renderAdminAll();
+    showToast("Message de contact supprimé avec succès.");
+  }
 }
 
 // Contacts Table Render
@@ -1933,9 +2094,12 @@ function renderContactsTable(contacts) {
       <td><span class="badge badge-gold" style="font-size: 0.7rem;">${c.subject}</span></td>
       <td style="font-size: 0.825rem; max-width: 280px;">${c.message}</td>
       <td>
-        <a href="https://wa.me/${c.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(c.name)},%20suite%20%C3%A0%20votre%20message%20sur%20CONESESS..." target="_blank" class="btn btn-sm" style="background: #25D366; color: #FFFFFF; font-size: 0.75rem;">
-          <i class="fab fa-whatsapp"></i> Répondre
-        </a>
+        <div style="display: flex; gap: 0.35rem;">
+          <a href="https://wa.me/${c.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(c.name)},%20suite%20%C3%A0%20votre%20message%20sur%20CONESESS..." target="_blank" class="btn btn-sm" style="background: #25D366; color: #FFFFFF; font-size: 0.75rem;">
+            <i class="fab fa-whatsapp"></i> Répondre
+          </a>
+          <button onclick="deleteContact(${i})" class="btn btn-sm" style="background: rgba(239, 68, 68, 0.15); color: #DC2626; border: 1px solid #DC2626; font-size: 0.75rem;" title="Supprimer"><i class="fas fa-trash"></i></button>
+        </div>
       </td>
     </tr>
   `).join('');
