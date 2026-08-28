@@ -2718,5 +2718,23 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   }
 }
 
+/* DYNAMIC GREEN & WHITE CARD INTERACTIVE ANIMATIONS */
+.dynamic-green-card {
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.dynamic-green-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 135, 72, 0.16) !important;
+  border-color: #008748 !important;
+}
+.dynamic-green-card:hover .dynamic-icon {
+  transform: scale(1.1);
+  background: #008748 !important;
+  color: #FFFFFF !important;
+}
+.dynamic-icon {
+  transition: all 0.3s ease;
+}
+
 
 
