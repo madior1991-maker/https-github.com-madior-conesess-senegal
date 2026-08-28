@@ -1702,13 +1702,18 @@ function deleteMember(ref) {
 
 // Filter Function
 function filterMembersTable() {
-  const query = document.getElementById('search-member-input').value.toLowerCase();
-  const region = document.getElementById('filter-region-select').value;
-  const status = document.getElementById('filter-status-select').value;
+  const inputGlobal = document.getElementById('admin-global-search');
+  const inputMember = document.getElementById('search-member-input');
+  const regionSelect = document.getElementById('filter-region-select');
+  const statusSelect = document.getElementById('filter-status-select');
+
+  const query = ((inputGlobal && inputGlobal.value) || (inputMember && inputMember.value) || '').toLowerCase().trim();
+  const region = regionSelect ? regionSelect.value : '';
+  const status = statusSelect ? statusSelect.value : '';
 
   const members = getMembersDB();
   const filtered = members.filter(m => {
-    const matchesSearch = (m.name + ' ' + m.ref + ' ' + m.rep + ' ' + m.phone).toLowerCase().includes(query);
+    const matchesSearch = !query || (m.name + ' ' + m.ref + ' ' + m.rep + ' ' + m.phone + ' ' + (m.email || '')).toLowerCase().includes(query);
     const matchesRegion = region === '' || m.region === region;
     const matchesStatus = status === '' || m.status === status;
     return matchesSearch && matchesRegion && matchesStatus;
