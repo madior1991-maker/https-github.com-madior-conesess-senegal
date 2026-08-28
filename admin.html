@@ -41,6 +41,31 @@
       --admin-soft-green: rgba(37, 211, 102, 0.15);
     }
 
+    [data-admin-theme="dark"] .wizard-form-control,
+    [data-admin-theme="dark"] select,
+    [data-admin-theme="dark"] input,
+    [data-admin-theme="dark"] textarea {
+      background: #1A2738 !important;
+      color: #F1F5F9 !important;
+      border-color: #2D3E53 !important;
+    }
+
+    [data-admin-theme="dark"] .modal-card {
+      background: #15202E !important;
+      color: #F1F5F9 !important;
+      border: 1px solid #233346 !important;
+    }
+
+    [data-admin-theme="dark"] .admin-table th {
+      background: #06121E !important;
+      color: #FFFFFF !important;
+    }
+
+    [data-admin-theme="dark"] .admin-table td {
+      border-bottom-color: #233346 !important;
+      color: #F1F5F9 !important;
+    }
+
     body.admin-app-body {
       background: var(--admin-bg-light);
       color: var(--admin-text-main);
@@ -568,10 +593,10 @@
     <!-- LEFT SIDEBAR NAVIGATION -->
     <aside class="admin-sidebar">
       <div class="admin-brand-card">
-        <div class="admin-brand-avatar">C</div>
+        <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid #E9C46A; object-fit: cover;">
         <div>
-          <strong style="font-size: 1rem; color: var(--admin-text-main); display: block;">CONESESS 2026</strong>
-          <small style="color: var(--admin-text-muted); font-size: 0.725rem;">Espace Administrateur</small>
+          <strong style="font-size: 0.95rem; color: #FFFFFF; display: block; line-height: 1.1;">CONESESS SÉNÉGAL</strong>
+          <small style="color: rgba(255,255,255,0.8); font-size: 0.725rem;">Espace Administrateur</small>
         </div>
       </div>
 
@@ -583,12 +608,17 @@
         </li>
         <li>
           <a onclick="switchAdminTab('tab-web-forms')" class="admin-nav-link" id="nav-item-web-forms">
-            <i class="fas fa-inbox"></i> <span>Formulaires Web Reçus (<span id="count-nav-web-forms" style="color: var(--admin-green); font-weight: 800;">0</span>)</span>
+            <i class="fas fa-inbox"></i> <span>Formulaires Web Reçus (<span id="count-nav-web-forms" style="color: #E9C46A; font-weight: 800;">0</span>)</span>
+          </a>
+        </li>
+        <li>
+          <a onclick="switchAdminTab('tab-adhesions')" class="admin-nav-link" id="nav-item-adhesions">
+            <i class="fas fa-file-signature"></i> <span>Dossiers d'Adhésion (<span id="count-nav-adhesions" style="color: #E9C46A; font-weight: 800;">0</span>)</span>
           </a>
         </li>
         <li>
           <a onclick="switchAdminTab('tab-steering')" class="admin-nav-link" id="nav-item-steering">
-            <i class="fas fa-users-cog"></i> <span>Comité de Pilotage (<span id="count-nav-steering" style="color: var(--admin-gold); font-weight: 800;">0</span>)</span>
+            <i class="fas fa-users-cog"></i> <span>Comité de Pilotage (<span id="count-nav-steering" style="color: #E9C46A; font-weight: 800;">0</span>)</span>
           </a>
         </li>
         <li>
@@ -598,7 +628,7 @@
         </li>
         <li>
           <a onclick="switchAdminTab('tab-badges')" class="admin-nav-link" id="nav-item-badges">
-            <i class="fas fa-plus-circle"></i> <span>Créer un badge</span>
+            <i class="fas fa-id-card"></i> <span>Studio de Badges</span>
           </a>
         </li>
         <li>
@@ -803,6 +833,74 @@
         </div>
       </div>
 
+      <!-- TAB: DOSSIERS D'ADHÉSION MEMBRE (NOUVELLE RUBRIQUE SPÉCIALE) -->
+      <div id="tab-adhesions" class="admin-tab-content" style="display: none;">
+        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-file-signature"></i> Rubrique Officielle d'Adhésion</span>
+              <h2 style="font-size: 1.35rem; color: var(--admin-text-main); margin-bottom: 0.2rem;">Dossiers d'Adhésion des Organisations de l'ESS</h2>
+              <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Visualisez, examinez et téléchargez les fiches d'adhésion officielles des coopératives, mutuelles, GIE et SFD.</p>
+            </div>
+            
+            <div style="display: flex; gap: 0.5rem;">
+              <button onclick="exportMembersCSV()" class="action-btn-primary">
+                <i class="fas fa-download"></i> Exporter Tous (Excel)
+              </button>
+              <button onclick="openAddMemberModal()" class="action-btn-pill">
+                <i class="fas fa-plus"></i> Nouvelle Adhésion
+              </button>
+            </div>
+          </div>
+
+          <!-- ADHESION FILTERS -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem; background: var(--admin-bg-light); padding: 1rem; border-radius: 12px;">
+            <div>
+              <label style="font-size: 0.75rem; color: var(--admin-text-muted); font-weight: 600;">Recherche Organisation / Représentant</label>
+              <input type="text" id="search-adhesion-input" class="wizard-form-control" style="padding: 0.45rem 0.75rem; font-size: 0.85rem; height: 38px;" placeholder="Nom, Réf, Téléphone..." onkeyup="renderAdhesionsTable()">
+            </div>
+            <div>
+              <label style="font-size: 0.75rem; color: var(--admin-text-muted); font-weight: 600;">Filtrer par Région</label>
+              <select id="filter-adhesion-region" class="wizard-form-control" style="padding: 0.45rem 0.75rem; font-size: 0.85rem; height: 38px;" onchange="renderAdhesionsTable()">
+                <option value="">Toutes les 14 Régions</option>
+                <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
+                <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
+                <option>Kolda</option><option>Tambacounda</option><option>Matam</option>
+                <option>Kaffrine</option><option>Kedougou</option><option>Sédhiou</option>
+                <option>Louga</option><option>Diourbel</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size: 0.75rem; color: var(--admin-text-muted); font-weight: 600;">Statut d'Approbation</label>
+              <select id="filter-adhesion-status" class="wizard-form-control" style="padding: 0.45rem 0.75rem; font-size: 0.85rem; height: 38px;" onchange="renderAdhesionsTable()">
+                <option value="">Tous les Statuts</option>
+                <option value="Approuvé">Approuvé</option>
+                <option value="En attente">En attente</option>
+                <option value="Rejeté">Rejeté</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="admin-table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>N° Référence</th>
+                  <th>Dénomination / Organisation</th>
+                  <th>Forme Juridique</th>
+                  <th>Région</th>
+                  <th>Représentant Légal / Tél</th>
+                  <th>Date</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-adhesions-list"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <!-- TAB: CANDIDATURES COMITÉ DE PILOTAGE -->
       <div id="tab-steering" class="admin-tab-content" style="display: none;">
         <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
@@ -921,22 +1019,52 @@
             <p style="font-size: 0.85rem; color: var(--admin-text-muted);" class="mb-4">Sélectionnez un participant pour générer son badge officiel d'accès.</p>
 
             <div class="wizard-form-group mb-3">
-              <label style="font-weight: 600; font-size: 0.85rem;">Sélectionner le Participant *</label>
+              <label style="font-weight: 600; font-size: 0.825rem;">1. Sélectionner l'Organisation / Participant *</label>
               <select id="badge-select-member" class="wizard-form-control" onchange="loadMemberIntoBadgeStudio()"></select>
             </div>
 
             <div class="wizard-form-group mb-3">
-              <label style="font-weight: 600; font-size: 0.85rem;">Catégorie / Titre sur Badge</label>
-              <input type="text" id="badge-input-role" class="wizard-form-control" value="Représentant Légal" onkeyup="updateBadgePreview()">
+              <label style="font-weight: 600; font-size: 0.825rem;">2. Nom du Titulaire du Badge *</label>
+              <input type="text" id="badge-input-name" class="wizard-form-control" placeholder="ex: Mamadou Ndiaye" onkeyup="updateBadgePreview()">
             </div>
 
             <div class="wizard-form-group mb-3">
-              <label style="font-weight: 600; font-size: 0.85rem;">Statut de Délivrance</label>
-              <select id="badge-input-status" class="wizard-form-control" onchange="updateBadgePreview()">
-                <option value="Généré">Badge Généré</option>
-                <option value="Imprimé">Badge Imprimé</option>
-                <option value="Délivré">Badge Délivré</option>
-              </select>
+              <label style="font-weight: 600; font-size: 0.825rem;">3. Organisation Représentée *</label>
+              <input type="text" id="badge-input-org" class="wizard-form-control" placeholder="ex: Coopérative Maraîchère de Kayar" onkeyup="updateBadgePreview()">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;" class="mb-3">
+              <div class="wizard-form-group">
+                <label style="font-weight: 600; font-size: 0.825rem;">4. Rôle / Titre sur Badge *</label>
+                <input type="text" id="badge-input-role" class="wizard-form-control" value="Président Représentant Légal" onkeyup="updateBadgePreview()">
+              </div>
+
+              <div class="wizard-form-group">
+                <label style="font-weight: 600; font-size: 0.825rem;">5. Catégorie & Couleur Accès *</label>
+                <select id="badge-input-level" class="wizard-form-control" onchange="updateBadgePreview()">
+                  <option value="Membre Confédéral">Membre Confédéral (Vert)</option>
+                  <option value="Délégué Régional">Délégué Régional (Vert/Or)</option>
+                  <option value="Bureau Exécutif">Bureau Exécutif (Gold VIP)</option>
+                  <option value="Partenaire Stratégique">Partenaire Stratégique (Bleu Navy)</option>
+                  <option value="Invité d'Honneur">Invité d'Honneur (Rouge Émeraude)</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;" class="mb-3">
+              <div class="wizard-form-group">
+                <label style="font-weight: 600; font-size: 0.825rem;">6. Région sur Badge</label>
+                <input type="text" id="badge-input-region" class="wizard-form-control" value="Thiès" onkeyup="updateBadgePreview()">
+              </div>
+
+              <div class="wizard-form-group">
+                <label style="font-weight: 600; font-size: 0.825rem;">7. Statut de Délivrance</label>
+                <select id="badge-input-status" class="wizard-form-control" onchange="updateBadgePreview()">
+                  <option value="Généré">Badge Généré</option>
+                  <option value="Imprimé">Badge Imprimé</option>
+                  <option value="Délivré">Badge Délivré</option>
+                </select>
+              </div>
             </div>
 
             <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem;">
@@ -944,7 +1072,7 @@
                 <i class="fas fa-print"></i> Imprimer Badge
               </button>
               <button onclick="saveBadgeStatus()" class="action-btn-pill">
-                <i class="fas fa-save"></i> Enregistrer
+                <i class="fas fa-save"></i> Enregistrer Caractéristiques
               </button>
             </div>
           </div>
@@ -1168,12 +1296,48 @@
           </div>
         </div>
 
+  <!-- MODAL: MODIFIER LE RÔLE D'UN ADMINISTRATEUR -->
+  <div id="modal-edit-admin-role" class="modal-overlay">
+    <div class="modal-card" style="max-width: 500px; border-radius: 20px;">
+      <button class="modal-close" onclick="closeEditAdminRoleModal()">&times;</button>
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <span class="badge badge-gold mb-1" style="font-size: 0.75rem;"><i class="fas fa-user-tag"></i> Gestion des Droits & Rôles Admin</span>
+        <h3 style="color: #0A2540; font-size: 1.35rem;">Modifier le Rôle Administrateur</h3>
+        <p style="font-size: 0.825rem; color: var(--admin-text-muted);" id="edit-admin-user-email-subtitle">admin@conesess.sn</p>
+      </div>
+
+      <form id="form-edit-admin-role" onsubmit="saveAdminRoleSubmit(event)">
+        <input type="hidden" id="edit-admin-user-email">
+        <div class="wizard-form-group mb-4">
+          <label style="font-weight: 700; font-size: 0.85rem; color: var(--admin-text-main);">Sélectionner le Nouveau Rôle *</label>
+          <select id="edit-admin-role-select" class="wizard-form-control" required style="height: 42px; font-weight: 600;">
+            <option value="Gestionnaire d'Antenne Régionale">Gestionnaire d'Antenne Régionale</option>
+            <option value="Coordonnateur Pôle Métier">Coordonnateur Pôle Métier</option>
+            <option value="Responsable Incubateur (IAN-ESS)">Responsable Incubateur (IAN-ESS)</option>
+            <option value="Analyste Observatoire (ON-ESS)">Analyste Observatoire (ON-ESS)</option>
+            <option value="Secrétariat Technique & Badges">Secrétariat Technique & Badges</option>
+            <option value="Super Administrateur">Super Administrateur Confédéral</option>
+          </select>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="submit" class="action-btn-primary" style="flex: 1; justify-content: center; padding: 0.75rem;">
+            <i class="fas fa-save"></i> Mettre à jour le Rôle
+          </button>
+          <button type="button" onclick="closeEditAdminRoleModal()" class="action-btn-pill">
+            Annuler
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- MODAL: DÉTAIL D'UN FORMULAIRE WEB REÇU -->
   <div id="web-form-detail-modal" class="modal-overlay">
-    <div class="modal-card" style="max-width: 600px; border-radius: 20px;">
+    <div class="modal-card" style="max-width: 650px; border-radius: 20px;">
       <button class="modal-close" onclick="closeWebFormDetailModal()">&times;</button>
       <div style="text-align: center; margin-bottom: 1.25rem;">
-        <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-file-alt"></i> Fiche Complète du Formulaire Soumis</span>
+        <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-file-alt"></i> Fiche Complète de Soumission</span>
         <h3 style="color: #0A2540; font-size: 1.35rem;" id="modal-detail-title">Détails de la Soumission Web</h3>
       </div>
 
@@ -1181,9 +1345,12 @@
         <!-- Dynamic Detail Content -->
       </div>
 
-      <div style="display: flex; gap: 0.75rem; margin-top: 1.25rem;">
+      <div style="display: flex; gap: 0.6rem; margin-top: 1.25rem; flex-wrap: wrap;">
         <button id="modal-btn-approve-web" onclick="" class="action-btn-primary" style="flex: 1; justify-content: center;">
           <i class="fas fa-check"></i> Valider Adhésion
+        </button>
+        <button id="modal-btn-download-web" onclick="downloadCurrentModalFormText()" class="action-btn-pill" style="background: #0A2540; color: #FFFFFF; border: none;">
+          <i class="fas fa-download"></i> Télécharger Fiche
         </button>
         <button id="modal-btn-whatsapp-web" onclick="" class="action-btn-pill" style="background: #25D366; color: #FFFFFF; border: none;">
           <i class="fab fa-whatsapp"></i> WhatsApp

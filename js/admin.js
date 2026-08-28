@@ -505,6 +505,7 @@ function logoutAdmin() {
 // Admin Theme Switcher (Clair / Sombre)
 function setAdminTheme(theme) {
   document.body.setAttribute('data-admin-theme', theme);
+  localStorage.setItem('conesess_admin_theme', theme);
   const btnLight = document.getElementById('btn-theme-light');
   const btnDark = document.getElementById('btn-theme-dark');
   if (theme === 'dark') {
@@ -515,6 +516,12 @@ function setAdminTheme(theme) {
     if (btnDark) btnDark.classList.remove('active');
   }
 }
+
+// Auto-load theme preference
+document.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('conesess_admin_theme') || 'light';
+  setAdminTheme(savedTheme);
+});
 
 function toggleAdminSidebar() {
   const sidebar = document.querySelector('.admin-sidebar');
@@ -532,6 +539,7 @@ function switchAdminTab(tabId) {
   const linkIdMap = {
     'tab-dashboard': 'nav-item-dashboard',
     'tab-web-forms': 'nav-item-web-forms',
+    'tab-adhesions': 'nav-item-adhesions',
     'tab-steering': 'nav-item-steering',
     'tab-members': 'nav-item-members',
     'tab-badges': 'nav-item-badges',
@@ -546,6 +554,7 @@ function switchAdminTab(tabId) {
   if (navItem) navItem.classList.add('active');
 
   if (tabId === 'tab-segmentation') renderSegmentation();
+  if (tabId === 'tab-adhesions') renderAdhesionsTable();
 
   // Close mobile sidebar on tab switch
   const sidebar = document.querySelector('.admin-sidebar');
@@ -560,35 +569,44 @@ function verifyCheckinCode() {
 
   const code = input.value.trim().toUpperCase();
   if (!code) {
-    showToast("Veuillez saisir la référence du badge.");
+    showToast("Veuillez saisir ou scanner un code QR / Référence.");
     return;
   }
 
   const members = getMembersDB();
-  const member = members.find(m => m.ref.toUpperCase() === code || m.phone.includes(code));
+  const member = members.find(m => m.ref.toUpperCase() === code || (m.phone && m.phone.includes(code)));
 
   if (member) {
-    resultBox.style.display = 'block';
-    resultBox.style.background = 'rgba(0, 104, 55, 0.12)';
-    resultBox.style.border = '1.5px solid #006837';
-    resultBox.style.color = '#006837';
     resultBox.innerHTML = `
-      <div style="font-size: 1.5rem; margin-bottom: 0.25rem;"><i class="fas fa-check-circle"></i> ACCÈS ACCORDÉ</div>
-      <strong style="font-size: 1.1rem; display: block; color: var(--admin-text-main);">${member.name}</strong>
-      <span style="font-size: 0.9rem;">Représentant : <strong>${member.rep}</strong> (${member.region})</span><br>
-      <small style="color: var(--admin-text-muted);">Forme : ${member.type} | Réf : ${member.ref}</small>
+      <div style="background: rgba(0, 104, 55, 0.1); border: 2px solid #006837; border-radius: 12px; padding: 1.25rem; color: var(--admin-text-main);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem;">
+          <strong style="color: #006837; font-size: 1.1rem;"><i class="fas fa-check-circle"></i> ACCRÉDITATION VALIDE</strong>
+          <span class="badge badge-green">${member.status}</span>
+        </div>
+        <div style="font-size: 0.95rem; margin-bottom: 0.3rem;"><strong>Organisation :</strong> ${member.name}</div>
+        <div style="font-size: 0.875rem; margin-bottom: 0.3rem;"><strong>Représentant :</strong> ${member.rep}</div>
+        <div style="font-size: 0.85rem; color: var(--admin-text-muted);"><strong>Région :</strong> ${member.region} · <strong>Pôle :</strong> ${member.pole || 'Général'}</div>
+        <div style="font-size: 0.85rem; color: var(--admin-text-muted); margin-bottom: 0.75rem;"><strong>Badge :</strong> ${member.badgeStatus || 'Généré'} (${member.badgeRole || 'Représentant Légal'})</div>
+        <button onclick="confirmCheckinSuccess('${member.ref}')" class="action-btn-primary" style="width: 100%; justify-content: center;">
+          <i class="fas fa-user-check"></i> Valider Entrée & Enregistrer Présence
+        </button>
+      </div>
     `;
-    showToast(`Entrée validée sur site pour ${member.name} !`);
   } else {
-    resultBox.style.display = 'block';
-    resultBox.style.background = 'rgba(239, 68, 68, 0.15)';
-    resultBox.style.border = '1.5px solid #DC2626';
-    resultBox.style.color = '#DC2626';
     resultBox.innerHTML = `
-      <div style="font-size: 1.3rem; margin-bottom: 0.25rem;"><i class="fas fa-times-circle"></i> REFUSÉ OU INCONNU</div>
-      <span>Aucun badge ou participant trouvé avec le code <strong>${code}</strong>.</span>
+      <div style="background: rgba(239, 68, 68, 0.1); border: 2px solid #DC2626; border-radius: 12px; padding: 1.25rem; color: #DC2626;">
+        <i class="fas fa-exclamation-triangle" style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block;"></i>
+        <strong>ACCRÉDITATION NON TROUVÉE</strong>
+        <p style="font-size: 0.825rem; margin-top: 0.3rem; color: var(--admin-text-main);">Le code <strong>${code}</strong> ne correspond à aucune organisation membre de la base CONESESS.</p>
+      </div>
     `;
   }
+}
+
+function confirmCheckinSuccess(ref) {
+  showToast(`Présence enregistrée pour le membre ${ref} !`);
+  const resultBox = document.getElementById('checkin-result-box');
+  if (resultBox) resultBox.innerHTML = `<div style="text-align: center; color: #006837; font-weight: 700; padding: 1rem;"><i class="fas fa-check-double"></i> Check-in enregistré. Scanner le suivant.</div>`;
 }
 
 // CSV Import Handler
@@ -602,59 +620,45 @@ function handleCSVImport(input) {
   }
 }
 
-// Segmentation Charts Renderer
+// Segmentation Calculations
 function renderSegmentation() {
   const members = getMembersDB();
-  const regionContainer = document.getElementById('segmentation-region-bars');
-  const poleContainer = document.getElementById('segmentation-pole-bars');
 
-  if (!regionContainer || !poleContainer) return;
-
-  const regions = {};
-  const poles = {};
-
+  // Types Breakdown
+  const typeCounts = {};
   members.forEach(m => {
-    regions[m.region] = (regions[m.region] || 0) + 1;
-    const poleName = m.pole || 'Pôle 1 : Agroécologie';
-    poles[poleName] = (poles[poleName] || 0) + 1;
+    typeCounts[m.type] = (typeCounts[m.type] || 0) + 1;
   });
 
-  const total = members.length || 1;
-
-  regionContainer.innerHTML = Object.keys(regions).map(r => {
-    const count = regions[r];
-    const pct = Math.round((count / total) * 100);
-    return `
-      <div style="margin-bottom: 0.85rem;">
-        <div style="display: flex; justify-content: space-between; font-size: 0.825rem; font-weight: 600; margin-bottom: 0.25rem;">
-          <span>${r}</span>
-          <span>${count} (${pct}%)</span>
-        </div>
-        <div style="background: var(--admin-bg-light); height: 10px; border-radius: 10px; overflow: hidden;">
-          <div style="width: ${pct}%; background: var(--admin-green); height: 100%; border-radius: 10px;"></div>
-        </div>
+  const segTypesBox = document.getElementById('seg-types-breakdown');
+  if (segTypesBox) {
+    segTypesBox.innerHTML = Object.keys(typeCounts).map(t => `
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 0; border-bottom: 1px dashed var(--admin-border-light);">
+        <span style="font-weight: 600; font-size: 0.85rem;">${t}</span>
+        <strong style="color: var(--admin-green); font-size: 0.95rem;">${typeCounts[t]} org.</strong>
       </div>
-    `;
-  }).join('');
+    `).join('');
+  }
 
-  poleContainer.innerHTML = Object.keys(poles).map(p => {
-    const count = poles[p];
-    const pct = Math.round((count / total) * 100);
-    return `
-      <div style="margin-bottom: 0.85rem;">
-        <div style="display: flex; justify-content: space-between; font-size: 0.825rem; font-weight: 600; margin-bottom: 0.25rem;">
-          <span>${p.slice(0, 28)}...</span>
-          <span>${count} (${pct}%)</span>
-        </div>
-        <div style="background: var(--admin-bg-light); height: 10px; border-radius: 10px; overflow: hidden;">
-          <div style="width: ${pct}%; background: var(--admin-gold); height: 100%; border-radius: 10px;"></div>
-        </div>
+  // Regions Breakdown
+  const regionCounts = {};
+  members.forEach(m => {
+    const reg = m.region || 'Autre';
+    regionCounts[reg] = (regionCounts[reg] || 0) + 1;
+  });
+
+  const segRegionsBox = document.getElementById('seg-regions-breakdown');
+  if (segRegionsBox) {
+    segRegionsBox.innerHTML = Object.keys(regionCounts).map(r => `
+      <div style="display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 0; border-bottom: 1px dashed var(--admin-border-light);">
+        <span style="font-weight: 600; font-size: 0.85rem;">${r}</span>
+        <strong style="color: var(--admin-navy); font-size: 0.95rem;">${regionCounts[r]}</strong>
       </div>
-    `;
-  }).join('');
+    `).join('');
+  }
 }
 
-// Render All Components
+// Main Render Function
 function renderAdminAll() {
   const members = getMembersDB();
   const contacts = getContactsDB();
@@ -692,19 +696,295 @@ function renderAdminAll() {
 
   const countNavPendingAdmins = document.getElementById('count-nav-pending-admins');
   const countNavWebForms = document.getElementById('count-nav-web-forms');
+  const countNavAdhesions = document.getElementById('count-nav-adhesions');
   const countNavSteering = document.getElementById('count-nav-steering');
 
   if (countNavPendingAdmins) countNavPendingAdmins.textContent = pendingAdminsCount;
   if (countNavWebForms) countNavWebForms.textContent = totalWebFormsCount;
+  if (countNavAdhesions) countNavAdhesions.textContent = members.length;
   if (countNavSteering) countNavSteering.textContent = steeringCount;
 
   renderRecentMembersTable(members.slice(0, 5));
   renderFullMembersTable(members);
+  renderAdhesionsTable();
   renderBadgeSelectOptions(members);
   renderContactsTable(contacts);
   renderAdminUsersTable(adminUsers);
   renderWebFormsTable(members, contacts, webForms);
   renderSteeringCandidatesTable(webForms);
+}
+
+// Render Dedicated Adhesions Table
+function renderAdhesionsTable() {
+  const tbody = document.getElementById('tbody-adhesions-list');
+  if (!tbody) return;
+
+  const query = (document.getElementById('search-adhesion-input')?.value || '').toLowerCase();
+  const region = document.getElementById('filter-adhesion-region')?.value || '';
+  const status = document.getElementById('filter-adhesion-status')?.value || '';
+
+  const members = getMembersDB();
+  const filtered = members.filter(m => {
+    const matchesSearch = (m.name + ' ' + m.ref + ' ' + m.rep + ' ' + m.phone).toLowerCase().includes(query);
+    const matchesRegion = region === '' || m.region === region;
+    const matchesStatus = status === '' || m.status === status;
+    return matchesSearch && matchesRegion && matchesStatus;
+  });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--admin-text-muted);">Aucun dossier d'adhésion correspondant.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(m => `
+    <tr>
+      <td><strong style="color: var(--admin-green); font-family: monospace;">${m.ref}</strong></td>
+      <td><strong>${m.name}</strong></td>
+      <td><span class="badge badge-green" style="font-size: 0.7rem;">${m.type}</span></td>
+      <td><span class="badge badge-gold" style="font-size: 0.7rem;">${m.region}</span></td>
+      <td style="font-size: 0.825rem;"><strong>${m.rep}</strong><br><small style="color: #006837;"><i class="fab fa-whatsapp"></i> ${m.phone}</small></td>
+      <td style="font-size: 0.8rem; color: var(--admin-text-muted);">${m.date || 'Récemment'}</td>
+      <td>${getStatusBadgeHTML(m.status)}</td>
+      <td>
+        <div style="display: flex; gap: 0.35rem;">
+          <button onclick="openWebFormDetailModal('${m.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Visualiser le Dossier"><i class="fas fa-eye"></i> Visualiser</button>
+          <button onclick="downloadFormSubmissionText('${m.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #0A2540; color: #FFFFFF; border: none;" title="Télécharger Fiche"><i class="fas fa-download"></i> Télécharger</button>
+          ${m.status !== 'Approuvé' ? `<button onclick="approveMember('${m.ref}')" class="action-btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Approuver"><i class="fas fa-check"></i></button>` : ''}
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Global Modal Form ID Tracker
+let currentModalSubmissionId = null;
+
+// Open Web Form Detail Modal & Allow Download
+function openWebFormDetailModal(id) {
+  currentModalSubmissionId = id;
+  const modal = document.getElementById('web-form-detail-modal');
+  const title = document.getElementById('modal-detail-title');
+  const content = document.getElementById('modal-detail-content');
+
+  const members = getMembersDB();
+  const webForms = getWebFormsDB();
+  const contacts = getContactsDB();
+
+  let member = members.find(m => m.ref === id);
+  let webForm = !member ? webForms.find(w => w.id === id || w.ref === id) : null;
+
+  if (member && modal && content) {
+    if (title) title.textContent = `Fiche d'Adhésion Membre : ${member.name}`;
+    content.innerHTML = `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+        <div><strong>Référence :</strong> <span style="color: var(--admin-green); font-family: monospace;">${member.ref}</span></div>
+        <div><strong>Date de Soumission :</strong> ${member.date || 'Récemment'}</div>
+        <div><strong>Dénomination Organisation :</strong> ${member.name}</div>
+        <div><strong>Forme Juridique :</strong> ${member.type}</div>
+        <div><strong>Région d'Implantation :</strong> ${member.region}</div>
+        <div><strong>Pôle Métier :</strong> ${member.pole || 'Général'}</div>
+        <div><strong>Représentant Légal :</strong> ${member.rep}</div>
+        <div><strong>Téléphone / WhatsApp :</strong> ${member.phone}</div>
+        <div><strong>Adresse E-mail :</strong> ${member.email || 'Non renseigné'}</div>
+        <div><strong>Statut du Dossier :</strong> ${getStatusBadgeHTML(member.status)}</div>
+      </div>
+    `;
+
+    const btnApprove = document.getElementById('modal-btn-approve-web');
+    if (btnApprove) {
+      btnApprove.onclick = function() {
+        approveMember(member.ref);
+        closeWebFormDetailModal();
+      };
+    }
+
+    const btnWa = document.getElementById('modal-btn-whatsapp-web');
+    if (btnWa) {
+      btnWa.onclick = function() {
+        window.open(`https://wa.me/${member.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(member.rep)},%20suite%20%C3%A0%20votre%20dossier%20d'adh%C3%A9sion%20CONESESS...`, '_blank');
+      };
+    }
+
+    modal.classList.add('show');
+  } else if (webForm && modal && content) {
+    if (title) title.textContent = `Fiche Formulaire : ${webForm.name}`;
+    content.innerHTML = `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+        <div><strong>Référence / ID :</strong> <span style="color: var(--admin-green); font-family: monospace;">${webForm.id || webForm.ref}</span></div>
+        <div><strong>Type de Formulaire :</strong> ${webForm.type}</div>
+        <div><strong>Nom du Candidat :</strong> ${webForm.name}</div>
+        <div><strong>Organisation :</strong> ${webForm.org || 'N/A'}</div>
+        <div><strong>Région :</strong> ${webForm.region || 'Sénégal'}</div>
+        <div><strong>Poste Visé :</strong> ${webForm.role || 'N/A'}</div>
+        <div><strong>E-mail :</strong> ${webForm.email || 'N/A'}</div>
+        <div><strong>Téléphone / WhatsApp :</strong> ${webForm.phone}</div>
+        <div style="grid-column: 1 / -1;"><strong>Compétences & Parcours :</strong><br>${webForm.experience || 'N/A'}</div>
+        <div style="grid-column: 1 / -1;"><strong>Note de Motivation :</strong><br>${webForm.motivation || 'N/A'}</div>
+      </div>
+    `;
+
+    const btnApprove = document.getElementById('modal-btn-approve-web');
+    if (btnApprove) {
+      btnApprove.onclick = function() {
+        approveWebForm(webForm.id || webForm.ref);
+        closeWebFormDetailModal();
+      };
+    }
+
+    const btnWa = document.getElementById('modal-btn-whatsapp-web');
+    if (btnWa) {
+      btnWa.onclick = function() {
+        window.open(`https://wa.me/${webForm.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(webForm.name)},%20suite%20%C3%A0%20votre%20candidature%20CONESESS...`, '_blank');
+      };
+    }
+
+    modal.classList.add('show');
+  }
+}
+
+function closeWebFormDetailModal() {
+  const modal = document.getElementById('web-form-detail-modal');
+  if (modal) modal.classList.remove('show');
+}
+
+// Download Form Submission Details as a TXT File
+function downloadFormSubmissionText(id) {
+  const targetId = id || currentModalSubmissionId;
+  if (!targetId) return;
+
+  const members = getMembersDB();
+  const webForms = getWebFormsDB();
+  const contacts = getContactsDB();
+
+  let item = members.find(m => m.ref === targetId);
+  let category = "Dossier d'Adhésion Membre";
+
+  if (!item) {
+    item = webForms.find(w => w.id === targetId || w.ref === targetId);
+    if (item) category = item.type || "Formulaire Web";
+  }
+
+  if (!item) {
+    const contactIndex = parseInt(targetId.replace('CONTACT-', '')) - 1;
+    if (!isNaN(contactIndex) && contacts[contactIndex]) {
+      item = contacts[contactIndex];
+      category = "Message de Contact Web";
+    }
+  }
+
+  if (!item) {
+    showToast("Impossible de localiser la fiche de ce formulaire.");
+    return;
+  }
+
+  const name = item.name || item.org || 'Inconnu';
+  const ref = item.ref || item.id || targetId;
+  const date = item.date || new Date().toLocaleDateString('fr-FR');
+  const type = item.type || category;
+  const region = item.region || 'Sénégal';
+  const rep = item.rep || item.name || 'N/A';
+  const phone = item.phone || 'N/A';
+  const email = item.email || 'N/A';
+  const status = item.status || 'Reçu';
+  const role = item.role || item.badgeRole || 'N/A';
+  const exp = item.experience || item.message || item.details || 'N/A';
+
+  const textContent = `
+================================================================================
+CONSEIL NATIONAL DES ENTREPRISES DE L'ÉCONOMIE SOCIALE ET SOLIDAIRE (CONESESS)
+FICHE OFFICIELLE DE SOUMISSION DE FORMULAIRE - SECRÉTARIAT GÉNÉRAL
+================================================================================
+
+RÉFÉRENCE DOSSIER   : ${ref}
+DATE DE RECEPTION   : ${date}
+TYPE DE FORMULAIRE  : ${type}
+STATUT DU DOSSIER   : ${(status || 'Nouveau').toUpperCase()}
+
+--------------------------------------------------------------------------------
+1. INFORMATIONS SUR L'ORGANISATION OU LE CANDIDAT
+--------------------------------------------------------------------------------
+Dénomination / Nom : ${name}
+Forme Juridique    : ${type}
+Région d'Implantation: ${region}
+Représentant Légal : ${rep}
+Poste Visé / Rôle  : ${role}
+
+--------------------------------------------------------------------------------
+2. COORDONNÉES ET CONTACT DIRECT
+--------------------------------------------------------------------------------
+Téléphone / WhatsApp: ${phone}
+Adresse E-mail      : ${email}
+Siège Social        : ${region}, République du Sénégal
+
+--------------------------------------------------------------------------------
+3. NOTES, MOTIVATION ET EXPÉRIENCE DE SÉLECTION
+--------------------------------------------------------------------------------
+Détails & Contenu  :
+${exp}
+
+--------------------------------------------------------------------------------
+CONESESS SÉNÉGAL - Représenter • Fédérer • Structurer • Accélérer
+Secrétariat Général Confédéral - Dakar, République du Sénégal
+Document extrait et certifié depuis la plateforme d'administration sécurisée.
+================================================================================
+`.trim();
+
+  const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = `CONESESS_Fiche_Formulaire_${ref}.txt`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+
+  showToast(`Fiche de ${name} téléchargée avec succès !`);
+}
+
+function downloadCurrentModalFormText() {
+  if (currentModalSubmissionId) {
+    downloadFormSubmissionText(currentModalSubmissionId);
+  }
+}
+
+// Edit Admin User Role Logic
+function openEditAdminRoleModal(email) {
+  const users = getAdminUsersDB();
+  const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+  if (!user) return;
+
+  const modal = document.getElementById('modal-edit-admin-role');
+  const subtitle = document.getElementById('edit-admin-user-email-subtitle');
+  const emailInput = document.getElementById('edit-admin-user-email');
+  const select = document.getElementById('edit-admin-role-select');
+
+  if (subtitle) subtitle.textContent = `${user.name} (${user.email})`;
+  if (emailInput) emailInput.value = user.email;
+  if (select) select.value = user.role || "Gestionnaire d'Antenne Régionale";
+
+  if (modal) modal.classList.add('show');
+}
+
+function closeEditAdminRoleModal() {
+  const modal = document.getElementById('modal-edit-admin-role');
+  if (modal) modal.classList.remove('show');
+}
+
+function saveAdminRoleSubmit(e) {
+  if (e) e.preventDefault();
+  const email = document.getElementById('edit-admin-user-email').value;
+  const newRole = document.getElementById('edit-admin-role-select').value;
+
+  const users = getAdminUsersDB();
+  const index = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
+  if (index !== -1) {
+    users[index].role = newRole;
+    saveAdminUsersDB(users);
+    showToast(`Rôle de l'administrateur ${users[index].name} mis à jour : ${newRole}`);
+    renderAdminAll();
+    closeEditAdminRoleModal();
+  }
 }
 
 // Render Submitted Web Forms Table
@@ -1150,10 +1430,18 @@ function loadMemberIntoBadgeStudio() {
   const member = members.find(m => m.ref === ref);
 
   if (member) {
+    const nameInput = document.getElementById('badge-input-name');
+    const orgInput = document.getElementById('badge-input-org');
     const roleInput = document.getElementById('badge-input-role');
+    const levelSelect = document.getElementById('badge-input-level');
+    const regionInput = document.getElementById('badge-input-region');
     const statusSelect = document.getElementById('badge-input-status');
 
+    if (nameInput) nameInput.value = member.rep || member.name;
+    if (orgInput) orgInput.value = member.name;
     if (roleInput) roleInput.value = member.badgeRole || 'Représentant Légal';
+    if (levelSelect) levelSelect.value = member.badgeLevel || 'Membre Confédéral';
+    if (regionInput) regionInput.value = member.region || 'Dakar';
     if (statusSelect) statusSelect.value = member.badgeStatus || 'Généré';
 
     updateBadgePreview(member);
@@ -1169,16 +1457,28 @@ function updateBadgePreview(memberData = null) {
 
   if (!member) return;
 
-  const role = document.getElementById('badge-input-role').value || 'Représentant Légal';
-  const badgeStatus = document.getElementById('badge-input-status').value || 'Généré';
+  const name = document.getElementById('badge-input-name')?.value || member.rep || member.name;
+  const org = document.getElementById('badge-input-org')?.value || member.name;
+  const role = document.getElementById('badge-input-role')?.value || 'Représentant Légal';
+  const level = document.getElementById('badge-input-level')?.value || 'Membre Confédéral';
+  const region = document.getElementById('badge-input-region')?.value || member.region || 'Dakar';
+  const badgeStatus = document.getElementById('badge-input-status')?.value || 'Généré';
 
-  document.getElementById('badge-preview-org').textContent = member.name;
-  document.getElementById('badge-preview-name').textContent = member.rep;
-  document.getElementById('badge-preview-role').textContent = role;
-  document.getElementById('badge-preview-ref').textContent = member.ref;
-  document.getElementById('badge-preview-region').textContent = member.region;
-  document.getElementById('badge-preview-pole').textContent = (member.pole || 'Général').slice(0, 15) + '...';
-  document.getElementById('badge-preview-status').textContent = `Badge ${badgeStatus} - CONESESS`;
+  const previewOrg = document.getElementById('badge-preview-org');
+  const previewName = document.getElementById('badge-preview-name');
+  const previewRole = document.getElementById('badge-preview-role');
+  const previewRef = document.getElementById('badge-preview-ref');
+  const previewRegion = document.getElementById('badge-preview-region');
+  const previewPole = document.getElementById('badge-preview-pole');
+  const previewStatus = document.getElementById('badge-preview-status');
+
+  if (previewOrg) previewOrg.textContent = org;
+  if (previewName) previewName.textContent = name;
+  if (previewRole) previewRole.textContent = role;
+  if (previewRef) previewRef.textContent = member.ref;
+  if (previewRegion) previewRegion.textContent = region;
+  if (previewPole) previewPole.textContent = level;
+  if (previewStatus) previewStatus.textContent = `Badge ${badgeStatus} - CONESESS (${level})`;
 }
 
 function saveBadgeStatus() {
@@ -1186,16 +1486,26 @@ function saveBadgeStatus() {
   if (!select || !select.value) return;
 
   const ref = select.value;
-  const role = document.getElementById('badge-input-role').value;
-  const status = document.getElementById('badge-input-status').value;
+  const name = document.getElementById('badge-input-name')?.value;
+  const org = document.getElementById('badge-input-org')?.value;
+  const role = document.getElementById('badge-input-role')?.value;
+  const level = document.getElementById('badge-input-level')?.value;
+  const region = document.getElementById('badge-input-region')?.value;
+  const status = document.getElementById('badge-input-status')?.value;
 
   const members = getMembersDB();
   const index = members.findIndex(m => m.ref === ref);
   if (index !== -1) {
-    members[index].badgeRole = role;
-    members[index].badgeStatus = status;
+    if (name) members[index].rep = name;
+    if (org) members[index].name = org;
+    if (role) members[index].badgeRole = role;
+    if (level) members[index].badgeLevel = level;
+    if (region) members[index].region = region;
+    if (status) members[index].badgeStatus = status;
+
     saveMembersDB(members);
-    showToast(`Statut du badge pour ${members[index].name} mis à jour : ${status}`);
+    showToast(`Caractéristiques du badge pour ${members[index].name} enregistrées avec succès !`);
+    renderAdminAll();
   }
 }
 
@@ -1245,16 +1555,17 @@ function renderAdminUsersTable(adminUsers) {
       <td><strong>${u.name}</strong> ${u.isSuperAdmin ? '<span class="badge badge-gold" style="font-size: 0.65rem; margin-left: 0.25rem;"><i class="fas fa-crown"></i> Super Admin</span>' : ''}</td>
       <td><strong style="color: var(--primary-navy); font-size: 0.85rem;">${u.email}</strong></td>
       <td><span class="badge badge-green" style="font-size: 0.7rem;">${u.org || 'CONESESS'}</span></td>
-      <td style="font-size: 0.825rem;">${u.role}</td>
+      <td style="font-size: 0.825rem;"><strong>${u.role}</strong></td>
       <td style="font-size: 0.8rem; color: #006837;"><i class="fab fa-whatsapp"></i> ${u.phone || 'N/A'}</td>
       <td>${getStatusBadgeHTML(u.status)}</td>
       <td>
-        ${!u.isSuperAdmin ? `
-          <div style="display: flex; gap: 0.35rem;">
+        <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+          <button onclick="openEditAdminRoleModal('${u.email}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #0A2540; color: #FFFFFF;" title="Modifier Rôle"><i class="fas fa-user-tag"></i> Modifier Rôle</button>
+          ${!u.isSuperAdmin ? `
             ${u.status !== 'Approuvé' ? `<button onclick="approveAdminUser('${u.email}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF;" title="Approuver"><i class="fas fa-user-check"></i> Approuver</button>` : `<button onclick="rejectAdminUser('${u.email}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(244, 162, 97, 0.2); color: #D97706; border: 1px solid #F4A261;" title="Suspendre"><i class="fas fa-pause"></i> Suspendre</button>`}
             <button onclick="deleteAdminUser('${u.email}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(239, 68, 68, 0.15); color: #DC2626; border: 1px solid #DC2626;" title="Supprimer"><i class="fas fa-trash"></i></button>
-          </div>
-        ` : '<span style="font-size: 0.75rem; color: var(--text-muted); italic;">Compte Principal</span>'}
+          ` : ''}
+        </div>
       </td>
     </tr>
   `).join('');
