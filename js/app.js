@@ -506,7 +506,8 @@ function initModalsAndForms() {
       mainForm.style.display = 'none';
       if (mainSuccessBox) mainSuccessBox.style.display = 'block';
 
-      showToast("Votre manifestation d'intérêt au CONESESS a bien été transmise (" + randRef + ").");
+      openSubmissionSuccessModal(randRef);
+      showToast("Votre demande a bien été transmise (" + randRef + ").");
       
       const cardContainer = document.getElementById('adhesion-card-container');
       if (cardContainer) {
@@ -563,7 +564,8 @@ function initModalsAndForms() {
       modalForm.reset();
       if (modalOtherGroup) modalOtherGroup.style.display = 'none';
 
-      showToast("Votre manifestation d'intérêt au CONESESS a bien été transmise (" + randRef + ").");
+      openSubmissionSuccessModal(randRef);
+      showToast("Votre demande a bien été transmise (" + randRef + ").");
     });
   }
 
@@ -589,7 +591,8 @@ function initModalsAndForms() {
       });
 
       standaloneContactForm.reset();
-      showToast("Votre message a été transmis avec succès au Secrétariat Général du CONESESS !");
+      openSubmissionSuccessModal('CONTACT-2026');
+      showToast("Votre message a été transmis avec succès au Secrétariat Général !");
     });
   }
 
@@ -640,7 +643,8 @@ function initModalsAndForms() {
       );
 
       steeringForm.reset();
-      showToast(`Félicitations ${name} ! Votre candidature au poste de "${role}" au Comité de Pilotage a été transmise au Secrétariat Général.`);
+      openSubmissionSuccessModal(ref);
+      showToast(`Votre demande a bien été transmise (${ref}).`);
     });
   }
 }
@@ -679,4 +683,24 @@ function showToast(message) {
     toast.style.opacity = '0';
     setTimeout(() => toast.remove(), 300);
   }, 4500);
+}
+
+function openSubmissionSuccessModal(refNum) {
+  const modal = document.getElementById('modal-submission-success');
+  const refElem = document.getElementById('success-modal-ref-num');
+  if (refElem && refNum) refElem.textContent = refNum;
+
+  if (modal) {
+    modal.classList.add('show');
+    modal.style.display = 'flex';
+    modal.style.zIndex = '99999';
+  }
+}
+
+function closeSubmissionSuccessModal() {
+  const modal = document.getElementById('modal-submission-success');
+  if (modal) {
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+  }
 }
