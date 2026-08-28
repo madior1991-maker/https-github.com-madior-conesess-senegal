@@ -558,6 +558,9 @@ function switchAdminTab(tabId) {
   if (tabId === 'tab-segmentation') renderSegmentation();
   if (tabId === 'tab-adhesions') renderAdhesionsTable();
 
+  // Smooth scroll to top of main viewport
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
   // Close mobile sidebar on tab switch
   const sidebar = document.querySelector('.admin-sidebar');
   const overlay = document.getElementById('admin-sidebar-overlay');

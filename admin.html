@@ -96,6 +96,9 @@
       z-index: 1050;
       padding: 1.15rem 0.85rem;
       box-shadow: 4px 0 25px rgba(0, 77, 40, 0.18);
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
     }
 
     .admin-brand-card {
@@ -106,6 +109,7 @@
       padding-bottom: 0.95rem;
       margin-bottom: 0.95rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      flex-shrink: 0;
     }
 
     .admin-brand-card-inner {
@@ -134,11 +138,10 @@
       flex-direction: column;
       gap: 0.35rem;
       list-style: none;
-      padding: 0 0.15rem 0 0;
+      padding: 0;
       margin: 0;
       flex: 1;
-      overflow-y: auto;
-      max-height: calc(100vh - 120px);
+      overflow-y: visible;
     }
 
     .admin-nav-menu::-webkit-scrollbar {
