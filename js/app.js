@@ -559,35 +559,6 @@ function initModalsAndForms() {
     });
   }
 
-  // Quick Index Contact Form Handler
-  const quickContactForm = document.getElementById('form-index-quick-contact');
-  if (quickContactForm) {
-    quickContactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('contact-quick-name').value;
-      const region = document.getElementById('contact-quick-region').value;
-      const phone = document.getElementById('contact-quick-phone').value;
-      const message = document.getElementById('contact-quick-message').value;
-
-      const now = new Date();
-      const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-
-      const existingContacts = JSON.parse(localStorage.getItem('conesess_contacts')) || [];
-      existingContacts.unshift({
-        date: dateStr,
-        name: name,
-        phone: phone,
-        email: 'N/A',
-        subject: `Message Web (${region})`,
-        message: message
-      });
-      localStorage.setItem('conesess_contacts', JSON.stringify(existingContacts));
-
-      quickContactForm.reset();
-      showToast(`Merci ${name} ! Votre message a été transmis avec succès au Secrétariat Général du CONESESS.`);
-    });
-  }
-
   // Steering Committee Candidate Form Handler
   const steeringForm = document.getElementById('form-steering-committee-candidate');
   if (steeringForm) {
