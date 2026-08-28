@@ -1748,114 +1748,48 @@ section.section {
   }
 }
 
-/* ALTERNATING COLOR PALETTES & FILLS FOR INCUBATOR MODEL CARDS */
+/* LIGHT MINT & SENEGAL GREEN THEMED INCUBATOR TAB CARDS */
 .incubator-tab-card {
   border-radius: var(--radius-md) !important;
-  padding: 0.75rem 1.05rem !important;
+  padding: 0.85rem 1.15rem !important;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+  background: #FFFFFF !important;
+  border: 1px solid #C8E6C9 !important;
+  transition: all 0.25s ease !important;
+  box-shadow: var(--shadow-sm) !important;
 }
 
-/* Card 1 - Emerald Green */
-.incubator-tab-card[data-hub="proximite"] {
+.incubator-tab-card h4 {
+  color: #00502A !important;
+  font-weight: 600 !important;
+}
+
+.incubator-tab-card i {
+  color: #008748 !important;
+}
+
+.incubator-tab-card:hover {
+  border-color: #008748 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(0, 135, 72, 0.15) !important;
+}
+
+.incubator-tab-card.active {
   background: #E8F5E9 !important;
-  border: 2px solid #008748 !important;
+  border: 1px solid #008748 !important;
+  border-left: 4px solid #008748 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 20px rgba(0, 135, 72, 0.15) !important;
 }
-.incubator-tab-card[data-hub="proximite"] h4 { color: #006837 !important; }
-.incubator-tab-card[data-hub="proximite"] i { color: #008748 !important; }
-.incubator-tab-card[data-hub="proximite"]:hover {
-  box-shadow: 0 8px 20px rgba(0, 135, 72, 0.25) !important;
-  transform: translateY(-3px) !important;
-}
-.incubator-tab-card[data-hub="proximite"].active {
-  background: linear-gradient(135deg, #008748 0%, #00502a 100%) !important;
-  border-color: #00FF80 !important;
-  box-shadow: 0 10px 25px rgba(0, 135, 72, 0.35) !important;
-  transform: translateY(-3px) !important;
-}
-.incubator-tab-card[data-hub="proximite"].active h4 { color: #FFFFFF !important; }
-.incubator-tab-card[data-hub="proximite"].active i { color: #00FF80 !important; }
 
-/* Card 2 - Solar Amber Gold */
-.incubator-tab-card[data-hub="thematiques"] {
-  background: #FEF3C7 !important;
-  border: 2px solid #D97706 !important;
+.incubator-tab-card.active h4 {
+  color: #008748 !important;
+  font-weight: 700 !important;
 }
-.incubator-tab-card[data-hub="thematiques"] h4 { color: #92400E !important; }
-.incubator-tab-card[data-hub="thematiques"] i { color: #D97706 !important; }
-.incubator-tab-card[data-hub="thematiques"]:hover {
-  box-shadow: 0 8px 20px rgba(217, 119, 6, 0.25) !important;
-  transform: translateY(-3px) !important;
-}
-.incubator-tab-card[data-hub="thematiques"].active {
-  background: linear-gradient(135deg, #D97706 0%, #92400E 100%) !important;
-  border-color: #FDE047 !important;
-  box-shadow: 0 10px 25px rgba(217, 119, 6, 0.35) !important;
-  transform: translateY(-3px) !important;
-}
-.incubator-tab-card[data-hub="thematiques"].active h4 { color: #FFFFFF !important; }
-.incubator-tab-card[data-hub="thematiques"].active i { color: #FDE047 !important; }
 
-/* Card 3 - Cyber Cyan */
-.incubator-tab-card[data-hub="mobile"] {
-  background: #E0F2FE !important;
-  border: 2px solid #0284C7 !important;
+.incubator-tab-card.active i {
+  color: #008748 !important;
 }
-.incubator-tab-card[data-hub="mobile"] h4 { color: #0369A1 !important; }
-.incubator-tab-card[data-hub="mobile"] i { color: #0284C7 !important; }
-.incubator-tab-card[data-hub="mobile"]:hover {
-  box-shadow: 0 8px 20px rgba(2, 132, 199, 0.25) !important;
-  transform: translateY(-3px) !important;
-}
-.incubator-tab-card[data-hub="mobile"].active {
-  background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
-  border-color: #38BDF8 !important;
-  box-shadow: 0 10px 25px rgba(2, 132, 199, 0.35) !important;
-  transform: translateY(-3px) !important;
-}
-.incubator-tab-card[data-hub="mobile"].active h4 { color: #FFFFFF !important; }
-.incubator-tab-card[data-hub="mobile"].active i { color: #38BDF8 !important; }
-
-/* Card 4 - Rose Magenta */
-.incubator-tab-card[data-hub="partenariats"] {
-  background: #FCE7F3 !important;
-  border: 2px solid #DB2777 !important;
-}
-.incubator-tab-card[data-hub="partenariats"] h4 { color: #9D174D !important; }
-.incubator-tab-card[data-hub="partenariats"] i { color: #DB2777 !important; }
-.incubator-tab-card[data-hub="partenariats"]:hover {
-  box-shadow: 0 8px 20px rgba(219, 39, 119, 0.25) !important;
-  transform: translateY(-3px) !important;
-}
-.incubator-tab-card[data-hub="partenariats"].active {
-  background: linear-gradient(135deg, #DB2777 0%, #9D174D 100%) !important;
-  border-color: #F472B6 !important;
-  box-shadow: 0 10px 25px rgba(219, 39, 119, 0.35) !important;
-  transform: translateY(-3px) !important;
-}
-.incubator-tab-card[data-hub="partenariats"].active h4 { color: #FFFFFF !important; }
-.incubator-tab-card[data-hub="partenariats"].active i { color: #F472B6 !important; }
-
-/* Card 5 - Royal Indigo */
-.incubator-tab-card[data-hub="universitaires"] {
-  background: #EEF2FF !important;
-  border: 2px solid #4F46E5 !important;
-}
-.incubator-tab-card[data-hub="universitaires"] h4 { color: #3730A3 !important; }
-.incubator-tab-card[data-hub="universitaires"] i { color: #4F46E5 !important; }
-.incubator-tab-card[data-hub="universitaires"]:hover {
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.25) !important;
-  transform: translateY(-3px) !important;
-}
-.incubator-tab-card[data-hub="universitaires"].active {
-  background: linear-gradient(135deg, #4F46E5 0%, #3730A3 100%) !important;
-  border-color: #818CF8 !important;
-  box-shadow: 0 10px 25px rgba(79, 70, 229, 0.35) !important;
-  transform: translateY(-3px) !important;
-}
-.incubator-tab-card[data-hub="universitaires"].active h4 { color: #FFFFFF !important; }
-.incubator-tab-card[data-hub="universitaires"].active i { color: #818CF8 !important; }
 
 /* Floating WhatsApp Widget */
 .floating-whatsapp {
