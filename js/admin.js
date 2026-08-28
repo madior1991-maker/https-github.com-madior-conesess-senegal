@@ -2123,3 +2123,74 @@ function saveNotificationSettings(e) {
     showToast(`Adresse e-mail de notification mise à jour : ${newTarget}`);
   }
 }
+
+function saveSecuritySettings(e) {
+  if (e) e.preventDefault();
+  const timeout = document.getElementById('setting-session-timeout')?.value;
+  const is2fa = document.getElementById('setting-2fa-toggle')?.checked;
+  const isStrict = document.getElementById('setting-strict-mode')?.checked;
+
+  const secSettings = { timeout: timeout, is2fa: is2fa, isStrict: isStrict, updatedAt: new Date().toISOString() };
+  localStorage.setItem('conesess_security_settings', JSON.stringify(secSettings));
+  showToast("Paramètres de sécurité et de contrôle des sessions enregistrés avec succès.");
+}
+
+function savePortalFormRules(e) {
+  if (e) e.preventDefault();
+  const portalStatus = document.getElementById('setting-portal-status')?.value;
+  const refPrefix = document.getElementById('setting-ref-prefix')?.value;
+
+  const portalRules = { portalStatus: portalStatus, refPrefix: refPrefix, updatedAt: new Date().toISOString() };
+  localStorage.setItem('conesess_portal_rules', JSON.stringify(portalRules));
+  showToast(`Règles du portail enregistrées (Statut: ${portalStatus.toUpperCase()}, Préfixe: ${refPrefix}).`);
+}
+
+// Full Database JSON Export
+function exportFullDatabaseJSON() {
+  const fullBackup = {
+    exportDate: new Date().toISOString(),
+    system: "CONESESS SÉNÉGAL ADMIN PLATFORM",
+    superAdmin: "madior1991@gmail.com",
+    members: getMembersDB(),
+    webForms: getWebFormsDB(),
+    contacts: getContactsDB(),
+    adminUsers: getAdminUsersDB(),
+    notifications: JSON.parse(localStorage.getItem('conesess_notifications')) || []
+  };
+
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fullBackup, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `BACKUP_CONESESS_BDD_${new Date().toISOString().slice(0,10)}.json`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+
+  showToast("Sauvegarde intégrale de la base de données exportée au format .JSON !");
+}
+
+// Full Database JSON Import / Restore
+function importFullDatabaseJSON(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    try {
+      const importedData = JSON.parse(event.target.result);
+      if (confirm(`Confirmez-vous la restauration de la base de données depuis ce fichier (Exporté le ${importedData.exportDate || 'Inconnu'}) ?`)) {
+        if (importedData.members) localStorage.setItem('conesess_members', JSON.stringify(importedData.members));
+        if (importedData.webForms) localStorage.setItem('conesess_web_forms', JSON.stringify(importedData.webForms));
+        if (importedData.contacts) localStorage.setItem('conesess_contacts', JSON.stringify(importedData.contacts));
+        if (importedData.adminUsers) localStorage.setItem('conesess_admin_users', JSON.stringify(importedData.adminUsers));
+        if (importedData.notifications) localStorage.setItem('conesess_notifications', JSON.stringify(importedData.notifications));
+
+        renderAdminAll();
+        showToast("Restauration de la base de données effectuée avec succès !");
+      }
+    } catch (err) {
+      showToast("Erreur : Le fichier de sauvegarde JSON est invalide ou corrompu.");
+    }
+  };
+  reader.readAsText(file);
+}
