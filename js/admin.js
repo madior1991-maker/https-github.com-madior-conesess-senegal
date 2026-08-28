@@ -1348,10 +1348,11 @@ function renderWebFormsTable(members, contacts, webForms = []) {
       <td style="font-size: 0.825rem;"><strong>${s.contact}</strong></td>
       <td>${getStatusBadgeHTML(s.status)}</td>
       <td>
-        <div style="display: flex; gap: 0.35rem;">
-          <button onclick="openWebFormDetailModal('${s.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Voir Fiche"><i class="fas fa-eye"></i> Détails</button>
-          ${s.status !== 'Approuvé' ? `<button onclick="approveWebForm('${s.id}')" class="action-btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Approuver"><i class="fas fa-check"></i> Approuver</button>` : ''}
-          ${s.status !== 'Rejeté' ? `<button onclick="rejectWebForm('${s.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; color: #DC2626; border-color: #DC2626;" title="Rejeter"><i class="fas fa-times"></i> Rejeter</button>` : ''}
+        <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+          <button onclick="openWebFormDetailModal('${s.id}')" class="action-btn-view" title="Visualiser la Fiche"><i class="fas fa-eye"></i> Visualiser</button>
+          <button onclick="downloadFormSubmissionPDF('${s.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF; border: none;" title="Télécharger Fiche PDF"><i class="fas fa-file-pdf"></i> PDF</button>
+          ${s.status !== 'Approuvé' ? `<button onclick="approveWebForm('${s.id}')" class="action-btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" title="Approuver"><i class="fas fa-check"></i></button>` : ''}
+          ${s.status !== 'Rejeté' ? `<button onclick="rejectWebForm('${s.id}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; color: #DC2626; border-color: #DC2626;" title="Rejeter"><i class="fas fa-times"></i></button>` : ''}
           <a href="https://wa.me/${s.rawPhone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(s.name)},%20suite%20%C3%A0%20votre%20formulaire%20soumis%20sur%20le%20site%20CONESESS..." target="_blank" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #25D366; color: #FFFFFF; border: none;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
       </td>
@@ -1450,77 +1451,30 @@ function rejectWebForm(id) {
   }
 }
 
-// Open Web Form Detail Modal
-function openWebFormDetailModal(id) {
-  const modal = document.getElementById('web-form-detail-modal');
-  const title = document.getElementById('modal-detail-title');
-  const content = document.getElementById('modal-detail-content');
-
-  const members = getMembersDB();
-  const member = members.find(m => m.ref === id);
-
-  if (member && modal && content) {
-    if (title) title.textContent = `Fiche d'Adhésion : ${member.name}`;
-    content.innerHTML = `
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-        <div><strong>Référence :</strong> <span style="color: var(--admin-green); font-family: monospace;">${member.ref}</span></div>
-        <div><strong>Date de Soumission :</strong> ${member.date || 'Récemment'}</div>
-        <div><strong>Organisation :</strong> ${member.name}</div>
-        <div><strong>Forme Juridique :</strong> ${member.type}</div>
-        <div><strong>Région :</strong> ${member.region}</div>
-        <div><strong>Pôle Métier :</strong> ${member.pole || 'Général'}</div>
-        <div><strong>Représentant Légal :</strong> ${member.rep}</div>
-        <div><strong>Téléphone / WhatsApp :</strong> ${member.phone}</div>
-        <div><strong>E-mail Officiel :</strong> ${member.email || 'Non renseigné'}</div>
-        <div><strong>Statut du Dossier :</strong> ${member.status}</div>
-      </div>
-    `;
-
-    const btnApprove = document.getElementById('modal-btn-approve-web');
-    if (btnApprove) {
-      btnApprove.onclick = function() {
-        approveMember(member.ref);
-        closeWebFormDetailModal();
-      };
-    }
-
-    const btnWa = document.getElementById('modal-btn-whatsapp-web');
-    if (btnWa) {
-      btnWa.onclick = function() {
-        window.open(`https://wa.me/${member.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(member.rep)},%20votre%20dossier%20CONESESS...`, '_blank');
-      };
-    }
-
-    modal.classList.add('show');
-  }
-}
-
-function closeWebFormDetailModal() {
-  const modal = document.getElementById('web-form-detail-modal');
-  if (modal) modal.classList.remove('show');
-}
-
 // Recent Members Table
 function renderRecentMembersTable(members) {
   const tbody = document.getElementById('tbody-recent-members');
   if (!tbody) return;
 
   if (members.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">Aucune adhésion enregistrée.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--admin-text-muted);">Aucune adhésion enregistrée.</td></tr>`;
     return;
   }
 
   tbody.innerHTML = members.map(m => `
     <tr>
-      <td><strong style="color: var(--primary-green); font-family: monospace;">${m.ref}</strong></td>
+      <td><strong style="color: var(--admin-green); font-family: monospace;">${m.ref}</strong></td>
       <td><strong>${m.name}</strong></td>
       <td>${m.type}</td>
       <td><span class="badge badge-green" style="font-size: 0.7rem;">${m.region}</span></td>
-      <td style="font-size: 0.8rem; color: var(--text-muted);">${m.pole || 'Général'}</td>
+      <td style="font-size: 0.8rem; color: var(--admin-text-muted);">${m.pole || 'Général'}</td>
       <td>${getStatusBadgeHTML(m.status)}</td>
       <td>
-        <button onclick="approveMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(0, 104, 55, 0.15); color: #006837; border: 1px solid #006837;" title="Approuver"><i class="fas fa-check"></i></button>
-        <button onclick="openBadgeForMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(244, 162, 97, 0.2); color: #D97706; border: 1px solid #F4A261;" title="Badge"><i class="fas fa-id-badge"></i></button>
+        <div style="display: flex; gap: 0.35rem;">
+          <button onclick="openWebFormDetailModal('${m.ref}')" class="action-btn-view" title="Visualiser la Fiche"><i class="fas fa-eye"></i> Visualiser</button>
+          <button onclick="approveMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(0, 104, 55, 0.15); color: #006837; border: 1px solid #006837;" title="Approuver"><i class="fas fa-check"></i></button>
+          <button onclick="openBadgeForMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(244, 162, 97, 0.2); color: #D97706; border: 1px solid #F4A261;" title="Badge"><i class="fas fa-id-badge"></i></button>
+        </div>
       </td>
     </tr>
   `).join('');
@@ -1532,23 +1486,25 @@ function renderFullMembersTable(members) {
   if (!tbody) return;
 
   if (members.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted);">Aucun membre trouvé dans la base de données.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--admin-text-muted);">Aucun membre trouvé dans la base de données.</td></tr>`;
     return;
   }
 
   tbody.innerHTML = members.map(m => `
     <tr>
-      <td><strong style="color: var(--primary-green); font-family: monospace;">${m.ref}</strong></td>
-      <td><strong>${m.name}</strong><br><small style="color: var(--text-muted);">${m.email || ''}</small></td>
+      <td><strong style="color: var(--admin-green); font-family: monospace;">${m.ref}</strong></td>
+      <td><strong>${m.name}</strong><br><small style="color: var(--admin-text-muted);">${m.email || ''}</small></td>
       <td>${m.type}</td>
       <td><span class="badge badge-green" style="font-size: 0.7rem;">${m.region}</span></td>
       <td style="font-size: 0.825rem;"><strong>${m.rep}</strong><br><span style="color: #006837;"><i class="fab fa-whatsapp"></i> ${m.phone}</span></td>
       <td>${getStatusBadgeHTML(m.status)}</td>
       <td><span class="badge badge-gold" style="font-size: 0.7rem;">${m.badgeStatus || 'Non généré'}</span></td>
       <td>
-        <div style="display: flex; gap: 0.35rem;">
+        <div style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+          <button onclick="openWebFormDetailModal('${m.ref}')" class="action-btn-view" title="Visualiser la Fiche"><i class="fas fa-eye"></i> Visualiser</button>
+          <button onclick="downloadFormSubmissionPDF('${m.ref}')" class="action-btn-pill" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF; border: none;" title="Télécharger Fiche PDF"><i class="fas fa-file-pdf"></i> PDF</button>
           ${m.status !== 'Approuvé' ? `<button onclick="approveMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: #006837; color: #FFFFFF;" title="Valider"><i class="fas fa-check"></i></button>` : ''}
-          <button onclick="openBadgeForMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: var(--accent-gold); color: #FFFFFF;" title="Générer Badge"><i class="fas fa-id-badge"></i></button>
+          <button onclick="openBadgeForMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: var(--admin-gold); color: #FFFFFF;" title="Générer Badge"><i class="fas fa-id-badge"></i></button>
           <button onclick="deleteMember('${m.ref}')" class="btn btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem; background: rgba(239, 68, 68, 0.15); color: #DC2626; border: 1px solid #DC2626;" title="Supprimer"><i class="fas fa-trash"></i></button>
         </div>
       </td>
