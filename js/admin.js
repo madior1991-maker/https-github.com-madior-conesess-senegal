@@ -6,6 +6,17 @@ const INITIAL_MEMBERS_DATA = [];
 const INITIAL_CONTACTS_DATA = [];
 const INITIAL_ADMIN_USERS = [
   {
+    name: 'Madior',
+    email: 'madior@conesess.sn',
+    password: 'admin',
+    org: 'Présidence & Secrétariat Général Confédéral',
+    phone: '+221 77 538 66 27',
+    role: 'Super Administrateur Confédéral',
+    status: 'Approuvé',
+    isSuperAdmin: true,
+    date: '2026-08-01'
+  },
+  {
     name: 'Super Administrateur CONESESS',
     email: 'admin@conesess.sn',
     password: 'admin',
@@ -58,14 +69,28 @@ function initAdminDB() {
     localStorage.setItem('conesess_demo_purged_v2', 'true');
   }
 
+  let users = JSON.parse(localStorage.getItem('conesess_admin_users')) || [];
+  const madiorExists = users.some(u => u.email.toLowerCase() === 'madior@conesess.sn');
+
+  if (!madiorExists) {
+    users.unshift(INITIAL_ADMIN_USERS[0]);
+    localStorage.setItem('conesess_admin_users', JSON.stringify(users));
+  } else {
+    // Ensure Madior is set as active Super Admin with full rights
+    const madiorIndex = users.findIndex(u => u.email.toLowerCase() === 'madior@conesess.sn');
+    if (madiorIndex !== -1) {
+      users[madiorIndex].isSuperAdmin = true;
+      users[madiorIndex].role = 'Super Administrateur Confédéral';
+      users[madiorIndex].status = 'Approuvé';
+      localStorage.setItem('conesess_admin_users', JSON.stringify(users));
+    }
+  }
+
   if (!localStorage.getItem('conesess_members')) {
     localStorage.setItem('conesess_members', JSON.stringify([]));
   }
   if (!localStorage.getItem('conesess_contacts')) {
     localStorage.setItem('conesess_contacts', JSON.stringify([]));
-  }
-  if (!localStorage.getItem('conesess_admin_users')) {
-    localStorage.setItem('conesess_admin_users', JSON.stringify(INITIAL_ADMIN_USERS));
   }
   if (!localStorage.getItem('conesess_web_forms')) {
     localStorage.setItem('conesess_web_forms', JSON.stringify([]));
@@ -242,7 +267,7 @@ function loginAdmin() {
 // Quick Super Admin Login
 function quickLoginAdmin() {
   const users = getAdminUsersDB();
-  const superAdmin = users.find(u => u.isSuperAdmin) || users[0];
+  const superAdmin = users.find(u => u.email.toLowerCase() === 'madior@conesess.sn') || users.find(u => u.isSuperAdmin) || users[0];
 
   localStorage.setItem('conesess_admin_auth', 'true');
   localStorage.setItem('conesess_admin_active_user', JSON.stringify(superAdmin));
@@ -252,8 +277,13 @@ function quickLoginAdmin() {
   if (overlay) overlay.style.display = 'none';
   if (mainCont) mainCont.style.display = 'block';
 
+  const userLabel = document.getElementById('admin-current-user-label');
+  if (userLabel) {
+    userLabel.textContent = `Session : ${superAdmin.name} (${superAdmin.role} - ${superAdmin.org})`;
+  }
+
   renderAdminAll();
-  showToast("Connexion Super Administrateur effectuée.");
+  showToast(`Bienvenue Madior ! Connexion Super Administrateur Confédéral effectuée.`);
 }
 
 // Handle Register Admin Account Request
