@@ -17,18 +17,20 @@
 
   <style>
     :root {
-      --admin-sidebar-w: 230px;
+      --admin-sidebar-w: 240px;
       --admin-navy: #0A2540;
       --admin-green: #006837;
       --admin-gold: #F4A261;
       --admin-gold-bright: #E9C46A;
-      --admin-bg-light: #F8FAFC;
+      /* ENHANCED SOFT INSTITUTIONAL LIGHT THEME */
+      --admin-bg-light: #F4F7F5;
       --admin-card-bg-light: #FFFFFF;
       --admin-border-light: #E2E8F0;
       --admin-text-main: #0A2540;
+      --admin-text-body: #334155;
       --admin-text-muted: #64748B;
-      --admin-soft-green: rgba(0, 104, 55, 0.08);
-      --admin-soft-gold: rgba(244, 162, 97, 0.15);
+      --admin-soft-green: #E8F5E9;
+      --admin-soft-gold: #FEF3C7;
     }
 
     [data-admin-theme="dark"] {
@@ -36,6 +38,7 @@
       --admin-card-bg-light: #15202E;
       --admin-border-light: #233346;
       --admin-text-main: #F1F5F9;
+      --admin-text-body: #CBD5E1;
       --admin-text-muted: #94A3B8;
       --admin-green: #25D366;
       --admin-soft-green: rgba(37, 211, 102, 0.15);
@@ -90,29 +93,40 @@
       flex-direction: column;
       position: fixed;
       top: 0; bottom: 0; left: 0;
-      z-index: 100;
-      padding: 1rem 0.85rem;
-      box-shadow: 4px 0 20px rgba(0, 77, 40, 0.15);
+      z-index: 1050;
+      padding: 1.15rem 0.85rem;
+      box-shadow: 4px 0 25px rgba(0, 77, 40, 0.18);
     }
 
     .admin-brand-card {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 0.65rem;
-      padding-bottom: 0.9rem;
-      margin-bottom: 0.9rem;
+      padding-bottom: 0.95rem;
+      margin-bottom: 0.95rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .admin-brand-avatar {
-      width: 38px; height: 38px;
+    .admin-brand-card-inner {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .mobile-sidebar-close-btn {
+      display: none;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #FFFFFF;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      background: #FFFFFF;
-      color: #006837;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 1.1rem;
-      border: 2px solid #E9C46A;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      line-height: 1;
     }
 
     .admin-nav-menu {
@@ -120,23 +134,35 @@
       flex-direction: column;
       gap: 0.35rem;
       list-style: none;
-      padding: 0;
+      padding: 0 0.15rem 0 0;
       margin: 0;
       flex: 1;
+      overflow-y: auto;
+      max-height: calc(100vh - 120px);
+    }
+
+    .admin-nav-menu::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .admin-nav-menu::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 4px;
     }
 
     .admin-nav-link {
       display: flex;
       align-items: center;
       gap: 0.65rem;
-      padding: 0.55rem 0.95rem;
+      padding: 0.55rem 0.9rem;
       border-radius: 30px;
       color: rgba(255, 255, 255, 0.92);
       text-decoration: none;
       font-weight: 600;
-      font-size: 0.835rem;
+      font-size: 0.825rem;
       transition: all 0.22s ease;
       cursor: pointer;
+      white-space: nowrap;
     }
 
     .admin-nav-link:hover {
@@ -147,17 +173,39 @@
 
     .admin-nav-link.active {
       background: #FFFFFF;
-      color: #006837;
+      color: #006837 !important;
       font-weight: 800;
-      box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
-      border: 1px solid #E9C46A;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+      border: 1.5px solid #E9C46A;
     }
 
     .admin-nav-link.active i {
-      color: #006837;
+      color: #006837 !important;
     }
 
     .admin-nav-link i {
+      font-size: 0.9rem;
+      width: 18px;
+      text-align: center;
+    }
+
+    /* BACKDROP OVERLAY FOR MOBILE SIDEBAR */
+    .admin-sidebar-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 1040;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .admin-sidebar-overlay.active {
+      display: block;
+      opacity: 1;
+    }
       font-size: 0.925rem;
       width: 18px;
       text-align: center;
@@ -590,14 +638,20 @@
   <!-- MAIN ADMIN APP WRAPPER -->
   <div id="admin-main-container" class="admin-app-wrapper" style="display: none;">
     
+    <!-- BACKDROP OVERLAY FOR MOBILE SIDEBAR -->
+    <div id="admin-sidebar-overlay" class="admin-sidebar-overlay" onclick="toggleAdminSidebar()"></div>
+
     <!-- LEFT SIDEBAR NAVIGATION -->
     <aside class="admin-sidebar">
       <div class="admin-brand-card">
-        <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid #E9C46A; object-fit: cover;">
-        <div>
-          <strong style="font-size: 0.95rem; color: #FFFFFF; display: block; line-height: 1.1;">CONESESS SÉNÉGAL</strong>
-          <small style="color: rgba(255,255,255,0.8); font-size: 0.725rem;">Espace Administrateur</small>
+        <div class="admin-brand-card-inner">
+          <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid #E9C46A; object-fit: cover;">
+          <div>
+            <strong style="font-size: 0.95rem; color: #FFFFFF; display: block; line-height: 1.1;">CONESESS SÉNÉGAL</strong>
+            <small style="color: rgba(255,255,255,0.8); font-size: 0.725rem;">Espace Administrateur</small>
+          </div>
         </div>
+        <button class="mobile-sidebar-close-btn" onclick="toggleAdminSidebar()" title="Fermer le menu">&times;</button>
       </div>
 
       <ul class="admin-nav-menu">

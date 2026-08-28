@@ -525,7 +525,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function toggleAdminSidebar() {
   const sidebar = document.querySelector('.admin-sidebar');
+  const overlay = document.getElementById('admin-sidebar-overlay');
   if (sidebar) sidebar.classList.toggle('active');
+  if (overlay) overlay.classList.toggle('active');
 }
 
 // Navigation Sidebar Tabs
@@ -558,7 +560,9 @@ function switchAdminTab(tabId) {
 
   // Close mobile sidebar on tab switch
   const sidebar = document.querySelector('.admin-sidebar');
-  if (sidebar && window.innerWidth <= 992) sidebar.classList.remove('active');
+  const overlay = document.getElementById('admin-sidebar-overlay');
+  if (sidebar) sidebar.classList.remove('active');
+  if (overlay) overlay.classList.remove('active');
 }
 
 // Check-in QR Code Verification Tool
