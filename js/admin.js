@@ -2,140 +2,8 @@
    CONESESS - ADMIN DASHBOARD & BADGE MANAGEMENT LOGIC
    ========================================================================== */
 
-const INITIAL_MEMBERS_DATA = [
-  {
-    ref: 'CONESESS-2026-1042',
-    name: 'Coopérative Agro-maraîchère de Kayar',
-    type: 'Coopérative Agricole / Halieutique',
-    region: 'Thiès',
-    pole: 'Agroécologie & Souveraineté Alimentaire',
-    rep: 'Mamadou Ndiaye (Président)',
-    phone: '+221 77 412 88 90',
-    email: 'kayar.coop@conesess.sn',
-    status: 'Approuvé',
-    badgeStatus: 'Généré',
-    badgeRole: 'Président Représentant Légal',
-    date: '2026-08-25'
-  },
-  {
-    ref: 'CONESESS-2026-2184',
-    name: 'Mutuelle de Santé Communautaire de Yeumbeul',
-    type: 'Mutuelle de Santé',
-    region: 'Dakar',
-    pole: 'Mutuelles de Santé & SFD',
-    rep: 'Aïssatou Sow (Directrice)',
-    phone: '+221 78 123 45 67',
-    email: 'yeumbeul.sante@conesess.sn',
-    status: 'Approuvé',
-    badgeStatus: 'Imprimé',
-    badgeRole: 'Directrice Générale',
-    date: '2026-08-24'
-  },
-  {
-    ref: 'CONESESS-2026-3091',
-    name: 'GIE Bokk Jom de Ziguinchor',
-    type: "Groupement d'Intérêt Économique (GIE)",
-    region: 'Ziguinchor',
-    pole: 'Artisanat & Économie Circulaire',
-    rep: 'Ousmane Sané (Gérant)',
-    phone: '+221 77 987 65 43',
-    email: 'bokkjom.zig@conesess.sn',
-    status: 'En attente',
-    badgeStatus: 'Non généré',
-    badgeRole: 'Gérant Représentant',
-    date: '2026-08-26'
-  },
-  {
-    ref: 'CONESESS-2026-4412',
-    name: 'SFD Finance Éthique & Solidaire (Waqf)',
-    type: 'Entreprise Sociale / SFD',
-    region: 'Dakar',
-    pole: 'Mutuelles de Santé & SFD',
-    rep: 'Dr. Cheikh Diop (Président)',
-    phone: '+221 77 538 66 27',
-    email: 'waqf.finance@conesess.sn',
-    status: 'Approuvé',
-    badgeStatus: 'Délivré',
-    badgeRole: 'Président Conseil Éthique',
-    date: '2026-08-22'
-  },
-  {
-    ref: 'CONESESS-2026-5219',
-    name: 'Coopérative Halieutique de Saint-Louis',
-    type: 'Coopérative Halieutique',
-    region: 'Saint-Louis',
-    pole: 'Agroécologie & Souveraineté Alimentaire',
-    rep: 'Abdoulaye Fall',
-    phone: '+221 76 543 21 09',
-    email: 'pecheurs.ndar@conesess.sn',
-    status: 'Approuvé',
-    badgeStatus: 'Généré',
-    badgeRole: 'Président de Section',
-    date: '2026-08-21'
-  },
-  {
-    ref: 'CONESESS-2026-6810',
-    name: 'Startup Éco-Soleil Numérique Social',
-    type: 'Entreprise Sociale / Startup',
-    region: 'Fatick',
-    pole: 'Services, Numérique Social & Éducation',
-    rep: 'Aminata Ba',
-    phone: '+221 77 345 67 89',
-    email: 'ecosoleil@conesess.sn',
-    status: 'En attente',
-    badgeStatus: 'Non généré',
-    badgeRole: 'Fondatrice & CEO',
-    date: '2026-08-26'
-  },
-  {
-    ref: 'CONESESS-2026-7730',
-    name: 'Coopérative de Transformation de Kolda',
-    type: 'Coopérative Agricole',
-    region: 'Kolda',
-    pole: 'Agroécologie & Souveraineté Alimentaire',
-    rep: 'Ibrahima Baldé',
-    phone: '+221 70 876 54 32',
-    email: 'kolda.agro@conesess.sn',
-    status: 'Approuvé',
-    badgeStatus: 'Non généré',
-    badgeRole: 'Coordonnateur Régional',
-    date: '2026-08-23'
-  },
-  {
-    ref: 'CONESESS-2026-8942',
-    name: 'Association des Artisans du Solaire de Kaolack',
-    type: 'Association Productive',
-    region: 'Kaolack',
-    pole: 'Artisanat & Économie Circulaire',
-    rep: 'Samba Cissé',
-    phone: '+221 77 210 98 76',
-    email: 'artisans.kaolack@conesess.sn',
-    status: 'Approuvé',
-    badgeStatus: 'Généré',
-    badgeRole: 'Secrétaire Général',
-    date: '2026-08-20'
-  }
-];
-
-const INITIAL_CONTACTS_DATA = [
-  {
-    date: '2026-08-26 14:32',
-    name: 'Fatou Kiné Ndiaye',
-    phone: '+221 77 654 32 10',
-    email: 'fatou.ndiaye@coop-thies.sn',
-    subject: "Adhésion au CONESESS",
-    message: "Bonjour, notre coopérative souhaite rejoindre le CONESESS. Pouvons-nous programmer une rencontre avec l'Antenne de Thiès ?"
-  },
-  {
-    date: '2026-08-25 09:15',
-    name: 'Moussa Gueye',
-    phone: '+221 78 901 23 45',
-    email: 'moussa.gueye@gie-dakar.sn',
-    subject: "Accompagnement Incubateur (IAN-ESS)",
-    message: "Nous sollicitons un accompagnement technique et financier dans le cadre du Pôle 3 pour moderniser nos ateliers solaires."
-  }
-];
-
+const INITIAL_MEMBERS_DATA = [];
+const INITIAL_CONTACTS_DATA = [];
 const INITIAL_ADMIN_USERS = [
   {
     name: 'Super Administrateur CONESESS',
@@ -147,78 +15,9 @@ const INITIAL_ADMIN_USERS = [
     status: 'Approuvé',
     isSuperAdmin: true,
     date: '2026-08-01'
-  },
-  {
-    name: 'Moussa Diop',
-    email: 'diop.thies@conesess.sn',
-    password: 'pass',
-    org: 'Antenne Régionale Thiès',
-    phone: '+221 77 412 88 90',
-    role: "Gestionnaire d'Antenne Régionale",
-    status: 'Approuvé',
-    isSuperAdmin: false,
-    date: '2026-08-15'
-  },
-  {
-    name: 'Fatou Sow',
-    email: 'fatou.sow@conesess.sn',
-    password: 'pass',
-    org: 'Incubateur IAN-ESS Dakar',
-    phone: '+221 78 123 45 67',
-    role: 'Responsable Incubateur (IAN-ESS)',
-    status: 'En attente',
-    isSuperAdmin: false,
-    date: '2026-08-26'
   }
 ];
-
-const INITIAL_STEERING_CANDIDATES = [
-  {
-    id: 'CP-2026-101',
-    ref: 'CP-2026-101',
-    type: 'Candidature Comité de Pilotage',
-    name: 'Cheikh Oumar Sy',
-    org: 'Coopérative Agroécologique du Bassin Arachidier',
-    region: 'Kaolack',
-    email: 'cheikh.sy@conesess.sn',
-    phone: '+221 77 543 21 00',
-    role: 'Coordinateur',
-    experience: '12 ans d’expérience en gestion de coopératives agricoles et coordination de projets de souveraineté alimentaire.',
-    motivation: 'Développer un cadre confédéral fort capable d’accompagner la Vision Sénégal 2050 et de structurer l’ESS dans les 14 régions.',
-    status: 'En attente',
-    date: '2026-08-27 10:15'
-  },
-  {
-    id: 'CP-2026-102',
-    ref: 'CP-2026-102',
-    type: 'Candidature Comité de Pilotage',
-    name: 'Dr. Mariama Ba',
-    org: 'Mutuelle de Santé & Solidarité des Femmes de Saint-Louis',
-    region: 'Saint-Louis',
-    email: 'mariama.ba@conesess.sn',
-    phone: '+221 78 412 99 88',
-    role: 'Rapporteur',
-    experience: 'Docteur en Économie du Développement, 8 ans en rédaction de rapports stratégiques et politiques publiques d’inclusion sociale.',
-    motivation: 'Assurer une formalisation rigoureuse des travaux du Comité et une cartographie précise de l’impact de l’ESS.',
-    status: 'En attente',
-    date: '2026-08-26 16:40'
-  },
-  {
-    id: 'CP-2026-103',
-    ref: 'CP-2026-103',
-    type: 'Candidature Comité de Pilotage',
-    name: 'Mamadou Lamine Diagne',
-    org: 'Startup Sociale Éco-Digitale Dakar',
-    region: 'Dakar',
-    email: 'lamine.diagne@conesess.sn',
-    phone: '+221 70 987 65 43',
-    role: 'Responsable communication',
-    experience: 'Spécialiste en communication institutionnelle, médias numériques et plaidoyer stratégique auprès des partenaires.',
-    motivation: 'Promouvoir la visibilité nationale et internationale du CONESESS pour faire de 2026 l’Année de l’ESS au Sénégal.',
-    status: 'En attente',
-    date: '2026-08-27 14:20'
-  }
-];
+const INITIAL_STEERING_CANDIDATES = [];
 
 // Initialize Database on load
 document.addEventListener('DOMContentLoaded', () => {
@@ -251,17 +50,36 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initAdminDB() {
+  // Purge legacy demo data to ensure a clean production slate
+  if (localStorage.getItem('conesess_demo_purged_v2') !== 'true') {
+    localStorage.setItem('conesess_members', JSON.stringify([]));
+    localStorage.setItem('conesess_web_forms', JSON.stringify([]));
+    localStorage.setItem('conesess_contacts', JSON.stringify([]));
+    localStorage.setItem('conesess_demo_purged_v2', 'true');
+  }
+
   if (!localStorage.getItem('conesess_members')) {
-    localStorage.setItem('conesess_members', JSON.stringify(INITIAL_MEMBERS_DATA));
+    localStorage.setItem('conesess_members', JSON.stringify([]));
   }
   if (!localStorage.getItem('conesess_contacts')) {
-    localStorage.setItem('conesess_contacts', JSON.stringify(INITIAL_CONTACTS_DATA));
+    localStorage.setItem('conesess_contacts', JSON.stringify([]));
   }
   if (!localStorage.getItem('conesess_admin_users')) {
     localStorage.setItem('conesess_admin_users', JSON.stringify(INITIAL_ADMIN_USERS));
   }
   if (!localStorage.getItem('conesess_web_forms')) {
-    localStorage.setItem('conesess_web_forms', JSON.stringify(INITIAL_STEERING_CANDIDATES));
+    localStorage.setItem('conesess_web_forms', JSON.stringify([]));
+  }
+}
+
+function clearAllAdminData() {
+  if (confirm("Êtes-vous sûr de vouloir réinitialiser la base de données et effacer toutes les données de test ?")) {
+    localStorage.setItem('conesess_members', JSON.stringify([]));
+    localStorage.setItem('conesess_web_forms', JSON.stringify([]));
+    localStorage.setItem('conesess_contacts', JSON.stringify([]));
+    localStorage.setItem('conesess_admin_users', JSON.stringify(INITIAL_ADMIN_USERS));
+    renderAdminAll();
+    showToast("Base de données réinitialisée à zéro avec succès.");
   }
 }
 
