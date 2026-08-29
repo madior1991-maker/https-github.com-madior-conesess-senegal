@@ -1488,9 +1488,6 @@ section.section {
 
 /* Responsive Breakpoints & Mobile Optimization */
 @media (max-width: 992px) {
-  #adhesion {
-    display: none !important;
-  }
   .nav-menu {
     display: none !important;
   }
@@ -2773,6 +2770,24 @@ html, body {
   .footer-4-cols {
     grid-template-columns: 1fr !important;
     gap: 1.5rem !important;
+  }
+
+  /* Full Page & Form Mobile Optimization for adhesion.html */
+  #adhesion {
+    display: block !important;
+    padding: 1.25rem 0 !important;
+  }
+  #adhesion-card-container {
+    padding: 1.25rem 1rem !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
+  }
+  #form-main-adhesion div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    gap: 0.85rem !important;
+  }
+  #adh-type-other-group {
+    grid-column: 1 / -1 !important;
   }
 }
 
