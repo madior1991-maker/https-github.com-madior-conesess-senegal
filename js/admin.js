@@ -323,7 +323,7 @@ function quickLoginAdmin() {
   showToast(`Bienvenue Madior ! Connexion Super Administrateur (madior1991@gmail.com) effectuée.`);
 }
 
-// Notification Center Logic for madior1991@gmail.com
+// Notification Center Logic for Form Reception
 function renderAdminNotifications() {
   const notifs = JSON.parse(localStorage.getItem('conesess_notifications')) || [];
   const badgeEl = document.getElementById('admin-notification-badge');
@@ -337,7 +337,7 @@ function renderAdminNotifications() {
 
   if (listEl) {
     if (notifs.length === 0) {
-      listEl.innerHTML = `<p style="text-align: center; color: var(--admin-text-muted); font-size: 0.8rem; padding: 15px 0;">Aucune alerte e-mail reçue pour madior1991@gmail.com.</p>`;
+      listEl.innerHTML = `<p style="text-align: center; color: var(--admin-text-muted); font-size: 0.8rem; padding: 15px 0;">Aucune notification de formulaire reçue.</p>`;
       return;
     }
 
@@ -350,10 +350,7 @@ function renderAdminNotifications() {
         <strong style="display: block; color: var(--admin-text-main); margin-bottom: 2px;">${n.title}</strong>
         <p style="margin: 0 0 6px 0; color: var(--admin-text-body); font-size: 0.725rem;">${n.details}</p>
         <div style="display: flex; gap: 6px; align-items: center; justify-content: space-between;">
-          <small style="color: #006837; font-weight: 700;"><i class="fas fa-check-circle"></i> Transmis à madior1991@gmail.com</small>
-          <a href="mailto:madior1991@gmail.com?subject=${encodeURIComponent('Notification CONESESS: ' + n.title)}&body=${encodeURIComponent('Alerte de soumission web CONESESS :\n\n' + n.details + '\n\nDate : ' + n.date)}" target="_blank" class="btn btn-sm" style="padding: 2px 8px; font-size: 0.675rem; background: #0A2540; color: #FFFFFF;" title="Envoyer par e-mail direct">
-            <i class="fas fa-paper-plane"></i> Transmettre E-mail
-          </a>
+          <small style="color: #006837; font-weight: 700;"><i class="fas fa-check-circle"></i> Formulaire reçu sur la plateforme</small>
         </div>
       </div>
     `).join('');

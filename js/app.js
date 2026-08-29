@@ -406,16 +406,14 @@ function initModalsAndForms() {
     });
   }
 
-  // Helper function to dispatch automatic email notification alert to madior1991@gmail.com
+  // Helper function to dispatch automatic form reception notification
   function dispatchEmailNotificationAlert(type, title, details) {
     const notifs = JSON.parse(localStorage.getItem('conesess_notifications')) || [];
-    const targetEmail = "madior1991@gmail.com";
     const now = new Date();
     const dateStr = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
     
     const notifItem = {
       id: 'notif-' + Date.now(),
-      targetEmail: targetEmail,
       type: type,
       title: title,
       details: details,
@@ -425,7 +423,7 @@ function initModalsAndForms() {
 
     notifs.unshift(notifItem);
     localStorage.setItem('conesess_notifications', JSON.stringify(notifs));
-    console.log(`[ALERT EMAIL SENT -> ${targetEmail}]: ${title} - ${details}`);
+    console.log(`[FORM RECEPTION NOTIFICATION]: ${title} - ${details}`);
   }
 
   // Helper function to save new member submission to localStorage DB
