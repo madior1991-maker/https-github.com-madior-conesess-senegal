@@ -27,21 +27,20 @@ const INITIAL_ADMIN_USERS = [
     isSuperAdmin: true,
     canDelete: true,
     date: '2026-08-01'
-  },
-  {
-    name: 'Agent Restreint (Test)',
-    email: 'agent.limite@conesess.sn',
-    password: 'admin',
-    org: 'Antenne Régionale (Consultation)',
-    phone: '+221 77 000 11 22',
-    role: 'Administrateur Restreint (Fonctions Limitées)',
-    status: 'Approuvé',
-    isSuperAdmin: false,
-    canDelete: false,
-    date: '2026-08-01'
   }
 ];
 const INITIAL_STEERING_CANDIDATES = [];
+
+// Helper function to prevent XSS injection attacks
+function escapeHTML(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
 // Helper functions for Limited Administrator Permissions
 function getActiveAdminUser() {
