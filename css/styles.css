@@ -6,32 +6,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Brand Palette - Light Theme */
-  --primary-green: #006837;
-  --primary-green-hover: #00502a;
+  /* Brand Palette - Vibrant Institutional Theme */
+  --primary-green: #008748;
+  --primary-green-hover: #006837;
   --primary-navy: #0A2540;
   --primary-navy-light: #163B66;
-  --accent-emerald: #2A9D8F;
-  --accent-gold: #F4A261;
-  --accent-gold-light: #E9C46A;
-  --accent-soft-green: #E8F5E9;
+  --accent-emerald: #059669;
+  --accent-gold: #E9C46A;
+  --accent-gold-vibrant: #D97706;
+  --accent-soft-green: #F0FDF4;
+  --accent-soft-gold: #FEF3C7;
   
-  /* Neutral Palette */
-  --bg-main: #F8FAF9;
+  /* Neutral Palette - High Contrast */
+  --bg-main: #F8FAFC;
   --bg-surface: #FFFFFF;
-  --bg-alt: #F1F5F3;
+  --bg-alt: #F1F5F9;
   --bg-card: #FFFFFF;
   --text-dark: #0F172A;
-  --text-body: #334155;
-  --text-muted: #64748B;
+  --text-body: #1E293B;
+  --text-muted: #475569;
   --border-light: #E2E8F0;
-  --border-active: #006837;
+  --border-active: #008748;
   
   /* FX & Shadow Tokens */
-  --shadow-sm: 0 2px 8px rgba(0, 104, 55, 0.06);
-  --shadow-md: 0 8px 24px rgba(10, 37, 64, 0.08);
-  --shadow-lg: 0 16px 40px rgba(10, 37, 64, 0.12);
-  --shadow-glow: 0 0 25px rgba(0, 104, 55, 0.25);
+  --shadow-sm: 0 2px 8px rgba(0, 135, 72, 0.08);
+  --shadow-md: 0 8px 24px rgba(10, 37, 64, 0.1);
+  --shadow-lg: 0 16px 40px rgba(10, 37, 64, 0.15);
+  --shadow-glow: 0 0 25px rgba(0, 135, 72, 0.3);
   
   --radius-sm: 8px;
   --radius-md: 14px;
