@@ -426,6 +426,31 @@ function initModalsAndForms() {
     console.log(`[FORM RECEPTION NOTIFICATION]: ${title} - ${details}`);
   }
 
+const CLOUD_SYNC_ENDPOINT = "https://crudcrud.com/api/4f01285c31734664b9b3c9a7ac3934cc/submissions";
+
+async function pushLocalDataToCloud() {
+  try {
+    const members = JSON.parse(localStorage.getItem('conesess_members')) || [];
+    const webForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
+    const contacts = JSON.parse(localStorage.getItem('conesess_contacts')) || [];
+
+    const payload = {
+      timestamp: Date.now(),
+      members: members,
+      webForms: webForms,
+      contacts: contacts
+    };
+
+    await fetch(CLOUD_SYNC_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+  } catch (err) {
+    console.warn("Cloud push warning:", err);
+  }
+}
+
   // Helper function to save new member submission to localStorage DB
   function saveSubmissionToDB(newMember) {
     // 1. Save to members DB (Adhésions)
@@ -464,6 +489,7 @@ function initModalsAndForms() {
       `Organisation: ${newMember.name} (${newMember.region}) | Réf: ${newMember.ref} | Contact: ${newMember.rep} (${newMember.phone})`
     );
 
+    try { pushLocalDataToCloud(); } catch(err) {}
     try { window.dispatchEvent(new Event('storage')); } catch(err) {}
   }
 
@@ -501,6 +527,7 @@ function initModalsAndForms() {
       `Sujet: ${newMessage.subject} | Contact: ${newMessage.name} (${newMessage.phone})`
     );
 
+    try { pushLocalDataToCloud(); } catch(err) {}
     try { window.dispatchEvent(new Event('storage')); } catch(err) {}
   }
 
@@ -724,6 +751,7 @@ function initModalsAndForms() {
         `Poste visé: ${role} | Organisation: ${org} (${region}) | Réf: ${ref} | Tel: ${phone}`
       );
 
+      try { pushLocalDataToCloud(); } catch(err) {}
       try { window.dispatchEvent(new Event('storage')); } catch(err) {}
 
       steeringForm.reset();
