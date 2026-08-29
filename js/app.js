@@ -343,7 +343,7 @@ function initIncubatorExplorer() {
    4. MODAL WINDOWS & ADHESION FORM HANDLERS
    -------------------------------------------------------------------------- */
 function initModalsAndForms() {
-  const joinBtns = document.querySelectorAll('.btn-join-modal, [href="adhesion.html"], [href="#adhesion"], [data-open-modal="membership-modal"]');
+  const joinBtns = document.querySelectorAll('.btn-join-modal, [href="#adhesion"], [data-open-modal="membership-modal"]');
   const modalOverlay = document.getElementById('membership-modal');
   const modalClose = document.getElementById('modal-close-btn');
 
