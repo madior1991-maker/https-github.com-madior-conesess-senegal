@@ -173,182 +173,91 @@
   <section class="section" style="background: var(--bg-surface); padding: 3rem 0 3.5rem 0;">
     <div class="container">
       
-      <div style="max-width: 900px; margin: 0 auto;">
-
-        <!-- COLUMN 2: CANDIDATE SUBMISSION FORM (MULTI-STAGE STEPPER WIZARD) -->
-        <div id="candidature-comite" class="steering-form-container" style="background: linear-gradient(135deg, #0A2540 0%, #006837 100%); color: #FFFFFF; padding: 2.25rem; border-radius: 20px; box-shadow: 0 16px 40px rgba(10, 37, 64, 0.25); border: 2px solid #E9C46A;">
+             <!-- FORMULAIRE DE CANDIDATURE ULTRA SIMPLIFIÉ ET DIRECT -->
+        <div id="candidature-comite" style="background: #FFFFFF; padding: 2.25rem; border-radius: 20px; border: 1.5px solid var(--border-light); box-shadow: 0 12px 30px rgba(10, 37, 64, 0.05);">
           
-          <div style="margin-bottom: 1.5rem;">
-            <span class="badge" style="background: rgba(233, 196, 106, 0.2); color: #E9C46A; border: 1.5px solid #E9C46A; font-size: 0.8rem; font-weight: 800; padding: 0.35rem 0.95rem; border-radius: 30px; margin-bottom: 0.65rem; display: inline-flex; align-items: center; gap: 0.4rem;">
-              <i class="fas fa-magic"></i> Formulaire Guidé en 3 Étapes
-            </span>
-            <h2 style="font-size: 1.65rem; color: #FFFFFF; font-weight: 800; margin-bottom: 0.5rem;">Candidature en 3 Étapes Simple</h2>
-            <p style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.92); line-height: 1.55; margin: 0;">
-              Suivez les 3 étapes guidées ci-dessous pour transmettre votre dossier officiel au Secrétariat Technique.
+          <div style="margin-bottom: 1.5rem; text-align: center;">
+            <span class="badge badge-gold mb-2" style="font-size: 0.775rem; font-weight: 700;"><i class="fas fa-paper-plane"></i> Formulaire Simplifié</span>
+            <h2 style="font-size: 1.6rem; color: var(--primary-navy); font-weight: 800; margin-bottom: 0.35rem;">
+              Déposer votre Candidature au Comité de Pilotage
+            </h2>
+            <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0; line-height: 1.5;">
+              Remplissez les informations ci-dessous pour transmettre directement votre candidature au Secrétariat Général.
             </p>
           </div>
 
-          <!-- STEPPER INDICATOR BAR -->
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem; text-align: center;">
-            <div id="step-indicator-1" onclick="switchCandidatureStep(1)" style="background: #E9C46A; color: #0A2540; font-weight: 800; padding: 0.6rem 0.25rem; border-radius: 10px; font-size: 0.775rem; cursor: pointer; border: 1.5px solid #E9C46A; transition: all 0.2s;">
-              1. Identité <i class="fas fa-user-check" style="font-size: 0.7rem;"></i>
-            </div>
-            <div id="step-indicator-2" onclick="switchCandidatureStep(2)" style="background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.7); font-weight: 700; padding: 0.6rem 0.25rem; border-radius: 10px; font-size: 0.775rem; cursor: pointer; border: 1.5px solid rgba(255, 255, 255, 0.2); transition: all 0.2s;">
-              2. Coordonnées & Poste
-            </div>
-            <div id="step-indicator-3" onclick="switchCandidatureStep(3)" style="background: rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.7); font-weight: 700; padding: 0.6rem 0.25rem; border-radius: 10px; font-size: 0.775rem; cursor: pointer; border: 1.5px solid rgba(255, 255, 255, 0.2); transition: all 0.2s;">
-              3. Parcours & Envoi
-            </div>
-          </div>
-
-          <form id="form-steering-committee-candidate" style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.18); padding: 1.5rem; border-radius: 14px;">
+          <form id="form-steering-committee-candidate">
             
-            <!-- STEP 1: IDENTITÉ & STRUCTURE -->
-            <div id="cand-step-1" class="cand-step-panel">
-              <div style="border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                <strong style="color: #E9C46A; font-size: 0.85rem; text-transform: uppercase;">Étape 1 sur 3 : Identité & Structure ESS</strong>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+              <div class="wizard-form-group">
+                <label style="font-size: 0.825rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.35rem; display: block;"><i class="fas fa-user" style="color: var(--primary-green); font-size: 0.8rem; margin-right: 0.3rem;"></i> Nom & Prénom *</label>
+                <input type="text" id="steering-name" class="wizard-form-control" required placeholder="ex: Mamadou Diallo" style="height: 44px; font-size: 0.9rem; border-radius: 8px; border: 1.5px solid var(--border-light);">
               </div>
 
-              <div class="wizard-form-group mb-3">
-                <label style="font-size: 0.8rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.3rem; display: block;"><i class="fas fa-user" style="font-size: 0.75rem;"></i> Nom & Prénom complet *</label>
-                <input type="text" id="steering-name" class="wizard-form-control" placeholder="ex: Cheikh Oumar Sy" style="background: #FFFFFF; color: #0A2540; height: 42px; font-size: 0.875rem; border-radius: 8px; font-weight: 600;">
+              <div class="wizard-form-group">
+                <label style="font-size: 0.825rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.35rem; display: block;"><i class="fas fa-building" style="color: var(--primary-green); font-size: 0.8rem; margin-right: 0.3rem;"></i> Organisation / Structure *</label>
+                <input type="text" id="steering-org" class="wizard-form-control" required placeholder="ex: Union Régionale des Coopératives" style="height: 44px; font-size: 0.9rem; border-radius: 8px; border: 1.5px solid var(--border-light);">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+              <div class="wizard-form-group">
+                <label style="font-size: 0.825rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.35rem; display: block;"><i class="fas fa-phone-alt" style="color: var(--primary-green); font-size: 0.8rem; margin-right: 0.3rem;"></i> Téléphone / WhatsApp *</label>
+                <input type="tel" id="steering-phone" class="wizard-form-control" required placeholder="+221 77 000 00 00" style="height: 44px; font-size: 0.9rem; border-radius: 8px; border: 1.5px solid var(--border-light);">
               </div>
 
-              <div class="wizard-form-group mb-3">
-                <label style="font-size: 0.8rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.3rem; display: block;"><i class="fas fa-building" style="font-size: 0.75rem;"></i> Organisation ESS Représentée *</label>
-                <input type="text" id="steering-org" class="wizard-form-control" placeholder="ex: Coopérative Agricole / GIE Femmes / Mutuelle" style="background: #FFFFFF; color: #0A2540; height: 42px; font-size: 0.875rem; border-radius: 8px; font-weight: 600;">
+              <div class="wizard-form-group">
+                <label style="font-size: 0.825rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.35rem; display: block;"><i class="fas fa-at" style="color: var(--primary-green); font-size: 0.8rem; margin-right: 0.3rem;"></i> Adresse E-mail *</label>
+                <input type="email" id="steering-email" class="wizard-form-control" required placeholder="votre.email@domaine.sn" style="height: 44px; font-size: 0.9rem; border-radius: 8px; border: 1.5px solid var(--border-light);">
               </div>
+            </div>
 
-              <div class="wizard-form-group mb-4">
-                <label style="font-size: 0.8rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.3rem; display: block;"><i class="fas fa-map-marker-alt" style="font-size: 0.75rem;"></i> Région d’Implantation principale *</label>
-                <select id="steering-region" class="wizard-form-control" style="background: #FFFFFF; color: #0A2540; height: 42px; font-size: 0.85rem; border-radius: 8px; font-weight: 700;">
-                  <option value="">Sélectionner votre Région</option>
-                  <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
-                  <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
-                  <option>Kolda</option><option>Tambacounda</option><option>Matam</option>
-                  <option>Kaffrine</option><option>Kedougou</option><option>Sédhiou</option>
-                  <option>Louga</option><option>Diourbel</option>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+              <div class="wizard-form-group">
+                <label style="font-size: 0.825rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.35rem; display: block;"><i class="fas fa-award" style="color: var(--primary-green); font-size: 0.8rem; margin-right: 0.3rem;"></i> Poste Souhaité *</label>
+                <select id="steering-role" class="wizard-form-control" required style="height: 44px; font-size: 0.9rem; border-radius: 8px; border: 1.5px solid var(--border-light);">
+                  <option value="" disabled selected>Sélectionnez un poste...</option>
+                  <option value="Coordinateur National">1. Coordinateur National</option>
+                  <option value="Coordinateur Adjoint">2. Coordinateur Adjoint</option>
+                  <option value="Rapporteur Général">3. Rapporteur Général</option>
+                  <option value="Responsable Admin & AG">4. Responsable Organisation & AG</option>
+                  <option value="Responsable Partenariats">5. Responsable Partenariats & Fonds</option>
+                  <option value="Responsable Financier">6. Responsable Administration & Finances</option>
+                  <option value="Responsable Communication">7. Responsable Communication & Médias</option>
                 </select>
               </div>
 
-              <button type="button" onclick="switchCandidatureStep(2)" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 0.95rem; font-weight: 800; background: #E9C46A; color: #0A2540; border: none; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(233, 196, 106, 0.3);">
-                Suivant : Coordonnées & Postes <i class="fas fa-arrow-right"></i>
-              </button>
-            </div>
-
-            <!-- STEP 2: COORDONNÉES & POSTES -->
-            <div id="cand-step-2" class="cand-step-panel" style="display: none;">
-              <div style="border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                <strong style="color: #E9C46A; font-size: 0.85rem; text-transform: uppercase;">Étape 2 sur 3 : Coordonnées & Choix du Poste</strong>
-              </div>
-
-              <div class="wizard-form-group mb-3">
-                <label style="font-size: 0.8rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.3rem; display: block;"><i class="fas fa-at" style="font-size: 0.75rem;"></i> Adresse E-mail Officielle *</label>
-                <input type="email" id="steering-email" class="wizard-form-control" placeholder="candidat@conesess.sn" style="background: #FFFFFF; color: #0A2540; height: 42px; font-size: 0.875rem; border-radius: 8px; font-weight: 600;">
-              </div>
-
-              <div class="wizard-form-group mb-3">
-                <label style="font-size: 0.8rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.3rem; display: block;"><i class="fas fa-phone-alt" style="font-size: 0.75rem;"></i> Téléphone / WhatsApp Direct *</label>
-                <input type="tel" id="steering-phone" class="wizard-form-control" placeholder="+221 77 000 00 00" style="background: #FFFFFF; color: #0A2540; height: 42px; font-size: 0.875rem; border-radius: 8px; font-weight: 600;">
-              </div>
-
-              <div class="wizard-form-group mb-4">
-                <label style="font-size: 0.8rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.3rem; display: block;"><i class="fas fa-briefcase" style="font-size: 0.75rem;"></i> Poste Visé sur les 7 Fonctions *</label>
-                <select id="steering-role" class="wizard-form-control" style="background: #FFFFFF; color: #0A2540; font-weight: 800; height: 42px; font-size: 0.825rem; border-radius: 8px;">
-                  <option value="">Choisir un poste de gouvernance</option>
-                  <option value="Coordinateur">1. Coordinateur National</option>
-                  <option value="Coordinateur adjoint">2. Coordinateur adjoint</option>
-                  <option value="Rapporteur">3. Rapporteur Général</option>
-                  <option value="Responsable Administration et Organisation de l'AG">4. Responsable Admin & AG</option>
-                  <option value="Responsable Partenariat et Mobilisation des ressources">5. Responsable Partenariats</option>
-                  <option value="Responsable administratif et financier">6. Responsable Admin & Financier</option>
-                  <option value="Responsable communication">7. Responsable Communication</option>
+              <div class="wizard-form-group">
+                <label style="font-size: 0.825rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.35rem; display: block;"><i class="fas fa-map-marker-alt" style="color: var(--primary-green); font-size: 0.8rem; margin-right: 0.3rem;"></i> Région d'Ancrage *</label>
+                <select id="steering-region" class="wizard-form-control" required style="height: 44px; font-size: 0.9rem; border-radius: 8px; border: 1.5px solid var(--border-light);">
+                  <option value="Dakar" selected>Dakar</option>
+                  <option value="Thiès">Thiès</option>
+                  <option value="Saint-Louis">Saint-Louis</option>
+                  <option value="Diourbel">Diourbel</option>
+                  <option value="Fatick">Fatick</option>
+                  <option value="Kaolack">Kaolack</option>
+                  <option value="Kaffrine">Kaffrine</option>
+                  <option value="Ziguinchor">Ziguinchor</option>
+                  <option value="Kolda">Kolda</option>
+                  <option value="Sédhiou">Sédhiou</option>
+                  <option value="Tambacounda">Tambacounda</option>
+                  <option value="Kédougou">Kédougou</option>
+                  <option value="Louga">Louga</option>
+                  <option value="Matam">Matam</option>
+                  <option value="Diaspora">Diaspora / International</option>
                 </select>
               </div>
-
-              <div style="display: flex; gap: 0.75rem;">
-                <button type="button" onclick="switchCandidatureStep(1)" class="btn btn-secondary" style="flex: 1; padding: 0.85rem; font-size: 0.9rem; font-weight: 700; background: rgba(255,255,255,0.15); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; cursor: pointer;">
-                  <i class="fas fa-arrow-left"></i> Précédent
-                </button>
-                <button type="button" onclick="switchCandidatureStep(3)" class="btn btn-primary" style="flex: 1.5; padding: 0.85rem; font-size: 0.9rem; font-weight: 800; background: #E9C46A; color: #0A2540; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 15px rgba(233, 196, 106, 0.3);">
-                  Suivant : Expérience <i class="fas fa-arrow-right"></i>
-                </button>
-              </div>
             </div>
 
-            <!-- STEP 3: EXPÉRIENCE & MOTIVATION -->
-            <div id="cand-step-3" class="cand-step-panel" style="display: none;">
-              <div style="border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-                <strong style="color: #E9C46A; font-size: 0.85rem; text-transform: uppercase;">Étape 3 sur 3 : Parcours & Motivation</strong>
-              </div>
-
-              <div class="wizard-form-group mb-3">
-                <label style="font-size: 0.8rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.3rem; display: block;"><i class="fas fa-graduation-cap" style="font-size: 0.75rem;"></i> Compétences Clés & Expérience Pertinente *</label>
-                <textarea id="steering-experience" class="wizard-form-control" rows="3" placeholder="Parcours professionnel, diplômes et compétences clés applicables..." style="background: #FFFFFF; color: #0A2540; font-size: 0.875rem; border-radius: 8px; font-weight: 500; padding: 0.65rem;"></textarea>
-              </div>
-
-              <div class="wizard-form-group mb-4">
-                <label style="font-size: 0.8rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.3rem; display: block;"><i class="fas fa-pen-nib" style="font-size: 0.75rem;"></i> Note de Motivation & Engagement envers l'ESS *</label>
-                <textarea id="steering-motivation" class="wizard-form-control" rows="3" placeholder="Exposez votre vision, vos motivations et la valeur ajoutée apportée au Comité..." style="background: #FFFFFF; color: #0A2540; font-size: 0.875rem; border-radius: 8px; font-weight: 500; padding: 0.65rem;"></textarea>
-              </div>
-
-              <div style="display: flex; gap: 0.75rem;">
-                <button type="button" onclick="switchCandidatureStep(2)" class="btn btn-secondary" style="flex: 1; padding: 0.85rem; font-size: 0.9rem; font-weight: 700; background: rgba(255,255,255,0.15); color: #FFFFFF; border: 1px solid rgba(255,255,255,0.3); border-radius: 10px; cursor: pointer;">
-                  <i class="fas fa-arrow-left"></i> Précédent
-                </button>
-                <button type="submit" class="btn btn-primary" style="flex: 2; padding: 0.85rem; font-size: 0.95rem; font-weight: 800; background: #008748; color: #FFFFFF; border: 2px solid #E9C46A; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 6px 20px rgba(0, 135, 72, 0.4);">
-                  <i class="fas fa-paper-plane"></i> Transmettre ma Candidature
-                </button>
-              </div>
+            <div class="wizard-form-group mb-4">
+              <label style="font-size: 0.825rem; font-weight: 700; color: var(--primary-navy); margin-bottom: 0.35rem; display: block;"><i class="fas fa-comment-alt" style="color: var(--primary-green); font-size: 0.8rem; margin-right: 0.3rem;"></i> Brève Présentation & Motivations *</label>
+              <textarea id="steering-motivation" class="wizard-form-control" rows="4" required placeholder="Présentez brièvement votre parcours et les raisons de votre candidature..." style="font-size: 0.9rem; border-radius: 8px; border: 1.5px solid var(--border-light); padding: 0.75rem;"></textarea>
             </div>
 
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.95rem; font-size: 1rem; font-weight: 800; background: linear-gradient(135deg, #008748 0%, #0A2540 100%); color: #FFFFFF; border: none; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.6rem; box-shadow: 0 6px 20px rgba(0, 135, 72, 0.3);">
+              <i class="fas fa-paper-plane" style="font-size: 1.1rem;"></i> Transmettre ma Candidature Officielle
+            </button>
           </form>
-
-          <script>
-            function switchCandidatureStep(step) {
-              // Validate fields of previous step before advancing
-              if (step === 2) {
-                const name = (document.getElementById('steering-name')?.value || '').trim();
-                const org = (document.getElementById('steering-org')?.value || '').trim();
-                const region = document.getElementById('steering-region')?.value || '';
-                if (!name || !org || !region) {
-                  alert('Veuillez remplir le nom, l\'organisation et la région à l\'étape 1.');
-                  return;
-                }
-              } else if (step === 3) {
-                const email = (document.getElementById('steering-email')?.value || '').trim();
-                const phone = (document.getElementById('steering-phone')?.value || '').trim();
-                const role = document.getElementById('steering-role')?.value || '';
-                if (!email || !phone || !role) {
-                  alert('Veuillez remplir l\'e-mail, le téléphone et le poste visé à l\'étape 2.');
-                  return;
-                }
-              }
-
-              // Hide all panels
-              document.querySelectorAll('.cand-step-panel').forEach(el => el.style.display = 'none');
-              // Show active panel
-              document.getElementById('cand-step-' + step).style.display = 'block';
-
-              // Update step indicators
-              [1, 2, 3].forEach(s => {
-                const ind = document.getElementById('step-indicator-' + s);
-                if (ind) {
-                  if (s === step) {
-                    ind.style.background = '#E9C46A';
-                    ind.style.color = '#0A2540';
-                    ind.style.fontWeight = '800';
-                  } else if (s < step) {
-                    ind.style.background = 'rgba(0, 135, 72, 0.6)';
-                    ind.style.color = '#FFFFFF';
-                    ind.style.fontWeight = '700';
-                  } else {
-                    ind.style.background = 'rgba(255, 255, 255, 0.1)';
-                    ind.style.color = 'rgba(255, 255, 255, 0.7)';
-                    ind.style.fontWeight = '700';
-                  }
-            }
-          </script>
 
         </div>
 
