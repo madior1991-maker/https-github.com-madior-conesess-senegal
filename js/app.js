@@ -694,9 +694,11 @@ function initModalsAndForms() {
         `Poste visé: ${role} | Organisation: ${org} (${region}) | Réf: ${ref} | Tel: ${phone}`
       );
 
+      try { window.dispatchEvent(new Event('storage')); } catch(err) {}
+
       steeringForm.reset();
       openSubmissionSuccessModal(ref);
-      showToast(`Votre demande a bien été transmise (${ref}).`);
+      showToast(`Votre candidature (${ref}) a été transmise avec succès au Secrétariat technique !`);
     });
   }
 }
