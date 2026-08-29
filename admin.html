@@ -886,16 +886,21 @@
       <!-- TAB: FORMULAIRES WEB REÇUS (DEMANDES DU SITE WEB EN TEMPS RÉEL) -->
       <div id="tab-web-forms" class="admin-tab-content" style="display: none;">
         <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
             <div>
-              <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-inbox"></i> Réception Web en Direct</span>
+              <span class="badge badge-green mb-1" style="font-size: 0.75rem; background: #E8F5E9; color: #006837; border: 1px solid #C8E6C9;"><i class="fas fa-signal" style="color: #008748; margin-right: 4px;"></i> Relais Cloud Synchronisé Temps Réel (Mobile & PC)</span>
               <h2 style="font-size: 1.35rem; color: var(--admin-text-main); margin-bottom: 0.2rem;">Formulaires Soumis en Ligne par les Visiteurs</h2>
-              <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Réception centralisée de toutes les demandes d'adhésion et de contact soumises sur index.html et contact.html.</p>
+              <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Réception centralisée de toutes les demandes d'adhésion, candidatures et messages soumis sur mobile et ordinateur.</p>
             </div>
             
-            <button onclick="renderAdminAll()" class="action-btn-pill" style="font-size: 0.8rem;">
-              <i class="fas fa-sync-alt"></i> Actualiser les Soumissions
-            </button>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button onclick="exportWebFormsExcel()" class="action-btn-primary" style="font-size: 0.8rem;">
+                <i class="fas fa-file-excel"></i> Exporter (Excel)
+              </button>
+              <button onclick="renderAdminAll()" class="action-btn-pill" style="font-size: 0.8rem;">
+                <i class="fas fa-sync-alt"></i> Actualiser les Soumissions
+              </button>
+            </div>
           </div>
 
           <div class="admin-table-container">

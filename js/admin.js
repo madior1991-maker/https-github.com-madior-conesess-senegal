@@ -2010,6 +2010,85 @@ function exportMembersCSV() {
   exportMembersExcel();
 }
 
+// Export Web Forms to Excel (.xls)
+function exportWebFormsExcel() {
+  const webForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
+  if (webForms.length === 0) {
+    showToast("Aucun formulaire web à exporter.");
+    return;
+  }
+
+  const now = new Date();
+  const dateStr = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
+
+  let excelHTML = `
+    <html xmlns:o="urn:schemas-microsoft-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+    <head>
+      <meta charset="utf-8">
+      <style>
+        body { font-family: Arial, sans-serif; }
+        .title { font-size: 16pt; font-weight: bold; color: #0A2540; text-align: center; margin-bottom: 15px; }
+        table { border-collapse: collapse; width: 100%; }
+        th { background-color: #006837; color: #FFFFFF; font-weight: bold; border: 1px solid #004d28; padding: 10px; text-align: left; }
+        td { border: 1px solid #DDDDDD; padding: 8px; font-size: 10pt; }
+      </style>
+    </head>
+    <body>
+      <div class="title">CONESESS SÉNÉGAL - Formulaires Web Reçus</div>
+      <p style="text-align:center; font-size: 9pt;">Exporté le ${dateStr} | Total : ${webForms.length} formulaire(s)</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type / Sujet</th>
+            <th>Référence</th>
+            <th>Candidat / Organisation</th>
+            <th>Région</th>
+            <th>E-mail</th>
+            <th>Téléphone</th>
+            <th>Statut</th>
+            <th>Détails</th>
+          </tr>
+        </thead>
+        <tbody>
+  `;
+
+  webForms.forEach(wf => {
+    excelHTML += `
+      <tr>
+        <td>${wf.date || ''}</td>
+        <td>${wf.type || 'Formulaire Web'}</td>
+        <td>${wf.ref || ''}</td>
+        <td>${wf.org || wf.name || ''}</td>
+        <td>${wf.region || ''}</td>
+        <td>${wf.email || ''}</td>
+        <td>${wf.phone || ''}</td>
+        <td>${wf.status || 'En attente'}</td>
+        <td>${wf.details || wf.desc || ''}</td>
+      </tr>
+    `;
+  });
+
+  excelHTML += `
+        </tbody>
+      </table>
+    </body>
+    </html>
+  `;
+
+  const blob = new Blob([excelHTML], { type: "application/vnd.ms-excel;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `CONESESS_Formulaires_Web_${new Date().toISOString().slice(0,10)}.xls`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+
+  showToast("Formulaires web exportés avec succès au format Excel (.xls) !");
+}
+
 // Add Member Modal
 function openAddMemberModal() {
   const modal = document.getElementById('admin-add-member-modal');
