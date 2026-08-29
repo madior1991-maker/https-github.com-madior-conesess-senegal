@@ -59,12 +59,43 @@
 
         <ul class="nav-menu">
           <li><a href="#accueil" class="nav-link active">Accueil</a></li>
-          <li><a href="#contexte" class="nav-link">Contexte</a></li>
-          <li><a href="#vision" class="nav-link">Vision</a></li>
-          <li><a href="#gouvernance" class="nav-link">Gouvernance</a></li>
-          <li><a href="#incubateur" class="nav-link">Incubateur</a></li>
-          <li><a href="#observatoire" class="nav-link">Observatoire</a></li>
-          <li><a href="#poles" class="nav-link">Pôles</a></li>
+
+          <!-- Dropdown 1: Présentation -->
+          <li class="nav-item-dropdown">
+            <a href="#contexte" class="nav-link dropdown-toggle">
+              Présentation <i class="fas fa-chevron-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#contexte" class="dropdown-item"><i class="fas fa-file-alt"></i> Contexte & Diagnostic</a></li>
+              <li><a href="#vision" class="dropdown-item"><i class="fas fa-compass"></i> Vision Stratégique 2050</a></li>
+            </ul>
+          </li>
+
+          <!-- Dropdown 2: Gouvernance & Piliers -->
+          <li class="nav-item-dropdown">
+            <a href="#gouvernance" class="nav-link dropdown-toggle">
+              Gouvernance <i class="fas fa-chevron-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#gouvernance" class="dropdown-item"><i class="fas fa-sitemap"></i> Gouvernance Souveraine</a></li>
+              <li><a href="#incubateur" class="dropdown-item"><i class="fas fa-rocket"></i> Incubateur IAN-ESS</a></li>
+              <li><a href="#observatoire" class="dropdown-item"><i class="fas fa-search"></i> Observatoire ON-ESS</a></li>
+            </ul>
+          </li>
+
+          <!-- Dropdown 3: Pôles & Action -->
+          <li class="nav-item-dropdown">
+            <a href="#poles" class="nav-link dropdown-toggle">
+              Pôles & Action <i class="fas fa-chevron-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="#poles" class="dropdown-item"><i class="fas fa-th-large"></i> 4 Pôles Métiers</a></li>
+              <li><a href="#chaines-de-valeur" class="dropdown-item"><i class="fas fa-link"></i> Chaînes de Valeur</a></li>
+              <li><a href="#ecosysteme" class="dropdown-item"><i class="fas fa-handshake"></i> Écosystème & Partenariats</a></li>
+              <li><a href="#plaidoyer" class="dropdown-item"><i class="fas fa-balance-scale"></i> Plaidoyer avec l'État</a></li>
+            </ul>
+          </li>
+
           <li><a href="adhesion.html" class="nav-link">Rejoindre</a></li>
           <li><a href="candidature.html" class="nav-link">Candidature Comité</a></li>
           <li><a href="contact.html" class="nav-link">Contact</a></li>
@@ -99,16 +130,27 @@
 
     <div class="mobile-drawer-body">
       <nav class="mobile-drawer-links">
+        <div class="mobile-drawer-section-title"><i class="fas fa-compass"></i> PRÉSENTATION & STRATÉGIE</div>
         <a href="#accueil" class="mobile-nav-item active"><i class="fas fa-home"></i> <span>Accueil</span></a>
         <a href="#contexte" class="mobile-nav-item"><i class="fas fa-file-alt"></i> <span>Contexte & Diagnostic</span></a>
-        <a href="#vision" class="mobile-nav-item"><i class="fas fa-compass"></i> <span>Vision & Ligne Directrice</span></a>
+        <a href="#vision" class="mobile-nav-item"><i class="fas fa-compass"></i> <span>Vision Stratégique 2050</span></a>
+
+        <div class="mobile-drawer-section-title"><i class="fas fa-sitemap"></i> GOUVERNANCE & PILIERS</div>
         <a href="#gouvernance" class="mobile-nav-item"><i class="fas fa-sitemap"></i> <span>Gouvernance Souveraine</span></a>
         <a href="#incubateur" class="mobile-nav-item"><i class="fas fa-rocket"></i> <span>Incubateur IAN-ESS</span></a>
-        <a href="#observatoire" class="mobile-nav-item"><i class="fas fa-chart-line"></i> <span>Observatoire ON-ESS</span></a>
-        <a href="#poles" class="mobile-nav-item"><i class="fas fa-th-large"></i> <span>Quatre Pôles Sectoriels</span></a>
+        <a href="#observatoire" class="mobile-nav-item"><i class="fas fa-search"></i> <span>Observatoire ON-ESS</span></a>
+
+        <div class="mobile-drawer-section-title"><i class="fas fa-network-wired"></i> PÔLES & PARTENARIATS</div>
+        <a href="#poles" class="mobile-nav-item"><i class="fas fa-th-large"></i> <span>4 Pôles Métiers</span></a>
+        <a href="#chaines-de-valeur" class="mobile-nav-item"><i class="fas fa-link"></i> <span>Chaînes de Valeur</span></a>
+        <a href="#ecosysteme" class="mobile-nav-item"><i class="fas fa-handshake"></i> <span>Écosystème & Partenariats</span></a>
+        <a href="#plaidoyer" class="mobile-nav-item"><i class="fas fa-balance-scale"></i> <span>Plaidoyer avec l'État</span></a>
+
+        <div class="mobile-drawer-section-title"><i class="fas fa-paper-plane"></i> FORMULAIRES & ACCÈS</div>
         <a href="adhesion.html" class="mobile-nav-item"><i class="fas fa-id-card"></i> <span>Rejoindre le CONESESS</span></a>
         <a href="candidature.html" class="mobile-nav-item"><i class="fas fa-users-cog"></i> <span>Candidature Comité de Pilotage</span></a>
         <a href="contact.html" class="mobile-nav-item"><i class="fas fa-envelope"></i> <span>Contact Officiel</span></a>
+        <a href="admin.html" class="mobile-nav-item" style="color: #E9C46A;"><i class="fas fa-lock"></i> <span>Espace Administration</span></a>
       </nav>
     </div>
 
