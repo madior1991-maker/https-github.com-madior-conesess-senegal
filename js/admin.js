@@ -97,6 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
       renderAdminNotifications();
     }
   });
+
+  // Automatic polling every 3 seconds for mobile & cross-device submission reception
+  setInterval(() => {
+    if (localStorage.getItem('conesess_admin_auth') === 'true') {
+      renderAdminAll();
+    }
+  }, 3000);
 });
 
 function initAdminDB() {
