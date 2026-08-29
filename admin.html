@@ -667,6 +667,11 @@
             <i class="fas fa-tachometer-alt"></i> <span>Vue d'ensemble</span>
           </a>
         </li>
+        <li>
+          <a onclick="switchAdminTab('tab-web-forms')" class="admin-nav-link" id="nav-item-web-forms">
+            <i class="fas fa-inbox"></i> <span>Formulaires Web Reçus (<span id="count-nav-web-forms" style="color: #E9C46A; font-weight: 800;">0</span>)</span>
+          </a>
+        </li>
 
         <li>
           <a onclick="switchAdminTab('tab-adhesions')" class="admin-nav-link" id="nav-item-adhesions">
@@ -877,6 +882,43 @@
       </div>
 
 
+
+      <!-- TAB: FORMULAIRES WEB REÇUS (DEMANDES DU SITE WEB EN TEMPS RÉEL) -->
+      <div id="tab-web-forms" class="admin-tab-content" style="display: none;">
+        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+            <div>
+              <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-inbox"></i> Réception Web en Direct</span>
+              <h2 style="font-size: 1.35rem; color: var(--admin-text-main); margin-bottom: 0.2rem;">Formulaires Soumis en Ligne par les Visiteurs</h2>
+              <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Réception centralisée de toutes les demandes d'adhésion et de contact soumises sur index.html et contact.html.</p>
+            </div>
+            
+            <button onclick="renderAdminAll()" class="action-btn-pill" style="font-size: 0.8rem;">
+              <i class="fas fa-sync-alt"></i> Actualiser les Soumissions
+            </button>
+          </div>
+
+          <div class="admin-table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Date & Heure</th>
+                  <th>Source / Type</th>
+                  <th>Organisation / Participant</th>
+                  <th>Détails & Sujet</th>
+                  <th>Région</th>
+                  <th>Contact / WhatsApp</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-web-forms-list">
+                <!-- Dynamic Submitted Web Forms -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
       <!-- TAB: DOSSIERS D'ADHÉSION MEMBRE (NOUVELLE RUBRIQUE SPÉCIALE) -->
       <div id="tab-adhesions" class="admin-tab-content" style="display: none;">
