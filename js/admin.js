@@ -90,15 +90,26 @@ document.addEventListener('DOMContentLoaded', () => {
       saveManualMember();
     });
   }
+
+  // Real-time synchronization when forms are submitted on the public website
+  window.addEventListener('storage', (e) => {
+    if (['conesess_members', 'conesess_web_forms', 'conesess_contacts', 'conesess_notifications'].includes(e.key)) {
+      renderAdminAll();
+      renderAdminNotifications();
+    }
+  });
 });
 
 function initAdminDB() {
-  // Purge legacy demo data to ensure a clean production slate
-  if (localStorage.getItem('conesess_demo_purged_v2') !== 'true') {
+  // Ensure storage structures exist without wiping user-submitted forms
+  if (!localStorage.getItem('conesess_members')) {
     localStorage.setItem('conesess_members', JSON.stringify([]));
-    localStorage.setItem('conesess_web_forms', JSON.stringify([]));
+  }
+  if (!localStorage.getItem('conesess_contacts')) {
     localStorage.setItem('conesess_contacts', JSON.stringify([]));
-    localStorage.setItem('conesess_demo_purged_v2', 'true');
+  }
+  if (!localStorage.getItem('conesess_web_forms')) {
+    localStorage.setItem('conesess_web_forms', JSON.stringify([]));
   }
 
   let users = JSON.parse(localStorage.getItem('conesess_admin_users')) || [];
@@ -116,16 +127,6 @@ function initAdminDB() {
       users[madiorIndex].status = 'Approuvé';
       localStorage.setItem('conesess_admin_users', JSON.stringify(users));
     }
-  }
-
-  if (!localStorage.getItem('conesess_members')) {
-    localStorage.setItem('conesess_members', JSON.stringify([]));
-  }
-  if (!localStorage.getItem('conesess_contacts')) {
-    localStorage.setItem('conesess_contacts', JSON.stringify([]));
-  }
-  if (!localStorage.getItem('conesess_web_forms')) {
-    localStorage.setItem('conesess_web_forms', JSON.stringify([]));
   }
 }
 

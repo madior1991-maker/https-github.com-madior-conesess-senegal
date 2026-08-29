@@ -430,28 +430,80 @@ function initModalsAndForms() {
 
   // Helper function to save new member submission to localStorage DB
   function saveSubmissionToDB(newMember) {
+    // 1. Save to members DB (Adhésions)
     const members = JSON.parse(localStorage.getItem('conesess_members')) || [];
     members.unshift(newMember);
     localStorage.setItem('conesess_members', JSON.stringify(members));
 
+    // 2. Save to web_forms DB (Formulaires Web & Soumissions)
+    const webForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
+    const webFormEntry = {
+      id: newMember.ref,
+      type: "Manifestation d'Intérêt (Adhésion)",
+      ref: newMember.ref,
+      name: newMember.rep,
+      org: newMember.name,
+      legalForm: newMember.type,
+      region: newMember.region,
+      dept: newMember.dept,
+      sector: newMember.sector,
+      members: newMember.members,
+      email: newMember.email,
+      phone: newMember.phone,
+      details: `Forme: ${newMember.type} | Secteur: ${newMember.sector} | Effectif: ${newMember.members}`,
+      desc: newMember.desc,
+      motivation: newMember.motivation,
+      status: newMember.status,
+      date: newMember.date
+    };
+    webForms.unshift(webFormEntry);
+    localStorage.setItem('conesess_web_forms', JSON.stringify(webForms));
+
+    // 3. Dispatch Email Notification Alert to madior1991@gmail.com
     dispatchEmailNotificationAlert(
       "Adhésion Membre",
       `Nouveau Dossier d'Adhésion : ${newMember.name}`,
       `Organisation: ${newMember.name} (${newMember.region}) | Réf: ${newMember.ref} | Contact: ${newMember.rep} (${newMember.phone})`
     );
+
+    try { window.dispatchEvent(new Event('storage')); } catch(err) {}
   }
 
   // Helper function to save contact message to localStorage DB
   function saveContactMessageToDB(newMessage) {
+    // 1. Save to contacts DB
     const contacts = JSON.parse(localStorage.getItem('conesess_contacts')) || [];
     contacts.unshift(newMessage);
     localStorage.setItem('conesess_contacts', JSON.stringify(contacts));
 
+    // 2. Save to web_forms DB
+    const webForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
+    const contactFormEntry = {
+      id: 'CONTACT-' + Date.now(),
+      type: "Message Contact",
+      ref: 'CONTACT-2026',
+      name: newMessage.name,
+      org: newMessage.name,
+      legalForm: 'Contact Web',
+      region: 'Sénégal',
+      email: newMessage.email,
+      phone: newMessage.phone,
+      details: `Sujet: ${newMessage.subject}`,
+      desc: newMessage.message,
+      status: 'Nouveau',
+      date: newMessage.date
+    };
+    webForms.unshift(contactFormEntry);
+    localStorage.setItem('conesess_web_forms', JSON.stringify(webForms));
+
+    // 3. Dispatch Email Notification Alert to madior1991@gmail.com
     dispatchEmailNotificationAlert(
       "Message Contact",
       `Nouveau Message Web de ${newMessage.name}`,
       `Sujet: ${newMessage.subject} | Contact: ${newMessage.name} (${newMessage.phone})`
     );
+
+    try { window.dispatchEvent(new Event('storage')); } catch(err) {}
   }
 
   // Embedded Page Adhesion Form
