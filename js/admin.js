@@ -457,10 +457,15 @@ function setAdminTheme(theme) {
   }
 }
 
-// Auto-load theme preference
+// Auto-load theme preference & tab hash
 document.addEventListener('DOMContentLoaded', () => {
   const savedTheme = localStorage.getItem('conesess_admin_theme') || 'light';
   setAdminTheme(savedTheme);
+
+  const hash = window.location.hash.replace('#', '');
+  if (hash && document.getElementById(hash)) {
+    switchAdminTab(hash);
+  }
 });
 
 function toggleAdminSidebar() {
