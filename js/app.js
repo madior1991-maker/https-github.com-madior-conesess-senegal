@@ -659,16 +659,21 @@ function initModalsAndForms() {
   // Steering Committee Candidate Form Handler
   const steeringForm = document.getElementById('form-steering-committee-candidate');
   if (steeringForm) {
-    steeringForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('steering-name').value;
-      const org = document.getElementById('steering-org').value;
-      const region = document.getElementById('steering-region').value;
-      const email = document.getElementById('steering-email').value;
-      const phone = document.getElementById('steering-phone').value;
-      const role = document.getElementById('steering-role').value;
-      const experience = document.getElementById('steering-experience').value;
-      const motivation = document.getElementById('steering-motivation').value;
+    const processSteeringSubmit = (e) => {
+      if (e) e.preventDefault();
+      const name = document.getElementById('steering-name')?.value?.trim();
+      const org = document.getElementById('steering-org')?.value?.trim();
+      const region = document.getElementById('steering-region')?.value;
+      const email = document.getElementById('steering-email')?.value?.trim();
+      const phone = document.getElementById('steering-phone')?.value?.trim();
+      const role = document.getElementById('steering-role')?.value;
+      const experience = document.getElementById('steering-experience')?.value?.trim() || '';
+      const motivation = document.getElementById('steering-motivation')?.value?.trim() || '';
+
+      if (!name || !org || !email || !phone || !role) {
+        showToast("Veuillez renseigner tous les champs obligatoires du formulaire.");
+        return;
+      }
 
       const now = new Date();
       const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
@@ -727,9 +732,20 @@ function initModalsAndForms() {
       try { window.dispatchEvent(new Event('storage')); } catch(err) {}
 
       steeringForm.reset();
+      if (typeof switchCandidatureStep === 'function') switchCandidatureStep(1);
       openSubmissionSuccessModal(ref);
       showToast(`Votre candidature (${ref}) a été transmise avec succès au Secrétariat technique !`);
-    });
+    };
+
+    steeringForm.addEventListener('submit', processSteeringSubmit);
+
+    // Mobile touch submit fallback button handler
+    const steeringSubmitBtn = steeringForm.querySelector('button[type="submit"]');
+    if (steeringSubmitBtn) {
+      steeringSubmitBtn.addEventListener('click', (e) => {
+        processSteeringSubmit(e);
+      });
+    }
   }
 }
 

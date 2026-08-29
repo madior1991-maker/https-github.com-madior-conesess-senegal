@@ -505,8 +505,20 @@
 
               // Hide all panels
               document.querySelectorAll('.cand-step-panel').forEach(el => el.style.display = 'none');
+              
               // Show active panel
-              document.getElementById('cand-step-' + step).style.display = 'block';
+              const activePanel = document.getElementById('cand-step-' + step);
+              if (activePanel) activePanel.style.display = 'block';
+
+              // Remove required attribute from hidden step inputs so mobile browsers do not block submission silently
+              document.querySelectorAll('#form-steering-committee-candidate input, #form-steering-committee-candidate select, #form-steering-committee-candidate textarea').forEach(el => {
+                el.removeAttribute('required');
+              });
+              if (activePanel) {
+                activePanel.querySelectorAll('input, select, textarea').forEach(el => {
+                  el.setAttribute('required', 'required');
+                });
+              }
 
               // Update Stepper Bar
               [1, 2, 3].forEach(i => {
