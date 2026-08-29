@@ -102,7 +102,9 @@
           <li><a href="index.html#gouvernance" class="nav-link">Gouvernance</a></li>
           <li><a href="index.html#incubateur" class="nav-link">Incubateur</a></li>
           <li><a href="index.html#observatoire" class="nav-link">Observatoire</a></li>
-          <li><a href="index.html#poles" class="nav-link">Pôles</a></li>
+          <li><a href="index.html#poles" class="nav-link">Pôles Métiers</a></li>
+          <li><a href="adhesion.html" class="nav-link">Rejoindre</a></li>
+          <li><a href="candidature.html" class="nav-link">Candidature Comité</a></li>
           <li><a href="contact.html" class="nav-link active">Contact</a></li>
         </ul>
 
@@ -141,7 +143,8 @@
         <a href="index.html#incubateur" class="mobile-nav-item"><i class="fas fa-rocket"></i> <span>Incubateur IAN-ESS</span></a>
         <a href="index.html#observatoire" class="mobile-nav-item"><i class="fas fa-chart-line"></i> <span>Observatoire ON-ESS</span></a>
         <a href="index.html#poles" class="mobile-nav-item"><i class="fas fa-th-large"></i> <span>Pôles Métiers</span></a>
-        <a href="adhesion.html" class="mobile-nav-item" style="color: var(--primary-green); font-weight: 700;"><i class="fas fa-id-card"></i> <span>Rejoindre le CONESESS</span></a>
+        <a href="adhesion.html" class="mobile-nav-item"><i class="fas fa-id-card"></i> <span>Rejoindre le CONESESS</span></a>
+        <a href="candidature.html" class="mobile-nav-item"><i class="fas fa-users-cog"></i> <span>Candidature Comité de Pilotage</span></a>
         <a href="contact.html" class="mobile-nav-item active"><i class="fas fa-envelope"></i> <span>Contact Officiel</span></a>
       </nav>
     </div>
@@ -228,87 +231,66 @@
           </div>
         </div>
 
-        <!-- COLUMN 2: APPEL À CANDIDATURES - COMITÉ DE PILOTAGE DU CONESESS -->
-        <div id="candidature-comite" class="steering-form-container" style="background: linear-gradient(135deg, #0A2540 0%, #006837 100%); color: #FFFFFF; padding: 1.75rem; border-radius: 16px; box-shadow: 0 15px 35px rgba(10, 37, 64, 0.2); border: 2px solid #E9C46A;">
+        <!-- COLUMN 2: FORMULAIRE DE CONTACT GENERAL -->
+        <div style="background: #FFFFFF; padding: 2rem; border-radius: 16px; border: 1px solid var(--border-light); box-shadow: var(--shadow-sm);">
           
-          <div style="margin-bottom: 1.25rem;">
-            <span class="badge" style="background: rgba(233, 196, 106, 0.2); color: #E9C46A; border: 1px solid #E9C46A; font-size: 0.775rem; font-weight: 700; padding: 0.3rem 0.85rem; border-radius: 30px; margin-bottom: 0.5rem; display: inline-flex; align-items: center; gap: 0.4rem;">
-              <i class="fas fa-users-cog"></i> Instance de Gouvernance Confédérale
-            </span>
-            <h2 style="font-size: 1.55rem; color: #FFFFFF; font-weight: 800; margin-bottom: 0.4rem;">Appel à Candidatures : Comité de Pilotage</h2>
-            <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.92); line-height: 1.5; margin-bottom: 0.4rem;">
-              Le Conseil National des Entreprises de l'ESS lance un appel à candidatures pour la constitution de son Comité de Pilotage. Les candidatures seront examinées avec rigueur et équité selon <strong>la compétence et l’engagement de chacun</strong>.
-            </p>
-            <small style="color: #E9C46A; font-size: 0.775rem; font-weight: 700; display: block;">
-              <i class="fas fa-balance-scale"></i> Critère d'Éligibilité : Compétence technique, leadership avéré et engagement fort dans l'ESS.
-            </small>
+          <!-- Callout Card for Steering Committee Candidature -->
+          <div style="background: linear-gradient(135deg, rgba(10, 37, 64, 0.05) 0%, rgba(0, 104, 55, 0.08) 100%); border: 1.5px solid var(--accent-gold); padding: 1rem 1.25rem; border-radius: 12px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+            <div>
+              <strong style="color: var(--primary-navy); font-size: 0.925rem; display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.2rem;">
+                <i class="fas fa-users-cog" style="color: var(--accent-gold);"></i> Appel à Candidatures Comité de Pilotage
+              </strong>
+              <p style="font-size: 0.825rem; color: var(--text-dark); margin: 0;">
+                Vous souhaitez poser votre candidature pour l'un des 7 postes de gouvernance ?
+              </p>
+            </div>
+            <a href="candidature.html" class="btn btn-sm btn-primary" style="background: var(--primary-green); color: #FFFFFF; font-weight: 700; border: none; padding: 0.5rem 1rem; font-size: 0.85rem; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap;">
+              Page Candidature <i class="fas fa-arrow-right"></i>
+            </a>
           </div>
 
-          <form id="form-steering-committee-candidate" style="background: rgba(255, 255, 255, 0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.15); padding: 1.25rem; border-radius: 12px;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;" class="mb-2 steering-form-grid">
-              <div class="wizard-form-group" style="margin-bottom: 0.5rem;">
-                <label style="font-size: 0.775rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.2rem;">Nom & Prénom *</label>
-                <input type="text" id="steering-name" class="wizard-form-control" required placeholder="ex: Cheikh Oumar Sy" style="background: rgba(255, 255, 255, 0.95); color: #0A2540; height: 38px; font-size: 0.85rem;">
-              </div>
+          <h2 style="font-size: 1.45rem; color: var(--primary-navy); font-weight: 800; margin-bottom: 0.5rem;">
+            Transmettre un Message Officiel
+          </h2>
+          <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+            Renseignez le formulaire ci-dessous pour contacter directement le Secrétariat Général du CONESESS.
+          </p>
 
-              <div class="wizard-form-group" style="margin-bottom: 0.5rem;">
-                <label style="font-size: 0.775rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.2rem;">Organisation ESS Représentée *</label>
-                <input type="text" id="steering-org" class="wizard-form-control" required placeholder="ex: Coopérative / GIE / Mutuelle" style="background: rgba(255, 255, 255, 0.95); color: #0A2540; height: 38px; font-size: 0.85rem;">
+          <form id="form-contact-standalone">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+              <div class="wizard-form-group">
+                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem;">Nom & Prénom *</label>
+                <input type="text" id="contact-name" class="wizard-form-control" required placeholder="Votre nom complet" style="height: 40px; font-size: 0.875rem;">
               </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;" class="mb-2 steering-form-grid">
-              <div class="wizard-form-group" style="margin-bottom: 0.5rem;">
-                <label style="font-size: 0.775rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.2rem;">Région d’Implantation *</label>
-                <select id="steering-region" class="wizard-form-control" required style="background: rgba(255, 255, 255, 0.95); color: #0A2540; height: 38px; font-size: 0.825rem;">
-                  <option value="">Sélectionner Région</option>
-                  <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
-                  <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
-                  <option>Kolda</option><option>Tambacounda</option><option>Matam</option>
-                  <option>Kaffrine</option><option>Kedougou</option><option>Sédhiou</option>
-                  <option>Louga</option><option>Diourbel</option>
-                </select>
-              </div>
-
-              <div class="wizard-form-group" style="margin-bottom: 0.5rem;">
-                <label style="font-size: 0.775rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.2rem;">Adresse E-mail *</label>
-                <input type="email" id="steering-email" class="wizard-form-control" required placeholder="candidat@conesess.sn" style="background: rgba(255, 255, 255, 0.95); color: #0A2540; height: 38px; font-size: 0.85rem;">
+              <div class="wizard-form-group">
+                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem;">Organisation / Structure *</label>
+                <input type="text" id="contact-org" class="wizard-form-control" required placeholder="Nom de votre structure" style="height: 40px; font-size: 0.875rem;">
               </div>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;" class="mb-2 steering-form-grid">
-              <div class="wizard-form-group" style="margin-bottom: 0.5rem;">
-                <label style="font-size: 0.775rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.2rem;">Téléphone / WhatsApp *</label>
-                <input type="tel" id="steering-phone" class="wizard-form-control" required placeholder="+221 77 000 00 00" style="background: rgba(255, 255, 255, 0.95); color: #0A2540; height: 38px; font-size: 0.85rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+              <div class="wizard-form-group">
+                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem;">Adresse E-mail *</label>
+                <input type="email" id="contact-email" class="wizard-form-control" required placeholder="votre.email@domaine.sn" style="height: 40px; font-size: 0.875rem;">
               </div>
-
-              <div class="wizard-form-group" style="margin-bottom: 0.5rem;">
-                <label style="font-size: 0.775rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.2rem;">Poste Visé (sur les 7 fonctions) *</label>
-                <select id="steering-role" class="wizard-form-control" required style="background: rgba(255, 255, 255, 0.95); color: #0A2540; font-weight: 700; height: 38px; font-size: 0.8rem;">
-                  <option value="">Choisir un poste</option>
-                  <option value="Coordinateur">1. Coordinateur</option>
-                  <option value="Coordinateur adjoint">2. Coordinateur adjoint</option>
-                  <option value="Rapporteur">3. Rapporteur</option>
-                  <option value="Responsable Administration et Organisation de l'AG">4. Responsable Admin & AG</option>
-                  <option value="Responsable Partenariat et Mobilisation des ressources">5. Responsable Partenariats</option>
-                  <option value="Responsable administratif et financier">6. Responsable Admin & Financier</option>
-                  <option value="Responsable communication">7. Responsable Communication</option>
-                </select>
+              <div class="wizard-form-group">
+                <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem;">Téléphone / WhatsApp *</label>
+                <input type="tel" id="contact-phone" class="wizard-form-control" required placeholder="+221 77 000 00 00" style="height: 40px; font-size: 0.875rem;">
               </div>
-            </div>
-
-            <div class="wizard-form-group mb-2">
-              <label style="font-size: 0.775rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.2rem;">Compétences Clés & Expérience Professionnelle *</label>
-              <textarea id="steering-experience" class="wizard-form-control" rows="2" required placeholder="Parcours, diplômes et expérience pertinente..." style="background: rgba(255, 255, 255, 0.95); color: #0A2540; font-size: 0.825rem;"></textarea>
             </div>
 
             <div class="wizard-form-group mb-3">
-              <label style="font-size: 0.775rem; font-weight: 700; color: #E9C46A; margin-bottom: 0.2rem;">Note de Motivation & Engagement envers l'ESS *</label>
-              <textarea id="steering-motivation" class="wizard-form-control" rows="2" required placeholder="Vision, motivation et valeur ajoutée..." style="background: rgba(255, 255, 255, 0.95); color: #0A2540; font-size: 0.825rem;"></textarea>
+              <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem;">Objet du Message *</label>
+              <input type="text" id="contact-subject" class="wizard-form-control" required placeholder="Sujet de votre demande..." style="height: 40px; font-size: 0.875rem;">
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem; font-size: 0.95rem; font-weight: 800; background: #008748; color: #FFFFFF; border: 2px solid #E9C46A; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-              <i class="fas fa-paper-plane"></i> Transmettre ma Candidature Officielle
+            <div class="wizard-form-group mb-3">
+              <label style="font-size: 0.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.25rem;">Votre Message *</label>
+              <textarea id="contact-message" class="wizard-form-control" rows="4" required placeholder="Écrivez votre message ici..." style="font-size: 0.875rem;"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.85rem; font-size: 0.95rem; font-weight: 800; background: var(--primary-green); color: #FFFFFF; border: none; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+              <i class="fas fa-paper-plane"></i> Envoyer mon Message Officiel
             </button>
           </form>
         </div>

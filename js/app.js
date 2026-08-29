@@ -624,25 +624,35 @@ function initModalsAndForms() {
   if (standaloneContactForm) {
     standaloneContactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const inputs = standaloneContactForm.querySelectorAll('input, select, textarea');
-      const name = inputs[0]?.value || 'Visiteur';
-      const phone = inputs[1]?.value || '+221 77 000 00 00';
-      const email = inputs[2]?.value || '';
-      const subject = inputs[4]?.value || 'Demande d\'Information';
-      const message = inputs[5]?.value || '';
+      const name = document.getElementById('contact-name')?.value || 'Visiteur';
+      const org = document.getElementById('contact-org')?.value || '';
+      const email = document.getElementById('contact-email')?.value || '';
+      const phone = document.getElementById('contact-phone')?.value || '';
+      const subject = document.getElementById('contact-subject')?.value || 'Demande d\'Information';
+      const message = document.getElementById('contact-message')?.value || '';
 
       saveContactMessageToDB({
         date: new Date().toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }),
         name: name,
+        org: org,
         phone: phone,
         email: email,
         subject: subject,
         message: message
       });
 
+      const ref = `CNT-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+      dispatchEmailNotificationAlert(
+        "Message Contact Direct",
+        `Nouveau message de ${name} (${org || 'Individuel'})`,
+        `Sujet: ${subject} | Email: ${email} | Tel: ${phone}`
+      );
+
+      try { window.dispatchEvent(new Event('storage')); } catch(err) {}
+
       standaloneContactForm.reset();
-      openSubmissionSuccessModal('CONTACT-2026');
-      showToast("Votre message a été transmis avec succès au Secrétariat Général !");
+      openSubmissionSuccessModal(ref);
+      showToast(`Votre message (${ref}) a été transmis avec succès au Secrétariat Général !`);
     });
   }
 
