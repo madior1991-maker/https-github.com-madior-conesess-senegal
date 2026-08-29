@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Real-time synchronization when forms are submitted on the public website
   window.addEventListener('storage', (e) => {
     if (['conesess_members', 'conesess_web_forms', 'conesess_contacts', 'conesess_notifications'].includes(e.key)) {
+      syncMobileAndDesktopData();
       renderAdminAll();
       renderAdminNotifications();
     }
@@ -101,12 +102,59 @@ document.addEventListener('DOMContentLoaded', () => {
   // Automatic polling every 3 seconds for mobile & cross-device submission reception
   setInterval(() => {
     if (localStorage.getItem('conesess_admin_auth') === 'true') {
+      syncMobileAndDesktopData();
       renderAdminAll();
     }
   }, 3000);
 });
 
+/* ==========================================================================
+   MOBILE & DESKTOP DUAL-PLATFORM SYNCHRONIZATION ENGINE
+   ========================================================================== */
+function syncMobileAndDesktopData() {
+  try {
+    let members = JSON.parse(localStorage.getItem('conesess_members')) || [];
+    let webForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
+
+    let membersMap = new Map();
+    members.forEach(m => {
+      const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.name ? m.name.toLowerCase() : Math.random());
+      membersMap.set(key, m);
+    });
+
+    webForms.forEach(wf => {
+      const key = wf.ref || (wf.email ? wf.email.toLowerCase() : null) || (wf.name ? wf.name.toLowerCase() : Math.random());
+      if (!membersMap.has(key)) {
+        membersMap.set(key, {
+          ref: wf.ref || `CONESESS-2026-${Math.floor(1000 + Math.random() * 9000)}`,
+          name: wf.org || wf.name || 'Participant Web',
+          type: wf.type || 'Candidat Comité de Pilotage',
+          region: wf.region || 'Dakar',
+          dept: wf.dept || 'Régional',
+          sector: wf.role || wf.sector || 'Général',
+          members: wf.members || '1',
+          rep: wf.name || wf.rep || 'Représentant',
+          phone: wf.phone || '',
+          email: wf.email || '',
+          desc: wf.details || wf.desc || '',
+          motivation: wf.motivation || '',
+          status: wf.status || 'En attente',
+          badgeStatus: wf.badgeStatus || 'Non généré',
+          badgeRole: wf.role || 'Membre',
+          date: wf.date ? wf.date.slice(0, 10) : new Date().toISOString().slice(0, 10)
+        });
+      }
+    });
+
+    const unifiedMembers = Array.from(membersMap.values());
+    localStorage.setItem('conesess_members', JSON.stringify(unifiedMembers));
+  } catch (err) {
+    console.warn("Sync warning:", err);
+  }
+}
+
 function initAdminDB() {
+  syncMobileAndDesktopData();
   // Ensure storage structures exist without wiping user-submitted forms
   if (!localStorage.getItem('conesess_members')) {
     localStorage.setItem('conesess_members', JSON.stringify([]));
