@@ -1,5 +1,5 @@
 /* ==========================================================================
-   CONESESS - CENTRALIZED ADMIN PLATFORM & REALTIME DASHBOARD LOGIC
+   CONESESS - CENTRALIZED ADMIN PLATFORM & FORM PROCESSING ENGINE
    ========================================================================== */
 
 const INITIAL_ADMIN_USERS = [
@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 10000);
 });
 
-// Initialize or repair Admin Data structures
 function initAdminData() {
   if (!localStorage.getItem('conesess_web_forms')) {
     localStorage.setItem('conesess_web_forms', JSON.stringify([]));
@@ -64,7 +63,6 @@ function initAdminData() {
   localStorage.setItem('conesess_admin_auth', 'true');
 }
 
-// Function to wipe out old memory/data completely upon user request
 function confirmResetDatabase() {
   if (confirm("⚠️ Confirmez-vous la réinitialisation complète de la mémoire de l'Espace Admin ?\n\nCette action effacera le cache et remettra la plateforme à neuf pour recevoir les vraies données.")) {
     localStorage.setItem('conesess_web_forms', JSON.stringify([]));
@@ -78,7 +76,6 @@ function confirmResetDatabase() {
   }
 }
 
-// Helper DB Getters & Setters
 function getWebFormsDB() {
   return JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
 }
@@ -112,7 +109,7 @@ function renderAdminAll() {
   const members = getMembersDB();
   const admins = getAdminUsersDB();
 
-  // 1. Update Metrics Cards
+  // Update Metrics Cards
   const totalSubmissionsEl = document.getElementById('stat-total-submissions');
   const confirmedMembersEl = document.getElementById('stat-confirmed-members');
   const steeringCountEl = document.getElementById('stat-steering-count');
@@ -127,26 +124,28 @@ function renderAdminAll() {
   const uniqueRegions = new Set([...webForms.map(w => w.region), ...members.map(m => m.region)].filter(Boolean));
   if (regionsCountEl) regionsCountEl.textContent = `${uniqueRegions.size} / 14`;
 
-  // 2. Render Recent Submissions Table on Dashboard
   renderDashboardRecentSubmissions(webForms);
-
-  // 3. Render All Web Forms Table
   renderAllWebFormsTable(webForms);
-
-  // 4. Render Adhesions Table
   renderAdhesionsTable(members);
-
-  // 5. Render Steering Committee Table
   renderSteeringTable(steeringCandidates);
-
-  // 6. Render Enterprise Annuaire
   renderEnterpriseAnnuaire(members);
-
-  // 7. Render Admin Users List
   renderAdminsList(admins);
-
-  // 8. Populate Badge Selector
   populateBadgeMemberSelect(members, webForms);
+}
+
+// Render Action Buttons HTML Helper
+function renderRowActionButtons(id) {
+  return `
+    <div class="btn-group-actions">
+      <button onclick="openWebFormDetailModal('${id}')" class="btn-act btn-act-view" title="Visualiser l'Aperçu"><i class="fas fa-eye"></i> Aperçu</button>
+      <button onclick="approveWebForm('${id}')" class="btn-act btn-act-approve" title="Accepter et Valider"><i class="fas fa-check"></i> Accepter</button>
+      <button onclick="rejectWebForm('${id}')" class="btn-act btn-act-reject" title="Rejeter la Demande"><i class="fas fa-times"></i> Rejeter</button>
+      <button onclick="sendFormEmail('${id}')" class="btn-act btn-act-email" title="Envoyer un E-mail"><i class="fas fa-envelope"></i> Mail</button>
+      <button onclick="sendFormWhatsApp('${id}')" class="btn-act btn-act-wa" title="Envoyer sur WhatsApp"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+      <button onclick="downloadFormSubmissionPDF('${id}')" class="btn-act btn-act-pdf" title="Télécharger Fiche PDF"><i class="fas fa-file-pdf"></i> PDF</button>
+      <button onclick="deleteWebForm('${id}')" class="btn-act btn-act-delete" title="Supprimer Définitivement"><i class="fas fa-trash-alt"></i> Supprimer</button>
+    </div>
+  `;
 }
 
 // Render Recent Submissions on Dashboard
@@ -155,11 +154,11 @@ function renderDashboardRecentSubmissions(webForms) {
   if (!tbody) return;
 
   if (!webForms.length) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--admin-text-muted); padding: 2rem;">Aucune nouvelle soumission enregistrée depuis le site web.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--admin-text-muted); padding: 2rem;">Aucune nouvelle soumission enregistrée depuis le site web.</td></tr>`;
     return;
   }
 
-  tbody.innerHTML = webForms.slice(0, 5).map(wf => `
+  tbody.innerHTML = webForms.slice(0, 8).map(wf => `
     <tr>
       <td>
         <strong style="color: var(--admin-green); display: block;">${wf.ref || wf.id}</strong>
@@ -167,12 +166,9 @@ function renderDashboardRecentSubmissions(webForms) {
       </td>
       <td><span class="badge ${wf.type && wf.type.includes('Candidature') ? 'badge-gold' : 'badge-green'}">${wf.type || 'Adhésion Web'}</span></td>
       <td><strong>${wf.name}</strong><br><small style="color: var(--admin-text-muted);">${wf.org || 'Entreprise ESS'}</small></td>
-      <td>${wf.region || 'Dakar'}</td>
-      <td><i class="fab fa-whatsapp" style="color: #25D366;"></i> ${wf.phone}</td>
-      <td><span class="badge badge-gold">En attente</span></td>
-      <td>
-        <button onclick="approveWebForm('${wf.ref || wf.id}')" class="action-btn-primary" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; background: var(--admin-green);"><i class="fas fa-check"></i> Valider</button>
-      </td>
+      <td>${wf.phone}<br><small style="color: var(--admin-text-muted);">${wf.email || ''}</small></td>
+      <td><span class="badge ${wf.status === 'Approuvé' ? 'badge-green' : (wf.status === 'Rejeté' ? 'badge-red' : 'badge-gold')}">${wf.status || 'En attente'}</span></td>
+      <td>${renderRowActionButtons(wf.ref || wf.id)}</td>
     </tr>
   `).join('');
 }
@@ -191,18 +187,16 @@ function renderAllWebFormsTable(webForms) {
     <tr>
       <td><strong>${wf.ref || wf.id}</strong></td>
       <td>${wf.date || 'Récemment'}</td>
-      <td>${wf.type || 'Adhésion Membre'}</td>
-      <td><strong>${wf.name}</strong> (${wf.org || 'N/A'})</td>
+      <td><span class="badge badge-navy">${wf.type || 'Adhésion Membre'}</span></td>
+      <td><strong>${wf.name}</strong> (${wf.org || 'Structure ESS'})</td>
       <td>${wf.phone}<br><small style="color: var(--admin-text-muted);">${wf.email || ''}</small></td>
-      <td><span class="badge badge-gold">${wf.status || 'En attente'}</span></td>
-      <td>
-        <button onclick="approveWebForm('${wf.ref || wf.id}')" class="action-btn-primary" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; background: var(--admin-green);"><i class="fas fa-check"></i> Approuver</button>
-      </td>
+      <td><span class="badge ${wf.status === 'Approuvé' ? 'badge-green' : (wf.status === 'Rejeté' ? 'badge-red' : 'badge-gold')}">${wf.status || 'En attente'}</span></td>
+      <td>${renderRowActionButtons(wf.ref || wf.id)}</td>
     </tr>
   `).join('');
 }
 
-// Approve Web Form Submission
+// Action 1: Approve Web Form Submission
 function approveWebForm(id) {
   let webForms = getWebFormsDB();
   const index = webForms.findIndex(w => w.id === id || w.ref === id);
@@ -210,7 +204,6 @@ function approveWebForm(id) {
     const item = webForms[index];
     item.status = 'Approuvé';
 
-    // Transfer into Confirmed Members Registry
     let members = getMembersDB();
     if (!members.some(m => m.ref === item.ref)) {
       members.push({
@@ -228,10 +221,211 @@ function approveWebForm(id) {
       saveMembersDB(members);
     }
 
-    webForms.splice(index, 1);
     saveWebFormsDB(webForms);
-    showToast(`Dossier ${item.name} approuvé et ajouté au Registre des Membres !`);
+    showToast(`✅ Dossier ${item.name} accepté et transféré au Registre Officiel !`);
+    if (document.getElementById('web-form-detail-modal').style.display === 'flex') {
+      closeWebFormDetailModal();
+    }
   }
+}
+
+// Action 2: Reject Web Form Submission
+function rejectWebForm(id) {
+  let webForms = getWebFormsDB();
+  const index = webForms.findIndex(w => w.id === id || w.ref === id);
+  if (index !== -1) {
+    webForms[index].status = 'Rejeté';
+    saveWebFormsDB(webForms);
+    showToast(`❌ Dossier ${webForms[index].name} marqué comme rejeté.`);
+    if (document.getElementById('web-form-detail-modal').style.display === 'flex') {
+      closeWebFormDetailModal();
+    }
+  }
+}
+
+// Action 3: Delete Web Form Submission permanently
+function deleteWebForm(id) {
+  if (confirm("⚠️ Souhaitez-vous supprimer définitivement ce formulaire de la base de données ?")) {
+    let webForms = getWebFormsDB();
+    webForms = webForms.filter(w => w.id !== id && w.ref !== id);
+    saveWebFormsDB(webForms);
+    showToast("🗑️ Soumission supprimée de la plateforme.");
+    if (document.getElementById('web-form-detail-modal').style.display === 'flex') {
+      closeWebFormDetailModal();
+    }
+  }
+}
+
+// Action 4: Open Form Detail Modal (Aperçu)
+function openWebFormDetailModal(id) {
+  currentModalSubmissionId = id;
+  const webForms = getWebFormsDB();
+  const members = getMembersDB();
+  const item = webForms.find(w => w.id === id || w.ref === id) || members.find(m => m.ref === id);
+
+  if (!item) return;
+
+  const modal = document.getElementById('web-form-detail-modal');
+  const title = document.getElementById('modal-detail-title');
+  const content = document.getElementById('modal-detail-content');
+
+  if (title) title.textContent = `Aperçu du Dossier : ${item.name} (${item.ref || item.id})`;
+
+  if (content) {
+    content.innerHTML = `
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 1rem;">
+        <div><strong>Type :</strong> ${item.type || 'Formulaire Web'}</div>
+        <div><strong>Référence :</strong> <span style="font-family: monospace; color: var(--admin-green);">${item.ref || item.id}</span></div>
+        <div><strong>Représentant :</strong> ${item.name}</div>
+        <div><strong>Organisation :</strong> ${item.org || 'Entreprise ESS'}</div>
+        <div><strong>Forme Juridique :</strong> ${item.legalForm || 'Non spécifiée'}</div>
+        <div><strong>Région :</strong> ${item.region || 'Sénégal'}</div>
+        <div><strong>Téléphone :</strong> ${item.phone}</div>
+        <div><strong>E-mail :</strong> ${item.email || 'Non renseigné'}</div>
+        <div><strong>Statut :</strong> <span class="badge badge-green">${item.status || 'En attente'}</span></div>
+        <div><strong>Date :</strong> ${item.date || 'Récemment'}</div>
+      </div>
+      ${item.motivation ? `
+        <div style="background: #FFFFFF; padding: 0.85rem; border-radius: 8px; border-left: 4px solid var(--admin-green);">
+          <strong style="color: var(--admin-green); display: block; font-size: 0.8rem; text-transform: uppercase;">Note / Motivation</strong>
+          <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem; line-height: 1.4;">${item.motivation}</p>
+        </div>
+      ` : ''}
+    `;
+  }
+
+  // Bind Action Buttons in Modal
+  document.getElementById('modal-btn-approve').onclick = () => approveWebForm(id);
+  document.getElementById('modal-btn-reject').onclick = () => rejectWebForm(id);
+  document.getElementById('modal-btn-email').onclick = () => sendFormEmail(id);
+  document.getElementById('modal-btn-wa').onclick = () => sendFormWhatsApp(id);
+  document.getElementById('modal-btn-pdf').onclick = () => downloadFormSubmissionPDF(id);
+  document.getElementById('modal-btn-delete').onclick = () => deleteWebForm(id);
+
+  if (modal) modal.style.display = 'flex';
+}
+
+function closeWebFormDetailModal() {
+  const modal = document.getElementById('web-form-detail-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+// Action 5: Send Form Email
+function sendFormEmail(id) {
+  const webForms = getWebFormsDB();
+  const members = getMembersDB();
+  const item = webForms.find(w => w.id === id || w.ref === id) || members.find(m => m.ref === id);
+
+  if (item && item.email) {
+    const subject = encodeURIComponent(`CONESESS - Suivi de votre Dossier ${item.ref || item.id}`);
+    const body = encodeURIComponent(`Bonjour ${item.name},\n\nNous avons bien reçu votre formulaire pour "${item.org || item.name}". Votre dossier (Réf: ${item.ref || item.id}) est en cours de traitement par le Secrétariat Général Confédéral.\n\nCordialement,\nLe CONESESS Sénégal`);
+    window.location.href = `mailto:${item.email}?subject=${subject}&body=${body}`;
+  } else {
+    showToast("Adresse e-mail non disponible pour ce dossier.");
+  }
+}
+
+// Action 6: Send Form WhatsApp
+function sendFormWhatsApp(id) {
+  const webForms = getWebFormsDB();
+  const members = getMembersDB();
+  const item = webForms.find(w => w.id === id || w.ref === id) || members.find(m => m.ref === id);
+
+  if (item && item.phone) {
+    const phoneClean = item.phone.replace(/[^0-9]/g, '');
+    const message = encodeURIComponent(`Bonjour ${item.name}, le CONESESS a bien reçu votre dossier (${item.ref || item.id}) pour "${item.org || item.name}".`);
+    window.open(`https://wa.me/${phoneClean}?text=${message}`, '_blank');
+  } else {
+    showToast("Numéro de téléphone non disponible.");
+  }
+}
+
+// Action 7: Download Printable Form Submission PDF
+function downloadFormSubmissionPDF(id) {
+  const targetId = id || currentModalSubmissionId;
+  const webForms = getWebFormsDB();
+  const members = getMembersDB();
+  const item = webForms.find(w => w.id === targetId || w.ref === targetId) || members.find(m => m.ref === targetId);
+
+  if (!item) {
+    showToast("Veuillez choisir une fiche valide.");
+    return;
+  }
+
+  const printWin = window.open('', '_blank', 'width=800,height=900');
+  printWin.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Fiche Officielle - ${item.ref || item.id}</title>
+      <style>
+        body { font-family: Arial, sans-serif; padding: 2rem; color: #0F172A; }
+        .header { display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #006837; padding-bottom: 1rem; margin-bottom: 2rem; }
+        .title { color: #006837; margin: 0; font-size: 1.5rem; }
+        .box { background: #F8FAFC; border: 1px solid #E2E8F0; padding: 1.25rem; border-radius: 10px; margin-bottom: 1.5rem; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .footer { margin-top: 3rem; text-align: center; font-size: 0.8rem; color: #64748B; border-top: 1px solid #E2E8F0; padding-top: 1rem; }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <div>
+          <h1 class="title">CONESESS SÉNÉGAL</h1>
+          <p style="margin:0; font-weight:bold;">Fiche Officielle de Soumission Web</p>
+        </div>
+        <div style="text-align:right;">
+          <strong style="color:#006837;">Réf: ${item.ref || item.id}</strong><br>
+          <small>Date: ${item.date || new Date().toISOString().slice(0,10)}</small>
+        </div>
+      </div>
+
+      <div class="box">
+        <h3>Informations du Demandeur</h3>
+        <div class="grid">
+          <p><strong>Nom & Prénom :</strong> ${item.name}</p>
+          <p><strong>Organisation :</strong> ${item.org || 'Entreprise ESS'}</p>
+          <p><strong>Type Formulaire :</strong> ${item.type || 'Adhésion Web'}</p>
+          <p><strong>Forme Juridique :</strong> ${item.legalForm || 'N/A'}</p>
+          <p><strong>Région :</strong> ${item.region || 'Sénégal'}</p>
+          <p><strong>Téléphone :</strong> ${item.phone}</p>
+          <p><strong>E-mail :</strong> ${item.email || 'Non spécifié'}</p>
+          <p><strong>Statut Dossier :</strong> ${item.status || 'En attente'}</p>
+        </div>
+      </div>
+
+      ${item.motivation ? `
+        <div class="box">
+          <h3>Note & Motivation</h3>
+          <p>${item.motivation}</p>
+        </div>
+      ` : ''}
+
+      <div class="footer">
+        <p>CONESESS Sénégal - Conseil National des Entreprises de l'Économie Sociale et Solidaire</p>
+        <p>Document généré automatiquement depuis la plateforme d'administration centrale.</p>
+      </div>
+      <script>window.onload = function() { window.print(); };</script>
+    </body>
+    </html>
+  `);
+  printWin.document.close();
+}
+
+// Login Modal & Admin Session Handlers
+function openLoginModal() {
+  const modal = document.getElementById('modal-admin-login');
+  if (modal) modal.style.display = 'flex';
+}
+
+function closeLoginModal() {
+  const modal = document.getElementById('modal-admin-login');
+  if (modal) modal.style.display = 'none';
+}
+
+function loginAdminUser(e) {
+  if (e) e.preventDefault();
+  showToast("Session Madior (Super Administrateur) confirmée !");
+  closeLoginModal();
 }
 
 // Render Adhesions Table
@@ -253,7 +447,7 @@ function renderAdhesionsTable(members) {
       <td>${m.contactPerson || m.name}</td>
       <td><span class="badge badge-green">${m.badgeRole || 'Membre Titulaire'}</span></td>
       <td>
-        <button onclick="loadMemberToBadgeStudio('${m.ref}')" class="action-btn-primary" style="padding: 0.25rem 0.6rem; font-size: 0.75rem; background: var(--admin-navy);"><i class="fas fa-id-badge"></i> Badge CR80</button>
+        <button onclick="loadMemberToBadgeStudio('${m.ref}')" class="btn-act btn-act-view"><i class="fas fa-id-badge"></i> Badge CR80</button>
       </td>
     </tr>
   `).join('');
@@ -276,13 +470,12 @@ function renderSteeringTable(candidates) {
       <td>${c.org}</td>
       <td><span class="badge badge-gold">${c.sector || 'Pôle Stratégique'}</span></td>
       <td>${c.region || 'Dakar'}</td>
-      <td><small style="color: var(--admin-text-muted);">${c.role || 'Candidat'}</small></td>
       <td><span class="badge badge-green">Candidature Reçue</span></td>
+      <td>${renderRowActionButtons(c.ref || c.id)}</td>
     </tr>
   `).join('');
 }
 
-// Render Enterprise Annuaire
 function renderEnterpriseAnnuaire(members) {
   const tbody = document.getElementById('tbody-members-annuaire');
   if (!tbody) return;
@@ -304,7 +497,6 @@ function renderEnterpriseAnnuaire(members) {
   `).join('');
 }
 
-// Render Admins List
 function renderAdminsList(admins) {
   const tbody = document.getElementById('tbody-admins-list');
   if (!tbody) return;
@@ -321,7 +513,6 @@ function renderAdminsList(admins) {
   `).join('');
 }
 
-// Populate Member Dropdown in Badge Studio
 function populateBadgeMemberSelect(members, webForms) {
   const select = document.getElementById('badge-select-member');
   if (!select) return;
@@ -336,7 +527,6 @@ function populateBadgeMemberSelect(members, webForms) {
   `).join('');
 }
 
-// Load selected member into Badge Studio
 function loadMemberToBadgeStudio(ref) {
   if (!ref) return;
   const members = getMembersDB();
@@ -351,7 +541,6 @@ function loadMemberToBadgeStudio(ref) {
   }
 }
 
-// Update CR80 Badge Preview live
 function updateBadgePreview() {
   const name = document.getElementById('badge-input-name').value || 'Nom du Titulaire';
   const org = document.getElementById('badge-input-org').value || 'Organisation / Structure';
@@ -370,12 +559,10 @@ function updateBadgePreview() {
   if (band) band.style.background = levelColor;
 }
 
-// Print / Export CR80 Badge
 function downloadBadgePDF() {
   window.print();
 }
 
-// Check-in QR Code Verification Tool
 function verifyCheckinCode() {
   const code = document.getElementById('checkin-input-code').value.trim();
   const resultBox = document.getElementById('checkin-result-box');
@@ -407,7 +594,6 @@ function verifyCheckinCode() {
   }
 }
 
-// Navigation & Tab Switching Logic
 function switchAdminTab(tabId) {
   document.querySelectorAll('.admin-tab-content').forEach(el => el.style.display = 'none');
   document.querySelectorAll('.admin-nav-item').forEach(btn => btn.classList.remove('active'));
@@ -430,7 +616,6 @@ function switchAdminTab(tabId) {
   const navItem = document.getElementById(linkIdMap[tabId]);
   if (navItem) navItem.classList.add('active');
 
-  // Close mobile sidebar
   const sidebar = document.getElementById('admin-sidebar');
   const overlay = document.getElementById('admin-sidebar-overlay');
   if (sidebar) sidebar.classList.remove('active');
