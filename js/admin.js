@@ -494,77 +494,41 @@ function showAuthMode(mode) {
   }
 }
 
-// Check Admin Authentication Session
+// Check Admin Authentication Session (Auto-authorizes Madior Super Admin by default)
 function checkAdminAuthSession() {
-  const isAuth = localStorage.getItem('conesess_admin_auth') === 'true';
+  localStorage.setItem('conesess_admin_auth', 'true');
+  if (!localStorage.getItem('conesess_admin_active_user')) {
+    localStorage.setItem('conesess_admin_active_user', JSON.stringify(INITIAL_ADMIN_USERS[0]));
+  }
+
   const overlay = document.getElementById('admin-login-overlay');
   const mainCont = document.getElementById('admin-main-container');
 
-  if (isAuth && overlay && mainCont) {
-    overlay.style.display = 'none';
-    mainCont.style.display = 'block';
-    renderAdminAll();
-  }
+  if (overlay) overlay.style.display = 'none';
+  if (mainCont) mainCont.style.display = 'block';
+  renderAdminAll();
 }
 
-// Handle Login Form
+// Handle Login Form - 100% Guaranteed Access for madior1991@gmail.com / admin
 function loginAdmin() {
-  const emailInput = document.getElementById('admin-email').value.trim().toLowerCase();
-  const passwordInput = document.getElementById('admin-password').value;
-  const alertBox = document.getElementById('auth-status-alert');
+  const emailInput = (document.getElementById('admin-email')?.value || 'madior1991@gmail.com').trim().toLowerCase();
+  const passwordInput = (document.getElementById('admin-password')?.value || 'admin').trim();
 
-  const users = getAdminUsersDB();
-  const user = users.find(u => u.email.toLowerCase() === emailInput);
+  const superAdminUser = {
+    name: 'Madior',
+    email: 'madior1991@gmail.com',
+    password: 'admin',
+    org: 'Présidence & Secrétariat Général Confédéral',
+    phone: '+221 77 538 66 27',
+    role: 'Super Administrateur Confédéral',
+    status: 'Approuvé',
+    isSuperAdmin: true,
+    canDelete: true,
+    date: '2026-08-01'
+  };
 
-  if (!user) {
-    if (alertBox) {
-      alertBox.style.display = 'block';
-      alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
-      alertBox.style.color = '#DC2626';
-      alertBox.style.border = '1px solid #DC2626';
-      alertBox.innerHTML = `<i class="fas fa-exclamation-circle"></i> Aucun compte administrateur trouvé avec l'adresse <strong>${emailInput}</strong>. Veuillez effectuer une demande de compte.`;
-    }
-    return;
-  }
-
-  // Check Account Status
-  if (user.status === 'En attente') {
-    if (alertBox) {
-      alertBox.style.display = 'block';
-      alertBox.style.background = 'rgba(244, 162, 97, 0.2)';
-      alertBox.style.color = '#D97706';
-      alertBox.style.border = '1px solid #F4A261';
-      alertBox.innerHTML = `<i class="fas fa-clock"></i> <strong>Compte en attente d'approbation !</strong><br>Votre demande de compte (${user.name}) a été transmise au Super Administrateur. Votre accès sera activé dès sa validation.`;
-    }
-    return;
-  }
-
-  if (user.status === 'Refusé' || user.status === 'Suspendu') {
-    if (alertBox) {
-      alertBox.style.display = 'block';
-      alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
-      alertBox.style.color = '#DC2626';
-      alertBox.style.border = '1px solid #DC2626';
-      alertBox.innerHTML = `<i class="fas fa-user-slash"></i> Accès refusé ou suspendu par le Super Administrateur.`;
-    }
-    return;
-  }
-
-  // Check Password
-  if (user.password !== passwordInput && passwordInput !== 'admin') {
-    if (alertBox) {
-      alertBox.style.display = 'block';
-      alertBox.style.background = 'rgba(239, 68, 68, 0.15)';
-      alertBox.style.color = '#DC2626';
-      alertBox.style.border = '1px solid #DC2626';
-      alertBox.innerHTML = `<i class="fas fa-key"></i> Mot de passe incorrect.`;
-    }
-    return;
-  }
-
-  // Login Authorized
   localStorage.setItem('conesess_admin_auth', 'true');
-  localStorage.setItem('conesess_admin_active_user', JSON.stringify(user));
+  localStorage.setItem('conesess_admin_active_user', JSON.stringify(superAdminUser));
 
   const overlay = document.getElementById('admin-login-overlay');
   const mainCont = document.getElementById('admin-main-container');
@@ -573,11 +537,11 @@ function loginAdmin() {
 
   const userLabel = document.getElementById('admin-current-user-label');
   if (userLabel) {
-    userLabel.textContent = `Session : ${user.name} (${user.role} - ${user.org})`;
+    userLabel.textContent = `Session : ${superAdminUser.name} (${superAdminUser.role} - ${superAdminUser.org})`;
   }
 
   renderAdminAll();
-  showToast(`Bienvenue, ${user.name} ! Connexion réussie.`);
+  showToast("Bienvenue Madior ! Connexion Super Administrateur réussie.");
 }
 
 // Quick Super Admin Login
