@@ -777,8 +777,8 @@
             </div>
           </div>
 
-          <button onclick="clearAllAdminData()" class="action-btn-pill" style="font-size: 0.775rem; background: rgba(239, 68, 68, 0.15); color: #DC2626; border: 1px solid #DC2626;" title="Purger toutes les données de test">
-            <i class="fas fa-trash-alt"></i> Purger les Données
+          <button onclick="exportFullDatabaseJSON()" class="action-btn-pill" style="font-size: 0.775rem; background: var(--admin-card-bg-light); color: var(--admin-navy); border: 1px solid var(--admin-border-light);" title="Exporter une sauvegarde système intégrale au format JSON">
+            <i class="fas fa-download" style="color: var(--admin-green);"></i> Sauvegarde JSON
           </button>
           
           <div class="theme-toggle-pill">
@@ -1366,17 +1366,39 @@
         <div style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
           <div>
             <h2 style="font-size: 1.4rem; color: var(--admin-text-main); margin-bottom: 0.2rem;"><i class="fas fa-cog" style="color: #E9C46A;"></i> Paramètres & Administration Générale (Super Admin)</h2>
-            <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Espace de contrôle réservé à <strong>madior1991@gmail.com</strong> : Gestion globale des accès, rôles, suppressions et paramètres e-mail.</p>
+            <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Espace de contrôle réservé à <strong>madior1991@gmail.com</strong> : Gestion globale des accès, sauvegardes, relais cloud et paramètres e-mail.</p>
           </div>
           <span class="badge badge-gold" style="font-size: 0.8rem; padding: 6px 14px;"><i class="fas fa-crown"></i> Mode Super Admin Actif (Madior)</span>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;" class="mb-4">
 
+          <!-- CARD 1: RELAIS CLOUD TEMPS RÉEL & SÉCURITÉ -->
+          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(0, 135, 72, 0.15); color: #008748; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                <i class="fas fa-network-wired"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 1.05rem; margin: 0; color: var(--admin-text-main);">Relais Cloud Temps Réel</h3>
+                <small style="color: var(--admin-text-muted);">Synchronisation automatique multi-appareils</small>
+              </div>
+            </div>
 
+            <div style="background: var(--admin-bg-light); padding: 0.85rem; border-radius: 10px; margin-bottom: 1rem; border-left: 4px solid var(--admin-green);">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem;">
+                <strong style="font-size: 0.8rem; color: var(--admin-text-main);">Statut Endpoint Cloud :</strong>
+                <span class="badge badge-green" style="font-size: 0.7rem;"><i class="fas fa-check-circle"></i> En Ligne (3s)</span>
+              </div>
+              <small style="font-family: monospace; color: var(--admin-text-muted); font-size: 0.725rem; word-break: break-all; display: block;">https://crudcrud.com/api/.../submissions</small>
+            </div>
 
+            <button onclick="forceRealtimeSyncRefresh()" class="action-btn-primary" style="width: 100%; justify-content: center; background: #006837;">
+              <i class="fas fa-sync-alt"></i> Forcer la Synchronisation Immédiate
+            </button>
+          </div>
 
-          <!-- CARD 3: RÈGLES DU PORTAIL & FORMULAIRES WEB -->
+          <!-- CARD 2: RÈGLES DU PORTAIL & FORMULAIRES WEB -->
           <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
             <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
               <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(10, 37, 64, 0.1); color: #0A2540; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
@@ -1407,7 +1429,7 @@
             </form>
           </div>
 
-          <!-- CARD 4: SAUVEGARDE & RESTAURATION BASE DE DONNÉES -->
+          <!-- CARD 3: SAUVEGARDE & RESTAURATION BASE DE DONNÉES -->
           <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
             <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
               <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(233, 196, 106, 0.25); color: #B45309; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
@@ -1430,15 +1452,17 @@
                 <input type="file" id="input-import-json" accept=".json" onchange="importFullDatabaseJSON(event)" style="display: none;">
               </label>
             </div>
-        <!-- CARD 5: CHANGER LE MOT DE PASSE SUPER ADMIN -->
+          </div>
+
+          <!-- CARD 4: CHANGER LE MOT DE PASSE SUPER ADMIN -->
           <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
             <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-              <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(220, 38, 38, 0.15); color: #DC2626; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+              <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(10, 37, 64, 0.15); color: #0A2540; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
                 <i class="fas fa-key"></i>
               </div>
               <div>
-                <h3 style="font-size: 1.05rem; margin: 0; color: var(--admin-text-main);">Changer le Mot de Passe Super Admin</h3>
-                <small style="color: var(--admin-text-muted);">Mise à jour du mot de passe pour madior1991@gmail.com</small>
+                <h3 style="font-size: 1.05rem; margin: 0; color: var(--admin-text-main);">Mot de Passe Super Admin</h3>
+                <small style="color: var(--admin-text-muted);">Sécurisation pour madior1991@gmail.com</small>
               </div>
             </div>
             
@@ -1451,8 +1475,8 @@
                 <label style="font-weight: 600; font-size: 0.8rem;">Nouveau Mot de Passe *</label>
                 <input type="password" id="setting-new-password" class="wizard-form-control" placeholder="Entrez le nouveau mot de passe" required style="height: 38px;">
               </div>
-              <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; background: #DC2626; border: none;">
-                <i class="fas fa-lock-open"></i> Mettre à Jour le Mot de Passe
+              <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; background: #006837; border: none;">
+                <i class="fas fa-lock"></i> Mettre à Jour le Mot de Passe
               </button>
             </form>
           </div>
