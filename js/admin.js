@@ -195,6 +195,9 @@ async function fetchCloudDataToLocal() {
 
   if (remoteRecords.length === 0) return;
 
+  const validSnapshots = remoteRecords.filter(r => r && (r.webForms || r.members || r.type || r.ref));
+  if (validSnapshots.length === 0) return;
+
   let localMembers = JSON.parse(localStorage.getItem('conesess_members')) || [];
   let localWebForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
   let localContacts = JSON.parse(localStorage.getItem('conesess_contacts')) || [];
@@ -202,7 +205,7 @@ async function fetchCloudDataToLocal() {
   let membersMap = new Map();
   localMembers.forEach(m => {
     if (!m) return;
-    const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.name ? m.name.toLowerCase() : null);
+    const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.phone ? m.phone.replace(/[^0-9]/g, '') : null) || (m.name ? m.name.toLowerCase() : null);
     if (key) membersMap.set(key, m);
   });
 
@@ -222,39 +225,51 @@ async function fetchCloudDataToLocal() {
 
   let updated = false;
 
-  remoteRecords.forEach(rec => {
+  // Process snapshots in chronological order (oldest first so newest updates overwrite)
+  validSnapshots.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+
+  validSnapshots.forEach(rec => {
     if (!rec) return;
 
-    // 1. Check if record contains members array
-    const membersArray = rec.members ? rec.members : [];
+    // 1. Process members
+    const membersArray = rec.members && Array.isArray(rec.members) ? rec.members : [];
     membersArray.forEach(m => {
       if (!m) return;
-      const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.name ? m.name.toLowerCase() : null);
-      if (key && !membersMap.has(key)) {
-        membersMap.set(key, m);
-        updated = true;
+      const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.phone ? m.phone.replace(/[^0-9]/g, '') : null) || (m.name ? m.name.toLowerCase() : null);
+      if (key) {
+        const existing = membersMap.get(key);
+        if (!existing || JSON.stringify(existing) !== JSON.stringify(m)) {
+          membersMap.set(key, m);
+          updated = true;
+        }
       }
     });
 
-    // 2. Check if record contains webForms array or is a direct webForm object
-    const formsArray = rec.webForms ? rec.webForms : (rec.type || rec.ref ? [rec] : []);
+    // 2. Process webForms
+    const formsArray = rec.webForms && Array.isArray(rec.webForms) ? rec.webForms : (rec.type || rec.ref ? [rec] : []);
     formsArray.forEach(wf => {
       if (!wf) return;
       const key = wf.ref || wf.id || (wf.email ? wf.email.toLowerCase() : null) || (wf.phone ? wf.phone.replace(/[^0-9]/g, '') : null) || (wf.name ? wf.name.toLowerCase() : null);
-      if (key && !webFormsMap.has(key)) {
-        webFormsMap.set(key, wf);
-        updated = true;
+      if (key) {
+        const existing = webFormsMap.get(key);
+        if (!existing || JSON.stringify(existing) !== JSON.stringify(wf)) {
+          webFormsMap.set(key, wf);
+          updated = true;
+        }
       }
     });
 
-    // 3. Check if record contains contacts array
-    const contactsArray = rec.contacts ? rec.contacts : [];
+    // 3. Process contacts
+    const contactsArray = rec.contacts && Array.isArray(rec.contacts) ? rec.contacts : [];
     contactsArray.forEach(c => {
       if (!c) return;
       const key = (c.email ? c.email.toLowerCase() : '') + (c.phone || '') + (c.date || '');
-      if (key && !contactsMap.has(key)) {
-        contactsMap.set(key, c);
-        updated = true;
+      if (key) {
+        const existing = contactsMap.get(key);
+        if (!existing || JSON.stringify(existing) !== JSON.stringify(c)) {
+          contactsMap.set(key, c);
+          updated = true;
+        }
       }
     });
   });
