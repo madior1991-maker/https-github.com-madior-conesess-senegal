@@ -409,7 +409,7 @@ function initModalsAndForms() {
     });
   }
 
-  // Helper function to dispatch automatic form reception notification
+  // Helper function to dispatch automatic form reception notification & direct email to madior1991@gmail.com
   function dispatchEmailNotificationAlert(type, title, details) {
     const notifs = JSON.parse(localStorage.getItem('conesess_notifications')) || [];
     const now = new Date();
@@ -427,6 +427,30 @@ function initModalsAndForms() {
     notifs.unshift(notifItem);
     localStorage.setItem('conesess_notifications', JSON.stringify(notifs));
     console.log(`[FORM RECEPTION NOTIFICATION]: ${title} - ${details}`);
+
+    // Direct Email Dispatch to madior1991@gmail.com
+    try {
+      fetch('https://formsubmit.co/ajax/madior1991@gmail.com', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          _subject: `[CONESESS] ${title}`,
+          _template: 'table',
+          _captcha: 'false',
+          Destinataire: 'madior1991@gmail.com',
+          Type_Formulaire: type,
+          Titre: title,
+          Détails: details,
+          Date_Soumission: dateStr,
+          URL: window.location.href
+        })
+      }).then(res => res.json())
+        .then(data => console.log("Email dispatch to madior1991@gmail.com OK:", data))
+        .catch(err => console.warn("Email dispatch note:", err));
+    } catch(e) {}
   }
 
 const CLOUD_SYNC_ENDPOINTS = [

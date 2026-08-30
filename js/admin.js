@@ -41,13 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Adaptive 10-second polling for cloud sync
+  // Realtime 3-second polling for instant inter-device cloud sync (Mobile & Web)
   setInterval(() => {
     if (typeof fetchCloudDataToLocal === 'function') {
       fetchCloudDataToLocal();
     }
     renderAdminAll();
-  }, 10000);
+  }, 3000);
 });
 
 function initAdminData() {
