@@ -300,6 +300,18 @@ async function fetchCloudDataToLocal() {
 }
 
 function initAdminDB() {
+  // Purge any mobile admin local keys to ensure Desktop Admin version is the sole reception platform
+  try {
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && (key.includes('mobile_admin') || key.includes('admin_mobile') || key.includes('conesess_mobile_'))) {
+        keysToRemove.push(key);
+      }
+    }
+    keysToRemove.forEach(k => localStorage.removeItem(k));
+  } catch(e) {}
+
   syncMobileAndDesktopData();
   fetchCloudDataToLocal();
   // Ensure storage structures exist without wiping user-submitted forms
