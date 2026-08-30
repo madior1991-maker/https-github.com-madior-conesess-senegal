@@ -1689,6 +1689,9 @@ section.section {
   }
   .gov-diagram-visual {
     padding: 1rem;
+  }
+}
+
 section.section {
   scroll-margin-top: 80px;
   padding: 1.5rem 0 !important;
@@ -2862,6 +2865,8 @@ html, body {
     display: block !important;
     padding: 1.25rem 0 !important;
   }
+}
+
 /* RESPONSIVE FOOTER OVERFLOW PREVENTION */
 .footer {
   overflow-x: hidden !important;
@@ -2872,7 +2877,7 @@ html, body {
 .footer-grid,
 .footer-bottom {
   max-width: 100% !important;
-  box-sizing: border-border-box !important;
+  box-sizing: border-box !important;
 }
 
 @media (max-width: 768px) {
@@ -2891,6 +2896,24 @@ html, body {
     align-items: flex-start !important;
     gap: 0.6rem !important;
   }
+}
+
+/* PRECISION LAYOUT & ALIGNMENT ENHANCEMENTS */
+.finding-card,
+.metric-card-box,
+.advocacy-item,
+.sector-card {
+  height: 100%;
+}
+
+input, select, textarea, button {
+  font-family: inherit;
+}
+
+.modal-card {
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 
