@@ -347,19 +347,17 @@ function initAdminDB() {
   }
 }
 
+// Function to clear test submissions and prepare platform for new production data
 function clearAllAdminData() {
-  if (!canCurrentUserDelete()) {
-    showToast("Accès refusé : Le rôle 'Administrateur Restreint' ne dispose pas des privilèges de purge BDD !");
-    return;
-  }
-  if (confirm("Êtes-vous sûr de vouloir réinitialiser la base de données et effacer toutes les données de test ?")) {
-    localStorage.setItem('conesess_members', JSON.stringify([]));
-    localStorage.setItem('conesess_web_forms', JSON.stringify([]));
-    localStorage.setItem('conesess_contacts', JSON.stringify([]));
-    localStorage.setItem('conesess_admin_users', JSON.stringify(INITIAL_ADMIN_USERS));
-    renderAdminAll();
-    showToast("Base de données réinitialisée à zéro avec succès.");
-  }
+  localStorage.setItem('conesess_members', JSON.stringify([]));
+  localStorage.setItem('conesess_web_forms', JSON.stringify([]));
+  localStorage.setItem('conesess_contacts', JSON.stringify([]));
+  localStorage.setItem('conesess_notifications', JSON.stringify([]));
+  localStorage.setItem('conesess_admin_users', JSON.stringify(INITIAL_ADMIN_USERS));
+
+  try { pushLocalDataToCloud(); } catch(e) {}
+  if (typeof renderAdminAll === 'function') renderAdminAll();
+  showToast("Base de données réinitialisée. La plateforme est prête à accueillir les nouvelles données !");
 }
 
 function getWebFormsDB() {
