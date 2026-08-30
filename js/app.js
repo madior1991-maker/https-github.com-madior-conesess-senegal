@@ -460,6 +460,14 @@ const CLOUD_SYNC_ENDPOINTS = [
   "https://crudcrud.com/api/4f01285c31734664b9b3c9a7ac3934cc/submissions"
 ];
 
+function getCloudEndpoints() {
+  const custom = localStorage.getItem('conesess_cloud_endpoint');
+  if (custom && custom.trim().startsWith('http')) {
+    return [custom.trim(), ...CLOUD_SYNC_ENDPOINTS];
+  }
+  return CLOUD_SYNC_ENDPOINTS;
+}
+
 async function pushLocalDataToCloud() {
   const members = JSON.parse(localStorage.getItem('conesess_members')) || [];
   const webForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
@@ -472,7 +480,8 @@ async function pushLocalDataToCloud() {
     contacts: contacts
   };
 
-  for (const endpoint of CLOUD_SYNC_ENDPOINTS) {
+  const endpoints = getCloudEndpoints();
+  for (const endpoint of endpoints) {
     try {
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -492,7 +501,8 @@ async function pushLocalDataToCloud() {
 
 async function fetchCloudDataToLocal() {
   let remoteRecords = [];
-  for (const endpoint of CLOUD_SYNC_ENDPOINTS) {
+  const endpoints = getCloudEndpoints();
+  for (const endpoint of endpoints) {
     try {
       const res = await fetch(endpoint);
       if (res.ok) {
