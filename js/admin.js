@@ -835,7 +835,9 @@ function renderAdminAll() {
   const totalWebFormsCount = members.length + contacts.length + webForms.length;
   const approvedMembersCount = members.filter(m => m.status === 'Approuvé').length;
   const pendingMembersCount = members.filter(m => m.status === 'En attente').length;
-  const steeringCount = webForms.filter(f => f.type === 'Candidature Comité de Pilotage').length;
+  const steeringCandidates = webForms.filter(f => f.type === 'Candidature Comité de Pilotage');
+  const memberCandidates = members.filter(m => m.type === 'Candidat Comité de Pilotage');
+  const steeringCount = new Set([...steeringCandidates.map(c => c.ref || c.id), ...memberCandidates.map(m => m.ref || m.id)]).size;
   const uniqueRegionsCount = new Set(members.map(m => m.region).filter(Boolean)).size;
   const generatedBadgesCount = members.filter(m => m.badgeStatus && m.badgeStatus !== 'Non généré').length;
   const pendingAdminsCount = adminUsers.filter(u => u.status === 'En attente').length;
@@ -1568,7 +1570,36 @@ function renderSteeringCandidatesTable(webForms = []) {
   const tbody = document.getElementById('tbody-steering-candidates');
   if (!tbody) return;
 
-  const candidates = webForms.filter(wf => wf.type === 'Candidature Comité de Pilotage');
+  const members = getMembersDB();
+  const candidatesMap = new Map();
+
+  webForms.filter(wf => wf.type === 'Candidature Comité de Pilotage').forEach(c => {
+    const key = c.id || c.ref;
+    candidatesMap.set(key, c);
+  });
+
+  members.filter(m => m.type === 'Candidat Comité de Pilotage').forEach(m => {
+    const key = m.ref || m.id;
+    if (!candidatesMap.has(key)) {
+      candidatesMap.set(key, {
+        id: m.ref,
+        ref: m.ref,
+        date: m.date || 'Récemment',
+        type: 'Candidature Comité de Pilotage',
+        name: m.rep || m.name,
+        org: m.name,
+        region: m.region,
+        role: m.sector || m.badgeRole || 'Membre Comité',
+        experience: m.desc || '',
+        motivation: m.motivation || '',
+        phone: m.phone,
+        email: m.email,
+        status: m.status
+      });
+    }
+  });
+
+  const candidates = Array.from(candidatesMap.values());
 
   if (candidates.length === 0) {
     tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--admin-text-muted);">Aucune candidature au Comité de Pilotage reçue pour le moment.</td></tr>`;
