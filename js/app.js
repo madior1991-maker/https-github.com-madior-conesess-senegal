@@ -450,7 +450,8 @@ async function pushLocalDataToCloud() {
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        keepalive: true
       });
       if (res.ok) {
         console.log("Cloud sync push success via:", endpoint);
@@ -487,59 +488,61 @@ async function fetchCloudDataToLocal() {
   let membersMap = new Map();
   localMembers.forEach(m => {
     if (!m) return;
-    const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.name ? m.name.toLowerCase() : Math.random());
-    membersMap.set(key, m);
+    const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.name ? m.name.toLowerCase() : null);
+    if (key) membersMap.set(key, m);
   });
 
   let webFormsMap = new Map();
   localWebForms.forEach(wf => {
     if (!wf) return;
-    const key = wf.ref || wf.id || (wf.email ? wf.email.toLowerCase() : null) || (wf.name ? wf.name.toLowerCase() : Math.random());
-    webFormsMap.set(key, wf);
+    const key = wf.ref || wf.id || (wf.email ? wf.email.toLowerCase() : null) || (wf.phone ? wf.phone.replace(/[^0-9]/g, '') : null) || (wf.name ? wf.name.toLowerCase() : null);
+    if (key) webFormsMap.set(key, wf);
   });
 
   let contactsMap = new Map();
   localContacts.forEach(c => {
     if (!c) return;
     const key = (c.email ? c.email.toLowerCase() : '') + (c.phone || '') + (c.date || '');
-    contactsMap.set(key, c);
+    if (key) contactsMap.set(key, c);
   });
 
   let updated = false;
 
   remoteRecords.forEach(rec => {
-    if (rec.members && Array.isArray(rec.members)) {
-      rec.members.forEach(m => {
-        if (!m) return;
-        const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.name ? m.name.toLowerCase() : Math.random());
-        if (!membersMap.has(key)) {
-          membersMap.set(key, m);
-          updated = true;
-        }
-      });
-    }
+    if (!rec) return;
 
-    if (rec.webForms && Array.isArray(rec.webForms)) {
-      rec.webForms.forEach(wf => {
-        if (!wf) return;
-        const key = wf.ref || wf.id || (wf.email ? wf.email.toLowerCase() : null) || (wf.name ? wf.name.toLowerCase() : Math.random());
-        if (!webFormsMap.has(key)) {
-          webFormsMap.set(key, wf);
-          updated = true;
-        }
-      });
-    }
+    // 1. Check if record contains members array or is a direct member object
+    const membersArray = rec.members ? rec.members : [];
+    membersArray.forEach(m => {
+      if (!m) return;
+      const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.name ? m.name.toLowerCase() : null);
+      if (key && !membersMap.has(key)) {
+        membersMap.set(key, m);
+        updated = true;
+      }
+    });
 
-    if (rec.contacts && Array.isArray(rec.contacts)) {
-      rec.contacts.forEach(c => {
-        if (!c) return;
-        const key = (c.email ? c.email.toLowerCase() : '') + (c.phone || '') + (c.date || '');
-        if (!contactsMap.has(key)) {
-          contactsMap.set(key, c);
-          updated = true;
-        }
-      });
-    }
+    // 2. Check if record contains webForms array or is a direct webForm object
+    const formsArray = rec.webForms ? rec.webForms : (rec.type || rec.ref ? [rec] : []);
+    formsArray.forEach(wf => {
+      if (!wf) return;
+      const key = wf.ref || wf.id || (wf.email ? wf.email.toLowerCase() : null) || (wf.phone ? wf.phone.replace(/[^0-9]/g, '') : null) || (wf.name ? wf.name.toLowerCase() : null);
+      if (key && !webFormsMap.has(key)) {
+        webFormsMap.set(key, wf);
+        updated = true;
+      }
+    });
+
+    // 3. Check if record contains contacts array
+    const contactsArray = rec.contacts ? rec.contacts : [];
+    contactsArray.forEach(c => {
+      if (!c) return;
+      const key = (c.email ? c.email.toLowerCase() : '') + (c.phone || '') + (c.date || '');
+      if (key && !contactsMap.has(key)) {
+        contactsMap.set(key, c);
+        updated = true;
+      }
+    });
   });
 
   if (updated) {
