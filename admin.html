@@ -1750,6 +1750,58 @@
     </div>
   </div>
 
+  <!-- MODAL: AJOUTER UN COMPTE ADMINISTRATEUR -->
+  <div id="modal-add-admin" class="modal-overlay">
+    <div class="modal-card" style="max-width: 500px; border-radius: 20px;">
+      <button class="modal-close" onclick="closeAddAdminModal()">&times;</button>
+      <div style="text-align: center; margin-bottom: 1.25rem;">
+        <span class="badge badge-gold mb-1" style="font-size: 0.75rem;"><i class="fas fa-user-plus"></i> Création de Compte Admin</span>
+        <h3 style="color: #0A2540; font-size: 1.3rem;">Ajouter un Administrateur</h3>
+      </div>
+
+      <form id="form-create-admin-account" onsubmit="saveNewAdminAccount(event)">
+        <div class="wizard-form-group mb-3">
+          <label style="font-weight: 600; font-size: 0.8rem;">Nom & Prénom *</label>
+          <input type="text" id="new-admin-name" class="wizard-form-control" required placeholder="ex: Mamadou Ndiaye" style="height: 38px; font-size: 0.85rem;">
+        </div>
+
+        <div class="wizard-form-group mb-3">
+          <label style="font-weight: 600; font-size: 0.8rem;">E-mail Administrateur *</label>
+          <input type="email" id="new-admin-email" class="wizard-form-control" required placeholder="ex: mamadou@conesess.sn" style="height: 38px; font-size: 0.85rem;">
+        </div>
+
+        <div class="wizard-form-group mb-3">
+          <label style="font-weight: 600; font-size: 0.8rem;">Antenne / Service *</label>
+          <input type="text" id="new-admin-org" class="wizard-form-control" required placeholder="ex: Antenne Régionale Saint-Louis" style="height: 38px; font-size: 0.85rem;">
+        </div>
+
+        <div class="wizard-form-group mb-3">
+          <label style="font-weight: 600; font-size: 0.8rem;">Mot de Passe *</label>
+          <input type="password" id="new-admin-pass" class="wizard-form-control" required value="admin123" style="height: 38px; font-size: 0.85rem;">
+        </div>
+
+        <div class="wizard-form-group mb-4">
+          <label style="font-weight: 600; font-size: 0.8rem;">Rôle & Privilèges *</label>
+          <select id="new-admin-role" class="wizard-form-control" required style="height: 38px; font-size: 0.85rem;">
+            <option value="Administrateur Général">Administrateur Général (Accès Formulaires & Validation)</option>
+            <option value="Opérateur Badges & Émargement">Opérateur Badges & Émargement (Studio CR80)</option>
+            <option value="Administrateur Restreint (Fonctions Limitées)">Administrateur Restreint (Consultation Seule)</option>
+            <option value="Super Administrateur Confédéral">Super Administrateur Confédéral (Tous Droits)</option>
+          </select>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="submit" class="action-btn-primary" style="flex: 1; justify-content: center; padding: 0.75rem; background: #006837;">
+            <i class="fas fa-check"></i> Créer le Compte
+          </button>
+          <button type="button" onclick="closeAddAdminModal()" class="action-btn-pill">
+            Annuler
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- MODAL: DÉTAIL D'UN FORMULAIRE WEB REÇU -->
   <div id="web-form-detail-modal" class="modal-overlay">
     <div class="modal-card" style="max-width: 650px; border-radius: 20px;">
@@ -1764,7 +1816,7 @@
       </div>
 
       <div style="display: flex; gap: 0.6rem; margin-top: 1.25rem; flex-wrap: wrap;">
-        <button id="modal-btn-approve-web" onclick="" class="action-btn-primary" style="flex: 1; justify-content: center;">
+        <button id="modal-btn-approve-web" onclick="approveCurrentModalWebForm()" class="action-btn-primary" style="flex: 1; justify-content: center;">
           <i class="fas fa-check"></i> Valider Adhésion
         </button>
         <button id="modal-btn-pdf-web" onclick="downloadFormSubmissionPDF()" class="action-btn-pill" style="background: #006837; color: #FFFFFF; border: none; font-weight: 700;">
@@ -1773,7 +1825,7 @@
         <button id="modal-btn-txt-web" onclick="downloadCurrentModalFormText()" class="action-btn-pill" style="background: #0A2540; color: #FFFFFF; border: none;">
           <i class="fas fa-file-alt"></i> Fiche TXT
         </button>
-        <button id="modal-btn-whatsapp-web" onclick="" class="action-btn-pill" style="background: #25D366; color: #FFFFFF; border: none;">
+        <button id="modal-btn-whatsapp-web" onclick="openCurrentModalWhatsApp()" class="action-btn-pill" style="background: #25D366; color: #FFFFFF; border: none;">
           <i class="fab fa-whatsapp"></i> WhatsApp
         </button>
       </div>

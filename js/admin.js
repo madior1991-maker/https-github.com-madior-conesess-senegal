@@ -1518,6 +1518,81 @@ function saveAdminRoleSubmit(e) {
   }
 }
 
+function openAddAdminModal() {
+  const modal = document.getElementById('modal-add-admin');
+  if (modal) {
+    modal.classList.add('show');
+    modal.style.display = 'flex';
+    modal.style.zIndex = '99999';
+  }
+}
+
+function closeAddAdminModal() {
+  const modal = document.getElementById('modal-add-admin');
+  if (modal) {
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+  }
+}
+
+function saveNewAdminAccount(e) {
+  if (e) e.preventDefault();
+  const name = document.getElementById('new-admin-name').value.trim();
+  const email = document.getElementById('new-admin-email').value.trim().toLowerCase();
+  const org = document.getElementById('new-admin-org').value.trim();
+  const pass = document.getElementById('new-admin-pass').value.trim();
+  const role = document.getElementById('new-admin-role').value;
+
+  if (!name || !email || !pass) {
+    showToast("Veuillez remplir tous les champs obligatoires.");
+    return;
+  }
+
+  const users = getAdminUsersDB();
+  if (users.some(u => u.email.toLowerCase() === email)) {
+    showToast("Un compte administrateur avec cet e-mail existe déjà.");
+    return;
+  }
+
+  const newUser = {
+    name: name,
+    email: email,
+    password: pass,
+    org: org || 'CONESESS Sénégal',
+    phone: '+221 77 000 00 00',
+    role: role,
+    status: 'Approuvé',
+    isSuperAdmin: role.includes('Super Administrateur'),
+    date: new Date().toISOString().slice(0, 10)
+  };
+
+  users.push(newUser);
+  saveAdminUsersDB(users);
+  showToast(`Compte administrateur créé avec succès pour ${name} !`);
+  closeAddAdminModal();
+  renderAdminAll();
+}
+
+function approveCurrentModalWebForm() {
+  if (currentModalSubmissionId) {
+    approveWebForm(currentModalSubmissionId);
+    closeWebFormDetailModal();
+  }
+}
+
+function openCurrentModalWhatsApp() {
+  if (!currentModalSubmissionId) return;
+  const webForms = getWebFormsDB();
+  const members = getMembersDB();
+  const item = webForms.find(w => w.id === currentModalSubmissionId || w.ref === currentModalSubmissionId) || members.find(m => m.ref === currentModalSubmissionId);
+  if (item && item.phone) {
+    const rawPhone = item.phone.replace(/[^0-9]/g, '');
+    window.open(`https://wa.me/${rawPhone}?text=Bonjour%20${encodeURIComponent(item.name)},%20suite%20%C3%A0%20votre%20formulaire%20soumis%20sur%20le%20site%20CONESESS...`, '_blank');
+  } else {
+    showToast("Numéro WhatsApp indisponible.");
+  }
+}
+
 // Render Submitted Web Forms Table
 function renderWebFormsTable(members, contacts, webForms = []) {
   const tbody = document.getElementById('tbody-web-forms-list');
