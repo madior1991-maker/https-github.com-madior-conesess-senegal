@@ -799,9 +799,9 @@
         <div class="hero-trend-card mb-4">
           <div class="hero-trend-header">
             <div>
-              <div class="hero-trend-title">Inscriptions Totales</div>
-              <div class="hero-trend-number" id="stat-total-members">13</div>
-              <small style="color: var(--admin-text-muted); font-size: 0.8rem;">CONESESS 2026 · Dakar, Sénégal</small>
+              <div class="hero-trend-title">Formulaires Reçus Totaux</div>
+              <div class="hero-trend-number" id="stat-total-members">0</div>
+              <small style="color: var(--admin-text-muted); font-size: 0.8rem;">CONESESS 2026 · Registre Central Officiel</small>
             </div>
 
             <!-- SPARKLINE GRAPH SVG -->
@@ -818,7 +818,7 @@
               <i class="fas fa-file-excel"></i> Exporter (Excel)
             </button>
             <button onclick="switchAdminTab('tab-badges')" class="action-btn-pill">
-              <i class="fas fa-print"></i> Imprimer les badges (<span id="stat-badges-count-btn">4</span>)
+              <i class="fas fa-print"></i> Imprimer les badges (<span id="stat-badges-count-btn">0</span>)
             </button>
             <button onclick="switchAdminTab('tab-checkin')" class="action-btn-pill">
               <i class="fas fa-qrcode"></i> Check-in sur site
@@ -831,10 +831,21 @@
 
         <!-- 8 DYNAMIC INSTITUTIONAL METRICS GRID CARDS (ROW 1 & ROW 2) FOR CONESESS -->
         <div class="metrics-grid-4 mb-3">
-          <div class="metric-card-box" style="border-top: 4px solid #006837;">
-            <div class="metric-card-label"><i class="fas fa-inbox" style="color: #006837;"></i> Formulaires & Demandes Reçus</div>
-            <div class="metric-card-val" style="color: #006837;" id="stat-web-forms-total">0</div>
+          <!-- DYNAMIC REAL-TIME CLOUD RECEPTION FLUX INDICATOR CARD -->
+          <div class="metric-card-box" style="border-top: 4px solid #006837; background: linear-gradient(135deg, var(--admin-card-bg-light) 0%, rgba(0, 104, 55, 0.04) 100%);">
+            <div class="metric-card-label" style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
+              <span><i class="fas fa-satellite-dish" style="color: #006837; animation: pulse 2s infinite;"></i> Flux de Réception Temps Réel</span>
+              <span class="badge badge-green" style="font-size: 0.65rem; padding: 2px 8px; border-radius: 12px; background: rgba(0, 104, 55, 0.12); color: #006837;"><i class="fas fa-circle" style="color: #22C55E; font-size: 0.5rem;"></i> Direct 3s</span>
+            </div>
+            <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 0.4rem;">
+              <div class="metric-card-val" style="color: #006837; font-weight: 800; font-size: 1.85rem;" id="stat-web-forms-total">0</div>
+              <div style="text-align: right;">
+                <span style="font-size: 0.725rem; font-weight: 700; color: #006837; display: block;"><i class="fas fa-sync-alt fa-spin" style="font-size: 0.65rem; margin-right: 2px;"></i> Synchro Active</span>
+                <small style="color: var(--admin-text-muted); font-size: 0.68rem;">Entrées Centralisées</small>
+              </div>
+            </div>
           </div>
+
           <div class="metric-card-box" style="border-top: 4px solid #0A2540;">
             <div class="metric-card-label"><i class="fas fa-building" style="color: #0A2540;"></i> Organisations Confirmées</div>
             <div class="metric-card-val" style="color: #0A2540;" id="stat-approved-members">0</div>
@@ -852,7 +863,7 @@
         <div class="metrics-grid-4 mb-4">
           <div class="metric-card-box" style="border-top: 4px solid #0A2540;">
             <div class="metric-card-label"><i class="fas fa-map-marked-alt" style="color: #0A2540;"></i> Régions du Sénégal Couvertes</div>
-            <div class="metric-card-val" style="color: #0A2540;" id="stat-regions-covered">14 / 14</div>
+            <div class="metric-card-val" style="color: #0A2540;" id="stat-regions-covered">0 / 14</div>
           </div>
           <div class="metric-card-box" style="border-top: 4px solid #006837;">
             <div class="metric-card-label"><i class="fas fa-id-card" style="color: #006837;"></i> Badges Membres Générés</div>

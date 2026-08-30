@@ -840,15 +840,14 @@ function renderAdminAll() {
   const webForms = getWebFormsDB();
 
   // Metrics
-  const totalWebFormsCount = members.length + contacts.length + webForms.length;
-  const approvedMembersCount = members.filter(m => m.status === 'Approuvé').length;
-  const pendingMembersCount = members.filter(m => m.status === 'En attente').length;
-  const steeringCandidates = webForms.filter(f => f.type === 'Candidature Comité de Pilotage');
-  const memberCandidates = members.filter(m => m.type === 'Candidat Comité de Pilotage');
-  const steeringCount = new Set([...steeringCandidates.map(c => c.ref || c.id), ...memberCandidates.map(m => m.ref || m.id)]).size;
-  const uniqueRegionsCount = new Set(members.map(m => m.region).filter(Boolean)).size;
-  const generatedBadgesCount = members.filter(m => m.badgeStatus && m.badgeStatus !== 'Non généré').length;
-  const pendingAdminsCount = adminUsers.filter(u => u.status === 'En attente').length;
+  const totalSubmissionsCount = webForms.length;
+  const approvedMembersCount = members.filter(m => m && m.status === 'Approuvé').length;
+  const pendingMembersCount = webForms.filter(f => f && f.status === 'En attente').length;
+  const steeringCandidates = webForms.filter(f => f && f.type === 'Candidature Comité de Pilotage');
+  const steeringCount = steeringCandidates.length;
+  const uniqueRegionsCount = new Set(webForms.map(w => w && w.region).concat(members.map(m => m && m.region)).filter(Boolean)).size;
+  const generatedBadgesCount = members.filter(m => m && m.badgeStatus && m.badgeStatus !== 'Non généré').length;
+  const pendingAdminsCount = adminUsers.filter(u => u && u.status === 'En attente').length;
 
   const statTotal = document.getElementById('stat-total-members');
   const statWebFormsTotal = document.getElementById('stat-web-forms-total');
@@ -860,12 +859,12 @@ function renderAdminAll() {
   const statPendingAdminsCount = document.getElementById('stat-pending-admins-count');
   const statBadgesBtn = document.getElementById('stat-badges-count-btn');
 
-  if (statTotal) statTotal.textContent = members.length;
-  if (statWebFormsTotal) statWebFormsTotal.textContent = totalWebFormsCount;
+  if (statTotal) statTotal.textContent = totalSubmissionsCount;
+  if (statWebFormsTotal) statWebFormsTotal.textContent = totalSubmissionsCount;
   if (statApproved) statApproved.textContent = approvedMembersCount;
   if (statPending) statPending.textContent = pendingMembersCount;
   if (statSteeringCount) statSteeringCount.textContent = steeringCount;
-  if (statRegionsCovered) statRegionsCovered.textContent = `${uniqueRegionsCount > 0 ? uniqueRegionsCount : 14} / 14`;
+  if (statRegionsCovered) statRegionsCovered.textContent = `${uniqueRegionsCount} / 14`;
   if (statBadgesGenerated) statBadgesGenerated.textContent = generatedBadgesCount;
   if (statPendingAdminsCount) statPendingAdminsCount.textContent = pendingAdminsCount;
   if (statBadgesBtn) statBadgesBtn.textContent = generatedBadgesCount;
@@ -876,7 +875,7 @@ function renderAdminAll() {
   const countNavSteering = document.getElementById('count-nav-steering');
 
   if (countNavPendingAdmins) countNavPendingAdmins.textContent = pendingAdminsCount;
-  if (countNavWebForms) countNavWebForms.textContent = totalWebFormsCount;
+  if (countNavWebForms) countNavWebForms.textContent = totalSubmissionsCount;
   if (countNavAdhesions) countNavAdhesions.textContent = members.length;
   if (countNavSteering) countNavSteering.textContent = steeringCount;
 
