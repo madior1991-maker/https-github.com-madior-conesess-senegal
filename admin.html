@@ -1035,6 +1035,30 @@
             </div>
           </div>
 
+          <!-- SHAREABLE CALL FOR CANDIDATURES LINK CARD -->
+          <div style="background: linear-gradient(135deg, rgba(10, 37, 64, 0.04) 0%, rgba(0, 135, 72, 0.06) 100%); border: 1.5px solid var(--admin-border-light); border-left: 4px solid var(--admin-green); border-radius: 14px; padding: 1.15rem 1.25rem; margin-bottom: 1.25rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.85rem;">
+              <div style="flex: 1; min-width: 260px;">
+                <strong style="color: var(--admin-text-main); font-size: 0.925rem; display: flex; align-items: center; gap: 0.4rem;">
+                  <i class="fas fa-link" style="color: var(--admin-green);"></i> Lien Officiel à Partager aux Membres (Appel à Candidatures)
+                </strong>
+                <p style="font-size: 0.8rem; color: var(--admin-text-muted); margin: 0.2rem 0 0 0;">
+                  Partagez ce lien direct par WhatsApp, E-mail ou réseaux sociaux pour permettre aux membres de postuler directement.
+                </p>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 0.5rem; width: 100%; max-width: 580px;">
+                <input type="text" id="input-candidature-link" readonly value="https://madior1991-maker.github.io/https-github.com-madior-conesess-senegal/candidature.html" class="wizard-form-control" style="font-size: 0.825rem; font-weight: 600; color: var(--admin-navy); background: var(--admin-card-bg-light); border: 1.5px solid var(--admin-border-light); padding: 0.5rem 0.75rem; border-radius: 8px; flex: 1;">
+                <button onclick="copyCandidatureLink()" class="action-btn-primary" style="padding: 0.55rem 1rem; font-size: 0.8rem; white-space: nowrap;">
+                  <i class="fas fa-copy"></i> Copier le Lien
+                </button>
+                <a href="candidature.html" target="_blank" class="action-btn-pill" style="padding: 0.55rem 0.85rem; font-size: 0.8rem; white-space: nowrap;" title="Ouvrir la page de candidature">
+                  <i class="fas fa-external-link-alt"></i> Ouvrir
+                </a>
+              </div>
+            </div>
+          </div>
+
           <div class="admin-table-container">
             <table class="admin-table">
               <thead>

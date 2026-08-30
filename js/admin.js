@@ -2089,6 +2089,34 @@ function exportWebFormsExcel() {
   showToast("Formulaires web exportés avec succès au format Excel (.xls) !");
 }
 
+// Copy Candidature Call Link to Clipboard
+function copyCandidatureLink() {
+  const linkInput = document.getElementById('input-candidature-link');
+  const fallbackUrl = window.location.origin + window.location.pathname.replace('admin.html', 'candidature.html');
+  const url = linkInput ? linkInput.value : fallbackUrl;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      showToast("Lien d'appel à candidature copié ! Vous pouvez le partager.");
+    }).catch(() => {
+      copyLinkFallback(url);
+    });
+  } else {
+    copyLinkFallback(url);
+  }
+}
+
+function copyLinkFallback(text) {
+  const linkInput = document.getElementById('input-candidature-link');
+  if (linkInput) {
+    linkInput.select();
+    document.execCommand('copy');
+    showToast("Lien d'appel à candidature copié dans le presse-papier !");
+  } else {
+    showToast("Lien : " + text);
+  }
+}
+
 // Add Member Modal
 function openAddMemberModal() {
   const modal = document.getElementById('admin-add-member-modal');
