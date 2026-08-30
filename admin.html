@@ -1480,6 +1480,25 @@
               </button>
             </form>
           </div>
+
+          <!-- CARD 5: RÉINITIALISATION POST-TEST (PRÊT POUR PRODUCTION) -->
+          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(220, 38, 38, 0.12); color: #DC2626; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                <i class="fas fa-trash-restore"></i>
+              </div>
+              <div>
+                <h3 style="font-size: 1.05rem; margin: 0; color: var(--admin-text-main);">Réinitialiser Données de Test</h3>
+                <small style="color: var(--admin-text-muted);">Purge post-test & passage en production</small>
+              </div>
+            </div>
+            
+            <p style="font-size: 0.8rem; color: var(--admin-text-body);" class="mb-3">Effacer l'ensemble des formulaires de test reçus et remettre la base de données à zéro pour lancer la réception réelle en production.</p>
+            
+            <button onclick="confirmResetTestDataForProduction()" class="action-btn-primary" style="width: 100%; justify-content: center; background: #DC2626; border: none;" title="Effacer toutes les données de test et réinitialiser la base">
+              <i class="fas fa-redo-alt"></i> Réinitialiser la Base (Post-Test)
+            </button>
+          </div>
         </div>
 
         <!-- TABLEAU 1: GESTION COMPLÈTE DES ADMINISTRATEURS (SUPPRESSION ET RÔLES) -->

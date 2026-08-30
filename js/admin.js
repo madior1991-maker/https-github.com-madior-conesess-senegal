@@ -360,6 +360,12 @@ function clearAllAdminData() {
   showToast("Base de données réinitialisée. La plateforme est prête à accueillir les nouvelles données !");
 }
 
+function confirmResetTestDataForProduction() {
+  if (confirm("⚠️ ATTENTION : Confirmez-vous la réinitialisation complète du registre et l'effacement de toutes les données de test ?\n\nCette action remettra la base de données à zéro et préparera la plateforme pour la réception des données réelles en production.")) {
+    clearAllAdminData();
+  }
+}
+
 function getWebFormsDB() {
   return JSON.parse(localStorage.getItem('conesess_web_forms')) || INITIAL_STEERING_CANDIDATES;
 }
