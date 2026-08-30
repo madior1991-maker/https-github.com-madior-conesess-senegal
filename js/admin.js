@@ -583,7 +583,7 @@ function loginAdmin() {
 // Quick Super Admin Login
 function quickLoginAdmin() {
   const users = getAdminUsersDB();
-  const superAdmin = users.find(u => u.email.toLowerCase() === 'madior1991@gmail.com') || users.find(u => u.isSuperAdmin) || users[0];
+  const superAdmin = (users && users.length) ? (users.find(u => u.email.toLowerCase() === 'madior1991@gmail.com') || users.find(u => u.isSuperAdmin) || users[0]) : INITIAL_ADMIN_USERS[0];
 
   localStorage.setItem('conesess_admin_auth', 'true');
   localStorage.setItem('conesess_admin_active_user', JSON.stringify(superAdmin));
