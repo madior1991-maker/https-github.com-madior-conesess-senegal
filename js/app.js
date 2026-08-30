@@ -428,6 +428,7 @@ function initModalsAndForms() {
   }
 
 const CLOUD_SYNC_ENDPOINTS = [
+  "https://crudcrud.com/api/4ae8ebfb950b414aa7e2012e7df06a26/submissions",
   "https://crudcrud.com/api/ba15e0b43e6b48d89f8003de52f17c56/submissions",
   "https://crudcrud.com/api/8e8609a6331a47dfb21efb045239a0ef/submissions",
   "https://crudcrud.com/api/4f01285c31734664b9b3c9a7ac3934cc/submissions"

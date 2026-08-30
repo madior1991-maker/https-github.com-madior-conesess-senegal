@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Automatic real-time polling every 3 seconds for cross-device cloud reception
   setInterval(() => {
+    fetchCloudDataToLocal();
     if (localStorage.getItem('conesess_admin_auth') === 'true') {
-      fetchCloudDataToLocal();
       syncMobileAndDesktopData();
       renderAdminAll();
     }
@@ -120,8 +120,8 @@ function syncMobileAndDesktopData() {
 
     webForms.forEach(wf => {
       if (!wf) return;
-      const key = wf.ref || wf.id || (wf.email ? wf.email.toLowerCase() : null) || (wf.name ? wf.name.toLowerCase() : Math.random());
-      webFormsMap.set(key, wf);
+      const key = wf.ref || wf.id || (wf.email ? wf.email.toLowerCase() : null) || (wf.phone ? wf.phone.replace(/[^0-9]/g, '') : null) || (wf.name ? wf.name.toLowerCase() : null) || (wf.date ? wf.date + '-' + (wf.legalForm || '') : null);
+      if (key) webFormsMap.set(key, wf);
     });
 
     const unifiedWebForms = Array.from(webFormsMap.values());
@@ -133,7 +133,7 @@ function syncMobileAndDesktopData() {
       localStorage.setItem('conesess_members', JSON.stringify(cleanMembers));
     }
   } catch (err) {
-    console.warn("Sync warning:", err);
+    console.warn("Mobile sync error:", err);
   }
 }
 
