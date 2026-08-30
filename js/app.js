@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initGovernanceTabs();
   initIncubatorExplorer();
   initModalsAndForms();
+  if (typeof fetchCloudDataToLocal === 'function') fetchCloudDataToLocal();
 });
 
 /* --------------------------------------------------------------------------
@@ -448,6 +449,86 @@ async function pushLocalDataToCloud() {
     });
   } catch (err) {
     console.warn("Cloud push warning:", err);
+  }
+}
+
+async function fetchCloudDataToLocal() {
+  try {
+    const res = await fetch(CLOUD_SYNC_ENDPOINT);
+    if (!res.ok) return;
+    const remoteRecords = await res.json();
+    if (!Array.isArray(remoteRecords) || remoteRecords.length === 0) return;
+
+    let localMembers = JSON.parse(localStorage.getItem('conesess_members')) || [];
+    let localWebForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
+    let localContacts = JSON.parse(localStorage.getItem('conesess_contacts')) || [];
+
+    let membersMap = new Map();
+    localMembers.forEach(m => {
+      if (!m) return;
+      const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.name ? m.name.toLowerCase() : Math.random());
+      membersMap.set(key, m);
+    });
+
+    let webFormsMap = new Map();
+    localWebForms.forEach(wf => {
+      if (!wf) return;
+      const key = wf.ref || (wf.email ? wf.email.toLowerCase() : null) || (wf.name ? wf.name.toLowerCase() : Math.random());
+      webFormsMap.set(key, wf);
+    });
+
+    let contactsMap = new Map();
+    localContacts.forEach(c => {
+      if (!c) return;
+      const key = (c.email ? c.email.toLowerCase() : '') + (c.phone || '') + (c.date || '');
+      contactsMap.set(key, c);
+    });
+
+    let updated = false;
+
+    remoteRecords.forEach(rec => {
+      if (rec.members && Array.isArray(rec.members)) {
+        rec.members.forEach(m => {
+          if (!m) return;
+          const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.name ? m.name.toLowerCase() : Math.random());
+          if (!membersMap.has(key)) {
+            membersMap.set(key, m);
+            updated = true;
+          }
+        });
+      }
+
+      if (rec.webForms && Array.isArray(rec.webForms)) {
+        rec.webForms.forEach(wf => {
+          if (!wf) return;
+          const key = wf.ref || (wf.email ? wf.email.toLowerCase() : null) || (wf.name ? wf.name.toLowerCase() : Math.random());
+          if (!webFormsMap.has(key)) {
+            webFormsMap.set(key, wf);
+            updated = true;
+          }
+        });
+      }
+
+      if (rec.contacts && Array.isArray(rec.contacts)) {
+        rec.contacts.forEach(c => {
+          if (!c) return;
+          const key = (c.email ? c.email.toLowerCase() : '') + (c.phone || '') + (c.date || '');
+          if (!contactsMap.has(key)) {
+            contactsMap.set(key, c);
+            updated = true;
+          }
+        });
+      }
+    });
+
+    if (updated) {
+      localStorage.setItem('conesess_members', JSON.stringify(Array.from(membersMap.values())));
+      localStorage.setItem('conesess_web_forms', JSON.stringify(Array.from(webFormsMap.values())));
+      localStorage.setItem('conesess_contacts', JSON.stringify(Array.from(contactsMap.values())));
+      try { window.dispatchEvent(new Event('storage')); } catch(e) {}
+    }
+  } catch (err) {
+    console.warn("Cloud fetch warning:", err);
   }
 }
 
