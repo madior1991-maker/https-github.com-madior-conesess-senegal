@@ -822,28 +822,6 @@ async function fetchCloudDataToLocal() {
       existingForms.unshift(newApp);
       localStorage.setItem('conesess_web_forms', JSON.stringify(existingForms));
 
-      // Also save to conesess_members so candidate appears in members database and all admin tabs
-      const members = JSON.parse(localStorage.getItem('conesess_members')) || [];
-      members.unshift({
-        ref: ref,
-        name: org,
-        type: 'Candidat Comité de Pilotage',
-        region: region,
-        dept: 'Régional',
-        sector: role,
-        members: '1',
-        rep: name,
-        phone: phone,
-        email: email,
-        desc: `Poste visé : ${role} | Expérience : ${experience}`,
-        motivation: motivation,
-        status: 'En attente',
-        badgeStatus: 'Non généré',
-        badgeRole: role,
-        date: new Date().toISOString().slice(0,10)
-      });
-      localStorage.setItem('conesess_members', JSON.stringify(members));
-
       dispatchEmailNotificationAlert(
         "Comité de Pilotage",
         `Candidature au Comité de Pilotage : ${name}`,

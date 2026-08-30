@@ -332,6 +332,43 @@ function initAdminDB() {
 
   syncMobileAndDesktopData();
   fetchCloudDataToLocal();
+  // Clean up any candidate entries from conesess_members so candidates DO NOT appear in members & participants
+  try {
+    let members = JSON.parse(localStorage.getItem('conesess_members')) || [];
+    let webForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
+    
+    let candidateEntriesInMembers = members.filter(m => m && m.type === 'Candidat Comité de Pilotage');
+    if (candidateEntriesInMembers.length > 0) {
+      candidateEntriesInMembers.forEach(cand => {
+        const existsInWebForms = webForms.some(w => w && (w.ref === cand.ref || w.id === cand.ref));
+        if (!existsInWebForms) {
+          webForms.unshift({
+            id: cand.ref,
+            ref: cand.ref,
+            type: 'Candidature Comité de Pilotage',
+            name: cand.rep || cand.name,
+            org: cand.name,
+            legalForm: 'Candidat Comité de Pilotage',
+            region: cand.region,
+            email: cand.email,
+            phone: cand.phone,
+            role: cand.sector || cand.badgeRole || 'Membre Comité',
+            details: cand.desc || `Poste visé : ${cand.sector}`,
+            motivation: cand.motivation || '',
+            experience: cand.desc || '',
+            status: cand.status || 'En attente',
+            date: cand.date || new Date().toISOString().slice(0,10)
+          });
+        }
+      });
+      localStorage.setItem('conesess_web_forms', JSON.stringify(webForms));
+      
+      // Remove candidate records from members array
+      members = members.filter(m => m && m.type !== 'Candidat Comité de Pilotage');
+      localStorage.setItem('conesess_members', JSON.stringify(members));
+    }
+  } catch(e) {}
+
   // Ensure storage structures exist without wiping user-submitted forms
   if (!localStorage.getItem('conesess_members')) {
     localStorage.setItem('conesess_members', JSON.stringify([]));
