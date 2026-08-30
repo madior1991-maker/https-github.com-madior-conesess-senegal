@@ -3,1191 +3,494 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CONESESS 2026 - Espace Administrateur & Gestionnaire</title>
+  <title>CONESESS 2026 - Plateforme d'Administration & Gestionnaire Confédéral</title>
+  <meta name="description" content="Plateforme officielle d'administration et de gestion centralisée des adhésions, candidatures et badges du CONESESS Sénégal.">
   <meta name="robots" content="noindex, nofollow">
-  
+
   <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Main Stylesheet -->
+  <!-- Main Base Stylesheet -->
   <link rel="stylesheet" href="css/styles.css">
 
   <style>
     :root {
-      --admin-sidebar-w: 240px;
       --admin-navy: #0A2540;
-      --admin-green: #008748;
+      --admin-green: #006837;
       --admin-gold: #D97706;
       --admin-gold-bright: #E9C46A;
-      /* VIBRANT HIGH-CONTRAST INSTITUTIONAL LIGHT THEME */
       --admin-bg-light: #F8FAFC;
       --admin-card-bg-light: #FFFFFF;
       --admin-border-light: #E2E8F0;
       --admin-text-main: #0F172A;
       --admin-text-body: #1E293B;
-      --admin-text-muted: #475569;
+      --admin-text-muted: #64748B;
       --admin-soft-green: #F0FDF4;
       --admin-soft-gold: #FEF3C7;
+      --admin-sidebar-w: 260px;
     }
 
     [data-admin-theme="dark"] {
-      --admin-bg-light: #0B131E;
-      --admin-card-bg-light: #15202E;
-      --admin-border-light: #233346;
+      --admin-bg-light: #0F172A;
+      --admin-card-bg-light: #1E293B;
+      --admin-border-light: #334155;
       --admin-text-main: #F8FAFC;
-      --admin-text-body: #E2E8F0;
+      --admin-text-body: #CBD5E1;
       --admin-text-muted: #94A3B8;
       --admin-green: #10B981;
-      --admin-soft-green: rgba(16, 185, 129, 0.18);
-    }
-
-    [data-admin-theme="dark"] .wizard-form-control,
-    [data-admin-theme="dark"] select,
-    [data-admin-theme="dark"] input,
-    [data-admin-theme="dark"] textarea {
-      background: #1A2738 !important;
-      color: #F1F5F9 !important;
-      border-color: #2D3E53 !important;
-    }
-
-    [data-admin-theme="dark"] .modal-card {
-      background: #15202E !important;
-      color: #F1F5F9 !important;
-      border: 1px solid #233346 !important;
-    }
-
-    [data-admin-theme="dark"] .admin-table th {
-      background: #06121E !important;
-      color: #FFFFFF !important;
-    }
-
-    [data-admin-theme="dark"] .admin-table td {
-      border-bottom-color: #233346 !important;
-      color: #F1F5F9 !important;
+      --admin-soft-green: rgba(16, 185, 129, 0.15);
     }
 
     body.admin-app-body {
-      background: var(--admin-bg-light);
-      color: var(--admin-text-main);
+      background-color: var(--admin-bg-light);
+      color: var(--admin-text-body);
       font-family: 'Plus Jakarta Sans', sans-serif;
       margin: 0;
       padding: 0;
       min-height: 100vh;
     }
 
+    /* APP LAYOUT STRUCTURE */
     .admin-app-wrapper {
       display: flex;
       min-height: 100vh;
+      width: 100%;
     }
 
-    /* LEFT SIDEBAR NAVIGATION - PALETTE VERT & BLANC INSTITUTIONNEL */
+    /* SIDEBAR NAVIGATION RAIL */
     .admin-sidebar {
       width: var(--admin-sidebar-w);
-      background: linear-gradient(180deg, #004D28 0%, #006837 100%);
+      background: var(--admin-navy);
       color: #FFFFFF;
-      border-right: 1px solid rgba(255, 255, 255, 0.15);
       display: flex;
       flex-direction: column;
       position: fixed;
       top: 0; bottom: 0; left: 0;
       z-index: 1050;
-      padding: 1.15rem 0.85rem;
-      box-shadow: 4px 0 25px rgba(0, 77, 40, 0.18);
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
     }
 
-    .admin-brand-card {
+    .admin-brand-header {
+      padding: 1.25rem 1.5rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 0.65rem;
-      padding-bottom: 0.95rem;
-      margin-bottom: 0.95rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      flex-shrink: 0;
+      gap: 0.85rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .admin-brand-card-inner {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-    }
-
-    .mobile-sidebar-close-btn {
-      display: none;
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: #FFFFFF;
-      width: 32px;
-      height: 32px;
+    .admin-brand-logo {
+      width: 42px; height: 42px;
       border-radius: 50%;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      cursor: pointer;
-      line-height: 1;
+      border: 2px solid var(--admin-gold-bright);
+      object-fit: cover;
     }
 
     .admin-nav-menu {
+      padding: 1rem 0.85rem;
+      flex: 1;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 0.35rem;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      flex: 1;
-      overflow-y: visible;
-    }
-
-    .admin-nav-menu::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .admin-nav-menu::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.25);
-      border-radius: 4px;
     }
 
     .admin-nav-section-title {
-      font-size: 0.68rem;
+      font-size: 0.675rem;
       font-weight: 800;
-      letter-spacing: 0.08em;
-      color: #E9C46A;
       text-transform: uppercase;
-      padding: 0.85rem 0.9rem 0.35rem 0.9rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      margin-bottom: 0.35rem;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.45);
+      padding: 0.65rem 0.85rem 0.25rem;
     }
 
-    .admin-nav-link {
+    .admin-nav-item {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 0.65rem;
-      padding: 0.6rem 0.95rem;
-      border-radius: 30px;
-      color: rgba(255, 255, 255, 0.92);
+      gap: 0.85rem;
+      padding: 0.7rem 0.95rem;
+      color: rgba(255, 255, 255, 0.75);
       text-decoration: none;
+      border-radius: 10px;
+      font-size: 0.875rem;
       font-weight: 600;
-      font-size: 0.825rem;
-      transition: all 0.22s ease;
       cursor: pointer;
-      white-space: nowrap;
+      transition: all 0.2s ease;
     }
 
-    .admin-nav-link:hover {
-      background: rgba(255, 255, 255, 0.18);
+    .admin-nav-item:hover, .admin-nav-item.active {
       color: #FFFFFF;
-      transform: translateX(3px);
+      background: rgba(255, 255, 255, 0.12);
     }
 
-    .admin-nav-link.active {
-      background: #FFFFFF !important;
-      color: #006837 !important;
-      font-weight: 800 !important;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
-      border-left: 4.5px solid #E9C46A !important;
+    .admin-nav-item.active {
+      background: var(--admin-green);
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(0, 104, 55, 0.4);
     }
 
-    .admin-nav-link.active i {
-      color: #006837 !important;
-    }
-
-    .admin-nav-link i {
-      font-size: 0.9rem;
-      width: 18px;
+    .admin-nav-item i {
+      font-size: 1.1rem;
+      width: 22px;
       text-align: center;
     }
 
-    /* BACKDROP OVERLAY FOR MOBILE SIDEBAR */
-    .admin-sidebar-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
-      z-index: 1040;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .admin-sidebar-overlay.active {
-      display: block;
-      opacity: 1;
+    .admin-sidebar-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.8rem;
     }
 
     /* MAIN VIEWPORT */
     .admin-viewport {
       margin-left: var(--admin-sidebar-w);
       flex: 1;
-      padding: 1rem 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      min-width: 0;
+      padding: 1.5rem 2rem;
     }
 
-    /* TOP BAR */
+    /* TOP HEADER BAR */
     .admin-top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .admin-search-box {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      margin-bottom: 2rem;
+      padding: 1rem 1.5rem;
       background: var(--admin-card-bg-light);
+      border-radius: 16px;
       border: 1px solid var(--admin-border-light);
-      border-radius: 30px;
-      padding: 0.35rem 1rem;
-      width: 320px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
     }
 
-    .admin-search-box input {
-      border: none;
-      outline: none;
-      background: transparent;
-      width: 100%;
-      font-size: 0.825rem;
-      color: var(--admin-text-main);
-    }
-
-    .admin-top-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .theme-toggle-pill {
-      background: var(--admin-card-bg-light);
-      border: 1px solid var(--admin-border-light);
-      border-radius: 30px;
-      padding: 0.25rem 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-    }
-
-    .theme-btn {
-      border: none;
-      background: transparent;
-      padding: 0.25rem 0.55rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      color: var(--admin-text-muted);
-    }
-
-    .theme-btn.active {
+    .mobile-admin-toggle {
+      display: none;
+      width: 40px; height: 40px;
       background: var(--admin-green);
       color: #FFFFFF;
+      border: none; border-radius: 10px;
+      font-size: 1.2rem; cursor: pointer;
     }
 
-    /* HERO TREND BANNER CARD (COMPACT COMPACT) */
-    .hero-trend-card {
-      background: linear-gradient(135deg, #0A2540 0%, #006837 100%);
-      color: #FFFFFF;
-      border-radius: 14px;
-      border: 1.5px solid rgba(233, 196, 106, 0.4);
-      padding: 1rem 1.35rem;
-      box-shadow: 0 6px 20px rgba(10, 37, 64, 0.15);
-    }
-
-    .hero-trend-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 0.85rem;
-    }
-
-    .hero-trend-title {
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: #E9C46A;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 0.2rem;
-    }
-
-    .hero-trend-number {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2.2rem;
-      font-weight: 800;
-      line-height: 1;
-      color: #FFFFFF;
-    }
-
-    .hero-actions-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .action-btn-primary {
-      background: linear-gradient(135deg, #008748 0%, #006837 100%);
-      color: #FFFFFF !important;
-      border: 1px solid #004d28;
-      border-radius: 30px;
-      padding: 0.5rem 1.15rem;
-      font-weight: 800;
-      font-size: 0.825rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      box-shadow: 0 4px 14px rgba(0, 135, 72, 0.35);
-      transition: all 0.2s ease;
-    }
-
-    .action-btn-primary:hover {
-      background: linear-gradient(135deg, #006837 0%, #0A2540 100%);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(0, 104, 55, 0.45);
-    }
-
-    .action-btn-pill {
-      background: #FFFFFF;
-      border: 1.5px solid #006837;
-      color: #006837 !important;
-      border-radius: 30px;
-      padding: 0.45rem 1rem;
-      font-weight: 700;
-      font-size: 0.775rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-
-    .action-btn-pill:hover {
-      background: #006837;
-      color: #FFFFFF !important;
-      border-color: #006837;
-      box-shadow: 0 4px 12px rgba(0, 104, 55, 0.25);
-    }
-
-    .hero-trend-card .action-btn-pill,
-    .admin-sidebar .action-btn-pill,
-    .admin-top-bar .action-btn-pill {
-      background: rgba(255, 255, 255, 0.18);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      color: #FFFFFF !important;
-    }
-
-    .hero-trend-card .action-btn-pill:hover,
-    .admin-sidebar .action-btn-pill:hover,
-    .admin-top-bar .action-btn-pill:hover {
-      background: #E9C46A;
-      color: #0A2540 !important;
-      border-color: #E9C46A;
-    }
-
-    /* METRICS GRID 4 COLUMNS COMPACT */
+    /* HERO METRICS GRID */
     .metrics-grid-4 {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
     }
 
-    .metric-card-box {
+    .metric-card-pro {
       background: var(--admin-card-bg-light);
       border: 1px solid var(--admin-border-light);
-      border-radius: 12px;
-      padding: 0.75rem 1rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-      transition: transform 0.2s ease;
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .metric-card-box:hover {
+    .metric-card-pro:hover {
       transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
     }
 
-    .metric-card-label {
-      font-size: 0.675rem;
-      font-weight: 700;
-      color: var(--admin-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+    .metric-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .metric-icon-wrap {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .metric-value-huge {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--admin-text-main);
+      line-height: 1.1;
       margin-bottom: 0.25rem;
     }
 
-    .metric-card-val {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 800;
+    .metric-subtext {
+      font-size: 0.8rem;
+      color: var(--admin-text-muted);
+      font-weight: 500;
     }
 
-    /* ADMIN TABLES COMPACT */
-    .admin-table-container {
+    /* DATA TABLES PRO */
+    .admin-table-card {
       background: var(--admin-card-bg-light);
+      border: 1px solid var(--admin-border-light);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+
+    .table-header-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .admin-table-container {
+      overflow-x: auto;
       border-radius: 12px;
       border: 1px solid var(--admin-border-light);
-      overflow-x: auto;
     }
 
     .admin-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.8rem;
       text-align: left;
+      font-size: 0.875rem;
     }
 
     .admin-table th {
-      background: #0A2540;
-      color: #FFFFFF;
-      padding: 0.6rem 0.75rem;
+      background: var(--admin-bg-light);
+      color: var(--admin-text-main);
       font-weight: 700;
-      border-bottom: 2px solid #E9C46A;
+      padding: 0.85rem 1rem;
+      border-bottom: 2px solid var(--admin-border-light);
       white-space: nowrap;
-      font-size: 0.775rem;
     }
 
     .admin-table td {
-      padding: 0.55rem 0.75rem;
+      padding: 0.9rem 1rem;
       border-bottom: 1px solid var(--admin-border-light);
-      color: var(--admin-text-main);
+      color: var(--admin-text-body);
       vertical-align: middle;
     }
 
-    .admin-table tr:hover {
-      background: rgba(0, 104, 55, 0.04);
+    .admin-table tbody tr:hover {
+      background: rgba(0, 104, 55, 0.03);
     }
 
-    .admin-table tr:hover {
-      background: rgba(0, 104, 55, 0.04);
-    }
-
-    /* BADGE STUDIO CR80 STYLING */
-    .cr80-badge-card {
-      width: 330px;
-      height: 510px;
-      background: linear-gradient(145deg, #0A2540 0%, #061526 100%);
-      border-radius: 16px;
-      border: 2px solid #E9C46A;
+    /* BADGE STUDIO PRO */
+    .cr80-badge-preview {
+      width: 320px;
+      height: 480px;
+      background: linear-gradient(135deg, #0A2540 0%, #006837 100%);
+      border-radius: 18px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
       color: #FFFFFF;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-      position: relative;
-      overflow: hidden;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
       margin: 0 auto;
     }
 
-    .badge-senegal-bar {
+    .badge-access-band {
       position: absolute;
-      top: 0; left: 0; width: 100%; height: 5px;
-      background: linear-gradient(90deg, #00853F 0%, #00853F 33.3%, #FDEF42 33.3%, #FDEF42 66.6%, #E31B23 66.6%, #E31B23 100%);
+      top: 0; left: 0; right: 0;
+      height: 12px;
+      border-top-left-radius: 18px;
+      border-top-right-radius: 18px;
     }
 
-    .badge-header {
-      background: linear-gradient(135deg, #006837 0%, #004D28 100%);
-      padding: 1.25rem 1rem 0.75rem 1rem;
-      text-align: center;
-      border-bottom: 2px solid #E9C46A;
-    }
-
-    .badge-photo-container {
-      width: 105px;
-      height: 105px;
-      border-radius: 50%;
-      border: 3.5px solid #E9C46A;
-      margin: 1.25rem auto 0.5rem auto;
-      overflow: hidden;
-      background: #FFFFFF;
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    .badge-photo-container img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* LOGIN OVERLAY */
-    .admin-login-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: linear-gradient(135deg, rgba(10, 37, 64, 0.97) 0%, rgba(0, 104, 55, 0.95) 100%), url('assets/images/hero.jpg') center/cover no-repeat;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 9999; padding: 1rem;
-    }
-
-    .admin-login-card {
-      background: #FFFFFF;
-      border-radius: 20px;
-      padding: 2.25rem;
-      max-width: 460px;
-      width: 100%;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.4);
-    }
-
-    /* DESKTOP LAYOUT (MIN-WIDTH: 992px) */
-    @media (min-width: 992px) {
-      .admin-sidebar {
-        position: fixed;
-        top: 0; bottom: 0; left: 0;
-        width: 240px;
-        transform: none !important;
-        display: flex !important;
-        z-index: 1050;
-      }
-      .admin-viewport {
-        margin-left: 240px;
-        flex: 1;
-        padding: 1.25rem 1.75rem;
-      }
-      .metrics-grid-4 {
-        grid-template-columns: repeat(4, 1fr);
-      }
-      .mobile-admin-toggle,
-      .mobile-sidebar-close-btn,
-      .admin-sidebar-overlay {
-        display: none !important;
-      }
-    }
-
-    /* MOBILE & TABLET RESPONSIVE LAYOUT (MAX-WIDTH: 991.98px) */
+    /* RESPONSIVE LAYOUT */
     @media (max-width: 991.98px) {
       .admin-sidebar {
-        position: fixed;
-        top: 0; bottom: 0; left: 0;
-        width: 270px;
         transform: translateX(-100%);
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 1060;
-        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.4);
       }
       .admin-sidebar.active {
-        transform: translateX(0) !important;
-      }
-      .mobile-sidebar-close-btn {
-        display: flex !important;
-      }
-      .admin-sidebar-overlay {
-        display: block;
-        pointer-events: none;
-      }
-      .admin-sidebar-overlay.active {
-        opacity: 1;
-        pointer-events: auto;
+        transform: translateX(0);
       }
       .admin-viewport {
-        margin-left: 0 !important;
-        padding: 0.85rem 0.85rem !important;
-        width: 100% !important;
-        max-width: 100vw !important;
-        overflow-x: hidden;
-      }
-      .metrics-grid-4 {
-        grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)) !important;
-        gap: 0.6rem !important;
-      }
-      .admin-top-bar {
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 0.75rem !important;
+        margin-left: 0;
+        padding: 1rem;
       }
       .mobile-admin-toggle {
-        display: flex !important;
+        display: flex;
         align-items: center; justify-content: center;
-        width: 38px; height: 38px;
-        background: #006837; color: #FFFFFF;
-        border: none; border-radius: 8px;
-        font-size: 1.1rem; cursor: pointer;
-        flex-shrink: 0;
-      }
-      .admin-top-actions {
-        flex-wrap: wrap !important;
-        gap: 0.5rem !important;
-      }
-      .hero-trend-header {
-        flex-direction: column !important;
-        align-items: flex-start !important;
-        gap: 0.75rem !important;
-      }
-      .hero-actions-bar {
-        flex-wrap: wrap !important;
-      }
-      .admin-table-container {
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch;
       }
     }
   </style>
 </head>
 <body class="admin-app-body" data-admin-theme="light">
 
-  <!-- ADMIN LOGIN OVERLAY (Hidden by default to allow direct portal access) -->
-  <div id="admin-login-overlay" class="admin-login-overlay" style="display: none;">
-    <div class="admin-login-card">
-      <div style="text-align: center; margin-bottom: 1.25rem;">
-        <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 65px; height: 65px; border-radius: 50%; border: 3px solid var(--admin-green); margin-bottom: 0.5rem;">
-        <h2 style="color: #0A2540; font-size: 1.45rem; margin-bottom: 0.2rem;">Portail d'Administration CONESESS</h2>
-        <p style="font-size: 0.825rem; color: var(--admin-text-muted);">Gestionnaire Confédéral - FES-ESS & Base Membres</p>
-      </div>
-
-      <!-- LOGIN MODE TOGGLE BUTTONS -->
-      <div style="display: flex; gap: 0.5rem; background: #F1F5F9; padding: 0.35rem; border-radius: 30px; margin-bottom: 1.25rem;">
-        <button id="btn-toggle-auth-login" onclick="showAuthMode('login')" class="btn btn-sm" style="flex: 1; font-size: 0.8rem; background: #0A2540; color: #FFFFFF; font-weight: 700; border-radius: 20px;">
-          <i class="fas fa-sign-in-alt"></i> Se Connecter
-        </button>
-        <button id="btn-toggle-auth-register" onclick="showAuthMode('register')" class="btn btn-sm" style="flex: 1; font-size: 0.8rem; background: transparent; color: #1E293B; border-radius: 20px;">
-          <i class="fas fa-user-plus"></i> Demander un Compte
-        </button>
-      </div>
-
-      <div id="auth-status-alert" style="display: none; padding: 0.75rem; border-radius: 10px; font-size: 0.825rem; margin-bottom: 1rem;"></div>
-
-      <!-- FORM 1: LOGIN -->
-      <form id="form-admin-login">
-        <div class="wizard-form-group mb-3">
-          <label style="font-weight: 600; font-size: 0.825rem; color: #1E293B;">Identifiant / E-mail *</label>
-          <input type="text" id="admin-email" class="wizard-form-control" value="madior1991@gmail.com" required placeholder="madior1991@gmail.com" style="height: 38px; font-size: 0.85rem;" autocomplete="username">
-        </div>
-        <div class="wizard-form-group mb-4">
-          <label style="font-weight: 600; font-size: 0.825rem; color: #1E293B;">Mot de Passe *</label>
-          <input type="password" id="admin-password" class="wizard-form-control" value="admin" required placeholder="admin" style="height: 38px; font-size: 0.85rem;" autocomplete="current-password">
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-          <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">
-            <i class="fas fa-sign-in-alt"></i> Se Connecter au Portail Admin
-          </button>
-          <button type="button" onclick="quickLoginAdmin()" class="action-btn-pill" style="width: 100%; justify-content: center; font-size: 0.8rem; background: #006837; color: #FFFFFF; border: none; padding: 0.6rem;">
-            <i class="fas fa-bolt" style="color: #E9C46A;"></i> Accès Rapide Direct (Madior)
-          </button>
-        </div>
-      </form>
-
-      <!-- FORM 2: REGISTER -->
-      <form id="form-admin-register" style="display: none;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;" class="mb-2">
-          <div class="wizard-form-group" style="margin-bottom: 0.4rem;">
-            <label style="font-weight: 600; font-size: 0.775rem;">Nom & Prénom *</label>
-            <input type="text" id="reg-name" class="wizard-form-control" required placeholder="ex: Fatou Ndiaye" style="height: 36px; font-size: 0.825rem;">
-          </div>
-          <div class="wizard-form-group" style="margin-bottom: 0.4rem;">
-            <label style="font-weight: 600; font-size: 0.775rem;">E-mail Officiel *</label>
-            <input type="email" id="reg-email" class="wizard-form-control" required placeholder="fatou@conesess.sn" style="height: 36px; font-size: 0.825rem;">
-          </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem;" class="mb-2">
-          <div class="wizard-form-group" style="margin-bottom: 0.4rem;">
-            <label style="font-weight: 600; font-size: 0.775rem;">Antenne / Service *</label>
-            <input type="text" id="reg-org" class="wizard-form-control" required placeholder="ex: Antenne Thiès" style="height: 36px; font-size: 0.825rem;">
-          </div>
-          <div class="wizard-form-group" style="margin-bottom: 0.4rem;">
-            <label style="font-weight: 600; font-size: 0.775rem;">Téléphone / WhatsApp *</label>
-            <input type="tel" id="reg-phone" class="wizard-form-control" required placeholder="+221 77 000 00 00" style="height: 36px; font-size: 0.825rem;">
-          </div>
-        </div>
-
-        <div class="wizard-form-group" style="margin-bottom: 0.4rem;">
-          <label style="font-weight: 600; font-size: 0.775rem;">Mot de Passe Souhaité *</label>
-          <input type="password" id="reg-password" class="wizard-form-control" required placeholder="Définissez votre mot de passe" style="height: 36px; font-size: 0.825rem;">
-        </div>
-
-        <div class="wizard-form-group mb-3">
-          <label style="font-weight: 600; font-size: 0.775rem;">Motif / Rôle Souhaité *</label>
-          <select id="reg-role" class="wizard-form-control" required style="height: 36px; font-size: 0.825rem;">
-            <option>Gestionnaire d'Antenne Régionale</option>
-            <option>Coordonnateur Pôle Métier</option>
-            <option>Responsable Incubateur (IAN-ESS)</option>
-            <option>Analyste Observatoire (ON-ESS)</option>
-            <option>Secrétariat Technique & Badges</option>
-            <option value="Administrateur Restreint (Fonctions Limitées)">Administrateur Restreint (Fonctions Limitées - Sans Suppression)</option>
-          </select>
-        </div>
-
-        <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; padding: 0.7rem;">
-          <i class="fas fa-paper-plane"></i> Soumettre la Demande au Super Admin
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- MAIN ADMIN APP WRAPPER (Displayed by default) -->
-  <div id="admin-main-container" class="admin-app-wrapper" style="display: block;">
+  <div class="admin-app-wrapper">
     
-    <!-- BACKDROP OVERLAY FOR MOBILE SIDEBAR -->
-    <div id="admin-sidebar-overlay" class="admin-sidebar-overlay" onclick="toggleAdminSidebar()"></div>
+    <!-- MOBILE DRAWER BACKDROP -->
+    <div id="admin-sidebar-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1040;" onclick="toggleAdminSidebar()"></div>
 
-    <!-- LEFT SIDEBAR NAVIGATION -->
-    <aside class="admin-sidebar">
-      <div class="admin-brand-card">
-        <div class="admin-brand-card-inner">
-          <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 38px; height: 38px; border-radius: 50%; border: 2px solid #E9C46A; object-fit: cover;">
-          <div>
-            <strong style="font-size: 0.95rem; color: #FFFFFF; display: block; line-height: 1.1;">CONESESS SÉNÉGAL</strong>
-            <small style="color: rgba(255,255,255,0.8); font-size: 0.725rem;">Espace Administrateur</small>
-          </div>
+    <!-- SIDEBAR RAIL -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="admin-brand-header">
+        <img src="assets/images/logo.jpg" alt="Logo CONESESS" class="admin-brand-logo">
+        <div>
+          <strong style="font-size: 0.95rem; display: block; color: #FFFFFF;">CONESESS SÉNÉGAL</strong>
+          <small style="color: var(--admin-gold-bright); font-size: 0.725rem; font-weight: 700;">Plateforme Administration</small>
         </div>
-        <button class="mobile-sidebar-close-btn" onclick="toggleAdminSidebar()" title="Fermer le menu">&times;</button>
       </div>
 
-      <ul class="admin-nav-menu">
-        <li>
-          <a onclick="switchAdminTab('tab-dashboard')" class="admin-nav-link active" id="nav-item-dashboard">
-            <i class="fas fa-tachometer-alt"></i> <span>Vue d'ensemble</span>
-          </a>
-        </li>
-        <li>
-          <a onclick="switchAdminTab('tab-web-forms')" class="admin-nav-link" id="nav-item-web-forms">
-            <i class="fas fa-inbox"></i> <span>Formulaires Web Reçus (<span id="count-nav-web-forms" style="color: #E9C46A; font-weight: 800;">0</span>)</span>
-          </a>
-        </li>
+      <nav class="admin-nav-menu">
+        <div class="admin-nav-section-title">SUPERVISION CENTRALISÉE</div>
+        <a onclick="switchAdminTab('tab-dashboard')" class="admin-nav-item active" id="nav-item-dashboard">
+          <i class="fas fa-chart-line"></i> <span>Tableau de Bord</span>
+        </a>
+        <a onclick="switchAdminTab('tab-web-forms')" class="admin-nav-item" id="nav-item-web-forms">
+          <i class="fas fa-inbox"></i> <span>Réception Formulaires</span>
+        </a>
 
-        <li>
-          <a onclick="switchAdminTab('tab-adhesions')" class="admin-nav-link" id="nav-item-adhesions">
-            <i class="fas fa-file-signature"></i> <span>Dossiers d'Adhésion (<span id="count-nav-adhesions" style="color: #E9C46A; font-weight: 800;">0</span>)</span>
-          </a>
-        </li>
-        <li>
-          <a onclick="switchAdminTab('tab-steering')" class="admin-nav-link" id="nav-item-steering">
-            <i class="fas fa-users-cog"></i> <span>Comité de Pilotage (<span id="count-nav-steering" style="color: #E9C46A; font-weight: 800;">0</span>)</span>
-          </a>
-        </li>
-        <li>
-          <a onclick="switchAdminTab('tab-members')" class="admin-nav-link" id="nav-item-members">
-            <i class="fas fa-users"></i> <span>Membres & Participants</span>
-          </a>
-        </li>
-        <li>
-          <a onclick="switchAdminTab('tab-badges')" class="admin-nav-link" id="nav-item-badges">
-            <i class="fas fa-id-card"></i> <span>Studio de Badges</span>
-          </a>
-        </li>
-        <li>
-          <a onclick="switchAdminTab('tab-checkin')" class="admin-nav-link" id="nav-item-checkin">
-            <i class="fas fa-qrcode"></i> <span>Check-in sur site</span>
-          </a>
-        </li>
-        <li>
-          <a onclick="switchAdminTab('tab-import')" class="admin-nav-link" id="nav-item-import">
-            <i class="fas fa-file-upload"></i> <span>Import CSV</span>
-          </a>
-        </li>
-        <li>
-          <a onclick="switchAdminTab('tab-segmentation')" class="admin-nav-link" id="nav-item-segmentation">
-            <i class="fas fa-chart-pie"></i> <span>Segmentation</span>
-          </a>
-        </li>
-        <li>
-          <a onclick="switchAdminTab('tab-admins')" class="admin-nav-link" id="nav-item-admins">
-            <i class="fas fa-shield-alt"></i> <span>Accès organisateurs (<span id="count-nav-pending-admins">0</span>)</span>
-          </a>
-        </li>
+        <div class="admin-nav-section-title">REGISTRES & DOSSIERS</div>
+        <a onclick="switchAdminTab('tab-adhesions')" class="admin-nav-item" id="nav-item-adhesions">
+          <i class="fas fa-id-card"></i> <span>Adhésions Membres</span>
+        </a>
+        <a onclick="switchAdminTab('tab-steering')" class="admin-nav-item" id="nav-item-steering">
+          <i class="fas fa-users-cog"></i> <span>Comité de Pilotage</span>
+        </a>
+        <a onclick="switchAdminTab('tab-members')" class="admin-nav-item" id="nav-item-members">
+          <i class="fas fa-building"></i> <span>Entreprises ESS</span>
+        </a>
 
-        <li>
-          <a onclick="switchAdminTab('tab-settings')" class="admin-nav-link" id="nav-item-settings">
-            <i class="fas fa-cog"></i> <span style="color: #E9C46A; font-weight: 800;">Paramètres Super Admin</span>
-          </a>
-        </li>
-      </ul>
+        <div class="admin-nav-section-title">STUDIO BADGES & ÉMARGEMENT</div>
+        <a onclick="switchAdminTab('tab-badges')" class="admin-nav-item" id="nav-item-badges">
+          <i class="fas fa-id-badge"></i> <span>Confection Badges CR80</span>
+        </a>
+        <a onclick="switchAdminTab('tab-checkin')" class="admin-nav-item" id="nav-item-checkin">
+          <i class="fas fa-qrcode"></i> <span>Scanner Émargement</span>
+        </a>
 
-      <div style="padding-top: 1rem; border-top: 1px solid var(--admin-border-light);">
-        <button onclick="logoutAdmin()" class="action-btn-pill" style="width: 100%; justify-content: center; font-size: 0.8rem; color: #DC2626;">
-          <i class="fas fa-sign-out-alt"></i> Déconnexion
+        <div class="admin-nav-section-title">PARAMÈTRES & ACCÈS</div>
+        <a onclick="switchAdminTab('tab-admins')" class="admin-nav-item" id="nav-item-admins">
+          <i class="fas fa-user-shield"></i> <span>Comptes Administrateurs</span>
+        </a>
+        <a onclick="switchAdminTab('tab-settings')" class="admin-nav-item" id="nav-item-settings">
+          <i class="fas fa-cloud"></i> <span>Relais Cloud & API</span>
+        </a>
+      </nav>
+
+      <div class="admin-sidebar-footer">
+        <button onclick="confirmResetDatabase()" class="action-btn-pill" style="width: 100%; justify-content: center; background: rgba(220, 38, 38, 0.2); color: #FCA5A5; border: 1px solid #DC2626; font-size: 0.75rem;">
+          <i class="fas fa-trash-alt"></i> Effacer Mémoire Admin
         </button>
       </div>
     </aside>
 
-    <!-- RIGHT MAIN VIEWPORT -->
+    <!-- MAIN VIEWPORT -->
     <main class="admin-viewport">
       
-      <!-- TOP BAR SEARCH & THEME -->
-      <div class="admin-top-bar">
-        <div style="display: flex; align-items: center; gap: 0.75rem; flex: 1;">
-          <button class="mobile-admin-toggle" onclick="toggleAdminSidebar()" aria-label="Toggle Sidebar Menu">
-            <i class="fas fa-bars"></i>
-          </button>
-          <div class="admin-search-box" style="flex: 1;">
-            <i class="fas fa-search" style="color: var(--admin-text-muted);"></i>
-            <input type="text" id="admin-global-search" placeholder="Rechercher un participant, organisation..." onkeyup="filterMembersTable()">
+      <!-- TOP HEADER BAR -->
+      <header class="admin-top-bar">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <button class="mobile-admin-toggle" onclick="toggleAdminSidebar()"><i class="fas fa-bars"></i></button>
+          <div>
+            <h1 style="margin: 0; font-size: 1.35rem; color: var(--admin-text-main); font-weight: 800;">Espace Administrateur CONESESS</h1>
+            <small style="color: var(--admin-text-muted); font-weight: 600;">Vision Sénégal 2050 | Connecté aux Formulaires Web</small>
           </div>
         </div>
 
-        <div class="admin-top-actions">
-          <button onclick="forceRealtimeSyncRefresh()" class="action-btn-primary" style="background: #006837; color: #FFFFFF; font-weight: 700; font-size: 0.8rem; border: 1.5px solid #E9C46A; padding: 0.45rem 0.9rem;" title="Forcer l'actualisation complète des données et de l'affichage de la plateforme">
-            <i class="fas fa-sync-alt"></i> Actualiser Tout
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <button onclick="forceRealtimeSyncRefresh()" class="action-btn-primary" style="background: var(--admin-green); color: #FFFFFF; font-size: 0.8rem; border: none; padding: 0.55rem 1rem;">
+            <i class="fas fa-sync-alt"></i> Actualiser Flux
           </button>
-
-          <!-- NOTIFICATION BELL BUTTON & DROPDOWN FOR FORM SUBMISSIONS -->
-          <div class="notification-wrapper" style="position: relative;">
-            <button id="btn-admin-notifications" onclick="toggleAdminNotificationMenu()" class="action-btn-pill" style="position: relative; background: var(--admin-card-bg-light); color: var(--admin-text-main); border: 1px solid var(--admin-border-light); padding: 0.4rem 0.85rem;" title="Notifications de Réception des Formulaires">
-              <i class="fas fa-bell" style="color: #E9C46A; font-size: 1rem;"></i>
-              <span style="font-weight: 700; font-size: 0.775rem;">Notifications Formulaires</span>
-              <span id="admin-notification-badge" style="background: #DC2626; color: #FFFFFF; font-size: 0.65rem; font-weight: 800; padding: 1px 6px; border-radius: 10px; margin-left: 4px; display: none;">0</span>
-            </button>
-
-            <!-- DROPDOWN PANEL -->
-            <div id="admin-notification-dropdown" class="notification-dropdown" style="display: none; position: absolute; top: 125%; right: 0; width: 340px; background: var(--admin-card-bg-light); border: 1px solid var(--admin-border-light); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1200; overflow: hidden;">
-              <div style="background: #0A2540; color: #FFFFFF; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;">
-                <strong style="font-size: 0.8rem;"><i class="fas fa-bell" style="color: #E9C46A;"></i> Notifications de Formulaires</strong>
-                <button onclick="clearAllNotifications()" style="background: transparent; border: none; color: #E9C46A; font-size: 0.7rem; cursor: pointer; font-weight: 700;">Effacer</button>
-              </div>
-              <div id="admin-notification-list" style="max-height: 300px; overflow-y: auto; padding: 6px;">
-                <p style="text-align: center; color: var(--admin-text-muted); font-size: 0.8rem; padding: 15px 0;">Aucune alerte e-mail reçue.</p>
-              </div>
-            </div>
-          </div>
-
-          <button onclick="exportFullDatabaseJSON()" class="action-btn-pill" style="font-size: 0.775rem; background: var(--admin-card-bg-light); color: var(--admin-navy); border: 1px solid var(--admin-border-light);" title="Exporter une sauvegarde système intégrale au format JSON">
-            <i class="fas fa-download" style="color: var(--admin-green);"></i> Sauvegarde JSON
+          <button onclick="setAdminTheme(document.body.getAttribute('data-admin-theme') === 'dark' ? 'light' : 'dark')" class="action-btn-pill" style="font-size: 0.8rem; border: 1px solid var(--admin-border-light);">
+            <i class="fas fa-adjust"></i> Thème
           </button>
-          
-          <div class="theme-toggle-pill">
-            <button onclick="setAdminTheme('light')" class="theme-btn active" id="btn-theme-light"><i class="fas fa-sun"></i> Clair</button>
-            <button onclick="setAdminTheme('dark')" class="theme-btn" id="btn-theme-dark"><i class="fas fa-moon"></i> Sombre</button>
-          </div>
-
-          <a href="index.html" target="_blank" class="action-btn-pill" style="font-size: 0.8rem;">
-            <i class="fas fa-external-link-alt"></i> Site Public
-          </a>
         </div>
-      </div>
+      </header>
 
-      <!-- TAB 1: VUE D'ENSEMBLE (HERO TREND + 8 METRICS GRID) -->
-      <div id="tab-dashboard" class="admin-tab-content">
+      <!-- TAB 1: DASHBOARD -->
+      <section id="tab-dashboard" class="admin-tab-content">
         
-        <!-- HERO TREND SPARKLINE BANNER CARD -->
-        <div class="hero-trend-card mb-4">
-          <div class="hero-trend-header">
+        <div class="metrics-grid-4">
+          <div class="metric-card-pro">
+            <div class="metric-header">
+              <span class="metric-subtext">Total Soumissions Web</span>
+              <div class="metric-icon-wrap" style="background: var(--admin-soft-green); color: var(--admin-green);"><i class="fas fa-inbox"></i></div>
+            </div>
+            <div class="metric-value-huge" id="stat-total-submissions">0</div>
+            <small style="color: var(--admin-green); font-weight: 700;"><i class="fas fa-arrow-up"></i> Flux direct formulaires web</small>
+          </div>
+
+          <div class="metric-card-pro">
+            <div class="metric-header">
+              <span class="metric-subtext">Adhésions Confirmées</span>
+              <div class="metric-icon-wrap" style="background: var(--admin-soft-gold); color: var(--admin-gold);"><i class="fas fa-building"></i></div>
+            </div>
+            <div class="metric-value-huge" id="stat-confirmed-members">0</div>
+            <small style="color: var(--admin-text-muted); font-weight: 600;">Entreprises ESS enregistrées</small>
+          </div>
+
+          <div class="metric-card-pro">
+            <div class="metric-header">
+              <span class="metric-subtext">Candidatures Comité</span>
+              <div class="metric-icon-wrap" style="background: rgba(10, 37, 64, 0.1); color: var(--admin-navy);"><i class="fas fa-users-cog"></i></div>
+            </div>
+            <div class="metric-value-huge" id="stat-steering-count">0</div>
+            <small style="color: var(--admin-navy); font-weight: 700;">Comité de Pilotage FES-ESS</small>
+          </div>
+
+          <div class="metric-card-pro">
+            <div class="metric-header">
+              <span class="metric-subtext">Régions Représentées</span>
+              <div class="metric-icon-wrap" style="background: rgba(37, 211, 102, 0.15); color: #25D366;"><i class="fas fa-map-marked-alt"></i></div>
+            </div>
+            <div class="metric-value-huge" id="stat-regions-count">0 / 14</div>
+            <small style="color: var(--admin-text-muted); font-weight: 600;">Couverture Nationale Sénégal</small>
+          </div>
+        </div>
+
+        <!-- RECENT SUBMISSIONS TABLE -->
+        <div class="admin-table-card">
+          <div class="table-header-toolbar">
             <div>
-              <div class="hero-trend-title">Formulaires Reçus Totaux</div>
-              <div class="hero-trend-number" id="stat-total-members">0</div>
-              <small style="color: var(--admin-text-muted); font-size: 0.8rem;">CONESESS 2026 · Registre Central Officiel</small>
+              <h3 style="margin: 0; font-size: 1.15rem; color: var(--admin-text-main);"><i class="fas fa-stream" style="color: var(--admin-green);"></i> Flux des Soumissions en Temps Réel</h3>
+              <p style="margin: 0.2rem 0 0 0; font-size: 0.8rem; color: var(--admin-text-muted);">Formulaires transmis en direct depuis le site web public.</p>
             </div>
-
-            <!-- SPARKLINE GRAPH SVG -->
-            <div style="width: 260px; height: 75px;">
-              <svg viewBox="0 0 260 75" style="width: 100%; height: 100%;">
-                <path d="M 0 60 Q 60 60 130 55 T 190 15 T 230 45 L 260 50" fill="none" stroke="#E9C46A" stroke-width="3.5" stroke-linecap="round"/>
-                <path d="M 0 60 Q 60 60 130 55 T 190 15 T 230 45 L 260 50 L 260 75 L 0 75 Z" fill="rgba(233, 196, 106, 0.15)"/>
-              </svg>
-            </div>
-          </div>
-
-          <div class="hero-actions-bar">
-            <button onclick="exportMembersExcel()" class="action-btn-primary">
-              <i class="fas fa-file-excel"></i> Exporter (Excel)
-            </button>
-            <button onclick="switchAdminTab('tab-badges')" class="action-btn-pill">
-              <i class="fas fa-print"></i> Imprimer les badges (<span id="stat-badges-count-btn">0</span>)
-            </button>
-            <button onclick="switchAdminTab('tab-checkin')" class="action-btn-pill">
-              <i class="fas fa-qrcode"></i> Check-in sur site
-            </button>
-            <button onclick="openAddMemberModal()" class="action-btn-pill">
-              <i class="fas fa-plus"></i> Nouvelle Adhésion / Organisation
-            </button>
-          </div>
-        </div>
-
-        <!-- 8 DYNAMIC INSTITUTIONAL METRICS GRID CARDS (ROW 1 & ROW 2) FOR CONESESS -->
-        <div class="metrics-grid-4 mb-3">
-          <!-- DYNAMIC REAL-TIME CLOUD RECEPTION FLUX INDICATOR CARD -->
-          <div class="metric-card-box" style="border-top: 4px solid #006837; background: linear-gradient(135deg, var(--admin-card-bg-light) 0%, rgba(0, 104, 55, 0.04) 100%);">
-            <div class="metric-card-label" style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;">
-              <span><i class="fas fa-satellite-dish" style="color: #006837; animation: pulse 2s infinite;"></i> Flux de Réception Temps Réel</span>
-              <span class="badge badge-green" style="font-size: 0.65rem; padding: 2px 8px; border-radius: 12px; background: rgba(0, 104, 55, 0.12); color: #006837;"><i class="fas fa-circle" style="color: #22C55E; font-size: 0.5rem;"></i> Direct 3s</span>
-            </div>
-            <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 0.4rem;">
-              <div class="metric-card-val" style="color: #006837; font-weight: 800; font-size: 1.85rem;" id="stat-web-forms-total">0</div>
-              <div style="text-align: right;">
-                <span style="font-size: 0.725rem; font-weight: 700; color: #006837; display: block;"><i class="fas fa-sync-alt fa-spin" style="font-size: 0.65rem; margin-right: 2px;"></i> Synchro Active</span>
-                <small style="color: var(--admin-text-muted); font-size: 0.68rem;">Entrées Centralisées</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="metric-card-box" style="border-top: 4px solid #0A2540;">
-            <div class="metric-card-label"><i class="fas fa-building" style="color: #0A2540;"></i> Organisations Confirmées</div>
-            <div class="metric-card-val" style="color: #0A2540;" id="stat-approved-members">0</div>
-          </div>
-          <div class="metric-card-box" style="border-top: 4px solid #F4A261;">
-            <div class="metric-card-label"><i class="fas fa-clock" style="color: #D97706;"></i> Dossiers en Attente</div>
-            <div class="metric-card-val" style="color: #D97706;" id="stat-pending-members">0</div>
-          </div>
-          <div class="metric-card-box" style="border-top: 4px solid #006837;">
-            <div class="metric-card-label"><i class="fas fa-users-cog" style="color: #006837;"></i> Candidats Comité Pilotage</div>
-            <div class="metric-card-val" style="color: #006837;" id="stat-steering-count">0</div>
-          </div>
-        </div>
-
-        <div class="metrics-grid-4 mb-4">
-          <div class="metric-card-box" style="border-top: 4px solid #0A2540;">
-            <div class="metric-card-label"><i class="fas fa-map-marked-alt" style="color: #0A2540;"></i> Régions du Sénégal Couvertes</div>
-            <div class="metric-card-val" style="color: #0A2540;" id="stat-regions-covered">0 / 14</div>
-          </div>
-          <div class="metric-card-box" style="border-top: 4px solid #006837;">
-            <div class="metric-card-label"><i class="fas fa-id-card" style="color: #006837;"></i> Badges Membres Générés</div>
-            <div class="metric-card-val" style="color: #006837;" id="stat-badges-generated">0</div>
-          </div>
-          <div class="metric-card-box" style="border-top: 4px solid #F4A261;">
-            <div class="metric-card-label"><i class="fas fa-shield-alt" style="color: #D97706;"></i> Demandes d'Accès Admin</div>
-            <div class="metric-card-val" style="color: #D97706;" id="stat-pending-admins-count">0</div>
-          </div>
-          <div class="metric-card-box" style="border-top: 4px solid #0A2540;">
-            <div class="metric-card-label"><i class="fas fa-layer-group" style="color: #0A2540;"></i> Pôles Métiers ESS</div>
-            <div class="metric-card-val" style="color: #0A2540;">4 Pôles</div>
-          </div>
-        </div>
-
-        <!-- RECENT PARTICIPANTS TABLE -->
-        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-            <h3 style="font-size: 1.1rem; color: var(--admin-text-main); margin: 0;"><i class="fas fa-list" style="color: var(--admin-green);"></i> Derniers Participants Inscrits</h3>
-            <button onclick="switchAdminTab('tab-members')" class="action-btn-pill" style="font-size: 0.8rem; padding: 0.4rem 0.85rem;">Voir Tous</button>
+            <button onclick="switchAdminTab('tab-web-forms')" class="action-btn-pill" style="font-size: 0.8rem;">Voir Tous les Dossiers</button>
           </div>
 
           <div class="admin-table-container">
             <table class="admin-table">
               <thead>
                 <tr>
-                  <th>Référence</th>
-                  <th>Participant / Organisation</th>
-                  <th>Forme Juridique</th>
+                  <th>Date & Réf</th>
+                  <th>Formulaire</th>
+                  <th>Nom / Organisation</th>
                   <th>Région</th>
+                  <th>Contact Direct</th>
                   <th>Statut</th>
-                  <th>Actions</th>
+                  <th>Action</th>
                 </tr>
               </thead>
-              <tbody id="tbody-recent-members"></tbody>
-            </table>
-          </div>
-        </div>
-
-      </div>
-
-
-
-      <!-- TAB: FORMULAIRES WEB REÇUS (DEMANDES DU SITE WEB EN TEMPS RÉEL) -->
-      <div id="tab-web-forms" class="admin-tab-content" style="display: none;">
-        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
-            <div>
-              <span class="badge badge-green mb-1" style="font-size: 0.75rem; background: #E8F5E9; color: #006837; border: 1px solid #C8E6C9;"><i class="fas fa-signal" style="color: #008748; margin-right: 4px;"></i> Relais Cloud Synchronisé Temps Réel (Mobile & PC)</span>
-              <h2 style="font-size: 1.35rem; color: var(--admin-text-main); margin-bottom: 0.2rem;">Formulaires Soumis en Ligne par les Visiteurs</h2>
-              <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Réception centralisée de toutes les demandes d'adhésion, candidatures et messages soumis sur mobile et ordinateur.</p>
-            </div>
-            
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-              <button onclick="exportWebFormsExcel()" class="action-btn-primary" style="font-size: 0.8rem;">
-                <i class="fas fa-file-excel"></i> Exporter (Excel)
-              </button>
-              <button onclick="renderAdminAll()" class="action-btn-pill" style="font-size: 0.8rem;">
-                <i class="fas fa-sync-alt"></i> Actualiser les Soumissions
-              </button>
-            </div>
-          </div>
-
-          <div class="admin-table-container">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Date & Heure</th>
-                  <th>Source / Type</th>
-                  <th>Organisation / Participant</th>
-                  <th>Détails & Sujet</th>
-                  <th>Région</th>
-                  <th>Contact / WhatsApp</th>
-                  <th>Statut</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="tbody-web-forms-list">
-                <!-- Dynamic Submitted Web Forms -->
+              <tbody id="tbody-dashboard-recent">
+                <tr><td colspan="7" style="text-align: center; color: var(--admin-text-muted); padding: 2rem;">Aucune nouvelle soumission enregistrée pour le moment.</td></tr>
               </tbody>
             </table>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- TAB: DOSSIERS D'ADHÉSION MEMBRE (NOUVELLE RUBRIQUE SPÉCIALE) -->
-      <div id="tab-adhesions" class="admin-tab-content" style="display: none;">
-        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+      <!-- TAB 2: WEB FORMS RECEPTION -->
+      <section id="tab-web-forms" class="admin-tab-content" style="display: none;">
+        <div class="admin-table-card">
+          <div class="table-header-toolbar">
             <div>
-              <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-file-signature"></i> Rubrique Officielle d'Adhésion</span>
-              <h2 style="font-size: 1.35rem; color: var(--admin-text-main); margin-bottom: 0.2rem;">Dossiers d'Adhésion des Organisations de l'ESS</h2>
-              <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Visualisez, examinez et téléchargez les fiches d'adhésion officielles des coopératives, mutuelles, GIE et SFD.</p>
+              <h3 style="margin: 0; font-size: 1.15rem; color: var(--admin-text-main);"><i class="fas fa-inbox" style="color: var(--admin-green);"></i> Réception Globale des Formulaires Web</h3>
+              <p style="margin: 0.2rem 0 0 0; font-size: 0.8rem; color: var(--admin-text-muted);">Gestion et validation des dossiers d'adhésion, candidatures et messages directes.</p>
             </div>
-            
             <div style="display: flex; gap: 0.5rem;">
-              <button onclick="exportMembersExcel()" class="action-btn-primary">
-                <i class="fas fa-file-excel"></i> Exporter Tous (Excel)
-              </button>
-              <button onclick="openAddMemberModal()" class="action-btn-pill">
-                <i class="fas fa-plus"></i> Nouvelle Adhésion
-              </button>
-            </div>
-          </div>
-
-          <!-- ADHESION FILTERS -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem; background: var(--admin-bg-light); padding: 1rem; border-radius: 12px;">
-            <div>
-              <label style="font-size: 0.75rem; color: var(--admin-text-muted); font-weight: 600;">Recherche Organisation / Représentant</label>
-              <input type="text" id="search-adhesion-input" class="wizard-form-control" style="padding: 0.45rem 0.75rem; font-size: 0.85rem; height: 38px;" placeholder="Nom, Réf, Téléphone..." onkeyup="renderAdhesionsTable()">
-            </div>
-            <div>
-              <label style="font-size: 0.75rem; color: var(--admin-text-muted); font-weight: 600;">Filtrer par Région</label>
-              <select id="filter-adhesion-region" class="wizard-form-control" style="padding: 0.45rem 0.75rem; font-size: 0.85rem; height: 38px;" onchange="renderAdhesionsTable()">
-                <option value="">Toutes les 14 Régions</option>
-                <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
-                <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
-                <option>Kolda</option><option>Tambacounda</option><option>Matam</option>
-                <option>Kaffrine</option><option>Kedougou</option><option>Sédhiou</option>
-                <option>Louga</option><option>Diourbel</option>
-              </select>
-            </div>
-            <div>
-              <label style="font-size: 0.75rem; color: var(--admin-text-muted); font-weight: 600;">Statut d'Approbation</label>
-              <select id="filter-adhesion-status" class="wizard-form-control" style="padding: 0.45rem 0.75rem; font-size: 0.85rem; height: 38px;" onchange="renderAdhesionsTable()">
-                <option value="">Tous les Statuts</option>
-                <option value="Approuvé">Approuvé</option>
-                <option value="En attente">En attente</option>
-                <option value="Rejeté">Rejeté</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="admin-table-container">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>N° Référence</th>
-                  <th>Dénomination / Organisation</th>
-                  <th>Forme Juridique</th>
-                  <th>Région</th>
-                  <th>Représentant Légal / Tél</th>
-                  <th>Date</th>
-                  <th>Statut</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="tbody-adhesions-list"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB: CANDIDATURES COMITÉ DE PILOTAGE -->
-      <div id="tab-steering" class="admin-tab-content" style="display: none;">
-        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
-            <div>
-              <span class="badge badge-gold mb-1" style="font-size: 0.75rem;"><i class="fas fa-users-cog"></i> Instance de Gouvernance Confédérale</span>
-              <h2 style="font-size: 1.35rem; color: var(--admin-text-main); margin-bottom: 0.2rem;">Candidatures au Comité de Pilotage du CONESESS</h2>
-              <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Évaluation et sélection des candidats pour les 7 fonctions officielles selon leur compétence et leur engagement.</p>
-            </div>
-            
-            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-              <button onclick="exportSteeringCandidatesPDF()" class="action-btn-primary" style="background: #006837; color: #FFFFFF; font-weight: 700;">
-                <i class="fas fa-file-pdf"></i> Imprimer / Télécharger Rapport PDF
-              </button>
-            </div>
-          </div>
-
-          <!-- SHAREABLE CALL FOR CANDIDATURES LINK CARD -->
-          <div style="background: linear-gradient(135deg, rgba(10, 37, 64, 0.04) 0%, rgba(0, 135, 72, 0.06) 100%); border: 1.5px solid var(--admin-border-light); border-left: 4px solid var(--admin-green); border-radius: 14px; padding: 1.15rem 1.25rem; margin-bottom: 1.25rem;">
-            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.85rem;">
-              <div style="flex: 1; min-width: 260px;">
-                <strong style="color: var(--admin-text-main); font-size: 0.925rem; display: flex; align-items: center; gap: 0.4rem;">
-                  <i class="fas fa-link" style="color: var(--admin-green);"></i> Lien Officiel à Partager aux Membres (Appel à Candidatures)
-                </strong>
-                <p style="font-size: 0.8rem; color: var(--admin-text-muted); margin: 0.2rem 0 0 0;">
-                  Partagez ce lien direct par WhatsApp, E-mail ou réseaux sociaux pour permettre aux membres de postuler directement.
-                </p>
-              </div>
-
-              <div style="display: flex; align-items: center; gap: 0.5rem; width: 100%; max-width: 580px;">
-                <input type="text" id="input-candidature-link" readonly value="https://madior1991-maker.github.io/https-github.com-madior-conesess-senegal/candidature.html" class="wizard-form-control" style="font-size: 0.825rem; font-weight: 600; color: var(--admin-navy); background: var(--admin-card-bg-light); border: 1.5px solid var(--admin-border-light); padding: 0.5rem 0.75rem; border-radius: 8px; flex: 1;">
-                <button onclick="copyCandidatureLink()" class="action-btn-primary" style="padding: 0.55rem 1rem; font-size: 0.8rem; white-space: nowrap;">
-                  <i class="fas fa-copy"></i> Copier le Lien
-                </button>
-                <a href="candidature.html" target="_blank" class="action-btn-pill" style="padding: 0.55rem 0.85rem; font-size: 0.8rem; white-space: nowrap;" title="Ouvrir la page de candidature">
-                  <i class="fas fa-external-link-alt"></i> Ouvrir
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="admin-table-container">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Référence & Date</th>
-                  <th>Candidat & Organisation</th>
-                  <th>Région</th>
-                  <th>Poste Visé (sur les 7 Fonctions)</th>
-                  <th>Expérience & Motivation</th>
-                  <th>Téléphone / WhatsApp</th>
-                  <th>Statut</th>
-                  <th>Actions d'Approbation</th>
-                </tr>
-              </thead>
-              <tbody id="tbody-steering-candidates">
-                <!-- Dynamic Candidates List -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 2: PARTICIPANTS / FULL MEMBERS DATABASE -->
-      <div id="tab-members" class="admin-tab-content" style="display: none;">
-        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-          
-          <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem;">
-            <div>
-              <h2 style="font-size: 1.35rem; margin-bottom: 0.2rem; color: var(--admin-text-main);">Gestion des Participants & Organisations</h2>
-              <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Consultez, modifiez et validez les dossiers d'adhésion au CONESESS.</p>
-            </div>
-            
-            <div style="display: flex; gap: 0.75rem;">
-              <button onclick="exportMembersExcel()" class="action-btn-primary">
-                <i class="fas fa-file-excel"></i> Exporter (Excel)
-              </button>
-              <button onclick="openAddMemberModal()" class="action-btn-pill">
-                <i class="fas fa-plus"></i> Ajouter Participant
-              </button>
-            </div>
-          </div>
-
-          <!-- TABLE FILTERS -->
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem; background: var(--admin-bg-light); padding: 1rem; border-radius: 12px;">
-            <div>
-              <label style="font-size: 0.75rem; color: var(--admin-text-muted); font-weight: 600;">Recherche</label>
-              <input type="text" id="search-member-input" class="wizard-form-control" style="padding: 0.45rem 0.75rem; font-size: 0.85rem; height: 38px;" placeholder="Nom, Réf, Téléphone..." onkeyup="filterMembersTable()">
-            </div>
-            <div>
-              <label style="font-size: 0.75rem; color: var(--admin-text-muted); font-weight: 600;">Région</label>
-              <select id="filter-region-select" class="wizard-form-control" style="padding: 0.45rem 0.75rem; font-size: 0.85rem; height: 38px;" onchange="filterMembersTable()">
-                <option value="">Toutes les 14 Régions</option>
-                <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
-                <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
-                <option>Kolda</option><option>Tambacounda</option><option>Matam</option>
-                <option>Kaffrine</option><option>Kedougou</option><option>Sédhiou</option>
-                <option>Louga</option><option>Diourbel</option>
-              </select>
-            </div>
-            <div>
-              <label style="font-size: 0.75rem; color: var(--admin-text-muted); font-weight: 600;">Statut</label>
-              <select id="filter-status-select" class="wizard-form-control" style="padding: 0.45rem 0.75rem; font-size: 0.85rem; height: 38px;" onchange="filterMembersTable()">
-                <option value="">Tous les Statuts</option>
-                <option value="Approuvé">Approuvé</option>
-                <option value="En attente">En attente</option>
-                <option value="Rejeté">Rejeté</option>
-              </select>
+              <button onclick="exportWebFormsCSV()" class="action-btn-primary" style="font-size: 0.8rem; background: var(--admin-navy);"><i class="fas fa-file-excel"></i> Exporter CSV</button>
             </div>
           </div>
 
@@ -1196,400 +499,209 @@
               <thead>
                 <tr>
                   <th>Référence</th>
+                  <th>Date</th>
+                  <th>Type de Formulaire</th>
+                  <th>Représentant / Structure</th>
+                  <th>Téléphone / Email</th>
+                  <th>Statut</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-web-forms-all">
+                <tr><td colspan="7" style="text-align: center; color: var(--admin-text-muted); padding: 2rem;">Aucune donnée de formulaire disponible.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: ADHESIONS MEMBRES -->
+      <section id="tab-adhesions" class="admin-tab-content" style="display: none;">
+        <div class="admin-table-card">
+          <div class="table-header-toolbar">
+            <div>
+              <h3 style="margin: 0; font-size: 1.15rem; color: var(--admin-text-main);"><i class="fas fa-id-card" style="color: var(--admin-green);"></i> Registre des Adhésions Membres</h3>
+              <p style="margin: 0.2rem 0 0 0; font-size: 0.8rem; color: var(--admin-text-muted);">Liste des organisations ayant validé leur adhésion au CONESESS.</p>
+            </div>
+            <button onclick="openAddMemberModal()" class="action-btn-primary" style="font-size: 0.8rem; background: var(--admin-green);"><i class="fas fa-plus"></i> Ajouter Manuellement</button>
+          </div>
+
+          <div class="admin-table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>N° Réf</th>
                   <th>Organisation</th>
                   <th>Forme Juridique</th>
                   <th>Région</th>
-                  <th>Représentant / Tél</th>
-                  <th>Statut</th>
-                  <th>Badge</th>
+                  <th>Représentant Légal</th>
+                  <th>Niveau Badge</th>
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody id="tbody-full-members"></tbody>
+              <tbody id="tbody-adhesions-list">
+                <tr><td colspan="7" style="text-align: center; color: var(--admin-text-muted); padding: 2rem;">Aucun membre enregistré dans le registre.</td></tr>
+              </tbody>
             </table>
           </div>
-
         </div>
-      </div>
+      </section>
 
-      <!-- TAB 3: CRÉER UN BADGE (STUDIO) -->
-      <div id="tab-badges" class="admin-tab-content" style="display: none;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; align-items: start;">
-          
-          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.75rem; border: 1px solid var(--admin-border-light);">
-            <span class="badge badge-gold mb-2" style="font-size: 0.75rem;"><i class="fas fa-id-badge"></i> Studio de Badging CR80</span>
-            <h2 style="font-size: 1.3rem; color: var(--admin-text-main);" class="mb-1">Générer & Personnaliser le Badge</h2>
-            <p style="font-size: 0.85rem; color: var(--admin-text-muted);" class="mb-4">Sélectionnez un participant pour générer son badge officiel d'accès.</p>
-
-            <div class="wizard-form-group mb-3">
-              <label style="font-weight: 600; font-size: 0.825rem;">1. Sélectionner l'Organisation / Participant *</label>
-              <select id="badge-select-member" class="wizard-form-control" onchange="loadMemberIntoBadgeStudio()"></select>
-            </div>
-
-            <div class="wizard-form-group mb-3">
-              <label style="font-weight: 600; font-size: 0.825rem;">2. Nom du Titulaire du Badge *</label>
-              <input type="text" id="badge-input-name" class="wizard-form-control" placeholder="ex: Mamadou Ndiaye" onkeyup="updateBadgePreview()">
-            </div>
-
-            <div class="wizard-form-group mb-3">
-              <label style="font-weight: 600; font-size: 0.825rem;">3. Organisation Représentée *</label>
-              <input type="text" id="badge-input-org" class="wizard-form-control" placeholder="ex: Coopérative Maraîchère de Kayar" onkeyup="updateBadgePreview()">
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;" class="mb-3">
-              <div class="wizard-form-group">
-                <label style="font-weight: 600; font-size: 0.825rem;">4. Rôle / Titre sur Badge *</label>
-                <input type="text" id="badge-input-role" class="wizard-form-control" value="Président Représentant Légal" onkeyup="updateBadgePreview()">
-              </div>
-
-              <div class="wizard-form-group">
-                <label style="font-weight: 600; font-size: 0.825rem;">5. Catégorie & Couleur Accès *</label>
-                <select id="badge-input-level" class="wizard-form-control" onchange="updateBadgePreview()">
-                  <option value="Membre Confédéral">Membre Confédéral (Vert)</option>
-                  <option value="Délégué Régional">Délégué Régional (Vert/Or)</option>
-                  <option value="Bureau Exécutif">Bureau Exécutif (Gold VIP)</option>
-                  <option value="Partenaire Stratégique">Partenaire Stratégique (Bleu Navy)</option>
-                  <option value="Invité d'Honneur">Invité d'Honneur (Rouge Émeraude)</option>
-                </select>
-              </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;" class="mb-3">
-              <div class="wizard-form-group">
-                <label style="font-weight: 600; font-size: 0.825rem;">6. Région sur Badge</label>
-                <input type="text" id="badge-input-region" class="wizard-form-control" value="Thiès" onkeyup="updateBadgePreview()">
-              </div>
-
-              <div class="wizard-form-group">
-                <label style="font-weight: 600; font-size: 0.825rem;">7. Statut de Délivrance</label>
-                <select id="badge-input-status" class="wizard-form-control" onchange="updateBadgePreview()">
-                  <option value="Généré">Badge Généré</option>
-                  <option value="Imprimé">Badge Imprimé</option>
-                  <option value="Délivré">Badge Délivré</option>
-                </select>
-              </div>
-            </div>
-
-            <div style="display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap;">
-              <button onclick="downloadBadgePDF()" class="action-btn-primary" style="flex: 1; justify-content: center; background: #006837; color: #FFFFFF; font-weight: 700;">
-                <i class="fas fa-file-pdf"></i> Imprimer / Télécharger Badge PDF
-              </button>
-              <button onclick="saveBadgeStatus()" class="action-btn-pill">
-                <i class="fas fa-save"></i> Enregistrer Modifs
-              </button>
-            </div>
-          </div>
-
-          <!-- BADGE PREVIEW CARD -->
-          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.75rem; border: 1px solid var(--admin-border-light); text-align: center;">
-            <span class="badge badge-green mb-3" style="font-size: 0.8rem;"><i class="fas fa-eye"></i> Rendu Officiel Badge CR80</span>
-
-            <div id="printable-badge-area">
-              <div class="cr80-badge-card">
-                <div class="badge-senegal-bar"></div>
-                <div class="badge-header">
-                  <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #E9C46A; display: block; margin: 0 auto 0.2rem auto;">
-                  <strong style="font-size: 0.85rem; color: #FFFFFF; letter-spacing: 0.04em; display: block;">CONESESS SÉNÉGAL</strong>
-                  <small style="font-size: 0.6rem; color: #E9C46A; text-transform: uppercase;">CADRE NATIONAL FÉDÉRATEUR ESS</small>
-                </div>
-
-                <div class="badge-photo-container">
-                  <img src="assets/images/logo.jpg" alt="Photo Participant" id="badge-preview-photo">
-                </div>
-
-                <div style="padding: 0.5rem 1.25rem; text-align: center; flex: 1;">
-                  <div style="font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 800; color: #E9C46A; line-height: 1.25; margin-bottom: 0.35rem;" id="badge-preview-org">Coopérative de Kayar</div>
-                  <div style="font-size: 0.95rem; font-weight: 700; color: #FFFFFF; margin-bottom: 0.15rem;" id="badge-preview-name">Mamadou Ndiaye</div>
-                  <div style="font-size: 0.775rem; color: rgba(255, 255, 255, 0.8); margin-bottom: 0.75rem;" id="badge-preview-role">Président Représentant</div>
-                  
-                  <div style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 0.6rem; font-size: 0.725rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; text-align: left;">
-                    <div><strong style="color: #E9C46A;">Réf :</strong> <span id="badge-preview-ref">CONESESS-1042</span></div>
-                    <div><strong style="color: #E9C46A;">Région :</strong> <span id="badge-preview-region">Thiès</span></div>
-                    <div><strong style="color: #E9C46A;">Pôle :</strong> <span id="badge-preview-pole">Agroécologie</span></div>
-                    <div><strong style="color: #E9C46A;">Accès :</strong> <span style="color: #25D366; font-weight: 700;">VALIDE</span></div>
-                  </div>
-                </div>
-
-                <div style="background: rgba(0, 0, 0, 0.4); padding: 0.75rem 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: space-between;">
-                  <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <i class="fas fa-qrcode" style="font-size: 1.8rem; color: #E9C46A;"></i>
-                    <div style="text-align: left;">
-                      <small style="font-size: 0.55rem; color: rgba(255,255,255,0.7); display: block;">CHECK-IN QR</small>
-                      <strong style="font-size: 0.65rem; color: #FFFFFF;" id="badge-preview-status">Accès Confirmé</strong>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </div>
-
-      <!-- TAB 4: CHECK-IN SUR SITE (SCANNER / VÉRIFICATEUR DE BADGES) -->
-      <div id="tab-checkin" class="admin-tab-content" style="display: none;">
-        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 2rem; border: 1px solid var(--admin-border-light); max-width: 650px; margin: 0 auto; text-align: center;">
-          <div style="width: 70px; height: 70px; border-radius: 50%; background: var(--admin-green-light); color: var(--admin-green); display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1rem auto;">
-            <i class="fas fa-qrcode"></i>
-          </div>
-          <h2 style="font-size: 1.5rem; color: var(--admin-text-main); margin-bottom: 0.35rem;">Check-in & Vérification des Badges sur Site</h2>
-          <p style="font-size: 0.875rem; color: var(--admin-text-muted);" class="mb-4">Scannez le QR Code ou saisissez la référence du badge pour enregistrer l'entrée du participant.</p>
-
-          <div class="wizard-form-group mb-3">
-            <input type="text" id="checkin-code-input" class="wizard-form-control" style="font-size: 1.1rem; text-align: center; height: 48px; letter-spacing: 0.05em;" placeholder="Saisir Référence (ex: CONESESS-2026-1042)">
-          </div>
-
-          <button onclick="verifyCheckinCode()" class="action-btn-primary" style="width: 100%; justify-content: center; padding: 0.85rem; font-size: 1rem;" class="mb-3">
-            <i class="fas fa-check-circle"></i> Valider Entrée Participant
-          </button>
-
-          <div id="checkin-result-box" style="display: none; padding: 1rem; border-radius: 12px; margin-top: 1.25rem;"></div>
-        </div>
-      </div>
-
-      <!-- TAB 5: IMPORT CSV -->
-      <div id="tab-import" class="admin-tab-content" style="display: none;">
-        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 2rem; border: 1px solid var(--admin-border-light); max-width: 700px; margin: 0 auto; text-align: center;">
-          <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--admin-green);" class="mb-3"></i>
-          <h2 style="font-size: 1.4rem; color: var(--admin-text-main); margin-bottom: 0.35rem;">Importer une Liste de Participants (CSV / Excel)</h2>
-          <p style="font-size: 0.875rem; color: var(--admin-text-muted);" class="mb-4">Glissez votre fichier de membres ou coopératives pour les ajouter en lot.</p>
-
-          <div style="border: 2px dashed var(--admin-border-light); border-radius: 16px; padding: 2.5rem; background: var(--admin-bg-light);" class="mb-3">
-            <input type="file" id="csv-file-input" accept=".csv" style="display: none;" onchange="handleCSVImport(this)">
-            <button onclick="document.getElementById('csv-file-input').click()" class="action-btn-primary">
-              <i class="fas fa-folder-open"></i> Parcourir Fichier CSV
-            </button>
-            <p style="font-size: 0.775rem; color: var(--admin-text-muted); margin-top: 0.75rem; margin-bottom: 0;">Format supporté : CSV (Référence, Organisation, Forme, Région, Représentant, Téléphone)</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 6: SEGMENTATION & PÔLES -->
-      <div id="tab-segmentation" class="admin-tab-content" style="display: none;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-            <h3 style="font-size: 1.1rem; color: var(--admin-text-main);" class="mb-3"><i class="fas fa-map-marked-alt" style="color: var(--admin-green);"></i> Répartition par Région (14 Régions)</h3>
-            <div id="segmentation-region-bars"></div>
-          </div>
-
-          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-            <h3 style="font-size: 1.1rem; color: var(--admin-text-main);" class="mb-3"><i class="fas fa-th-large" style="color: var(--admin-gold);"></i> Répartition par Pôle Métier</h3>
-            <div id="segmentation-pole-bars"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 7: ACCÈS ORGANISATEURS / SUPER ADMIN APPROVALS -->
-      <div id="tab-admins" class="admin-tab-content" style="display: none;">
-        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+      <!-- TAB 4: COMITÉ DE PILOTAGE -->
+      <section id="tab-steering" class="admin-tab-content" style="display: none;">
+        <div class="admin-table-card">
+          <div class="table-header-toolbar">
             <div>
-              <span class="badge badge-gold mb-1" style="font-size: 0.75rem;"><i class="fas fa-shield-alt"></i> Contrôle des Accès Super Admin</span>
-              <h2 style="font-size: 1.35rem; color: var(--admin-text-main); margin-bottom: 0.2rem;">Accès Organisateurs & Demandes d'Approbation</h2>
-              <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Approuvez ou suspendez les accès administrateurs aux services confédéraux.</p>
+              <h3 style="margin: 0; font-size: 1.15rem; color: var(--admin-text-main);"><i class="fas fa-users-cog" style="color: var(--admin-green);"></i> Candidatures Comité de Pilotage</h3>
+              <p style="margin: 0.2rem 0 0 0; font-size: 0.8rem; color: var(--admin-text-muted);">Candidats inscrits pour le Comité de Pilotage du FES-ESS 2026.</p>
             </div>
           </div>
-
-          <div class="admin-table-container">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Nom & Prénom</th>
-                  <th>E-mail</th>
-                  <th>Antenne / Organisation</th>
-                  <th>Rôle</th>
-                  <th>Téléphone</th>
-                  <th>Statut</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="tbody-admin-users-list"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 8: NIVEAUX D'ACCÈS BADGES / CONTACT MESSAGES -->
-      <div id="tab-contacts" class="admin-tab-content" style="display: none;">
-        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-          <h2 style="font-size: 1.35rem; color: var(--admin-text-main); margin-bottom: 0.2rem;">Messages & Demandes Reçues</h2>
-          <p style="font-size: 0.85rem; color: var(--admin-text-muted);" class="mb-4">Consultez et répondez directement sur WhatsApp aux messages reçus.</p>
 
           <div class="admin-table-container">
             <table class="admin-table">
               <thead>
                 <tr>
                   <th>Date</th>
-                  <th>Nom & Prénom</th>
-                  <th>Téléphone</th>
-                  <th>E-mail</th>
-                  <th>Sujet</th>
-                  <th>Message</th>
-                  <th>Actions</th>
+                  <th>Candidat</th>
+                  <th>Organisation</th>
+                  <th>Pôle Souhaité</th>
+                  <th>Région</th>
+                  <th>Motivation</th>
+                  <th>Statut</th>
                 </tr>
               </thead>
-              <tbody id="tbody-contacts-list"></tbody>
+              <tbody id="tbody-steering-list">
+                <tr><td colspan="7" style="text-align: center; color: var(--admin-text-muted); padding: 2rem;">Aucune candidature pour le comité de pilotage.</td></tr>
+              </tbody>
             </table>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- TAB 12: PARAMÈTRES SUPER ADMIN (MADIOR) -->
-      <div id="tab-settings" class="admin-tab-content" style="display: none;">
-        <div style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-          <div>
-            <h2 style="font-size: 1.4rem; color: var(--admin-text-main); margin-bottom: 0.2rem;"><i class="fas fa-cog" style="color: #E9C46A;"></i> Paramètres & Administration Générale (Super Admin)</h2>
-            <p style="font-size: 0.85rem; color: var(--admin-text-muted);">Espace de contrôle réservé à <strong>madior1991@gmail.com</strong> : Gestion globale des accès, sauvegardes, relais cloud et paramètres e-mail.</p>
-          </div>
-          <span class="badge badge-gold" style="font-size: 0.8rem; padding: 6px 14px;"><i class="fas fa-crown"></i> Mode Super Admin Actif (Madior)</span>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;" class="mb-4">
-
-          <!-- CARD 1: RELAIS CLOUD TEMPS RÉEL & SÉCURITÉ -->
-          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-              <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(0, 135, 72, 0.15); color: #008748; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                <i class="fas fa-network-wired"></i>
-              </div>
-              <div>
-                <h3 style="font-size: 1.05rem; margin: 0; color: var(--admin-text-main);">Relais Cloud Temps Réel</h3>
-                <small style="color: var(--admin-text-muted);">Synchronisation automatique multi-appareils</small>
-              </div>
-            </div>
-
-            <div style="background: var(--admin-bg-light); padding: 0.85rem; border-radius: 10px; margin-bottom: 1rem; border-left: 4px solid var(--admin-green);">
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.35rem;">
-                <strong style="font-size: 0.8rem; color: var(--admin-text-main);">Statut Endpoint Cloud :</strong>
-                <span class="badge badge-green" style="font-size: 0.7rem;"><i class="fas fa-check-circle"></i> En Ligne (Synchro Active)</span>
-              </div>
-              <small style="font-family: monospace; color: var(--admin-text-muted); font-size: 0.725rem; word-break: break-all; display: block;" id="label-active-cloud-endpoint">https://crudcrud.com/api/8484295837b1490394750b39c131212e/submissions</small>
-            </div>
-
-            <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-              <button onclick="forceRealtimeSyncRefresh()" class="action-btn-primary" style="width: 100%; justify-content: center; background: #006837;">
-                <i class="fas fa-sync-alt"></i> Forcer la Synchronisation Immédiate
-              </button>
-              <button onclick="renewCloudSyncEndpointKey()" class="action-btn-pill" style="width: 100%; justify-content: center; font-size: 0.775rem;">
-                <i class="fas fa-key"></i> Renouveler la Clé Cloud Sync (1 Clic)
-              </button>
-            </div>
-          </div>
-
-          <!-- CARD 2: RÈGLES DU PORTAIL & FORMULAIRES WEB -->
-          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-              <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(10, 37, 64, 0.1); color: #0A2540; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                <i class="fas fa-sliders-h"></i>
-              </div>
-              <div>
-                <h3 style="font-size: 1.05rem; margin: 0; color: var(--admin-text-main);">Règles des Formulaires Web</h3>
-                <small style="color: var(--admin-text-muted);">Ouverture et gestion des soumissions publiques</small>
-              </div>
-            </div>
-            
-            <form onsubmit="savePortalFormRules(event)">
-              <div class="wizard-form-group mb-3">
-                <label style="font-weight: 600; font-size: 0.825rem;">Statut des Inscriptions en Ligne</label>
-                <select id="setting-portal-status" class="wizard-form-control">
-                  <option value="open">Ouvertes (Prêt pour la réception des formulaires)</option>
-                  <option value="review">Mode Révision (Validation Super Admin requise)</option>
-                  <option value="closed">Inscriptions Suspendues</option>
-                </select>
-              </div>
-              <div class="wizard-form-group mb-3">
-                <label style="font-weight: 600; font-size: 0.825rem;">Prefixe des Références Dossiers</label>
-                <input type="text" id="setting-ref-prefix" class="wizard-form-control" value="CONESESS-2026-" style="height: 38px; font-weight: 700; font-family: monospace;">
-              </div>
-              <button type="submit" class="action-btn-pill" style="width: 100%; justify-content: center; color: var(--admin-text-main); border: 1px solid var(--admin-border-light);">
-                <i class="fas fa-check-circle"></i> Enregistrer Règles Portail
-              </button>
-            </form>
-          </div>
-
-          <!-- CARD 3: SAUVEGARDE & RESTAURATION BASE DE DONNÉES -->
-          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-              <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(233, 196, 106, 0.25); color: #B45309; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                <i class="fas fa-database"></i>
-              </div>
-              <div>
-                <h3 style="font-size: 1.05rem; margin: 0; color: var(--admin-text-main);">Sauvegarde & Exportation BDD</h3>
-                <small style="color: var(--admin-text-muted);">Exportation/Importation intégrale de la base</small>
-              </div>
-            </div>
-            
-            <p style="font-size: 0.8rem; color: var(--admin-text-body);" class="mb-3">Exporter la base de données au format `.json` pour conserver une sauvegarde de sécurité complète.</p>
-            
-            <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-              <button onclick="exportFullDatabaseJSON()" class="action-btn-primary" style="justify-content: center; background: #0A2540;">
-                <i class="fas fa-download"></i> Exporter la Base de Données (.JSON)
-              </button>
-              <label class="action-btn-pill" style="justify-content: center; cursor: pointer; text-align: center;">
-                <i class="fas fa-upload"></i> Importer une Sauvegarde (.JSON)
-                <input type="file" id="input-import-json" accept=".json" onchange="importFullDatabaseJSON(event)" style="display: none;">
-              </label>
-            </div>
-          </div>
-
-          <!-- CARD 4: CHANGER LE MOT DE PASSE SUPER ADMIN -->
-          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-              <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(10, 37, 64, 0.15); color: #0A2540; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                <i class="fas fa-key"></i>
-              </div>
-              <div>
-                <h3 style="font-size: 1.05rem; margin: 0; color: var(--admin-text-main);">Mot de Passe Super Admin</h3>
-                <small style="color: var(--admin-text-muted);">Sécurisation pour madior1991@gmail.com</small>
-              </div>
-            </div>
-            
-            <form onsubmit="changeSuperAdminPassword(event)">
-              <div class="wizard-form-group mb-2">
-                <label style="font-weight: 600; font-size: 0.8rem;">Ancien Mot de Passe *</label>
-                <input type="password" id="setting-old-password" class="wizard-form-control" placeholder="••••••••" required style="height: 38px;">
-              </div>
-              <div class="wizard-form-group mb-3">
-                <label style="font-weight: 600; font-size: 0.8rem;">Nouveau Mot de Passe *</label>
-                <input type="password" id="setting-new-password" class="wizard-form-control" placeholder="Entrez le nouveau mot de passe" required style="height: 38px;">
-              </div>
-              <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; background: #006837; border: none;">
-                <i class="fas fa-lock"></i> Mettre à Jour le Mot de Passe
-              </button>
-            </form>
-          </div>
-
-          <!-- CARD 5: RÉINITIALISATION POST-TEST (PRÊT POUR PRODUCTION) -->
-          <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
-              <div style="width: 42px; height: 42px; border-radius: 50%; background: rgba(220, 38, 38, 0.12); color: #DC2626; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
-                <i class="fas fa-trash-restore"></i>
-              </div>
-              <div>
-                <h3 style="font-size: 1.05rem; margin: 0; color: var(--admin-text-main);">Réinitialiser Données de Test</h3>
-                <small style="color: var(--admin-text-muted);">Purge post-test & passage en production</small>
-              </div>
-            </div>
-            
-            <p style="font-size: 0.8rem; color: var(--admin-text-body);" class="mb-3">Effacer l'ensemble des formulaires de test reçus et remettre la base de données à zéro pour lancer la réception réelle en production.</p>
-            
-            <button onclick="confirmResetTestDataForProduction()" class="action-btn-primary" style="width: 100%; justify-content: center; background: #DC2626; border: none;" title="Effacer toutes les données de test et réinitialiser la base">
-              <i class="fas fa-redo-alt"></i> Réinitialiser la Base (Post-Test)
-            </button>
-          </div>
-        </div>
-
-        <!-- TABLEAU 1: GESTION COMPLÈTE DES ADMINISTRATEURS (SUPPRESSION ET RÔLES) -->
-        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);" class="mb-4">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+      <!-- TAB 5: REGISTRE ENTREPRISES ESS -->
+      <section id="tab-members" class="admin-tab-content" style="display: none;">
+        <div class="admin-table-card">
+          <div class="table-header-toolbar">
             <div>
-              <h3 style="font-size: 1.15rem; margin: 0; color: var(--admin-text-main);"><i class="fas fa-user-cog" style="color: #006837;"></i> Control Panel : Comptes Administrateurs & Rôles</h3>
-              <p style="font-size: 0.8rem; color: var(--admin-text-muted);" class="m-0">Privilège Super Admin (<strong>madior1991@gmail.com</strong>) : Modifier les rôles, attribuer les accès ou supprimer un administrateur.</p>
+              <h3 style="margin: 0; font-size: 1.15rem; color: var(--admin-text-main);"><i class="fas fa-building" style="color: var(--admin-green);"></i> Annuaire Général des Entreprises ESS</h3>
+              <p style="margin: 0.2rem 0 0 0; font-size: 0.8rem; color: var(--admin-text-muted);">Base consolidée des coopératives, mutuelles et entreprises de l'ESS au Sénégal.</p>
             </div>
-            <button onclick="openAddAdminModal()" class="action-btn-primary" style="background: #0A2540;">
-              <i class="fas fa-user-plus"></i> Créer un Compte Admin
+          </div>
+
+          <div class="admin-table-container">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Matricule</th>
+                  <th>Structure</th>
+                  <th>Type</th>
+                  <th>Département</th>
+                  <th>Téléphone</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-members-annuaire">
+                <tr><td colspan="6" style="text-align: center; color: var(--admin-text-muted); padding: 2rem;">Aucune structure enregistrée dans l'annuaire.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 6: CR80 BADGE STUDIO WITH ACCESS LEVELS -->
+      <section id="tab-badges" class="admin-tab-content" style="display: none;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+          
+          <!-- CONTROLS FORM -->
+          <div class="admin-table-card" style="margin: 0;">
+            <h3 style="margin: 0 0 1.25rem 0; font-size: 1.15rem; color: var(--admin-text-main);"><i class="fas fa-id-badge" style="color: var(--admin-green);"></i> Confection de Badge CR80</h3>
+            
+            <div class="wizard-form-group mb-3">
+              <label style="font-weight: 600; font-size: 0.825rem;">Sélectionner un Participant *</label>
+              <select id="badge-select-member" class="wizard-form-control" onchange="loadMemberToBadgeStudio(this.value)">
+                <option value="">-- Choisir dans la liste des membres --</option>
+              </select>
+            </div>
+
+            <div class="wizard-form-group mb-3">
+              <label style="font-weight: 600; font-size: 0.825rem;">Nom & Prénom / Titulaire *</label>
+              <input type="text" id="badge-input-name" class="wizard-form-control" placeholder="ex: Ousmane Sow" oninput="updateBadgePreview()">
+            </div>
+
+            <div class="wizard-form-group mb-3">
+              <label style="font-weight: 600; font-size: 0.825rem;">Organisation / Structure *</label>
+              <input type="text" id="badge-input-org" class="wizard-form-control" placeholder="ex: Coopérative Agricole de Saint-Louis" oninput="updateBadgePreview()">
+            </div>
+
+            <div class="wizard-form-group mb-4">
+              <label style="font-weight: 600; font-size: 0.825rem;">Niveau d'Accès & Badge *</label>
+              <select id="badge-input-access-level" class="wizard-form-control" onchange="updateBadgePreview()">
+                <option value="VIP / Bureau Exécutif" data-color="#D97706">🥇 VIP / Bureau Exécutif (Doré)</option>
+                <option value="Membre Titulaire" data-color="#006837" selected>🌿 Membre Titulaire (Vert Émeraude)</option>
+                <option value="Comité de Pilotage" data-color="#0A2540">🏛️ Comité de Pilotage (Bleu Roi)</option>
+                <option value="Invité d'Honneur" data-color="#7C3AED">🟣 Invité d'Honneur (Violet Impérial)</option>
+                <option value="Presse / Média" data-color="#DC2626">🔴 Presse / Média (Rouge Cramoisi)</option>
+              </select>
+            </div>
+
+            <button onclick="downloadBadgePDF()" class="action-btn-primary" style="width: 100%; justify-content: center; background: var(--admin-green); padding: 0.75rem;">
+              <i class="fas fa-print"></i> Imprimer / Télécharger Badge CR80
             </button>
+          </div>
+
+          <!-- PREVIEW CARD -->
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <div id="cr80-badge-preview" class="cr80-badge-preview">
+              <div id="badge-color-band" class="badge-access-band" style="background: #006837;"></div>
+              
+              <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 50px; height: 50px; border-radius: 50%; border: 2px solid #E9C46A; margin-top: 1rem; margin-bottom: 0.5rem;">
+              <h4 style="margin: 0; font-size: 0.9rem; letter-spacing: 0.05em;">CONESESS SÉNÉGAL</h4>
+              <small style="font-size: 0.675rem; color: #E9C46A; font-weight: 700; text-transform: uppercase;">FORA'ESS 2026 - DAKAR</small>
+
+              <div style="margin: 1.5rem 0 1rem 0; width: 90px; height: 90px; border-radius: 50%; border: 3px solid #FFFFFF; overflow: hidden; background: #FFFFFF; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user" style="font-size: 3rem; color: #64748B;" id="badge-photo-placeholder"></i>
+              </div>
+
+              <h3 id="preview-badge-name" style="margin: 0 0 0.25rem 0; font-size: 1.15rem; font-weight: 800; color: #FFFFFF;">Nom du Titulaire</h3>
+              <p id="preview-badge-org" style="margin: 0 0 1rem 0; font-size: 0.8rem; color: rgba(255,255,255,0.85);">Organisation / Structure</p>
+
+              <div id="preview-badge-level" style="background: #006837; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">
+                Membre Titulaire
+              </div>
+
+              <div id="badge-qr-code" style="background: #FFFFFF; padding: 0.35rem; border-radius: 8px;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=70x70&data=CONESESS-DEMO" alt="QR Code" style="width: 70px; height: 70px; display: block;">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- TAB 7: SCANNER ÉMARGEMENT -->
+      <section id="tab-checkin" class="admin-tab-content" style="display: none;">
+        <div class="admin-table-card" style="max-width: 600px; margin: 0 auto;">
+          <h3 style="margin: 0 0 1rem 0; font-size: 1.15rem; color: var(--admin-text-main); text-align: center;"><i class="fas fa-qrcode" style="color: var(--admin-green);"></i> Contrôle & Émargement des Badges</h3>
+          <p style="text-align: center; font-size: 0.825rem; color: var(--admin-text-muted);" class="mb-4">Saisissez ou scannez la référence du badge participant pour valider son accès.</p>
+
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+            <input type="text" id="checkin-input-code" class="wizard-form-control" placeholder="ex: CONESESS-2026-1001" style="height: 44px; font-size: 0.95rem;">
+            <button onclick="verifyCheckinCode()" class="action-btn-primary" style="background: var(--admin-green); font-size: 0.9rem; padding: 0 1.25rem;"><i class="fas fa-check-circle"></i> Vérifier</button>
+          </div>
+
+          <div id="checkin-result-box" style="display: none; padding: 1.25rem; border-radius: 12px; text-align: center;"></div>
+        </div>
+      </section>
+
+      <!-- TAB 8: COMPTES ADMINS -->
+      <section id="tab-admins" class="admin-tab-content" style="display: none;">
+        <div class="admin-table-card">
+          <div class="table-header-toolbar">
+            <div>
+              <h3 style="margin: 0; font-size: 1.15rem; color: var(--admin-text-main);"><i class="fas fa-user-shield" style="color: var(--admin-green);"></i> Gestion des Administrateurs</h3>
+              <p style="margin: 0.2rem 0 0 0; font-size: 0.8rem; color: var(--admin-text-muted);">Comptes d'accès habilités sur la plateforme d'administration.</p>
+            </div>
+            <button onclick="openAddAdminModal()" class="action-btn-primary" style="font-size: 0.8rem; background: var(--admin-navy);"><i class="fas fa-user-plus"></i> Créer Compte Admin</button>
           </div>
 
           <div class="admin-table-container">
@@ -1597,244 +709,112 @@
               <thead>
                 <tr>
                   <th>Nom & Titulaire</th>
-                  <th>Adresse E-mail</th>
-                  <th>Organisation / Antenne</th>
-                  <th>Rôle Actuel</th>
+                  <th>Identifiant / E-mail</th>
+                  <th>Mot de Passe</th>
+                  <th>Service / Antenne</th>
+                  <th>Rôle</th>
                   <th>Statut</th>
-                  <th>Actions Super Admin (Madior)</th>
                 </tr>
               </thead>
-              <tbody id="tbody-super-admin-settings-users"></tbody>
+              <tbody id="tbody-admins-list">
+                <tr><td colspan="6" style="text-align: center; color: var(--admin-text-muted); padding: 2rem;">Aucun compte disponible.</td></tr>
+              </tbody>
             </table>
           </div>
         </div>
+      </section>
 
-        <!-- TABLEAU 2: JOURNAL D'AUDIT DE SÉCURITÉ & HISTORIQUE DES ACTIONS -->
-        <div style="background: var(--admin-card-bg-light); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--admin-border-light);">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
-            <div>
-              <h3 style="font-size: 1.15rem; margin: 0; color: var(--admin-text-main);"><i class="fas fa-history" style="color: #E9C46A;"></i> Journal d'Audit & Historique de Sécurité</h3>
-              <p style="font-size: 0.8rem; color: var(--admin-text-muted);" class="m-0">Traces en temps réel des connexions, modifications de rôles, suppressions et téléchargements.</p>
-            </div>
-            <button onclick="clearAuditTrail()" class="action-btn-pill" style="font-size: 0.75rem; color: #DC2626; border: 1px solid #DC2626;">
-              <i class="fas fa-trash"></i> Effacer le Journal
-            </button>
+      <!-- TAB 9: SETTINGS & RELAIS CLOUD -->
+      <section id="tab-settings" class="admin-tab-content" style="display: none;">
+        <div class="admin-table-card" style="max-width: 650px;">
+          <h3 style="margin: 0 0 1rem 0; font-size: 1.15rem; color: var(--admin-text-main);"><i class="fas fa-cloud" style="color: var(--admin-green);"></i> Configuration Relais Cloud Inter-Appareils</h3>
+          <p style="font-size: 0.825rem; color: var(--admin-text-muted);" class="mb-4">Clé d'API relais utilisée pour la synchronisation automatique en temps réel entre votre téléphone et votre ordinateur.</p>
+
+          <div class="wizard-form-group mb-3">
+            <label style="font-weight: 600; font-size: 0.8rem;">Endpoint Relais Cloud Actif *</label>
+            <input type="text" id="setting-cloud-key" class="wizard-form-control" value="https://crudcrud.com/api/8484295837b1490394750b39c131212e/submissions" style="height: 38px; font-size: 0.825rem;">
           </div>
 
-          <div class="admin-table-container">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Horodatage</th>
-                  <th>Utilisateur / Acteur</th>
-                  <th>Action Effectuée</th>
-                  <th>Détails & Cible</th>
-                  <th>IP / Origine</th>
-                </tr>
-              </thead>
-              <tbody id="tbody-audit-log-list"></tbody>
-            </table>
-          </div>
+          <button onclick="renewCloudSyncEndpointKey()" class="action-btn-primary" style="background: var(--admin-navy); font-size: 0.825rem;"><i class="fas fa-key"></i> Enregistrer Clé API</button>
         </div>
-      </div>
+      </section>
 
     </main>
-
   </div>
 
-  <!-- MODAL: AJOUTER UN MEMBRE MANUELLEMENT (FORME ADHÉSION CONSERVÉE) -->
-  <div id="admin-add-member-modal" class="modal-overlay">
-    <div class="modal-card" style="max-width: 650px; border-radius: 20px;">
-      <button class="modal-close" onclick="closeAddMemberModal()">&times;</button>
-      <div style="text-align: center; margin-bottom: 1.25rem;">
-        <h3 style="color: #0A2540; font-size: 1.15rem; font-weight: 800; line-height: 1.35; margin-bottom: 0.35rem;">
-          Vous représentez une coopérative, une mutuelle, un GIE, une entreprise sociale ou une organisation engagée dans l’Économie Sociale et Solidaire ?
-        </h3>
-        <p style="font-size: 0.85rem; color: #006837; font-weight: 700; margin: 0;">
-          Vous pouvez manifester votre intérêt pour rejoindre la dynamique nationale du CONESESS.
-        </p>
-      </div>
-
-      <form id="form-manual-add-member">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;" class="mb-3">
-          <div class="wizard-form-group">
-            <label style="font-size: 0.8rem; font-weight: 600;">Dénomination Sociale / Organisation *</label>
-            <input type="text" id="manual-name" class="wizard-form-control" required placeholder="ex: Coopérative de Kayar">
-          </div>
-          <div class="wizard-form-group">
-            <label style="font-size: 0.8rem; font-weight: 600;">Forme Juridique *</label>
-            <select id="manual-type" class="wizard-form-control" required>
-              <option>Coopérative Agricole</option>
-              <option>Mutuelle de Santé / SFD</option>
-              <option>Groupement d'Intérêt Économique (GIE)</option>
-              <option>Entreprise Sociale</option>
-              <option>Association Productive</option>
-            </select>
-          </div>
+  <!-- MODAL: MANUALLY ADD MEMBER -->
+  <div id="modal-add-member" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1060; align-items: center; justify-content: center;">
+    <div style="background: var(--admin-card-bg-light); border-radius: 20px; padding: 2rem; max-width: 500px; width: 90%;">
+      <h3 style="margin: 0 0 1rem 0; color: var(--admin-text-main);">Ajouter un Membre Manuellement</h3>
+      <form id="form-manual-add-member" onsubmit="saveManualMember(event)">
+        <div class="wizard-form-group mb-2">
+          <label style="font-size: 0.8rem; font-weight: 600;">Nom de la Structure *</label>
+          <input type="text" id="manual-name" class="wizard-form-control" required placeholder="ex: GIE Fass Diom">
         </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;" class="mb-3">
-          <div class="wizard-form-group">
-            <label style="font-size: 0.8rem; font-weight: 600;">Région de Résidence *</label>
-            <select id="manual-region" class="wizard-form-control" required>
-              <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option>
-              <option>Fatick</option><option>Kaolack</option><option>Ziguinchor</option>
-              <option>Kolda</option><option>Tambacounda</option><option>Matam</option>
-              <option>Kaffrine</option><option>Kedougou</option><option>Sédhiou</option>
-              <option>Louga</option><option>Diourbel</option>
-            </select>
-          </div>
-          <div class="wizard-form-group">
-            <label style="font-size: 0.8rem; font-weight: 600;">Pôle Métier *</label>
-            <select id="manual-pole" class="wizard-form-control" required>
-              <option>Pôle 1 : Agroécologie & Souveraineté Alimentaire</option>
-              <option>Pôle 2 : Mutuelles de Santé & SFD</option>
-              <option>Pôle 3 : Artisanat & Économie Circulaire</option>
-              <option>Pôle 4 : Services, Numérique Social & Éducation</option>
-            </select>
-          </div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;" class="mb-3">
-          <div class="wizard-form-group">
-            <label style="font-size: 0.8rem; font-weight: 600;">Représentant Légal *</label>
-            <input type="text" id="manual-rep" class="wizard-form-control" required placeholder="ex: Mamadou Ndiaye">
-          </div>
-          <div class="wizard-form-group">
-            <label style="font-size: 0.8rem; font-weight: 600;">Téléphone / WhatsApp *</label>
-            <input type="tel" id="manual-phone" class="wizard-form-control" required placeholder="+221 77 000 00 00">
-          </div>
-        </div>
-
-        <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem; background: #006837; margin-top: 0.5rem; font-weight: 700;">
-          <i class="fas fa-paper-plane"></i> Transmettre ma manifestation d’intérêt
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL: MODIFIER LE RÔLE D'UN ADMINISTRATEUR -->
-  <div id="modal-edit-admin-role" class="modal-overlay">
-    <div class="modal-card" style="max-width: 500px; border-radius: 20px;">
-      <button class="modal-close" onclick="closeEditAdminRoleModal()">&times;</button>
-      <div style="text-align: center; margin-bottom: 1.25rem;">
-        <span class="badge badge-gold mb-1" style="font-size: 0.75rem;"><i class="fas fa-user-tag"></i> Gestion des Droits & Rôles Admin</span>
-        <h3 style="color: #0A2540; font-size: 1.35rem;">Modifier le Rôle Administrateur</h3>
-        <p style="font-size: 0.825rem; color: var(--admin-text-muted);" id="edit-admin-user-email-subtitle">admin@conesess.sn</p>
-      </div>
-
-      <form id="form-edit-admin-role" onsubmit="saveAdminRoleSubmit(event)">
-        <input type="hidden" id="edit-admin-user-email">
-        <div class="wizard-form-group mb-4">
-          <label style="font-weight: 700; font-size: 0.85rem; color: var(--admin-text-main);">Sélectionner le Nouveau Rôle *</label>
-          <select id="edit-admin-role-select" class="wizard-form-control" required style="height: 42px; font-weight: 600;">
-            <option value="Gestionnaire d'Antenne Régionale">Gestionnaire d'Antenne Régionale</option>
-            <option value="Coordonnateur Pôle Métier">Coordonnateur Pôle Métier</option>
-            <option value="Responsable Incubateur (IAN-ESS)">Responsable Incubateur (IAN-ESS)</option>
-            <option value="Analyste Observatoire (ON-ESS)">Analyste Observatoire (ON-ESS)</option>
-            <option value="Secrétariat Technique & Badges">Secrétariat Technique & Badges</option>
-            <option value="Administrateur Restreint (Fonctions Limitées)">Administrateur Restreint (Fonctions Limitées - Sans Suppression)</option>
-            <option value="Super Administrateur Confédéral">Super Administrateur Confédéral</option>
+        <div class="wizard-form-group mb-2">
+          <label style="font-size: 0.8rem; font-weight: 600;">Forme Juridique *</label>
+          <select id="manual-type" class="wizard-form-control" required>
+            <option>Coopérative</option>
+            <option>Association</option>
+            <option>GIE</option>
+            <option>Entreprise Sociale</option>
+            <option>Mutuelle</option>
           </select>
         </div>
-
-        <div style="display: flex; gap: 0.75rem;">
-          <button type="submit" class="action-btn-primary" style="flex: 1; justify-content: center; padding: 0.75rem;">
-            <i class="fas fa-save"></i> Mettre à jour le Rôle
-          </button>
-          <button type="button" onclick="closeEditAdminRoleModal()" class="action-btn-pill">
-            Annuler
-          </button>
+        <div class="wizard-form-group mb-2">
+          <label style="font-size: 0.8rem; font-weight: 600;">Région *</label>
+          <select id="manual-region" class="wizard-form-control" required>
+            <option>Dakar</option><option>Thiès</option><option>Saint-Louis</option><option>Diourbel</option><option>Fatick</option><option>Kaolack</option><option>Kaffrine</option><option>Louga</option><option>Matam</option><option>Kolda</option><option>Kédougou</option><option>Sédhiou</option><option>Tambacounda</option><option>Ziguinchor</option>
+          </select>
+        </div>
+        <div class="wizard-form-group mb-3">
+          <label style="font-size: 0.8rem; font-weight: 600;">Téléphone *</label>
+          <input type="tel" id="manual-phone" class="wizard-form-control" required placeholder="+221 77 000 00 00">
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button type="submit" class="action-btn-primary" style="flex: 1; justify-content: center; background: var(--admin-green);">Enregistrer</button>
+          <button type="button" onclick="closeAddMemberModal()" class="action-btn-pill">Annuler</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- MODAL: AJOUTER UN COMPTE ADMINISTRATEUR -->
-  <div id="modal-add-admin" class="modal-overlay">
-    <div class="modal-card" style="max-width: 500px; border-radius: 20px;">
-      <button class="modal-close" onclick="closeAddAdminModal()">&times;</button>
-      <div style="text-align: center; margin-bottom: 1.25rem;">
-        <span class="badge badge-gold mb-1" style="font-size: 0.75rem;"><i class="fas fa-user-plus"></i> Création de Compte Admin</span>
-        <h3 style="color: #0A2540; font-size: 1.3rem;">Ajouter un Administrateur</h3>
-      </div>
-
+  <!-- MODAL: ADD ADMIN ACCOUNT -->
+  <div id="modal-add-admin" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1060; align-items: center; justify-content: center;">
+    <div style="background: var(--admin-card-bg-light); border-radius: 20px; padding: 2rem; max-width: 480px; width: 90%;">
+      <h3 style="margin: 0 0 1rem 0; color: var(--admin-text-main);">Créer un Compte Administrateur</h3>
       <form id="form-create-admin-account" onsubmit="saveNewAdminAccount(event)">
-        <div class="wizard-form-group mb-3">
-          <label style="font-weight: 600; font-size: 0.8rem;">Nom & Prénom *</label>
-          <input type="text" id="new-admin-name" class="wizard-form-control" required placeholder="ex: Mamadou Ndiaye" style="height: 38px; font-size: 0.85rem;">
+        <div class="wizard-form-group mb-2">
+          <label style="font-size: 0.8rem; font-weight: 600;">Nom & Prénom *</label>
+          <input type="text" id="new-admin-name" class="wizard-form-control" required placeholder="ex: Fatou Diop">
         </div>
-
-        <div class="wizard-form-group mb-3">
-          <label style="font-weight: 600; font-size: 0.8rem;">E-mail Administrateur *</label>
-          <input type="email" id="new-admin-email" class="wizard-form-control" required placeholder="ex: mamadou@conesess.sn" style="height: 38px; font-size: 0.85rem;">
+        <div class="wizard-form-group mb-2">
+          <label style="font-size: 0.8rem; font-weight: 600;">E-mail *</label>
+          <input type="email" id="new-admin-email" class="wizard-form-control" required placeholder="fatou@conesess.sn">
         </div>
-
-        <div class="wizard-form-group mb-3">
-          <label style="font-weight: 600; font-size: 0.8rem;">Antenne / Service *</label>
-          <input type="text" id="new-admin-org" class="wizard-form-control" required placeholder="ex: Antenne Régionale Saint-Louis" style="height: 38px; font-size: 0.85rem;">
+        <div class="wizard-form-group mb-2">
+          <label style="font-size: 0.8rem; font-weight: 600;">Mot de Passe *</label>
+          <input type="password" id="new-admin-pass" class="wizard-form-control" required value="admin123">
         </div>
-
         <div class="wizard-form-group mb-3">
-          <label style="font-weight: 600; font-size: 0.8rem;">Mot de Passe *</label>
-          <input type="password" id="new-admin-pass" class="wizard-form-control" required value="admin123" style="height: 38px; font-size: 0.85rem;">
-        </div>
-
-        <div class="wizard-form-group mb-4">
-          <label style="font-weight: 600; font-size: 0.8rem;">Rôle & Privilèges *</label>
-          <select id="new-admin-role" class="wizard-form-control" required style="height: 38px; font-size: 0.85rem;">
-            <option value="Administrateur Général">Administrateur Général (Accès Formulaires & Validation)</option>
-            <option value="Opérateur Badges & Émargement">Opérateur Badges & Émargement (Studio CR80)</option>
-            <option value="Administrateur Restreint (Fonctions Limitées)">Administrateur Restreint (Consultation Seule)</option>
-            <option value="Super Administrateur Confédéral">Super Administrateur Confédéral (Tous Droits)</option>
+          <label style="font-size: 0.8rem; font-weight: 600;">Rôle & Accès *</label>
+          <select id="new-admin-role" class="wizard-form-control" required>
+            <option>Super Administrateur Confédéral</option>
+            <option>Administrateur Général</option>
+            <option>Opérateur Studio Badges & Émargement</option>
           </select>
         </div>
-
-        <div style="display: flex; gap: 0.75rem;">
-          <button type="submit" class="action-btn-primary" style="flex: 1; justify-content: center; padding: 0.75rem; background: #006837;">
-            <i class="fas fa-check"></i> Créer le Compte
-          </button>
-          <button type="button" onclick="closeAddAdminModal()" class="action-btn-pill">
-            Annuler
-          </button>
+        <div style="display: flex; gap: 0.5rem;">
+          <button type="submit" class="action-btn-primary" style="flex: 1; justify-content: center; background: var(--admin-navy);">Créer Compte</button>
+          <button type="button" onclick="closeAddAdminModal()" class="action-btn-pill">Annuler</button>
         </div>
       </form>
-    </div>
-  </div>
-
-  <!-- MODAL: DÉTAIL D'UN FORMULAIRE WEB REÇU -->
-  <div id="web-form-detail-modal" class="modal-overlay">
-    <div class="modal-card" style="max-width: 650px; border-radius: 20px;">
-      <button class="modal-close" onclick="closeWebFormDetailModal()">&times;</button>
-      <div style="text-align: center; margin-bottom: 1.25rem;">
-        <span class="badge badge-green mb-1" style="font-size: 0.75rem;"><i class="fas fa-file-alt"></i> Fiche Complète de Soumission</span>
-        <h3 style="color: #0A2540; font-size: 1.35rem;" id="modal-detail-title">Détails de la Soumission Web</h3>
-      </div>
-
-      <div id="modal-detail-content" style="background: var(--admin-bg-light); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--admin-border-light); font-size: 0.875rem;">
-        <!-- Dynamic Detail Content -->
-      </div>
-
-      <div style="display: flex; gap: 0.6rem; margin-top: 1.25rem; flex-wrap: wrap;">
-        <button id="modal-btn-approve-web" onclick="approveCurrentModalWebForm()" class="action-btn-primary" style="flex: 1; justify-content: center;">
-          <i class="fas fa-check"></i> Valider Adhésion
-        </button>
-        <button id="modal-btn-pdf-web" onclick="downloadFormSubmissionPDF()" class="action-btn-pill" style="background: #006837; color: #FFFFFF; border: none; font-weight: 700;">
-          <i class="fas fa-file-pdf"></i> Télécharger PDF
-        </button>
-        <button id="modal-btn-txt-web" onclick="downloadCurrentModalFormText()" class="action-btn-pill" style="background: #0A2540; color: #FFFFFF; border: none;">
-          <i class="fas fa-file-alt"></i> Fiche TXT
-        </button>
-        <button id="modal-btn-whatsapp-web" onclick="openCurrentModalWhatsApp()" class="action-btn-pill" style="background: #25D366; color: #FFFFFF; border: none;">
-          <i class="fab fa-whatsapp"></i> WhatsApp
-        </button>
-      </div>
     </div>
   </div>
 
   <div id="toast-container" class="toast-container"></div>
 
-  <!-- Script logic -->
+  <!-- JavaScript Modules -->
   <script src="js/app.js"></script>
   <script src="js/admin.js"></script>
 </body>
