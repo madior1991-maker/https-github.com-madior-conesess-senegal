@@ -1791,55 +1791,7 @@ function rejectWebForm(id) {
   }
 }
 
-// Open Web Form Detail Modal
-function openWebFormDetailModal(id) {
-  const modal = document.getElementById('web-form-detail-modal');
-  const title = document.getElementById('modal-detail-title');
-  const content = document.getElementById('modal-detail-content');
 
-  const members = getMembersDB();
-  const member = members.find(m => m.ref === id);
-
-  if (member && modal && content) {
-    if (title) title.textContent = `Fiche d'Adhésion : ${member.name}`;
-    content.innerHTML = `
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-        <div><strong>Référence :</strong> <span style="color: var(--admin-green); font-family: monospace;">${member.ref}</span></div>
-        <div><strong>Date de Soumission :</strong> ${member.date || 'Récemment'}</div>
-        <div><strong>Organisation :</strong> ${member.name}</div>
-        <div><strong>Forme Juridique :</strong> ${member.type}</div>
-        <div><strong>Région :</strong> ${member.region}</div>
-        <div><strong>Pôle Métier :</strong> ${member.pole || 'Général'}</div>
-        <div><strong>Représentant Légal :</strong> ${member.rep}</div>
-        <div><strong>Téléphone / WhatsApp :</strong> ${member.phone}</div>
-        <div><strong>E-mail Officiel :</strong> ${member.email || 'Non renseigné'}</div>
-        <div><strong>Statut du Dossier :</strong> ${member.status}</div>
-      </div>
-    `;
-
-    const btnApprove = document.getElementById('modal-btn-approve-web');
-    if (btnApprove) {
-      btnApprove.onclick = function() {
-        approveMember(member.ref);
-        closeWebFormDetailModal();
-      };
-    }
-
-    const btnWa = document.getElementById('modal-btn-whatsapp-web');
-    if (btnWa) {
-      btnWa.onclick = function() {
-        window.open(`https://wa.me/${member.phone.replace(/[^0-9]/g, '')}?text=Bonjour%20${encodeURIComponent(member.rep)},%20votre%20dossier%20CONESESS...`, '_blank');
-      };
-    }
-
-    modal.classList.add('show');
-  }
-}
-
-function closeWebFormDetailModal() {
-  const modal = document.getElementById('web-form-detail-modal');
-  if (modal) modal.classList.remove('show');
-}
 
 // Recent Members Table
 function renderRecentMembersTable(members) {
