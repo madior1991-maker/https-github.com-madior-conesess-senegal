@@ -114,75 +114,24 @@ document.addEventListener('DOMContentLoaded', () => {
    ========================================================================== */
 function syncMobileAndDesktopData() {
   try {
-    let members = JSON.parse(localStorage.getItem('conesess_members')) || [];
     let webForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
-
-    let membersMap = new Map();
-    members.forEach(m => {
-      if (!m) return;
-      const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.name ? m.name.toLowerCase() : Math.random());
-      membersMap.set(key, m);
-    });
-
-    webForms.forEach(wf => {
-      if (!wf) return;
-      const key = wf.ref || (wf.email ? wf.email.toLowerCase() : null) || (wf.name ? wf.name.toLowerCase() : Math.random());
-      if (!membersMap.has(key)) {
-        membersMap.set(key, {
-          ref: wf.ref || `CONESESS-2026-${Math.floor(1000 + Math.random() * 9000)}`,
-          name: wf.org || wf.name || 'Participant Web',
-          type: wf.type || 'Candidat Comité de Pilotage',
-          region: wf.region || 'Dakar',
-          dept: wf.dept || 'Régional',
-          sector: wf.role || wf.sector || 'Général',
-          members: wf.members || '1',
-          rep: wf.name || wf.rep || 'Représentant',
-          phone: wf.phone || '',
-          email: wf.email || '',
-          desc: wf.details || wf.desc || '',
-          motivation: wf.motivation || '',
-          status: wf.status || 'En attente',
-          badgeStatus: wf.badgeStatus || 'Non généré',
-          badgeRole: wf.role || 'Membre',
-          date: wf.date ? wf.date.slice(0, 10) : new Date().toISOString().slice(0, 10)
-        });
-      }
-    });
-
-    const unifiedMembers = Array.from(membersMap.values());
-    localStorage.setItem('conesess_members', JSON.stringify(unifiedMembers));
-
-    // Also sync back to web forms list to guarantee zero data loss on mobile or desktop
+    let members = JSON.parse(localStorage.getItem('conesess_members')) || [];
     let webFormsMap = new Map();
+
     webForms.forEach(wf => {
       if (!wf) return;
-      const key = wf.ref || (wf.email ? wf.email.toLowerCase() : null) || (wf.name ? wf.name.toLowerCase() : Math.random());
+      const key = wf.ref || wf.id || (wf.email ? wf.email.toLowerCase() : null) || (wf.name ? wf.name.toLowerCase() : Math.random());
       webFormsMap.set(key, wf);
-    });
-
-    unifiedMembers.forEach(m => {
-      const key = m.ref || (m.email ? m.email.toLowerCase() : null) || (m.name ? m.name.toLowerCase() : Math.random());
-      if (!webFormsMap.has(key)) {
-        webFormsMap.set(key, {
-          id: 'sync-' + Date.now(),
-          type: m.type || 'Dossier d\'Adhésion',
-          ref: m.ref,
-          name: m.rep || m.name,
-          org: m.name,
-          region: m.region || 'Dakar',
-          email: m.email || '',
-          phone: m.phone || '',
-          role: m.sector || 'Membre',
-          details: m.desc || '',
-          motivation: m.motivation || '',
-          status: m.status || 'En attente',
-          date: m.date || new Date().toISOString().slice(0,10)
-        });
-      }
     });
 
     const unifiedWebForms = Array.from(webFormsMap.values());
     localStorage.setItem('conesess_web_forms', JSON.stringify(unifiedWebForms));
+
+    // Ensure members DB only holds approved official member organisations
+    let cleanMembers = members.filter(m => m && m.type !== 'Candidat Comité de Pilotage' && m.type !== 'Candidature Comité de Pilotage' && m.type !== 'Contact Direct' && m.type !== 'Message Contact Direct');
+    if (cleanMembers.length !== members.length) {
+      localStorage.setItem('conesess_members', JSON.stringify(cleanMembers));
+    }
   } catch (err) {
     console.warn("Sync warning:", err);
   }

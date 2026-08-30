@@ -550,38 +550,33 @@ async function fetchCloudDataToLocal() {
   }
 }
 
-  // Helper function to save new member submission to localStorage DB
+  // Helper function to save new member submission to localStorage DB (Single Central Storage)
   function saveSubmissionToDB(newMember) {
-    // 1. Save to members DB (Adhésions)
-    const members = JSON.parse(localStorage.getItem('conesess_members')) || [];
-    members.unshift(newMember);
-    localStorage.setItem('conesess_members', JSON.stringify(members));
-
-    // 2. Save to web_forms DB (Formulaires Web & Soumissions)
     const webForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
     const webFormEntry = {
       id: newMember.ref,
-      type: "Manifestation d'Intérêt (Adhésion)",
+      type: "Adhésion Membre",
       ref: newMember.ref,
-      name: newMember.rep,
+      name: newMember.rep || newMember.name,
       org: newMember.name,
       legalForm: newMember.type,
       region: newMember.region,
       dept: newMember.dept,
       sector: newMember.sector,
-      members: newMember.members,
+      membersCount: newMember.members,
       email: newMember.email,
       phone: newMember.phone,
+      role: newMember.sector || 'Représentant Légal',
       details: `Forme: ${newMember.type} | Secteur: ${newMember.sector} | Effectif: ${newMember.members}`,
       desc: newMember.desc,
       motivation: newMember.motivation,
-      status: newMember.status,
-      date: newMember.date
+      status: newMember.status || 'En attente',
+      date: newMember.date || new Date().toISOString().slice(0,10)
     };
     webForms.unshift(webFormEntry);
     localStorage.setItem('conesess_web_forms', JSON.stringify(webForms));
 
-    // 3. Dispatch Email Notification Alert to madior1991@gmail.com
+    // Dispatch Email Notification Alert to madior1991@gmail.com
     dispatchEmailNotificationAlert(
       "Adhésion Membre",
       `Nouveau Dossier d'Adhésion : ${newMember.name}`,
@@ -592,43 +587,40 @@ async function fetchCloudDataToLocal() {
     try { window.dispatchEvent(new Event('storage')); } catch(err) {}
   }
 
-  // Helper function to save contact message to localStorage DB
+  // Helper function to save contact message to localStorage DB (Single Central Storage)
   function saveContactMessageToDB(newMessage) {
-    // 1. Save to contacts DB
-    const contacts = JSON.parse(localStorage.getItem('conesess_contacts')) || [];
-    contacts.unshift(newMessage);
-    localStorage.setItem('conesess_contacts', JSON.stringify(contacts));
-
-    // 2. Save to web_forms DB
     const webForms = JSON.parse(localStorage.getItem('conesess_web_forms')) || [];
+    const ref = `CNT-2026-${Math.floor(1000 + Math.random() * 9000)}`;
     const contactFormEntry = {
-      id: 'CONTACT-' + Date.now(),
-      type: "Message Contact",
-      ref: 'CONTACT-2026',
+      id: ref,
+      ref: ref,
+      type: "Message Contact Direct",
       name: newMessage.name,
-      org: newMessage.name,
-      legalForm: 'Contact Web',
+      org: newMessage.org || newMessage.name || 'Individuel',
+      legalForm: 'Contact Direct',
       region: 'Sénégal',
       email: newMessage.email,
       phone: newMessage.phone,
-      details: `Sujet: ${newMessage.subject}`,
-      desc: newMessage.message,
-      status: 'Nouveau',
-      date: newMessage.date
+      role: newMessage.subject || 'Demande d\'Information',
+      details: `Sujet : ${newMessage.subject}`,
+      motivation: newMessage.message,
+      experience: newMessage.message,
+      status: 'En attente',
+      date: newMessage.date || new Date().toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })
     };
     webForms.unshift(contactFormEntry);
     localStorage.setItem('conesess_web_forms', JSON.stringify(webForms));
 
-    // 3. Dispatch Email Notification Alert to madior1991@gmail.com
     dispatchEmailNotificationAlert(
-      "Message Contact",
-      `Nouveau Message Web de ${newMessage.name}`,
-      `Sujet: ${newMessage.subject} | Contact: ${newMessage.name} (${newMessage.phone})`
+      "Message Contact Direct",
+      `Nouveau message de ${newMessage.name} (${newMessage.org || 'Individuel'})`,
+      `Sujet: ${newMessage.subject} | Email: ${newMessage.email} | Tel: ${newMessage.phone}`
     );
 
     try { pushLocalDataToCloud(); } catch(err) {}
     try { window.dispatchEvent(new Event('storage')); } catch(err) {}
   }
+
 
   // Embedded Page Adhesion Form
   const mainForm = document.getElementById('form-main-adhesion');
