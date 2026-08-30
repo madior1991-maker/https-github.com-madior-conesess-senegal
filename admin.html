@@ -625,8 +625,8 @@
 </head>
 <body class="admin-app-body" data-admin-theme="light">
 
-  <!-- ADMIN LOGIN OVERLAY -->
-  <div id="admin-login-overlay" class="admin-login-overlay">
+  <!-- ADMIN LOGIN OVERLAY (Hidden by default to allow direct portal access) -->
+  <div id="admin-login-overlay" class="admin-login-overlay" style="display: none;">
     <div class="admin-login-card">
       <div style="text-align: center; margin-bottom: 1.25rem;">
         <img src="assets/images/logo.jpg" alt="Logo CONESESS" style="width: 65px; height: 65px; border-radius: 50%; border: 3px solid var(--admin-green); margin-bottom: 0.5rem;">
@@ -714,8 +714,8 @@
     </div>
   </div>
 
-  <!-- MAIN ADMIN APP WRAPPER -->
-  <div id="admin-main-container" class="admin-app-wrapper" style="display: none;">
+  <!-- MAIN ADMIN APP WRAPPER (Displayed by default) -->
+  <div id="admin-main-container" class="admin-app-wrapper" style="display: block;">
     
     <!-- BACKDROP OVERLAY FOR MOBILE SIDEBAR -->
     <div id="admin-sidebar-overlay" class="admin-sidebar-overlay" onclick="toggleAdminSidebar()"></div>
