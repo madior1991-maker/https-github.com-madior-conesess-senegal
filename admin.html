@@ -153,11 +153,23 @@
       border-radius: 4px;
     }
 
+    .admin-nav-section-title {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #E9C46A;
+      text-transform: uppercase;
+      padding: 0.85rem 0.9rem 0.35rem 0.9rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      margin-bottom: 0.35rem;
+    }
+
     .admin-nav-link {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 0.65rem;
-      padding: 0.55rem 0.9rem;
+      padding: 0.6rem 0.95rem;
       border-radius: 30px;
       color: rgba(255, 255, 255, 0.92);
       text-decoration: none;
@@ -175,11 +187,11 @@
     }
 
     .admin-nav-link.active {
-      background: #FFFFFF;
+      background: #FFFFFF !important;
       color: #006837 !important;
-      font-weight: 800;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
-      border: 1.5px solid #E9C46A;
+      font-weight: 800 !important;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+      border-left: 4.5px solid #E9C46A !important;
     }
 
     .admin-nav-link.active i {
@@ -741,6 +753,10 @@
         </div>
 
         <div class="admin-top-actions">
+          <button onclick="forceRealtimeSyncRefresh()" class="action-btn-primary" style="background: #006837; color: #FFFFFF; font-weight: 700; font-size: 0.8rem; border: 1.5px solid #E9C46A; padding: 0.45rem 0.9rem;" title="Forcer l'actualisation complète des données et de l'affichage de la plateforme">
+            <i class="fas fa-sync-alt"></i> Actualiser Tout
+          </button>
+
           <!-- NOTIFICATION BELL BUTTON & DROPDOWN FOR FORM SUBMISSIONS -->
           <div class="notification-wrapper" style="position: relative;">
             <button id="btn-admin-notifications" onclick="toggleAdminNotificationMenu()" class="action-btn-pill" style="position: relative; background: var(--admin-card-bg-light); color: var(--admin-text-main); border: 1px solid var(--admin-border-light); padding: 0.4rem 0.85rem;" title="Notifications de Réception des Formulaires">

@@ -2132,6 +2132,19 @@ function exportWebFormsExcel() {
   showToast("Formulaires web exportés avec succès au format Excel (.xls) !");
 }
 
+// Force Full Real-Time Sync & Dashboard Re-render
+async function forceRealtimeSyncRefresh() {
+  showToast("Actualisation et synchronisation en cours...");
+  if (typeof fetchCloudDataToLocal === 'function') {
+    await fetchCloudDataToLocal();
+  }
+  if (typeof syncMobileAndDesktopData === 'function') {
+    syncMobileAndDesktopData();
+  }
+  renderAdminAll();
+  showToast("Plateforme et données d'administration actualisées avec succès !");
+}
+
 // Copy Candidature Call Link to Clipboard
 function copyCandidatureLink() {
   const linkInput = document.getElementById('input-candidature-link');
