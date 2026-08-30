@@ -649,16 +649,21 @@
       <!-- FORM 1: LOGIN -->
       <form id="form-admin-login">
         <div class="wizard-form-group mb-3">
-          <label style="font-weight: 600; font-size: 0.825rem; color: #1E293B;">Identifiant *</label>
-          <input type="text" id="admin-email" class="wizard-form-control" value="" required placeholder="Saisissez votre identifiant administrateur..." style="height: 38px; font-size: 0.85rem;" autocomplete="username">
+          <label style="font-weight: 600; font-size: 0.825rem; color: #1E293B;">Identifiant / E-mail *</label>
+          <input type="text" id="admin-email" class="wizard-form-control" value="madior1991@gmail.com" required placeholder="madior1991@gmail.com" style="height: 38px; font-size: 0.85rem;" autocomplete="username">
         </div>
         <div class="wizard-form-group mb-4">
           <label style="font-weight: 600; font-size: 0.825rem; color: #1E293B;">Mot de Passe *</label>
-          <input type="password" id="admin-password" class="wizard-form-control" value="" required placeholder="••••••••" style="height: 38px; font-size: 0.85rem;" autocomplete="current-password">
+          <input type="password" id="admin-password" class="wizard-form-control" value="admin" required placeholder="admin" style="height: 38px; font-size: 0.85rem;" autocomplete="current-password">
         </div>
-        <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">
-          <i class="fas fa-sign-in-alt"></i> Se connecter
-        </button>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <button type="submit" class="action-btn-primary" style="width: 100%; justify-content: center; padding: 0.75rem;">
+            <i class="fas fa-sign-in-alt"></i> Se Connecter au Portail Admin
+          </button>
+          <button type="button" onclick="quickLoginAdmin()" class="action-btn-pill" style="width: 100%; justify-content: center; font-size: 0.8rem; background: #006837; color: #FFFFFF; border: none; padding: 0.6rem;">
+            <i class="fas fa-bolt" style="color: #E9C46A;"></i> Accès Rapide Direct (Madior)
+          </button>
+        </div>
       </form>
 
       <!-- FORM 2: REGISTER -->

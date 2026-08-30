@@ -387,14 +387,21 @@ function initAdminDB() {
     users.unshift(INITIAL_ADMIN_USERS[0]);
     localStorage.setItem('conesess_admin_users', JSON.stringify(users));
   } else {
-    // Ensure madior1991@gmail.com is set as active Super Admin with full rights
+    // Ensure madior1991@gmail.com is set as active Super Admin with full rights and password admin
     const madiorIndex = users.findIndex(u => u.email.toLowerCase() === 'madior1991@gmail.com');
     if (madiorIndex !== -1) {
       users[madiorIndex].isSuperAdmin = true;
+      users[madiorIndex].password = 'admin';
       users[madiorIndex].role = 'Super Administrateur Confédéral';
       users[madiorIndex].status = 'Approuvé';
       localStorage.setItem('conesess_admin_users', JSON.stringify(users));
     }
+  }
+
+  // Grant session authorization by default if not set
+  if (!localStorage.getItem('conesess_admin_auth')) {
+    localStorage.setItem('conesess_admin_auth', 'true');
+    localStorage.setItem('conesess_admin_active_user', JSON.stringify(INITIAL_ADMIN_USERS[0]));
   }
 }
 
