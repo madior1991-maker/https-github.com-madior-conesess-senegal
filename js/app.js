@@ -315,7 +315,7 @@ function initIncubatorExplorer() {
 
       if (data) {
         displayPanel.innerHTML = `
-          <div class="incubator-detail-grid" style="grid-template-columns: 1fr; gap: 1.25rem;">
+          <div class="incubator-detail-grid" style="grid-template-columns: 1fr 1fr; gap: 1.5rem;">
             <div>
               <span class="badge badge-green mb-2">${data.badge}</span>
               <h3 style="font-size: 1.35rem; color: var(--primary-green);" class="mb-2">${data.title}</h3>

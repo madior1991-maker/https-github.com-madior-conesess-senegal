@@ -53,7 +53,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   font-size: 16px;
   width: 100%;
   max-width: 100%;
@@ -244,12 +243,6 @@ section.section {
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
-}
-
-.top-bar-info {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
 }
 
 .top-bar-item {
@@ -748,10 +741,10 @@ section.section {
 }
 
 .stat-desc {
-  font-size: 0.735rem;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.92);
   margin-top: 0.35rem;
-  line-height: 1.35;
+  line-height: 1.45;
 }
 
 /* Quick Banner - Senegal Vision 2050 */
@@ -790,7 +783,7 @@ section.section {
   font-size: 1.25rem;
 }
 
-.banner-text h4 {
+.banner-text h3 {
   font-size: 1rem;
   margin-bottom: 0.15rem;
 }
@@ -1157,7 +1150,7 @@ section.section {
   box-shadow: var(--shadow-sm);
 }
 
-.incubator-tab-card.active h4 {
+.incubator-tab-card.active h3 {
   color: var(--primary-green);
 }
 
@@ -1615,10 +1608,10 @@ section.section {
 }
 
 @media (max-width: 768px) {
-  .top-bar-info:nth-child(2) {
+  .top-bar-container .top-bar-info:nth-child(2) {
     display: none;
   }
-  .top-bar-info {
+  .top-bar-container .top-bar-info {
     justify-content: center;
     width: 100%;
   }
@@ -1704,6 +1697,9 @@ section.section {
     grid-template-columns: 1fr !important;
     gap: 2rem;
   }
+  .hero-content h1 {
+    font-size: 2rem;
+  }
   .context-grid {
     grid-template-columns: 1fr !important;
     gap: 1.25rem;
@@ -1771,7 +1767,7 @@ section.section {
     display: none;
   }
   .hero-stats-list {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 0.5rem;
   }
   .stat-item {
@@ -1850,7 +1846,7 @@ section.section {
   box-shadow: var(--shadow-sm) !important;
 }
 
-.incubator-tab-card h4 {
+.incubator-tab-card h3 {
   color: #00502A !important;
   font-weight: 600 !important;
 }
@@ -1873,7 +1869,7 @@ section.section {
   box-shadow: 0 8px 20px rgba(0, 135, 72, 0.15) !important;
 }
 
-.incubator-tab-card.active h4 {
+.incubator-tab-card.active h3 {
   color: #008748 !important;
   font-weight: 700 !important;
 }
@@ -1882,7 +1878,73 @@ section.section {
   color: #008748 !important;
 }
 
+/* Horizontal Step Timeline (IAN-ESS 5 Models Selector) */
+.incubator-timeline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.85rem;
+  position: relative;
+}
 
+.incubator-timeline .incubator-tab-card {
+  flex: 1 1 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center !important;
+  gap: 0.6rem;
+  border-left: 1px solid #C8E6C9 !important;
+}
+
+.incubator-timeline .incubator-tab-card.active {
+  border-left: 1px solid #008748 !important;
+}
+
+.incubator-timeline .incubator-tab-card h3 {
+  font-size: 0.85rem !important;
+  margin: 0 !important;
+  line-height: 1.35;
+}
+
+.incubator-timeline .incubator-tab-card i {
+  margin-right: 0.35rem;
+}
+
+.incubator-timeline-num {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--accent-soft-green);
+  color: #008748 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.9rem;
+  border: 2px solid #C8E6C9;
+  transition: all 0.25s ease;
+}
+
+.incubator-timeline .incubator-tab-card.active .incubator-timeline-num,
+.incubator-timeline .incubator-tab-card:hover .incubator-timeline-num {
+  background: #008748;
+  color: #FFFFFF !important;
+  border-color: #008748;
+  transform: scale(1.08);
+}
+
+@media (max-width: 768px) {
+  .incubator-timeline {
+    flex-direction: column;
+  }
+  .incubator-timeline .incubator-tab-card {
+    flex-direction: row;
+    text-align: left !important;
+    justify-content: flex-start;
+  }
+}
 
 /* Card Elevation & Micro-Interactions */
 .sector-card, .advocacy-item, .incubator-tab-card, .modern-card-panel {
@@ -2055,7 +2117,7 @@ html, body {
   .incubator-tab-card {
     padding: 0.6rem 0.75rem !important;
   }
-  .incubator-tab-card h4 {
+  .incubator-tab-card h3 {
     font-size: 0.8rem !important;
   }
 }
@@ -2556,7 +2618,7 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
     padding: 0.6rem 0.75rem !important;
   }
 
-  .incubator-tab-card h4 {
+  .incubator-tab-card h3 {
     font-size: 0.8rem !important;
   }
 
@@ -2609,14 +2671,6 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 2rem !important;
-    align-items: stretch !important;
-  }
-
-  /* Incubator 2-Column Split */
-  #incubateur .advocacy-grid {
-    display: grid !important;
-    grid-template-columns: 1fr 1.35fr !important;
-    gap: 2.25rem !important;
     align-items: stretch !important;
   }
 
