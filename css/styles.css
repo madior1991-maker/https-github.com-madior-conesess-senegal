@@ -2447,6 +2447,7 @@ h3 { font-size: clamp(1.15rem, 2.5vw, 1.45rem) !important; }
   .logo-text span:last-child {
     display: none !important;
   }
+}
 
 /* ==========================================================================
    UNIVERSAL ADAPTIVE FOOTER (DESKTOP, TABLET & MOBILE)
