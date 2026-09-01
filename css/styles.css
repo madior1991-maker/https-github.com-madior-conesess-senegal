@@ -1940,6 +1940,7 @@ section.section {
     flex-direction: column;
   }
   .incubator-timeline .incubator-tab-card {
+    flex: none;
     flex-direction: row;
     text-align: left !important;
     justify-content: flex-start;
